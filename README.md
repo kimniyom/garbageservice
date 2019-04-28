@@ -1,7 +1,7 @@
 # garbageservice
 garbageservice
 
-User:admin
+User:admin<br/>
 Pass:admin
 
 PathFrontend http://localhost/garbageservice/frontend/
