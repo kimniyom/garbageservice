@@ -30,8 +30,22 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
+                    ['label' => 'Menu Backend', 'options' => ['class' => 'header']],
+                    ['label' => 'ข้อมูลลูกค้า', 'icon' => 'file-code-o', 'url' => ['/gii'], 
+                        'items'=>[
+                            ['label'=>'รายเดือน', 'icon'=>'', 'url'=>'#'],
+                            ['label'=>'รายปี', 'icon'=>'', 'url'=>'#'],
+                        ]
+                    ],
+                    ['label' => 'อัตราค่าบริการ', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                    ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'file-code-o', 'url' => ['/gii'],],
+                    ['label' => 'รายงาน', 'icon' => 'file-code-o', 'url' => ['/gii'], 
+                        'items'=>[
+                                ['label'=>'ค่าบริการประจำเดือน ', 'icon'=>'', 'url'=>'#'],
+                                ['label'=>'ค้างจ่ายค่าบริการประจำเดือน', 'icon'=>'', 'url'=>'#'],
+                                ['label'=>'ค่าบริการรายลูกค้า', 'icon'=>'', 'url'=>'#'],
+                        ]
+                    ],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
