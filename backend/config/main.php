@@ -1,14 +1,12 @@
 <?php
+
 $params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+        require __DIR__ . '/../../common/config/params.php', require __DIR__ . '/../../common/config/params-local.php', require __DIR__ . '/params.php', require __DIR__ . '/params-local.php'
 );
 
 return [
     'id' => 'app-backend',
-    'name' => 'บริษัทจัดเก็บขยะติดเชื้อ',
+    'name' => 'Backend Garbageservice',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
@@ -22,16 +20,23 @@ return [
         ],
     ],
     'components' => [
+        'view' => [
+                 'theme' => [
+                     'pathMap' => [
+                         '@backend/views' => '@backend/themes/adminlte'
+                     ],
+                 ],
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
         /*
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-        ],
-        */
+          'user' => [
+          'identityClass' => 'common\models\User',
+          'enableAutoLogin' => true,
+          'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+          ],
+         */
         'user' => [
             //'identityClass' => 'app\models\User',
             'identityClass' => 'dektrium\user\models\User',
@@ -44,7 +49,7 @@ return [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
-                [
+                    [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
@@ -53,14 +58,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+    /*
+      'urlManager' => [
+      'enablePrettyUrl' => true,
+      'showScriptName' => false,
+      'rules' => [
+      ],
+      ],
+     */
     ],
     'params' => $params,
 ];
