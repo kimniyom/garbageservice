@@ -31,10 +31,12 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Menu Backend', 'options' => ['class' => 'header']],
-                    ['label' => 'ข้อมูลลูกค้า', 'icon' => 'user-circle-o', 'url' => ['/gii'], 
+
+                    ['label' => 'ข้อมูลลูกค้า', 'icon' => 'user', 'url' => ['/'], 
                         'items'=>[
-                            ['label'=>'รายเดือน', 'icon'=>'address-card', 'url'=>'#'],
-                            ['label'=>'รายปี', 'icon'=>'address-card-o', 'url'=>'#'],
+                            ['label'=>'เพิ่ม', 'icon'=>'plus', 'url'=>['customer/create']],
+                            ['label'=>'รายเดือน', 'icon'=>'', 'url'=>'#'],
+                            ['label'=>'รายปี', 'icon'=>'', 'url'=>'#'],
                         ]
                     ],
                     ['label' => 'อัตราค่าบริการ', 'icon' => 'money', 'url' => ['/gii'],],

@@ -8,6 +8,7 @@ return [
     'id' => 'app-backend',
     'name' => 'Garbage service',
     'basePath' => dirname(__DIR__),
+    'language' => 'th', // Set the language here
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
@@ -17,6 +18,9 @@ return [
             'confirmWithin' => 21600,
             'cost' => 12,
             'admins' => ['admin']
+        ],
+        'customer' => [
+            'class' => 'app\modules\customer\Module',
         ],
     ],
     'components' => [
