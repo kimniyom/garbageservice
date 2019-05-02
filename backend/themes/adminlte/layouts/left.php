@@ -31,8 +31,9 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Menu Backend', 'options' => ['class' => 'header']],
-                    ['label' => 'ข้อมูลลูกค้า', 'icon' => 'file-code-o', 'url' => ['/gii'], 
+                    ['label' => 'ข้อมูลลูกค้า', 'icon' => 'user', 'url' => ['/'], 
                         'items'=>[
+                            ['label'=>'เพิ่ม', 'icon'=>'plus', 'url'=>['customer/create']],
                             ['label'=>'รายเดือน', 'icon'=>'', 'url'=>'#'],
                             ['label'=>'รายปี', 'icon'=>'', 'url'=>'#'],
                         ]
