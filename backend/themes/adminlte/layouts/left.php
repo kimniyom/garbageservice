@@ -31,15 +31,15 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Menu Backend', 'options' => ['class' => 'header']],
-                    ['label' => 'ข้อมูลลูกค้า', 'icon' => 'file-code-o', 'url' => ['/gii'], 
+                    ['label' => 'ข้อมูลลูกค้า', 'icon' => 'user-circle-o', 'url' => ['/gii'], 
                         'items'=>[
-                            ['label'=>'รายเดือน', 'icon'=>'', 'url'=>'#'],
-                            ['label'=>'รายปี', 'icon'=>'', 'url'=>'#'],
+                            ['label'=>'รายเดือน', 'icon'=>'address-card', 'url'=>'#'],
+                            ['label'=>'รายปี', 'icon'=>'address-card-o', 'url'=>'#'],
                         ]
                     ],
-                    ['label' => 'อัตราค่าบริการ', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                    ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                    ['label' => 'รายงาน', 'icon' => 'file-code-o', 'url' => ['/gii'], 
+                    ['label' => 'อัตราค่าบริการ', 'icon' => 'money', 'url' => ['/gii'],],
+                    ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'info-circle', 'url' => ['/gii'],],
+                    ['label' => 'รายงาน', 'icon' => 'wpforms', 'url' => ['/gii'], 
                         'items'=>[
                                 ['label'=>'ค่าบริการประจำเดือน ', 'icon'=>'', 'url'=>'#'],
                                 ['label'=>'ค้างจ่ายค่าบริการประจำเดือน', 'icon'=>'', 'url'=>'#'],
