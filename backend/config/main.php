@@ -22,6 +22,9 @@ return [
 		'customer' => [
 			'class' => 'app\modules\customer\Module',
 		],
+		'news' => [
+			'class' => 'app\modules\news\Module',
+		],
 	],
 	'components' => [
 		'view' => [
