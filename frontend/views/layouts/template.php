@@ -2,7 +2,6 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -27,45 +26,29 @@ AppAssetTheme::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-
-
 <div class="super_container">
-    
     <!-- Header -->
-    
     <header class="header">
-
         <!-- Top Bar -->
-
         <div class="top_bar">
             <div class="container">
                 <div class="row">
                     <div class="col d-flex flex-row">
-                        <div class="top_bar_contact_item"><div class="top_bar_icon"><img src="<?php echo Url::to('@web/web/theme/images/phone.png')?>" alt=""></div>+38 068 005 3570</div>
-                        <div class="top_bar_contact_item"><div class="top_bar_icon"><img src="<?php echo Url::to('@web/web/theme/images/mail.png')?>"" alt=""></div><a href="mailto:fastsales@gmail.com">fastsales@gmail.com</a></div>
-                        <div class="top_bar_content ml-auto">
-                            <div class="top_bar_menu">
-                                <ul class="standard_dropdown top_bar_dropdown">
-                                    <li>
-                                        <a href="#">English<i class="fas fa-chevron-down"></i></a>
-                                        <ul>
-                                            <li><a href="#">Italian</a></li>
-                                            <li><a href="#">Spanish</a></li>
-                                            <li><a href="#">Japanese</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">$ US dollar<i class="fas fa-chevron-down"></i></a>
-                                        <ul>
-                                            <li><a href="#">EUR Euro</a></li>
-                                            <li><a href="#">GBP British Pound</a></li>
-                                            <li><a href="#">JPY Japanese Yen</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                        <div class="top_bar_contact_item">
+                            <div class="top_bar_icon">
+                                <img src="<?php echo Url::to('@web/web/theme/images/phone.png') ?>" alt="">
+                            </div>(02) 101-0325
                             </div>
+                        <div class="top_bar_contact_item">
+                            <div class="top_bar_icon">
+                                <img src="<?php echo Url::to('@web/web/theme/images/mail.png') ?>" alt="">
+                            </div>iccleanup@gmail.com
+                        </div>
+                        <div class="top_bar_content ml-auto">
                             <div class="top_bar_user">
-                                <div class="user_icon"><img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt=""></div>
+                                <div class="user_icon">
+                                    <img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt="">
+                                </div>
                                 <div><a href="#">Register</a></div>
                                 <div><a href="#">Sign in</a></div>
                             </div>
@@ -74,20 +57,18 @@ AppAssetTheme::register($this);
                 </div>
             </div>      
         </div>
-
         <!-- Header Main -->
-
         <div class="header_main">
             <div class="container">
                 <div class="row">
-
                     <!-- Logo -->
                     <div class="col-lg-2 col-sm-3 col-3 order-1">
                         <div class="logo_container">
-                            <div class="logo"><a href="#">OneTech</a></div>
+                            <div class="logo">
+                                <a href="#"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>"/></a>
+                            </div>
                         </div>
                     </div>
-
                     <!-- Search -->
                     <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
                         <div class="header_search">
@@ -196,53 +177,36 @@ AppAssetTheme::register($this);
 
                             <div class="main_nav_menu ml-auto">
                                 <ul class="standard_dropdown main_nav_dropdown">
-                                    <li><a href="#">Home<i class="fas fa-chevron-down"></i></a></li>
+                                    <li><a href="#">หน้าแรก</a></li>
                                     <li class="hassubs">
-                                        <a href="#">Super Deals<i class="fas fa-chevron-down"></i></a>
+                                        <a href="#">สินค้าและบริการ<i class="fas fa-chevron-down"></i></a>
                                         <ul>
-                                            <li>
-                                                <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                                <ul>
-                                                    <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                                    <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                                    <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                                            <li><a href="#">อัตราค่าบริการ</a></li>
+                                            <li><a href="#">คำนวณค่าบริการ</a></li>
                                         </ul>
                                     </li>
                                     <li class="hassubs">
-                                        <a href="#">Featured Brands<i class="fas fa-chevron-down"></i></a>
+                                        <a href="#">ข่าวและโปรโมชั่น<i class="fas fa-chevron-down"></i></a>
                                         <ul>
-                                            <li>
-                                                <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
-                                                <ul>
-                                                    <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                                    <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                                    <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                                            <li><a href="#">โปรโมชั่น</a></li>
+                                            <li><a href="#">ข่าวสารและกิจกรรม</a></li>
                                         </ul>
                                     </li>
                                     <li class="hassubs">
-                                        <a href="#">Pages<i class="fas fa-chevron-down"></i></a>
+                                        <a href="#">ช่วยเหลือ<i class="fas fa-chevron-down"></i></a>
                                         <ul>
-                                            <li><a href="shop.html">Shop<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="product.html">Product<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="blog_single.html">Blog Post<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="regular.html">Regular Post<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="cart.html">Cart<i class="fas fa-chevron-down"></i></a></li>
-                                            <li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
+                                            <li><a href="shop.html">คู่มือการขอใช้บริการ</a></li>
+                                            <li><a href="product.html">วิธีการชำระเงิน</a></li>
+                                            <li><a href="blog.html">แจ้งชำระเงิน</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
-                                    <li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
+                                    <li class="hassubs">
+                                        <a href="#">ติดต่อเรา<i class="fas fa-chevron-down"></i></a>
+                                        <ul>
+                                            <li><a href="shop.html">เกี่ยวกับเรา</a></li>
+                                            <li><a href="product.html">นโยบายและข้อตกลง</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -264,14 +228,11 @@ AppAssetTheme::register($this);
         </nav>
         
         <!-- Menu -->
-
         <div class="page_menu">
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        
                         <div class="page_menu_content">
-                            
                             <div class="page_menu_search">
                                 <form action="#">
                                     <input type="search" required="required" class="page_menu_search_input" placeholder="Search for products...">
@@ -338,7 +299,6 @@ AppAssetTheme::register($this);
                                 <li class="page_menu_item"><a href="blog.html">blog<i class="fa fa-angle-down"></i></a></li>
                                 <li class="page_menu_item"><a href="contact.html">contact<i class="fa fa-angle-down"></i></a></li>
                             </ul>
-                            
                             <div class="menu_contact">
                                 <div class="menu_contact_item"><div class="menu_contact_icon"><img src="<?php echo Url::to('@web/web/theme/images/phone_white.png')?>" alt=""></div>+38 068 005 3570</div>
                                 <div class="menu_contact_item"><div class="menu_contact_icon"><img src="<?php echo Url::to('@web/web/theme/images/mail_white.png')?>" alt=""></div><a href="mailto:fastsales@gmail.com">fastsales@gmail.com</a></div>
@@ -348,7 +308,6 @@ AppAssetTheme::register($this);
                 </div>
             </div>
         </div>
-
     </header>
     
     <!-- Banner -->
@@ -357,7 +316,7 @@ AppAssetTheme::register($this);
         <div class="banner_background" style="background-image:url(<?php echo Url::to('@web/web/theme/images/banner_background.jpg')?>)"></div>
         <div class="container fill_height">
             <div class="row fill_height">
-                <div class="banner_product_image"><img src="<?php echo Url::to('@web/web/theme/images/banner_product.png')?>" alt=""></div>
+                <div class="banner_product_image"><img src="<?php echo Url::to('@web/web/theme/images/banner_product.png') ?>" alt=""></div>
                 <div class="col-lg-5 offset-lg-4 fill_height">
                     <div class="banner_content">
                         <h1 class="banner_text">new era of smartphones</h1>
@@ -371,36 +330,31 @@ AppAssetTheme::register($this);
     </div>
 
     <!-- Characteristics -->
-
     <div class="characteristics">
         <div class="container">
-
-
              <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-</div>
-
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <?= Alert::widget() ?>
+            <?= $content ?>
+        </div>
 
     <!-- Footer -->
-
     <footer class="footer">
         <div class="container">
             <div class="row">
-
                 <div class="col-lg-3 footer_col">
                     <div class="footer_column footer_contact">
                         <div class="logo_container">
-                            <div class="logo"><a href="#">OneTech</a></div>
+                            <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
                         </div>
-                        <div class="footer_title">Got Question? Call Us 24/7</div>
-                        <div class="footer_phone">+38 068 005 3570</div>
+                        <div class="footer_title">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
                         <div class="footer_contact_text">
-                            <p>17 Princess Road, London</p>
-                            <p>Grester London NW18JR, UK</p>
+                            <p>50/19 หมู่ 6 ต.บางหลวง</p>
+                            <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
                         </div>
+                        <div class="footer_phone">โทร : (02) 1010325</div>
+                        <div class="footer_phone">Fax : (02) 581-1245</div>
                         <div class="footer_social">
                             <ul>
                                 <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -462,12 +416,10 @@ AppAssetTheme::register($this);
     </footer>
 
     <!-- Copyright -->
-
     <div class="copyright">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    
                     <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
                         <div class="copyright_content"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
