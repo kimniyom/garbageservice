@@ -275,3 +275,42 @@ INSERT INTO `zipcodes` VALUES ('6820', '850502', '85120'), ('6821', '860101', '8
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `garbagecontainer`
+--
+
+CREATE TABLE `garbagecontainer` (
+  `id` int(11) NOT NULL COMMENT 'ไอดี',
+  `code` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รหัสภาชนะ',
+  `garbagecontainer` varchar(256) COLLATE utf8_unicode_ci NOT NULL COMMENT 'ภาชนะใส่ขยะ',
+  `SIZE` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ขนาดของภาชนะ เช่น 18x20',
+  `brand` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ยี่ห้อ',
+  `contain` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ขนาดบรรจุ เช่น 25 กิโลกรัม / มัด',
+  `color` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สีของภาชนะ',
+  `detail` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รายละเอียดของภาชนะ',
+  `PRICE` double DEFAULT NULL COMMENT 'ราคาเก็บต่อชิ้น'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `garbagecontainer`
+--
+ALTER TABLE `garbagecontainer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `garbagecontainer`
+--
+ALTER TABLE `garbagecontainer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ไอดี';
+COMMIT;

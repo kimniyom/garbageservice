@@ -25,6 +25,9 @@ return [
 		'news' => [
 			'class' => 'app\modules\news\Module',
 		],
+		'garbagecontainer' => [
+            'class' => 'app\modules\garbagecontainer\Module',
+        ],
 	],
 	'components' => [
 		'view' => [
