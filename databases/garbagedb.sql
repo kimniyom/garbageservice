@@ -276,14 +276,12 @@ COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `garbagecontainer`
---
-
+-- ----------------------------
+-- Table structure for `garbagecontainer`
+-- ----------------------------
+DROP TABLE IF EXISTS `garbagecontainer`;
 CREATE TABLE `garbagecontainer` (
-  `id` int(11) NOT NULL COMMENT 'ไอดี',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ไอดี',
   `code` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รหัสภาชนะ',
   `garbagecontainer` varchar(256) COLLATE utf8_unicode_ci NOT NULL COMMENT 'ภาชนะใส่ขยะ',
   `SIZE` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ขนาดของภาชนะ เช่น 18x20',
@@ -291,26 +289,21 @@ CREATE TABLE `garbagecontainer` (
   `contain` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ขนาดบรรจุ เช่น 25 กิโลกรัม / มัด',
   `color` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สีของภาชนะ',
   `detail` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รายละเอียดของภาชนะ',
-  `PRICE` double DEFAULT NULL COMMENT 'ราคาเก็บต่อชิ้น'
+  `PRICE` double DEFAULT NULL COMMENT 'ราคาเก็บต่อชิ้น',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Indexes for dumped tables
---
+-- ----------------------------
+-- Table structure for `imgcontain`
+-- ----------------------------
+DROP TABLE IF EXISTS `imgcontain`;
+CREATE TABLE `imgcontain` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ชื่อรูปภาพ',
+  `garbagecontainer_id` int(11) DEFAULT NULL COMMENT 'รูปของภาชนะใส่ขยะ',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Indexes for table `garbagecontainer`
---
-ALTER TABLE `garbagecontainer`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `garbagecontainer`
---
-ALTER TABLE `garbagecontainer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ไอดี';
-COMMIT;
+-- ----------------------------
+-- Records of imgcontain
+-- ----------------------------

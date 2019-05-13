@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="garbagecontainer-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
@@ -27,6 +27,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'detail')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'PRICE')->textInput() ?>
+
+    <?= $form->field($modelImg, 'image')->fileInput()?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

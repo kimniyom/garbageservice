@@ -5,9 +5,11 @@ namespace app\modules\garbagecontainer\controllers;
 use Yii;
 use app\modules\garbagecontainer\models\Garbagecontainer;
 use app\modules\garbagecontainer\models\GarbagecontainerSearch;
+use app\modules\garbagecontainer\models\Imgcontain;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * GarbagecontainerController implements the CRUD actions for Garbagecontainer model.
@@ -65,13 +67,27 @@ class GarbagecontainerController extends Controller
     public function actionCreate()
     {
         $model = new Garbagecontainer();
+        $modelImg = new Imgcontain(); 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $nameImg = UploadedFile::getInstance($modelImg,'image');
+            $path = Yii::getAlias('@files').'/images/containner/'.$nameImg->baseName.'.'.$nameImg->extension;
+            if($nameImg->saveAs($path)){
+
+                $modelImg->image = $nameImg->baseName.'.'.$nameImg->extension;
+                $modelImg->garbagecontainer_id = $model->id;
+
+                if($modelImg->save())
+                {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+            
         }
 
         return $this->render('create', [
             'model' => $model,
+            'modelImg'=> $modelImg,
         ]);
     }
 
