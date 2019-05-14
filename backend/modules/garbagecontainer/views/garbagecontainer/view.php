@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\garbagecontainer\models\Garbagecontainer */
 
-$this->title = $model->id;
+$this->title = $model->garbagecontainer;
 $this->params['breadcrumbs'][] = ['label' => 'Garbagecontainers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -26,10 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <p>
+        <?= Html::img('@web/../files/images/containner/'.$modelImg->image,['class'=>'img-thumbnail','width'=>'30%'])?>        
+    </p>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+        //    'id',
             'code',
             'garbagecontainer',
             'SIZE',

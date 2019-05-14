@@ -54,8 +54,10 @@ class GarbagecontainerController extends Controller
      */
     public function actionView($id)
     {
+        $modelImg = Imgcontain::find()->where(['garbagecontainer_id' => $id])->one();
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'modelImg' => $modelImg,
         ]);
     }
 
@@ -101,13 +103,30 @@ class GarbagecontainerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelImg =  Imgcontain::find()->where(['garbagecontainer_id' => $id])->one();
+        $oldImage = $modelImg->image;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $nameImg = UploadedFile::getInstance($modelImg,'image');
+            $path = Yii::getAlias('@files').'/images/containner/'.$nameImg->baseName.'.'.$nameImg->extension;
+            $pathOld = Yii::getAlias('@files').'/images/containner/'.$oldImage;
+
+            if($nameImg->saveAs($path) ){
+
+                $modelImg->image = $nameImg->baseName.'.'.$nameImg->extension;
+                $modelImg->garbagecontainer_id = $model->id;
+
+                if($modelImg->save() && unlink($pathOld))
+                {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'modelImg'=> $modelImg,
         ]);
     }
 
@@ -120,9 +139,14 @@ class GarbagecontainerController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $modelImg = Imgcontain::find()->where(['garbagecontainer_id' => $id])->one();
+        $path = Yii::getAlias('@files').'/images/containner/'.$modelImg->image;
 
-        return $this->redirect(['index']);
+        if(unlink($path) && $modelImg->delete())
+        {
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
     }
 
     /**
