@@ -12,6 +12,11 @@ return [
     'bootstrap' => ['log'],
     'language' => 'th', // Set the language here
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'news' => [
+            'class' => 'app\modules\news\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
