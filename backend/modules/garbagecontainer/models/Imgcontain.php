@@ -28,7 +28,7 @@ class Imgcontain extends \yii\db\ActiveRecord
     {
         return [
             [['garbagecontainer_id'], 'integer'],
-            [['image'], 'string', 'max' => 256],
+            [['image'], 'file', 'extensions' => 'jpg, png, gif,jpeg','skipOnEmpty' => false],
         ];
     }
 

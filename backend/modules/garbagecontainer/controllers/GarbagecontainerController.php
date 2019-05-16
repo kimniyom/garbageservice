@@ -72,15 +72,13 @@ class GarbagecontainerController extends Controller
         $modelImg = new Imgcontain(); 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $nameImg = UploadedFile::getInstance($modelImg,'image');
-            $path = Yii::getAlias('@files').'/images/containner/'.$nameImg->baseName.'.'.$nameImg->extension;
-            if($nameImg->saveAs($path)){
-
-                $modelImg->image = $nameImg->baseName.'.'.$nameImg->extension;
+            $modelImg->image = UploadedFile::getInstance($modelImg,'image');
+            if($modelImg->image && $modelImg->validate())
+            {
+                $path = Yii::getAlias('@files').'/images/containner/'.$modelImg->image->baseName.'.'.$modelImg->image->extension;
                 $modelImg->garbagecontainer_id = $model->id;
 
-                if($modelImg->save())
-                {
+                if($modelImg->save() && $modelImg->image->saveAs($path)){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
@@ -104,24 +102,21 @@ class GarbagecontainerController extends Controller
     {
         $model = $this->findModel($id);
         $modelImg =  Imgcontain::find()->where(['garbagecontainer_id' => $id])->one();
-        $oldImage = $modelImg->image;
+        $oldImage = $modelImg?$modelImg->image:"";
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            $nameImg = UploadedFile::getInstance($modelImg,'image');
-            $path = Yii::getAlias('@files').'/images/containner/'.$nameImg->baseName.'.'.$nameImg->extension;
-            $pathOld = Yii::getAlias('@files').'/images/containner/'.$oldImage;
-
-            if($nameImg->saveAs($path) ){
-
-                $modelImg->image = $nameImg->baseName.'.'.$nameImg->extension;
+            $modelImg->image = UploadedFile::getInstance($modelImg,'image');
+            if($modelImg->image && $modelImg->validate())
+            {
+                $path = Yii::getAlias('@files').'/images/containner/'.$modelImg->image->baseName.'.'.$modelImg->image->extension;
+                $pathOld = Yii::getAlias('@files').'/images/containner/'.$oldImage;
                 $modelImg->garbagecontainer_id = $model->id;
 
-                if($modelImg->save() && unlink($pathOld))
-                {
+                if($modelImg->save() && $modelImg->image->saveAs($path) && unlink($pathOld)){
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
+            
         }
 
         return $this->render('update', [

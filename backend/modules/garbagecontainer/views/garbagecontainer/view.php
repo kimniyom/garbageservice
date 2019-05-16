@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <p>
-        <?= Html::img('@web/../files/images/containner/'.$modelImg->image,['class'=>'img-thumbnail','width'=>'30%'])?>        
+        <?= $modelImg?Html::img('@web/../files/images/containner/'.$modelImg->image,['class'=>'img-thumbnail','width'=>'30%']):""?>        
     </p>
 
     <?= DetailView::widget([
