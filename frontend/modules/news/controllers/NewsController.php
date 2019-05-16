@@ -15,4 +15,12 @@ class NewsController extends Controller
             'model'=>$model::find()->where(['CATEGORY' => 1])->all(),
         ]);
     }
+
+    public function actionView($id) {
+		$Model = new News();
+		$result = $Model->getDetail($id);
+		return $this->render('view', [
+			'datas' => $result,
+		]);
+	}
 }

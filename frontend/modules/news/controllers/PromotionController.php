@@ -16,4 +16,12 @@ class PromotionController extends Controller
         ]);
     }
 
+    public function actionView($id) {
+		$Model = new News();
+		$result = $Model->getDetail($id);
+		return $this->render('view', [
+			'datas' => $result,
+		]);
+	}
+
 }
