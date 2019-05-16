@@ -18,8 +18,8 @@ class GarbagecontainerSearch extends Garbagecontainer
     {
         return [
             [['id'], 'integer'],
-            [['code', 'garbagecontainer', 'SIZE', 'brand', 'contain', 'color', 'detail'], 'safe'],
-            [['PRICE'], 'number'],
+            [['code', 'garbagecontainer', 'size', 'brand', 'contain', 'color', 'detail'], 'safe'],
+            [['price'], 'number'],
         ];
     }
 
@@ -60,12 +60,12 @@ class GarbagecontainerSearch extends Garbagecontainer
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'PRICE' => $this->PRICE,
+            'price' => $this->price,
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'garbagecontainer', $this->garbagecontainer])
-            ->andFilterWhere(['like', 'SIZE', $this->SIZE])
+            ->andFilterWhere(['like', 'size', $this->size])
             ->andFilterWhere(['like', 'brand', $this->brand])
             ->andFilterWhere(['like', 'contain', $this->contain])
             ->andFilterWhere(['like', 'color', $this->color])

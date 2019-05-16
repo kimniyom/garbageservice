@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'garbagecontainer') ?>
 
-    <?= $form->field($model, 'SIZE') ?>
+    <?= $form->field($model, 'size') ?>
 
     <?= $form->field($model, 'brand') ?>
 

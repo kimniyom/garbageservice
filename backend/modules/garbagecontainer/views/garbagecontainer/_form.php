@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'garbagecontainer')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'SIZE')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'size')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'brand')->textInput(['maxlength' => true]) ?>
 
@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'detail')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'PRICE')->textInput() ?>
+    <?= $form->field($model, 'price')->textInput() ?>
 
     <?= $form->field($modelImg, 'image')->fileInput()?>
 
