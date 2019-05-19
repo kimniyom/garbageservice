@@ -42,8 +42,8 @@
 				],
 			],
 			['label' => 'อัตราค่าบริการ', 'icon' => 'money', 'url' => ['/gii']],
-			['label' => 'ภาชนะใส่ขยะ', 'icon' => 'money', 'url' => Yii::$app->urlManager->createUrl(['garbagecontainer/garbagecontainer/index'])],
-			['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'recycle', 'url' => Yii::$app->urlManager->createUrl(['news/news/index'])],
+			['label' => 'ภาชนะใส่ขยะ', 'icon' => 'trash', 'url' => Yii::$app->urlManager->createUrl(['garbagecontainer/garbagecontainer/index'])],
+			['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => Yii::$app->urlManager->createUrl(['news/news/index'])],
 			['label' => 'รายงาน', 'icon' => 'wpforms', 'url' => ['/gii'],
 				'items' => [
 					['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => '#'],

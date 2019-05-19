@@ -6,12 +6,12 @@ use yii\helpers\Html;
 /* @var $searchModel app\modules\news\models\NewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'News';
+$this->title = 'ข่าวสารและโปรโมชั่น';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-index">
 
-    <h1><?=Html::encode($this->title)?></h1>
+    <!-- <h1><?=Html::encode($this->title)?></h1> -->
 
     <p>
         <?=Html::a('Create News', ['create'], ['class' => 'btn btn-success'])?>

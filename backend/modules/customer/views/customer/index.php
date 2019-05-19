@@ -7,13 +7,12 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\customer\models\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Customers';
+$this->title = 'ข้อมูลลูกค้า';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+   <!-- <h1><?= Html::encode($this->title) ?></h1>  -->
     <p>
         <?= Html::a('Create Customer', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
