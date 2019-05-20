@@ -46,9 +46,9 @@
 			['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => Yii::$app->urlManager->createUrl(['news/news/index'])],
 			['label' => 'รายงาน', 'icon' => 'wpforms', 'url' => ['/gii'],
 				'items' => [
-					['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => '#'],
-					['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => '#'],
-					['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => '#'],
+					['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => Yii::$app->urlManager->createUrl(['report/report/monthservicefee'])],
+					['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => Yii::$app->urlManager->createUrl(['report/report/accruedservicefee'])],
+					['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => Yii::$app->urlManager->createUrl(['report/report/customerservicefee'])],
 				],
 			],
 			/*

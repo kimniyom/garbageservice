@@ -27,6 +27,9 @@ return [
 		],
 		'garbagecontainer' => [
             'class' => 'app\modules\garbagecontainer\Module',
+		],
+		'report' => [
+            'class' => 'app\modules\report\Module',
         ],
 	],
 	'components' => [
