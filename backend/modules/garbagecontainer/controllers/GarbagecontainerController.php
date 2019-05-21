@@ -75,8 +75,11 @@ class GarbagecontainerController extends Controller
             $modelImg->image = UploadedFile::getInstance($modelImg,'image');
             if($modelImg->image && $modelImg->validate())
             {
-                $path = Yii::getAlias('@files').'/images/containner/'.$modelImg->image->baseName.'.'.$modelImg->image->extension;
+                $numRand = mt_rand();
+                $dateUpload = date('YmdHis');
+                $path = Yii::getAlias('@files').'/images/containner/'.$dateUpload.$numRand.'.'.$modelImg->image->extension;
                 $modelImg->garbagecontainer_id = $model->id;
+                $modelImg->image->name = $dateUpload.$numRand.'.'.$modelImg->image->extension;
 
                 if($modelImg->save() && $modelImg->image->saveAs($path)){
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -108,9 +111,12 @@ class GarbagecontainerController extends Controller
             $modelImg->image = UploadedFile::getInstance($modelImg,'image');
             if($modelImg->image && $modelImg->validate())
             {
-                $path = Yii::getAlias('@files').'/images/containner/'.$modelImg->image->baseName.'.'.$modelImg->image->extension;
+                $numRand = mt_rand();
+                $dateUpload = date('YmdHis');
+                $path = Yii::getAlias('@files').'/images/containner/'.$dateUpload.''.$numRand.'.'.$modelImg->image->extension;
                 $pathOld = Yii::getAlias('@files').'/images/containner/'.$oldImage;
                 $modelImg->garbagecontainer_id = $model->id;
+                $modelImg->image->name = $dateUpload.$numRand.'.'.$modelImg->image->extension;
 
                 if($modelImg->save() && $modelImg->image->saveAs($path) && unlink($pathOld)){
                     return $this->redirect(['view', 'id' => $model->id]);
