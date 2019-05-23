@@ -77,7 +77,7 @@ class GarbagecontainerController extends Controller
             {
                 $numRand = mt_rand();
                 $dateUpload = date('YmdHis');
-                $path = Yii::getAlias('@files').'/images/containner/'.$dateUpload.$numRand.'.'.$modelImg->image->extension;
+                $path = '../uploads/containner/gallerry/'.$dateUpload.$numRand.'.'.$modelImg->image->extension;
                 $modelImg->garbagecontainer_id = $model->id;
                 $modelImg->image->name = $dateUpload.$numRand.'.'.$modelImg->image->extension;
 
@@ -113,8 +113,8 @@ class GarbagecontainerController extends Controller
             {
                 $numRand = mt_rand();
                 $dateUpload = date('YmdHis');
-                $path = Yii::getAlias('@files').'/images/containner/'.$dateUpload.''.$numRand.'.'.$modelImg->image->extension;
-                $pathOld = Yii::getAlias('@files').'/images/containner/'.$oldImage;
+                $path = '../uploads/containner/gallerry/'.$dateUpload.''.$numRand.'.'.$modelImg->image->extension;
+                $pathOld = '../uploads/containner/gallerry/'.$oldImage;
                 $modelImg->garbagecontainer_id = $model->id;
                 $modelImg->image->name = $dateUpload.$numRand.'.'.$modelImg->image->extension;
 
@@ -141,12 +141,15 @@ class GarbagecontainerController extends Controller
     public function actionDelete($id)
     {
         $modelImg = Imgcontain::find()->where(['garbagecontainer_id' => $id])->one();
-        $path = Yii::getAlias('@files').'/images/containner/'.$modelImg->image;
+        $path = '../uploads/containner/gallerry/'.$modelImg->image;
 
-        if(unlink($path) && $modelImg->delete())
+        if(file_exists($path))
         {
-            $this->findModel($id)->delete();
-            return $this->redirect(['index']);
+            if(unlink($path) && $modelImg->delete())
+            {
+                $this->findModel($id)->delete();
+                return $this->redirect(['index']);
+            }
         }
     }
 
