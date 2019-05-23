@@ -1,8 +1,19 @@
+<style type="text/css">
+    .advert_text a{
+        color: #999999;
+    }
+
+    .advert_text a:hover{
+        color: #0066cc;
+    }
+</style>
 <?php
 /* @var $this yii\web\View */
 
 use yii\helpers\Url;
+use app\modules\news\models\News;
 
+$newsModel = new News();
 $this->title = 'My Yii Application';
 ?>
 <div class="row">
@@ -586,24 +597,35 @@ $this->title = 'My Yii Application';
 </div>
 
 <!-- Adverts -->
-
 <div class="adverts">
     <div class="container">
+        <div class="reviews_title_container">
+            <h3 class="reviews_title">ข่าวล่าสุด</h3>
+            <div class="reviews_all ml-auto"><a href="#">view all </a></div>
+        </div>
+        <br/>
         <div class="row">
 
-            <div class="col-lg-4 advert_col">
-
-                <!-- Advert Item -->
-
-                <div class="advert d-flex flex-row align-items-center justify-content-start">
-                    <div class="advert_content">
-                        <div class="advert_title"><a href="#">Trends 2018</a></div>
-                        <div class="advert_text">Lorem ipsum dolor sit amet, consectetur adipiscing Donec et.</div>
+            <?php
+            foreach ($news as $new):
+                $img = $newsModel->getAlbum($new['ID']);
+                $fImg = Url::to('../uploads/news/gallery/200-' . $img);
+                ?>
+                <div class="col-lg-4 advert_col">
+                    <!-- Advert Item -->
+                    <div class="advert d-flex flex-row align-items-center justify-content-start">
+                        <div class="advert_content">
+                            <div class="advert_subtitle"><?php echo $new['CREATEAT'] ?></div>
+                            <div class="advert_text">
+                                <a href="">
+                                    <?php echo $new['TITLE'] ?>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ml-auto"><div class="advert_image"><img src="<?php echo $fImg ?>" alt=""></div></div>
                     </div>
-                    <div class="ml-auto"><div class="advert_image"><img src="<?php echo Url::to('@web/web/theme/images/adv_1.png') ?>" alt=""></div></div>
                 </div>
-            </div>
-
+            <?php endforeach; ?>
             <div class="col-lg-4 advert_col">
 
                 <!-- Advert Item -->
