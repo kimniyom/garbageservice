@@ -38,9 +38,36 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900');
 
+
+@font-face {
+    font-family: Th;
+    src: url('font-th/TH K2D July8 Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: SPMK-Th;
+    src: url('font-th/supermarket.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: thaisanslite;
+    src: url('thaisanslite/thaisanslite_r1.ttf') format('truetype');
+}
+
 /*********************************
 2. Body and some general stuff
 *********************************/
+#font-th{
+	font-family: 'thaisanslite';
+}
+
+#font-spmk{
+	font-family: 'SPMK-Th';
+}
+
+#font-k2d{
+	font-family: 'Th';
+}
 
 *
 {
@@ -53,7 +80,7 @@
 body
 {
 	font-family: 'Rubik', sans-serif;
-	font-size: 14px;
+	font-size: 18px;
 	font-weight: 400;
 	background: #FFFFFF;
 	color: #000000;
@@ -293,7 +320,7 @@ section
 }
 .top_bar_contact_item
 {
-	font-size: 16px;
+	font-size: 20px;
 	font-weight: 300;
 	line-height: 56px;
 	margin-right: 40px;
@@ -358,7 +385,7 @@ section
 	display: block;
 	width: 100%;
 	border-bottom: solid 1px #f2f2f2;
-	font-size: 16px;
+	font-size: 18px;
 }
 .standard_dropdown li:last-child a
 {
@@ -429,6 +456,7 @@ section
 }
 .top_bar_user
 {
+	font-family: 'thaisanslite';
 	display: inline-block;
 	margin-left: 35px;
 }
@@ -473,7 +501,7 @@ section
 }
 .top_bar_user a
 {
-	font-size: 16px;
+	font-size: 24px;
 	font-weight: 300;
 	line-height: 56px;
 	color: #000;
@@ -836,6 +864,8 @@ select option
 
 .main_nav
 {
+	font-family: 'thaisanslite';
+	font-size: 20px;
 	width: 100%;
 	border-top: solid 1px #f2f2f2;
 	box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
@@ -844,6 +874,7 @@ select option
 .header.scrolled .main_nav
 {
 	position: fixed;
+	font-size: 20px;
 	top: 0;
 	left: 0;
 	-webkit-transition: all 200ms ease;
@@ -1000,13 +1031,14 @@ select option
 }
 .main_nav_dropdown li a
 {
-	font-size: 18px;
+	font-size: 20px;
 	font-weight: 400;
 	color: #a19a9a;
 	line-height: 60px;
 }
 .main_nav_dropdown li li
 {
+	font-size: 20px;
 	padding-left: 15px;
 	padding-right: 15px;
 	margin-right: 0px;
@@ -1217,7 +1249,9 @@ select option
 }
 .banner_text
 {
-	font-family: 'Montserrat', sans-serif;
+	/*font-family: 'Montserrat', sans-serif;*/
+	font-family: 'thaisanslite';
+	font-size: 40px;
 	font-weight: 500;
 	line-height: 1.166;
 	color: #7599b2;
@@ -1254,7 +1288,8 @@ select option
 }
 .banner_product_name
 {
-	font-size: 18px;
+	font-family: 'thaisanslite';
+	font-size: 24px;
 	font-weight: 400;
 	color: #000000;
 	margin-top: 8px;
@@ -1298,7 +1333,8 @@ select option
 }
 .char_title
 {
-	font-size: 14px;
+	font-family: 'thaisanslite';
+	font-size: 22px;
 	font-weight: 500;
 	color: #000000;
 }
@@ -2782,8 +2818,10 @@ select option
 }
 .advert_text
 {
+	font-family: 'thaisanslite';
 	color: #828282;
 	margin-top: 10px;
+	font-size: 20px;
 }
 .advert_image
 {
@@ -3039,18 +3077,21 @@ select option
 }
 .reviews_title
 {
+	font-family: 'SPMK-Th';
 	font-weight: 500;
-	margin-bottom: 14px;
+	margin-bottom: 20px;
 }
 .reviews_all
 {
+
 	position: absolute;
 	right: 0;
 	bottom: 14px;
 }
 .reviews_all a
 {
-	font-size: 10px;
+	font-family: 'SPMK-Th';
+	font-size: 18px;
 	color: #0e8ce4;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;

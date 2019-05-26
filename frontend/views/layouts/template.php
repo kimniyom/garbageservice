@@ -30,7 +30,7 @@ AppAssetTheme::register($this);
             <!-- Header -->
             <header class="header">
                 <!-- Top Bar -->
-                <div class="top_bar">
+                <div class="top_bar" >
                     <div class="container">
                         <div class="row">
                             <div class="col d-flex flex-row">
