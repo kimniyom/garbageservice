@@ -60,4 +60,11 @@ class News extends \yii\db\ActiveRecord {
         return $rs['images'];
     }
 
+    function getDetail($id){
+        $sql = "SELECT n.*,c.`name`
+                FROM news n  INNER JOIN newcategories c ON n.CATEGORY = c.id
+                WHERE n.ID ='$id' AND c.active = 1";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        return $rs;
+    }
 }

@@ -20,7 +20,9 @@ class AppAssetTheme extends AssetBundle
         'plugins/OwlCarousel2-2.2.1/animate.css',
         'plugins/slick-1.8.0/slick.css',
         'styles/main_styles.css',
-        'styles/responsive.css'
+        'styles/responsive.css',
+        'styles/blog_single_styles.css',
+        'styles/blog_single_responsive.css'
     ];
     public $js = [
        'js/jquery-3.3.1.min.js',

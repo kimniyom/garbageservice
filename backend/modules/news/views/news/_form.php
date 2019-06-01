@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin();?>
     <div class="row">
         <div class="col-md-4 col-lg-4">
-            <?=$form->field($model, 'CATEGORY')->dropDownList([0 => 'ข่าว', 1 => 'โปรโมชั่น'], ['prompt' => '== ประเภท =='])?>
+            <?=$form->field($model, 'CATEGORY')->dropDownList([1 => 'ข่าว', 2 => 'โปรโมชั่น'], ['prompt' => '== ประเภท =='])?>
         </div>
     </div>
     <div class="row">

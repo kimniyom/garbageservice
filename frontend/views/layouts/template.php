@@ -252,7 +252,7 @@ AppAssetTheme::register($this);
 
             <!-- Banner -->
 
-            <div class="banner">
+            <div class="banner" style="display: none;">
                 <div class="banner_background" style="background-image:url(<?php echo Url::to('@web/web/theme/images/banner_background.jpg') ?>)"></div>
                 <div class="container fill_height">
                     <div class="row fill_height">
@@ -274,7 +274,7 @@ AppAssetTheme::register($this);
             </div>
 
             <!-- Characteristics -->
-            <div class="characteristics">
+            <div class="characteristics" style="padding-top: 0px;">
                 <div class="container">
                     <?=
                     Breadcrumbs::widget([

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-05-16 20:46:20
+Date: 2019-06-01 17:54:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1187,11 +1187,14 @@ CREATE TABLE `gallery` (
   `images` varchar(100) DEFAULT NULL,
   `new_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of gallery
 -- ----------------------------
+INSERT INTO `gallery` VALUES ('2', 'img_ry2mki0ev86bisf7j1uu8pqw7wa26r.jpg', '5');
+INSERT INTO `gallery` VALUES ('4', 'img_a75y48kyxldn15x4n1kzp99fn2px0v.jpg', '7');
+INSERT INTO `gallery` VALUES ('5', 'img_zjdf3kppzoxw4czjuvinb0xzergz6b.jpg', '6');
 
 -- ----------------------------
 -- Table structure for `garbagecontainer`
@@ -1261,6 +1264,24 @@ INSERT INTO `migration` VALUES ('m160929_103127_add_last_login_at_to_user_table'
 INSERT INTO `migration` VALUES ('m190124_110200_add_verification_token_column_to_user_table', '1556452026');
 
 -- ----------------------------
+-- Table structure for `newcategories`
+-- ----------------------------
+DROP TABLE IF EXISTS `newcategories`;
+CREATE TABLE `newcategories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `active` enum('1','0') DEFAULT '1' COMMENT '1 = active',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of newcategories
+-- ----------------------------
+INSERT INTO `newcategories` VALUES ('1', 'ข่าว', '1');
+INSERT INTO `newcategories` VALUES ('2', 'โปรโมชั่น', '1');
+INSERT INTO `newcategories` VALUES ('3', 'ขทความ', '1');
+
+-- ----------------------------
 -- Table structure for `news`
 -- ----------------------------
 DROP TABLE IF EXISTS `news`;
@@ -1277,12 +1298,14 @@ CREATE TABLE `news` (
   PRIMARY KEY (`ID`),
   KEY `CREATEBY` (`CREATEBY`),
   KEY `UPDATEBY` (`UPDATEBY`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางข่าว';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางข่าว';
 
 -- ----------------------------
 -- Records of news
 -- ----------------------------
-INSERT INTO `news` VALUES ('1', 'ภำำุุถ', '<p>พัพะัพะพะ</p>\r\n', '2019-05-16 15:37:49', '2019-05-16 15:37:49', '2', null, '1', '0');
+INSERT INTO `news` VALUES ('5', 'อุปกรณ์และเครื่องมือกรณีเกิดอุบัติเหตุ', '<p><img alt=\"\" src=\"http://localhost/garbageservice/files/images/12936698_488839867993820_8648138114207052693_n.jpg\" style=\"height:185px; width:500px\" /></p>\r\n\r\n<p><strong><u>หมายเลข 1</u></strong>&nbsp;- ถังดับเพลิง<br />\r\n<strong><u>หมายเลข 2</u></strong>&nbsp;- เครื่องมือสื่อสาร<br />\r\n<strong><u>หมายเลข 3</u></strong>&nbsp;- GPS สำหรับติดที่รถยนต์<br />\r\n<strong><u>หมายเลข 4</u></strong>&nbsp;- GPS สำหรับนำทาง</p>\r\n', '2019-05-22 18:52:09', '2019-05-22 18:52:09', '2', null, '1', '1');
+INSERT INTO `news` VALUES ('6', 'การจัดการเมื่อขยะมูลฝอยติดเชื้อตกหล่น', '<p>1.&nbsp;<strong>ฉับไว</strong>&nbsp;คือ เมื่อเกิดเหตุกรณีที่ในระหว่างการจัดเก็บและขนย้ายขยะมูลฝอยติดเชื้อไปทำลายที่เตาเผานั้น หากมีการตกหล่นระหว่างเดินทาง ให้เจ้าหน้าที่จัดเก็บอย่างรวดเร็ว<br />\r\n<br />\r\n2.&nbsp;<strong>ปลอดภัย&nbsp;</strong>คือ เจ้าหน้าที่ที่ทำการจัดเก็บต้องสวมชุดและอุปกรณ์ความปลอดภัยส่วนบุคคลและจัดเก็บขยะมูลฝอยติดเชื้อที่ตกหล่น โดยปฏิบัติตามวิธีการจัดเก็บอย่างเคร่งครัด เพื่อไม่ให้มีกระทบต่อสิ่งแวดล้อม&nbsp;<br />\r\n<br />\r\n3.&nbsp;<strong>มาตรฐาน&nbsp;</strong>คือ มีการเตรียมความพร้อม ก่อนเกิดเหตุโดยการซักซ้อมเมื่อมีเหตุการณ์ไม่คาดคิดเกิดขึ้น เช่น เกิดอุบัติเหตุมีขยะตกหล่น มีการเตรียมความพร้อมด้านเครื่องมือวัสดุอุปกรณ์ต่างๆในการจัดเก็บ รวมถึงหลังเกิดเหตุ เจ้าหน้าที่ต้องแจ้งปัญหาและข้อผิดพลาดที่เกิดขึ้นว่า เกิดจากสาเหตุใด และได้รับการแก้ไขอย่างไร โดยต้องแจ้งรายละเอียดดังกล่าว ต่อผู้บริหารของบริษัทและโรงพยาบาลให้ทราบภายใน 7 วันนับตั้งแต่เกิดเหตุ</p>\r\n', '2019-06-01 12:41:55', '2019-06-01 12:50:44', '2', '2', '1', '1');
+INSERT INTO `news` VALUES ('7', 'ชุดอุปกรณ์สำหรับเจ้าหน้าที่ปฏิบัติงาน', '<p><img alt=\"\" src=\"http://localhost/garbageservice/files/images/timetracker_2.gif\" style=\"height:150px; width:250px\" /></p>\r\n\r\n<p><strong><u>หมายเลข 1</u></strong>&nbsp;- หมวกคลุมผม<br />\r\n<strong><u>หมายเลข 2</u></strong>&nbsp;- ผ้าปิดจมูก<br />\r\n<strong><u>หมายเลข 3</u></strong>&nbsp;- แว่นตา<br />\r\n<strong><u>หมายเลข 4</u></strong>&nbsp;- ถุงมือยางหนา<br />\r\n<strong><u>หมายเลข 5</u></strong>&nbsp;- รองเท้าบูทยาง<br />\r\n<strong><u>หมายเลข 6</u></strong>&nbsp;- ผ้ากันเปื้อนพีวีซี</p>\r\n', '2019-06-01 12:49:15', '2019-06-01 12:49:15', '2', null, '1', '1');
 
 -- ----------------------------
 -- Table structure for `profile`
@@ -10259,7 +10282,7 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', 'kimniyom', 'kimniyomclub@hotmail.com', '$2y$12$wdb0dOW2hA5pZAlKhhUIxOaXv.7hVjTtde/Y8691zzhhSrFRLzeKi', 'ZZAuY9wCJptMlmuWCZKRg0DUcovrQKkl', null, null, null, '::1', '1556453027', '1556453027', '0', '1556476835');
-INSERT INTO `user` VALUES ('2', 'admin', 'admin@hotmail.com', '$2y$12$ZHSYDc.CNOI0qm8G2iBuDOirXM.x8TIXb00gf04KRcpLTkbn13fMK', 'tkgvzL8RuoCU7ARPO0xSCuXMbCnaxBvi', null, null, null, '::1', '1556476857', '1556476857', '0', '1558013754');
+INSERT INTO `user` VALUES ('2', 'admin', 'admin@hotmail.com', '$2y$12$ZHSYDc.CNOI0qm8G2iBuDOirXM.x8TIXb00gf04KRcpLTkbn13fMK', 'tkgvzL8RuoCU7ARPO0xSCuXMbCnaxBvi', null, null, null, '::1', '1556476857', '1556476857', '0', '1559385312');
 
 -- ----------------------------
 -- Table structure for `zipcodes`

@@ -147,6 +147,7 @@ class NewsController extends Controller {
                 imagedestroy($images_fin);
 
                 $this->ThumbnailGallery($Name, 200, 200);
+                $this->ThumbnailGallery($Name, 360, 360);
             }
         }
     }
@@ -193,6 +194,7 @@ class NewsController extends Controller {
             if (file_exists('../uploads/news/gallery/' . $rs['images'])) {
                 unlink('../uploads/news/gallery/' . $rs['images']);
                 unlink('../uploads/news/gallery/200-' . $rs['images']);
+                unlink('../uploads/news/gallery/360-' . $rs['images']);
             }
         }
 

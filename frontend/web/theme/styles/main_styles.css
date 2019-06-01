@@ -2034,7 +2034,8 @@ select option
 }
 .popular_categories_title
 {
-	font-size: 30px;
+	font-family: 'thaisanslite';
+	font-size: 35px;
 	font-weight: 500;
 	color: #000000;
 	line-height: 1.2;

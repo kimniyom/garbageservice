@@ -7,6 +7,7 @@
         color: #0066cc;
     }
 </style>
+
 <?php
 /* @var $this yii\web\View */
 
@@ -14,9 +15,9 @@ use yii\helpers\Url;
 use app\modules\news\models\News;
 
 $newsModel = new News();
-$this->title = 'My Yii Application';
+$this->title = 'IC';
 ?>
-<div class="row">
+<div class="row" style="margin-top: 50px;">
     <!-- Char. Item -->
     <div class="col-lg-4 col-md-6 char_col">
         <div class="char_item d-flex flex-row align-items-center justify-content-start">
@@ -59,13 +60,12 @@ $this->title = 'My Yii Application';
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <div class="popular_categories_content">
-                    <div class="popular_categories_title">Popular Categories</div>
+                <div class="popular_categories_content" style="text-align: center;">
+                    <div class="popular_categories_title">ภาชนะที่ใช้จัดเก็บ</div>
                     <div class="popular_categories_slider_nav">
                         <div class="popular_categories_prev popular_categories_nav"><i class="fas fa-angle-left ml-auto"></i></div>
                         <div class="popular_categories_next popular_categories_nav"><i class="fas fa-angle-right ml-auto"></i></div>
                     </div>
-                    <div class="popular_categories_link"><a href="#">full catalog</a></div>
                 </div>
             </div>
 
@@ -144,7 +144,7 @@ $this->title = 'My Yii Application';
                         <div class="advert_content">
                             <div class="advert_subtitle"><?php echo $new['CREATEAT'] ?></div>
                             <div class="advert_text">
-                                <a href="">
+                                <a href="<?php echo Url::to(['news/news/view','id' => $new['ID']]) ?>">
                                     <?php echo $new['TITLE'] ?>
                                 </a>
                             </div>
@@ -153,32 +153,6 @@ $this->title = 'My Yii Application';
                     </div>
                 </div>
             <?php endforeach; ?>
-            <div class="col-lg-4 advert_col">
-
-                <!-- Advert Item -->
-
-                <div class="advert d-flex flex-row align-items-center justify-content-start">
-                    <div class="advert_content">
-                        <div class="advert_subtitle">Trends 2018</div>
-                        <div class="advert_title_2"><a href="#">Sale -45%</a></div>
-                        <div class="advert_text">Lorem ipsum dolor sit amet, consectetur.</div>
-                    </div>
-                    <div class="ml-auto"><div class="advert_image"><img src="<?php echo Url::to('@web/web/theme/images/adv_2.png') ?>" alt=""></div></div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 advert_col">
-
-                <!-- Advert Item -->
-
-                <div class="advert d-flex flex-row align-items-center justify-content-start">
-                    <div class="advert_content">
-                        <div class="advert_title"><a href="#">Trends 2018</a></div>
-                        <div class="advert_text">Lorem ipsum dolor sit amet, consectetur.</div>
-                    </div>
-                    <div class="ml-auto"><div class="advert_image"><img src="<?php echo Url::to('@web/web/theme/images/adv_3.png') ?>" alt=""></div></div>
-                </div>
-            </div>
 
         </div>
     </div>
@@ -356,3 +330,10 @@ $this->title = 'My Yii Application';
             </div>
         </div>
     </div>
+
+    <?php 
+        $this->registerJs('
+        $(document).ready(function(){;
+            $(".banner").show();
+        })');
+    ?>
