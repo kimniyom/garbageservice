@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-06-01 17:54:58
+Date: 2019-06-04 01:22:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1211,12 +1211,14 @@ CREATE TABLE `garbagecontainer` (
   `detail` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รายละเอียดของภาชนะ',
   `price` decimal(10,0) DEFAULT NULL COMMENT 'ราคาเก็บต่อชิ้น',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of garbagecontainer
 -- ----------------------------
-INSERT INTO `garbagecontainer` VALUES ('1', '0001', 'ยนบยบ', 'กหดกหด', 'กดเกด', 'กดเก', 'กดเ', 'กดเ', '1000');
+INSERT INTO `garbagecontainer` VALUES ('1', '0001', 'ถังขนาด 60 ลิตร', '60 ลิตร', '', '', 'แดง', 'ถังขนาด 60 ลิตร', null);
+INSERT INTO `garbagecontainer` VALUES ('2', '0002', 'กระปุ๊กใส่ของมีคม', '', '', '', 'แดง', 'กระปุ๊กใส่ของมีคม เช่น เข็มฉีดยา มีด', null);
+INSERT INTO `garbagecontainer` VALUES ('3', '0003', 'ถุงแดง', '', '', '', '', '<p><span style=\"font-size:20px\"><strong>ถุงแดงมัดปาก</strong></span><br />\r\n<strong>ขนาด</strong></p>\r\n\r\n<ul>\r\n	<li>18 x 20</li>\r\n	<li>22 x 30</li>\r\n	<li>30 x 40</li>\r\n</ul>\r\n', null);
 
 -- ----------------------------
 -- Table structure for `imgcontain`
@@ -1227,12 +1229,14 @@ CREATE TABLE `imgcontain` (
   `image` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ชื่อรูปภาพ',
   `garbagecontainer_id` int(11) DEFAULT NULL COMMENT 'รูปของภาชนะใส่ขยะ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of imgcontain
 -- ----------------------------
-INSERT INTO `imgcontain` VALUES ('1', 'Screenshot (1).png', '1');
+INSERT INTO `imgcontain` VALUES ('1', '20190603175832809475997.jpg', '1');
+INSERT INTO `imgcontain` VALUES ('2', '201906031759371590590845.jpg', '2');
+INSERT INTO `imgcontain` VALUES ('3', '201906031825291904057617.jpg', '3');
 
 -- ----------------------------
 -- Table structure for `migration`
@@ -10282,7 +10286,7 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', 'kimniyom', 'kimniyomclub@hotmail.com', '$2y$12$wdb0dOW2hA5pZAlKhhUIxOaXv.7hVjTtde/Y8691zzhhSrFRLzeKi', 'ZZAuY9wCJptMlmuWCZKRg0DUcovrQKkl', null, null, null, '::1', '1556453027', '1556453027', '0', '1556476835');
-INSERT INTO `user` VALUES ('2', 'admin', 'admin@hotmail.com', '$2y$12$ZHSYDc.CNOI0qm8G2iBuDOirXM.x8TIXb00gf04KRcpLTkbn13fMK', 'tkgvzL8RuoCU7ARPO0xSCuXMbCnaxBvi', null, null, null, '::1', '1556476857', '1556476857', '0', '1559385312');
+INSERT INTO `user` VALUES ('2', 'admin', 'admin@hotmail.com', '$2y$12$ZHSYDc.CNOI0qm8G2iBuDOirXM.x8TIXb00gf04KRcpLTkbn13fMK', 'tkgvzL8RuoCU7ARPO0xSCuXMbCnaxBvi', null, null, null, '::1', '1556476857', '1556476857', '0', '1559577026');
 
 -- ----------------------------
 -- Table structure for `zipcodes`
