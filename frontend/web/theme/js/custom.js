@@ -535,11 +535,11 @@ $(document).ready(function()
 				dots:false,
 				responsive:
 				{
-					0:{items:1},
+					0:{items:2},
 					575:{items:2},
 					640:{items:3},
-					768:{items:4},
-					991:{items:5}
+					768:{items:3},
+					991:{items:3}
 				}
 			});
 

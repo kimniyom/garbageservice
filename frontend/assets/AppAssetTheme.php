@@ -22,7 +22,9 @@ class AppAssetTheme extends AssetBundle
         'styles/main_styles.css',
         'styles/responsive.css',
         'styles/blog_single_styles.css',
-        'styles/blog_single_responsive.css'
+        'styles/blog_single_responsive.css',
+        'fancyBox2.1.5/source/jquery.fancybox.css',
+        'gallery_img/dist/magnific-popup.css'
     ];
     public $js = [
        'js/jquery-3.3.1.min.js',
@@ -36,7 +38,9 @@ class AppAssetTheme extends AssetBundle
         'plugins/OwlCarousel2-2.2.1/owl.carousel.js',
         'plugins/slick-1.8.0/slick.js',
         'plugins/easing/easing.js',
-        'js/custom.js'
+        'js/custom.js',
+        'fancyBox2.1.5/source/jquery.fancybox.js',
+        'gallery_img/dist/jquery.magnific-popup.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

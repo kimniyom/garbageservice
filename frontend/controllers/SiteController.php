@@ -78,6 +78,7 @@ class SiteController extends Controller {
         //$this->layout = "template";
         $sql = "select * from news limit 3";
         $data['news'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['categorys'] = $this->getGarbagecontainer();
         return $this->render('index', $data);
     }
 
@@ -249,8 +250,16 @@ class SiteController extends Controller {
         }
 
         return $this->render('resendVerificationEmail', [
-                    'model' => $model
+                'model' => $model
         ]);
+    }
+
+
+    public function getGarbagecontainer() {
+        $sql = "SELECT g.*,i.image
+                FROM garbagecontainer g 
+                INNER JOIN imgcontain i ON g.id = i.garbagecontainer_id";
+        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
 }

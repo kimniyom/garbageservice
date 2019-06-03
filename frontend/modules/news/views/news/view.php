@@ -17,14 +17,29 @@ $newsModel = new News();
 	<div class="single_post" style="margin-top:0px; padding-top:10px;">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-8 offset-lg-2">
+				<div class="col-lg-12">
 					<div class="single_post_title"><?php echo $this->title ?></div>
 					<p><i class="fa fa-calendar-alt"></i> <?php echo $datas['CREATEAT'] ?></p>
-					<div class="single_post_text">
+					<div class="single_post_text" id="box-article">
 						<?php 
 							echo $datas['CONTENT'];
 						?>
 					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<i class="fa fa-images"></i> Gallery
+					<hr/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="img_zoom">
+					<?php foreach($gallery as $gallerys): ?>
+						<a class="image-link" href="<?php echo Url::to('../uploads/news/gallery/'.$gallerys['images']) ?>">
+					<img src="<?php echo Url::to('../uploads/news/gallery/200-'.$gallerys['images']) ?>" alt="" class="img-thumbnail" style="max-height: 100px; float: left; margin-right: 10px; margin-bottom: 10px;"></a>
+				<?php endforeach; ?>
 				</div>
 			</div>
 		</div>
@@ -45,7 +60,9 @@ $newsModel = new News();
 						<div class="blog_post">
 							<div class="blog_image" style="background:url('<?php echo $fImg ?>') top"></div>
 							<div class="blog_text"><?php echo $new['TITLE'] ?></div>
-							<div class="blog_button"><a href="blog_single.html">Continue Reading</a></div>
+							<div class="blog_button">
+								<a href="<?php echo Url::to(['news/view','id' => $new['ID']]) ?>">อ่านเพิ่มเติม ...</a>
+							</div>
 						</div>
 
 						<?php endforeach; ?>
@@ -55,3 +72,28 @@ $newsModel = new News();
 			</div>
 		</div>
 	</div>
+
+	<?php 
+		$this->registerJs('
+			$(document).ready(function () {
+		        var style = {"height": "auto"};
+		        $("#box-article img").addClass("img-responsive");
+		        $("#box-article img").css(style);
+
+	        	var bcontent = $("#box-article").width();
+	        	var iframe = $("#box-article iframe").width();
+
+	        	if(iframe >= bcontent){;
+	            	$("#box-article iframe").css({"width":"100% "});
+	        	}
+
+	        	$(".img_zoom").magnificPopup({
+					delegate: "a",
+					type: "image",
+					gallery: {
+						enabled: true
+					}
+	           });
+	    	});
+    ')
+	?>

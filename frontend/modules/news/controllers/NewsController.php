@@ -22,9 +22,17 @@ class NewsController extends Controller
 		$Model = new News();
 		$result = $Model->getDetail($id);
         $newsAll = $Model::find()->where(['CATEGORY' => 1])->all();
+        $gallery = $this->getGallery($id);
 		return $this->render('view', [
 			'datas' => $result,
-            'news' => $newsAll
+            'news' => $newsAll,
+            'gallery' => $gallery
 		]);
 	}
+
+    public function getGallery($id){
+        $sql = "select * from gallery where new_id = '$id'";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
 }

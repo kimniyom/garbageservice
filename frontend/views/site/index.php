@@ -53,13 +53,11 @@ $this->title = 'IC';
 </div>
 
 
-
 <!-- Popular Categories -->
-
 <div class="popular_categories">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="popular_categories_content" style="text-align: center;">
                     <div class="popular_categories_title">ภาชนะที่ใช้จัดเก็บ</div>
                     <div class="popular_categories_slider_nav">
@@ -70,51 +68,19 @@ $this->title = 'IC';
             </div>
 
             <!-- Popular Categories Slider -->
-
-            <div class="col-lg-9">
+            <div class="col-lg-8">
                 <div class="popular_categories_slider_container">
                     <div class="owl-carousel owl-theme popular_categories_slider">
-
+                        <?php foreach($categorys as $rsCat): ?>
                         <!-- Popular Categories Item -->
                         <div class="owl-item">
                             <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="<?php echo Url::to('@web/web/theme/images/popular_1.png') ?>" alt=""></div>
-                                <div class="popular_category_text">Smartphones & Tablets</div>
+                                <div class="popular_category_image">
+                                    <img src="<?php echo Url::to('../uploads/containner/gallerry/'.$rsCat['image']) ?>" alt=""></div>
+                                <div class="popular_category_text"><?php echo $rsCat['garbagecontainer'] ?></div>
                             </div>
                         </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="<?php echo Url::to('@web/web/theme/images/popular_2.png') ?>" alt=""></div>
-                                <div class="popular_category_text">Computers & Laptops</div>
-                            </div>
-                        </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="<?php echo Url::to('@web/web/theme/images/popular_3.png') ?>" alt=""></div>
-                                <div class="popular_category_text">Gadgets</div>
-                            </div>
-                        </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="<?php echo Url::to('@web/web/theme/images/popular_4.png') ?>" alt=""></div>
-                                <div class="popular_category_text">Video Games & Consoles</div>
-                            </div>
-                        </div>
-
-                        <!-- Popular Categories Item -->
-                        <div class="owl-item">
-                            <div class="popular_category d-flex flex-column align-items-center justify-content-center">
-                                <div class="popular_category_image"><img src="<?php echo Url::to('@web/web/theme/images/popular_5.png') ?>" alt=""></div>
-                                <div class="popular_category_text">Accessories</div>
-                            </div>
-                        </div>
-
+                    <?php endforeach ?>
                     </div>
                 </div>
             </div>
