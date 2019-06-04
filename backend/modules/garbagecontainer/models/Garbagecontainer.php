@@ -48,14 +48,14 @@ class Garbagecontainer extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'garbagecontainer' => 'Garbagecontainer',
-            'size' => 'Size',
-            'brand' => 'Brand',
-            'contain' => 'Contain',
-            'color' => 'Color',
-            'detail' => 'Detail',
-            'price' => 'Price',
+            'code' => 'รหัสภาชนะ',
+            'garbagecontainer' => 'ประเภทภาชนะ',
+            'size' => 'ขนาดของภาชนะ',
+            'brand' => 'ยี่ห้อ',
+            'contain' => 'ปริมาณที่ภาชนะบรรจุได้',
+            'color' => 'สี',
+            'detail' => 'รายละเอียด',
+            'price' => 'ราคา',
         ];
     }
 }

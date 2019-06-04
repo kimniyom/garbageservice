@@ -28,7 +28,8 @@ class Imgcontain extends \yii\db\ActiveRecord
     {
         return [
             [['garbagecontainer_id'], 'integer'],
-            [['image'], 'file', 'extensions' => 'jpg, png, gif,jpeg','skipOnEmpty' => false],
+            [['image'], 'file', 'extensions' => 'jpg, png, gif,jpeg','skipOnEmpty' => true],
+            [['image'], 'required', 'on'=>'create']
         ];
     }
 
@@ -39,7 +40,7 @@ class Imgcontain extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'image' => 'Image',
+            'image' => 'รูปภาชนะ',
             'garbagecontainer_id' => 'Garbagecontainer ID',
         ];
     }

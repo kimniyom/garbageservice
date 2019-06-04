@@ -70,6 +70,7 @@ class GarbagecontainerController extends Controller
     {
         $model = new Garbagecontainer();
         $modelImg = new Imgcontain(); 
+        $modelImg->scenario = 'create';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $modelImg->image = UploadedFile::getInstance($modelImg,'image');
@@ -104,23 +105,31 @@ class GarbagecontainerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $path = '../uploads/containner/gallerry/';
         $modelImg =  Imgcontain::find()->where(['garbagecontainer_id' => $id])->one();
-        $oldImage = $modelImg?$modelImg->image:"";
+        $oldImage = $modelImg?$path.$modelImg->image:"";
+       
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $modelImg->image = UploadedFile::getInstance($modelImg,'image');
-            if($modelImg->image && $modelImg->validate())
-            {
-                $numRand = mt_rand();
-                $dateUpload = date('YmdHis');
-                $path = '../uploads/containner/gallerry/'.$dateUpload.''.$numRand.'.'.$modelImg->image->extension;
-                $pathOld = '../uploads/containner/gallerry/'.$oldImage;
-                $modelImg->garbagecontainer_id = $model->id;
-                $modelImg->image->name = $dateUpload.$numRand.'.'.$modelImg->image->extension;
 
-                if($modelImg->save() && $modelImg->image->saveAs($path) && unlink($pathOld)){
-                    return $this->redirect(['view', 'id' => $model->id]);
+            if($modelImg->image)
+            {
+                if($modelImg->validate())
+                {
+                    $numRand = mt_rand();
+                    $dateUpload = date('YmdHis');
+                    $path = $path.$dateUpload.''.$numRand.'.'.$modelImg->image->extension;
+                    $modelImg->garbagecontainer_id = $model->id;
+                    $modelImg->image->name = $dateUpload.$numRand.'.'.$modelImg->image->extension;
+
+                    if($modelImg->save() && $modelImg->image->saveAs($path) && unlink($oldImage)){
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
+            }
+            else{
+                return $this->redirect(['view', 'id' => $model->id]);
             }
             
         }
@@ -128,6 +137,7 @@ class GarbagecontainerController extends Controller
         return $this->render('update', [
             'model' => $model,
             'modelImg'=> $modelImg,
+            'oldImage'=> $oldImage,
         ]);
     }
 
@@ -140,16 +150,21 @@ class GarbagecontainerController extends Controller
      */
     public function actionDelete($id)
     {
+       
         $modelImg = Imgcontain::find()->where(['garbagecontainer_id' => $id])->one();
-        $path = '../uploads/containner/gallerry/'.$modelImg->image;
+        $path = '../uploads/containner/gallerry/';
 
-        if(file_exists($path))
+        if($modelImg && file_exists($path.$modelImg->image))
         {
-            if(unlink($path) && $modelImg->delete())
+            if(unlink($path.$modelImg->image) && $modelImg->delete())
             {
                 $this->findModel($id)->delete();
                 return $this->redirect(['index']);
             }
+        }
+        else{
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
         }
     }
 

@@ -29,7 +29,7 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($modelImg, 'image')->fileInput()?>
+    <?= $form->field($modelImg, 'image')->fileInput(['files'=>'C:\Users\lph\Downloads\72746.jpg'])?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
