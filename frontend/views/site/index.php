@@ -94,7 +94,9 @@ $this->title = 'IC';
     <div class="container">
         <div class="reviews_title_container">
             <h3 class="reviews_title">ข่าวล่าสุด</h3>
-            <div class="reviews_all ml-auto"><a href="#">view all </a></div>
+            <div class="reviews_all ml-auto">
+                <a href="<?php echo Url::to(['news/news/all']) ?>">view all </a>
+            </div>
         </div>
         <br/>
         <div class="row">

@@ -4,6 +4,7 @@ namespace app\modules\news\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\data\Pagination;
 use app\modules\news\models\News;
 
 class NewsController extends Controller
@@ -35,4 +36,39 @@ class NewsController extends Controller
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
+
+    public function actionAlls($category = null){
+        $Model = new News();
+        if(empty($category)){
+            $title = "ทั้งหมด";
+        } else {
+            $rs = $Model->getCategory($category);
+            $title = $rs['name'];
+        }
+        $data['category'] = $title;
+        $data['news'] = $Model->getNewsAll($category);;
+        return $this->render('all',$data);
+    }
+
+    public function actionAll($category = null){
+        $Model = new News();
+        if(empty($category)){
+            $title = "ทั้งหมด";
+            $query = News::find()->where(['ISSHOW' => 1]);
+        } else {
+            $rs = $Model->getCategory($category);
+            $title = $rs['name'];
+            $query = News::find()->where(['CATEGORY' => $category,'ISSHOW' => 1]);
+        }
+        $data['category'] = $title;
+        $count = $query->count();
+        //$countQuery = clone $query;
+        $data['pages'] = new Pagination(['totalCount' => $count,'pageSize' => 9]);
+        $data['news'] = $query->offset($data['pages']->offset)
+            ->limit($data['pages']->limit)
+            ->all();
+
+        return $this->render('all',$data);
+    }
+
 }

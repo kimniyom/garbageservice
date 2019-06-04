@@ -67,4 +67,32 @@ class News extends \yii\db\ActiveRecord {
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         return $rs;
     }
+
+    function getNewsAll($category){
+        if(empty($category)){
+            $sql = "select n.*,c.name as category_name from news n inner join newcategories c on n.CATEGORY = c.id";
+        } else {
+            $sql = "select n.*,c.name from news n inner join newcategories c on n.CATEGORY = c.id WHERE n.CATEGORY = '$category' ";
+        }
+
+        $rs = Yii::$app->db->createCommand($sql)->queryAll();
+        return $rs;
+    }
+
+    function getNewsAllPagination($category,$offset,$limit){
+        if(empty($category)){
+            $sql = "select n.*,c.name as category_name from news n inner join newcategories c on n.CATEGORY = c.id";
+        } else {
+            $sql = "select n.*,c.name from news n inner join newcategories c on n.CATEGORY = c.id WHERE n.CATEGORY = '$category' ";
+        }
+
+        $rs = Yii::$app->db->createCommand($sql)->queryAll();
+        return $rs;
+    }
+
+    function getCategory($id){
+        $sql = "select * from newcategories where id = '$id'";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        return $rs;
+    }
 }
