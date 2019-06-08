@@ -38,6 +38,7 @@ class Garbagecontainer extends \yii\db\ActiveRecord
             [['code', 'size', 'color'], 'string', 'max' => 32],
             [['garbagecontainer', 'brand', 'contain'], 'string', 'max' => 255],
             [['detail'], 'string', 'max' => 512],
+            [['code'],'unique','message'=>'รหัสภาชนะซ้ำ'],
         ];
     }
 
