@@ -52,7 +52,6 @@ $this->title = 'IC';
 </div>
 </div>
 
-
 <!-- Popular Categories -->
 <div class="popular_categories">
     <div class="container">
@@ -87,7 +86,6 @@ $this->title = 'IC';
         </div>
     </div>
 </div>
-
 
 <!-- Adverts -->
 <div class="adverts">
