@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-06-04 01:22:46
+Date: 2019-06-09 20:18:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1217,7 +1217,7 @@ CREATE TABLE `garbagecontainer` (
 -- Records of garbagecontainer
 -- ----------------------------
 INSERT INTO `garbagecontainer` VALUES ('1', '0001', 'ถังขนาด 60 ลิตร', '60 ลิตร', '', '', 'แดง', 'ถังขนาด 60 ลิตร', null);
-INSERT INTO `garbagecontainer` VALUES ('2', '0002', 'กระปุ๊กใส่ของมีคม', '', '', '', 'แดง', 'กระปุ๊กใส่ของมีคม เช่น เข็มฉีดยา มีด', null);
+INSERT INTO `garbagecontainer` VALUES ('2', '0002', 'กระปุ๊กใส่ของมีคม', '', '', '', 'แดง', '<p>กระปุ๊กใส่ของมีคม เช่น เข็มฉีดยา มีด</p>\r\n', null);
 INSERT INTO `garbagecontainer` VALUES ('3', '0003', 'ถุงแดง', '', '', '', '', '<p><span style=\"font-size:20px\"><strong>ถุงแดงมัดปาก</strong></span><br />\r\n<strong>ขนาด</strong></p>\r\n\r\n<ul>\r\n	<li>18 x 20</li>\r\n	<li>22 x 30</li>\r\n	<li>30 x 40</li>\r\n</ul>\r\n', null);
 
 -- ----------------------------
@@ -1235,7 +1235,7 @@ CREATE TABLE `imgcontain` (
 -- Records of imgcontain
 -- ----------------------------
 INSERT INTO `imgcontain` VALUES ('1', '20190603175832809475997.jpg', '1');
-INSERT INTO `imgcontain` VALUES ('2', '201906031759371590590845.jpg', '2');
+INSERT INTO `imgcontain` VALUES ('2', '201906041728252108671610.jpg', '2');
 INSERT INTO `imgcontain` VALUES ('3', '201906031825291904057617.jpg', '3');
 
 -- ----------------------------
@@ -1334,6 +1334,11 @@ CREATE TABLE `profile` (
 -- ----------------------------
 INSERT INTO `profile` VALUES ('1', null, null, null, null, null, null, null, null);
 INSERT INTO `profile` VALUES ('2', null, null, null, null, null, null, null, null);
+INSERT INTO `profile` VALUES ('3', '', '', '', 'd41d8cd98f00b204e9800998ecf8427e', '', '', '', 'Pacific/Kiritimati');
+INSERT INTO `profile` VALUES ('4', null, null, null, null, null, null, null, null);
+INSERT INTO `profile` VALUES ('5', null, null, null, null, null, null, null, null);
+INSERT INTO `profile` VALUES ('6', null, null, null, null, null, null, null, null);
+INSERT INTO `profile` VALUES ('7', null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `social_account`
@@ -10258,6 +10263,11 @@ CREATE TABLE `token` (
 -- ----------------------------
 INSERT INTO `token` VALUES ('1', 'jXqi21VJ9WqiiXpuRgM2bOYx4AbB_mS9', '1556453027', '0');
 INSERT INTO `token` VALUES ('2', 'EFeLmaebqMbMRjlI17YXi-MMz8jXG1UZ', '1556476857', '0');
+INSERT INTO `token` VALUES ('3', 'GmttaNKzBwViAmlEmPwpgvQ-qyoCPeKV', '1560065789', '0');
+INSERT INTO `token` VALUES ('4', 'jemaIwIOV3jFB-uERQlIA_QfNtGivVo2', '1560079155', '0');
+INSERT INTO `token` VALUES ('5', 'FTOBDfL-DCrb7WzjOOZwFh_p8dZI0d8m', '1560079412', '0');
+INSERT INTO `token` VALUES ('6', 'qqh9wNM0HQZf3KpLkuSkizJKdpX4Ehse', '1560079589', '0');
+INSERT INTO `token` VALUES ('7', 'Jivh8s-fucXptsSmnszX1KgUmlSKh7TY', '1560079880', '0');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -10277,16 +10287,22 @@ CREATE TABLE `user` (
   `updated_at` int(11) NOT NULL,
   `flags` int(11) NOT NULL DEFAULT '0',
   `last_login_at` int(11) DEFAULT NULL,
+  `status` enum('U','A') COLLATE utf8_unicode_ci DEFAULT 'U',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_unique_username` (`username`),
   UNIQUE KEY `user_unique_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'kimniyom', 'kimniyomclub@hotmail.com', '$2y$12$wdb0dOW2hA5pZAlKhhUIxOaXv.7hVjTtde/Y8691zzhhSrFRLzeKi', 'ZZAuY9wCJptMlmuWCZKRg0DUcovrQKkl', null, null, null, '::1', '1556453027', '1556453027', '0', '1556476835');
-INSERT INTO `user` VALUES ('2', 'admin', 'admin@hotmail.com', '$2y$12$ZHSYDc.CNOI0qm8G2iBuDOirXM.x8TIXb00gf04KRcpLTkbn13fMK', 'tkgvzL8RuoCU7ARPO0xSCuXMbCnaxBvi', null, null, null, '::1', '1556476857', '1556476857', '0', '1559577026');
+INSERT INTO `user` VALUES ('1', 'kimniyom', 'kimniyomclub@hotmail.com', '$2y$12$wdb0dOW2hA5pZAlKhhUIxOaXv.7hVjTtde/Y8691zzhhSrFRLzeKi', 'ZZAuY9wCJptMlmuWCZKRg0DUcovrQKkl', null, null, null, '::1', '1556453027', '1556453027', '0', '1556476835', 'A');
+INSERT INTO `user` VALUES ('2', 'admin', 'admin@hotmail.com', '$2y$12$ZHSYDc.CNOI0qm8G2iBuDOirXM.x8TIXb00gf04KRcpLTkbn13fMK', 'tkgvzL8RuoCU7ARPO0xSCuXMbCnaxBvi', null, null, null, '::1', '1556476857', '1556476857', '0', '1560085723', 'A');
+INSERT INTO `user` VALUES ('3', 'kimniyom00', 'kimniyom_club@hotmail.com', '$2y$12$fKlrxbPOPpXH3L5ccDE0H.Bb7rvkYaBSD54BhINoZsQeNbzOYdCpe', 'qcgpTgqfrlnh37s7Opl9E4oGRVfkZU2Z', null, null, null, '::1', '1560065789', '1560065789', '0', '1560085470', 'U');
+INSERT INTO `user` VALUES ('4', 'pdk', 'smeangkeang@gmail.com', '$2y$12$0pF/Pmr3PYDn2rdmkslmZOedMyj1Gs/J7TBCB5YsxmEqqfJOrPCwe', 'g2NZz8unmb4wnCgz2zAP0os_4XgSUjkJ', null, null, null, '::1', '1560079155', '1560079155', '0', '1560079290', 'U');
+INSERT INTO `user` VALUES ('5', 'kang', 'admin1@hotmail.com', '$2y$12$t6cQUT.Q5z9iu7R6mxoXkuNRbLtxbB3FWAcipKEWOKCgeBgcuI7Cy', 'AU_xwagGhCqol2pCHlmu4bJDUJyhA2Ui', null, null, null, '::1', '1560079412', '1560079412', '0', null, 'U');
+INSERT INTO `user` VALUES ('6', 'kimniyom55', '55555@gmail.com', '$2y$12$PBIZYUtMdSIpnDUHNwA2d.EFrE0OcPmVBFGZVWRaaGD.o2xKxNA/2', 'R47Sntqsoupue1rGYMoCaLjC_9FNN0z2', null, null, null, '::1', '1560079589', '1560079589', '0', null, 'U');
+INSERT INTO `user` VALUES ('7', 'kimniyoms', 'test@gmail.com', '$2y$12$AZB0RJZUxHuPAEGOLMaXyOES2FDl0jZ5qMCqRTaGFP0B9BLi.H8wG', 'RLI9P4md4-EgLreMpqKbE6cjWKk-0JLe', null, null, null, '::1', '1560079880', '1560079880', '0', null, 'U');
 
 -- ----------------------------
 -- Table structure for `zipcodes`
