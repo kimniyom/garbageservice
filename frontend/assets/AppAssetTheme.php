@@ -29,7 +29,7 @@ class AppAssetTheme extends AssetBundle
         'styles/blog_responsive.css'
     ];
     public $js = [
-       'js/jquery-3.3.1.min.js',
+       //'js/jquery-3.3.1.min.js',
         'styles/bootstrap4/popper.js',
         'styles/bootstrap4/bootstrap.min.js',
         'plugins/greensock/TweenMax.min.js',

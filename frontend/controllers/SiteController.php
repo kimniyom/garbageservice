@@ -262,4 +262,8 @@ class SiteController extends Controller {
         return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
+    public function actionAdminpage(){
+        return $this->render('admin');
+    }
+
 }

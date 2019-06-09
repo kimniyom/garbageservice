@@ -16,19 +16,36 @@ return [
         'news' => [
             'class' => 'app\modules\news\Module',
         ],
+        'customer' => [
+            'class' => 'app\modules\customer\Module',
+        ],
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'enableUnconfirmedLogin' => true,
+            'confirmWithin' => 21600,
+            'cost' => 12,
+            'admins' => ['admin']
+        ],
     ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
+            //'identityClass' => 'app\models\User',
+            'identityClass' => 'dektrium\user\models\User',
+            'enableAutoLogin' => true,
+         ],
+        /*
+        'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
+        */
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'name' => 'ic-system',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -50,6 +67,18 @@ return [
             ],
         ],
         */
+        'urlManagerFrontend' => [
+            'class' => 'yii\web\urlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'baseUrl' => 'http://localhost/garbageservice/frontend',
+        ],
+        'urlManagerBackend' => [
+            'class' => 'yii\web\urlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'baseUrl' => 'http://localhost/garbageservice/backend',
+        ],
     ],
     'params' => $params,
 ];

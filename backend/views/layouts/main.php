@@ -55,7 +55,7 @@ Yii::$app->user->isGuest ?
 ]],
 ['label' => 'Register', 'url' => ['/user/registration/register'], 'visible' => Yii::$app->user->isGuest],
 */
-
+/*
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Sign in', 'url' => ['/user/security/login'],
     ];
@@ -76,12 +76,15 @@ Yii::$app->user->isGuest ?
         'items' => $menuItems,
     ]);
     NavBar::end();
+    */
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
+        <?php 
+        /*Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        ]) 
+        */?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
@@ -90,7 +93,6 @@ Yii::$app->user->isGuest ?
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>

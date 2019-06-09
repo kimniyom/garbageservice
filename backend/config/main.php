@@ -57,7 +57,7 @@ return [
 		],
 		'session' => [
 			// this is the name of the session cookie used for login on the backend
-			'name' => 'advanced-backend',
+			'name' => 'ic-system',
 		],
 		'log' => [
 			'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -79,6 +79,18 @@ return [
 			      ],
 			      ],
 		*/
+		'urlManagerFrontend' => [
+            'class' => 'yii\web\urlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'baseUrl' => 'http://localhost/garbageservice/frontend',
+        ],
+		'urlManagerBackend' => [
+            'class' => 'yii\web\urlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'baseUrl' => 'http://localhost/garbageservice/backend',
+        ],
 	],
 	'params' => $params,
 ];

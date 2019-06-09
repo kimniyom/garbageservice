@@ -49,11 +49,26 @@ AppAssetTheme::register($this);
                                 </div>
                                 <div class="top_bar_content ml-auto">
                                     <div class="top_bar_user">
+                                        <?php if(Yii::$app->user->isGuest) { ?>
                                         <div class="user_icon">
                                             <img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt="">
                                         </div>
-                                        <div><a href="#">Register</a></div>
-                                        <div><a href="#">Sign in</a></div>
+                                        <div><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">Register</a></div>
+                                        <?php } ?>
+                                        <div>
+                                        <?php if(Yii::$app->user->isGuest) { ?>
+                                            <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>">Sign in</a>
+                                        <?php } else { ?>
+                                          
+                                            <?php if(Yii::$app->user->identity->status == "U") { ?>
+                                                <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                            <?php } else { ?>
+
+                                                <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                            
+                                            <?php } ?>
+                                        <?php } ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -96,10 +111,7 @@ AppAssetTheme::register($this);
                             <!-- Wishlist -->
                             <div class="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
                                 <div class="wishlist_cart d-flex flex-row align-items-center justify-content-end">
-
-
                                     <!-- Cart -->
-
                                 </div>
                             </div>
                         </div>
@@ -284,109 +296,102 @@ AppAssetTheme::register($this);
                     <?= Alert::widget() ?>
                     <?= $content ?>
                 </div>
-
-                <!-- Footer -->
-                <footer class="footer">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-3 footer_col">
-                                <div class="footer_column footer_contact">
-                                    <div class="logo_container">
-                                        <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
-                                    </div>
-                                    <div class="footer_title">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
-                                    <div class="footer_contact_text">
-                                        <p>50/19 หมู่ 6 ต.บางหลวง</p>
-                                        <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
-                                    </div>
-                                    <div class="footer_phone">โทร : (02) 1010325</div>
-                                    <div class="footer_phone">Fax : (02) 581-1245</div>
-                                    <div class="footer_social">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-vimeo-v"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+            </div>
+            <!-- Newsletter -->
+        </div>
+        <div class="newsletter">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
+                            <div class="newsletter_title_container">
+                                <div class="newsletter_icon"><img src="<?php echo Url::to('@web/web/theme/images/send.png') ?>" alt=""></div>
+                                <div class="newsletter_title">ลงทะเบียนรับข่าวสาร</div>
                             </div>
+                            <div class="newsletter_content clearfix">
+                                <form action="#" class="newsletter_form">
+                                    <input type="email" class="newsletter_input" placeholder="Enter your email address">
+                                    <button class="newsletter_button">Subscribe</button>
+                                </form>
 
-                            <div class="col-lg-2 offset-lg-2">
-                                <div class="footer_column">
-                                    <div class="footer_title">Find it Fast</div>
-                                    <ul class="footer_list">
-                                        <li><a href="#">Computers & Laptops</a></li>
-                                        <li><a href="#">Cameras & Photos</a></li>
-                                        <li><a href="#">Hardware</a></li>
-                                        <li><a href="#">Smartphones & Tablets</a></li>
-                                        <li><a href="#">TV & Audio</a></li>
-                                    </ul>
-                                    <div class="footer_subtitle">Gadgets</div>
-                                    <ul class="footer_list">
-                                        <li><a href="#">Car Electronics</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <div class="footer_column">
-                                    <ul class="footer_list footer_list_2">
-                                        <li><a href="#">Video Games & Consoles</a></li>
-                                        <li><a href="#">Accessories</a></li>
-                                        <li><a href="#">Cameras & Photos</a></li>
-                                        <li><a href="#">Hardware</a></li>
-                                        <li><a href="#">Computers & Laptops</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <div class="footer_column">
-                                    <div class="footer_title">Customer Care</div>
-                                    <ul class="footer_list">
-                                        <li><a href="#">My Account</a></li>
-                                        <li><a href="#">Order Tracking</a></li>
-                                        <li><a href="#">Wish List</a></li>
-                                        <li><a href="#">Customer Services</a></li>
-                                        <li><a href="#">Returns / Exchange</a></li>
-                                        <li><a href="#">FAQs</a></li>
-                                        <li><a href="#">Product Support</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </footer>
-
-                <!-- Copyright -->
-                <div class="copyright">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
-                                    <div class="copyright_content"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                    </div>
-                                    <div class="logos ml-sm-auto">
-                                        <ul class="logos_list">
-                                            <li><a href="#"><img src="<?php echo Url::to('@web/web/theme/images/logos_1.png') ?>" alt=""></a></li>
-                                            <li><a href="#"><img src="<?php echo Url::to('@web/web/theme/images/logos_2.png') ?>" alt=""></a></li>
-                                            <li><a href="#"><img src="<?php echo Url::to('@web/web/theme/images/logos_3.png') ?>" alt=""></a></li>
-                                            <li><a href="#"><img src="<?php echo Url::to('@web/web/theme/images/logos_4.png') ?>" alt=""></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <?php $this->endBody() ?>
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 footer_col">
+                            <div class="footer_column footer_contact">
+                                <div class="logo_container">
+                                    <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
+                                </div>
+                                <div class="footer_title">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                <div class="footer_contact_text">
+                                    <p>50/19 หมู่ 6 ต.บางหลวง</p>
+                                    <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
+                                </div>
+                                <div class="footer_phone">โทร : (02) 1010325</div>
+                                <div class="footer_phone">Fax : (02) 581-1245</div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 offset-lg-2">
+                            <div class="footer_column">
+                                <div class="footer_title">ข่าวสารและโปรโมชั่น</div>
+                                <ul class="footer_list">
+                                    <li><a href="#">โปรโมชั่น</a></li>
+                                    <li><a href="#">ข่าวสารและกิจกรรม</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="footer_column">
+                                <div class="footer_title">ช่วยเหลือ</div>
+                                <ul class="footer_list">
+                                    <li><a href="#">คู่มือการขอใช้บริการ</a></li>
+                                    <li><a href="#">วิธีการชำระเงิน</a></li>
+                                    <li><a href="#">แจ้งชำระเงิน</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="footer_column">
+                                <div class="footer_title">ติดต่อเรา</div>
+                                <ul class="footer_list">
+                                    <li><a href="#">เกี่ยวกับเรา</a></li>
+                                    <li><a href="#">นโยบายและข้อตกลง</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- Copyright -->
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
+                            <div class="copyright_content"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> IC QUALITY SYSTEM Co., Ltd.
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage() ?>
