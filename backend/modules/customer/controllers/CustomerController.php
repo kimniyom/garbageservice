@@ -68,6 +68,7 @@ class CustomerController extends Controller {
 			$model->UPDATE_DATE = date("Y-m-d H:i:s");
 			$model->UPDATE_DATE = date("Y-m-d H:i:s");
 			$model->save();
+			
 			return $this->redirect(['view', 'id' => $model->ID]);
 		}
 

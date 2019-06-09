@@ -1128,7 +1128,7 @@ INSERT INTO `changwat` VALUES ('77', '97', 'บึงกาฬ', '3');
 -- ----------------------------
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CUSTOMERNAME` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ชื่อลูกค้า',
   `ADDRESS` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ที่อยู่',
   `OWNER` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เจ้าของ',
