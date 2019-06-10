@@ -17773,3 +17773,16 @@ INSERT INTO `zipcodes` VALUES ('7452', '961204', '96220');
 INSERT INTO `zipcodes` VALUES ('7453', '961301', '96130');
 INSERT INTO `zipcodes` VALUES ('7454', '961302', '96130');
 INSERT INTO `zipcodes` VALUES ('7455', '961303', '96130');
+
+CREATE TABLE promise(
+promisid varchar(64) COMMENT 'เลขที่',
+place varchar(64) COMMENT 'สัญญาทำขึ้น ณ',
+license varchar(32) COMMENT 'เลขที่ใบอนุญาต',
+customerid int,
+promisedatebegin date COMMENT 'วันเริ่มต้นสัญญา',
+    
+promisedateend date COMMENT 'วันสิ้นสุดสัญญา',
+recivetype ENUM('1','0') COMMENT '0 = รายครั้ง 1 = รายเดือน	'    ,
+rate int COMMENT 'คิดค่าจ้างเหมาในอัตราเดือนละ',
+    levy int COMMENT 'จำนวนครั้งที่จัดเก็บต่อเดือน'
+)
