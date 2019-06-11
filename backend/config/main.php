@@ -30,6 +30,9 @@ return [
 		],
 		'report' => [
             'class' => 'app\modules\report\Module',
+		],
+		'promise' => [
+            'class' => 'app\modules\promise\Module',
         ],
 	],
 	'components' => [

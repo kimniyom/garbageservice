@@ -41,6 +41,7 @@
 					['label' => 'รายปี', 'icon' => '', 'url' => '#'],
 				],
 			],
+			['label' => 'สัญญา', 'icon' => 'fa fa-address-card-o', 'url' => ['/promise/promise']],
 			['label' => 'อัตราค่าบริการ', 'icon' => 'money', 'url' => ['/gii']],
 			['label' => 'ภาชนะใส่ขยะ', 'icon' => 'trash', 'url' => Yii::$app->urlManager->createUrl(['garbagecontainer/garbagecontainer/index'])],
 			['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => Yii::$app->urlManager->createUrl(['news/news/index'])],
