@@ -17774,15 +17774,29 @@ INSERT INTO `zipcodes` VALUES ('7453', '961301', '96130');
 INSERT INTO `zipcodes` VALUES ('7454', '961302', '96130');
 INSERT INTO `zipcodes` VALUES ('7455', '961303', '96130');
 
-CREATE TABLE promise(
-promisid varchar(64) COMMENT 'เลขที่',
-place varchar(64) COMMENT 'สัญญาทำขึ้น ณ',
-license varchar(32) COMMENT 'เลขที่ใบอนุญาต',
-customerid int,
-promisedatebegin date COMMENT 'วันเริ่มต้นสัญญา',
-    
-promisedateend date COMMENT 'วันสิ้นสุดสัญญา',
-recivetype ENUM('1','0') COMMENT '0 = รายครั้ง 1 = รายเดือน	'    ,
-rate int COMMENT 'คิดค่าจ้างเหมาในอัตราเดือนละ',
-    levy int COMMENT 'จำนวนครั้งที่จัดเก็บต่อเดือน'
-)
+-- ----------------------------
+-- Table structure for `promise`
+-- ----------------------------
+DROP TABLE IF EXISTS `promise`;
+CREATE TABLE `promise` (
+  `promisid` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'เลขที่สัญญา',
+  `place` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สัญญาทำขึ้น ณ',
+  `license` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เลขที่ใบอนุญาต',
+  `promisedatebegin` date DEFAULT NULL COMMENT 'วันเริ่มต้นสัญญา',
+  `promisedateend` date DEFAULT NULL COMMENT 'วันสิ้นสุดสัญญา',
+  `recivetype` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '0 = รายครั้ง 1 = รายเดือน	',
+  `rate` int(11) DEFAULT NULL COMMENT 'คิดค่าจ้างเหมาในอัตราเดือนละ',
+  `levy` int(11) DEFAULT NULL COMMENT 'จำนวนครั้งที่จัดเก็บต่อเดือน',
+  `homenumber` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'บ้านเลขที่',
+  `tambon` int(11) DEFAULT NULL COMMENT 'ตำบล',
+  `ampur` int(11) DEFAULT NULL COMMENT 'อำเภอ',
+  `changwat` int(11) DEFAULT NULL COMMENT 'จังหวัด',
+  `createat` date DEFAULT NULL COMMENT 'วันที่ทำสัญญา',
+  `employer` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้ว่าจ้าง',
+  PRIMARY KEY (`promisid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of promise
+-- ----------------------------
+
