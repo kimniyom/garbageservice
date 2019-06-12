@@ -17,8 +17,8 @@ class PromiseSearch extends Promise
     public function rules()
     {
         return [
-            [['promisid', 'place', 'license', 'promisedatebegin', 'promisedateend', 'recivetype', 'homenumber', 'createat', 'employer'], 'safe'],
-            [['rate', 'levy', 'tambon', 'ampur', 'changwat'], 'integer'],
+            [['promiseid', 'place', 'license', 'promisedatebegin', 'promisedateend', 'recivetype', 'ratetext', 'employer', 'payperyeartext', 'homenumber', 'createat', 'contactname', 'contactphone'], 'safe'],
+            [['rate', 'levy', 'payperyear', 'tambon', 'ampur', 'changwat'], 'integer'],
         ];
     }
 
@@ -62,18 +62,23 @@ class PromiseSearch extends Promise
             'promisedateend' => $this->promisedateend,
             'rate' => $this->rate,
             'levy' => $this->levy,
+            'payperyear' => $this->payperyear,
             'tambon' => $this->tambon,
             'ampur' => $this->ampur,
             'changwat' => $this->changwat,
             'createat' => $this->createat,
         ]);
 
-        $query->andFilterWhere(['like', 'promisid', $this->promisid])
+        $query->andFilterWhere(['like', 'promiseid', $this->promiseid])
             ->andFilterWhere(['like', 'place', $this->place])
             ->andFilterWhere(['like', 'license', $this->license])
             ->andFilterWhere(['like', 'recivetype', $this->recivetype])
+            ->andFilterWhere(['like', 'ratetext', $this->ratetext])
+            ->andFilterWhere(['like', 'employer', $this->employer])
+            ->andFilterWhere(['like', 'payperyeartext', $this->payperyeartext])
             ->andFilterWhere(['like', 'homenumber', $this->homenumber])
-            ->andFilterWhere(['like', 'employer', $this->employer]);
+            ->andFilterWhere(['like', 'contactname', $this->contactname])
+            ->andFilterWhere(['like', 'contactphone', $this->contactphone]);
 
         return $dataProvider;
     }

@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 
-$this->title = 'Update Promise: ' . $model->promisid;
+$this->title = 'Update Promise: ' . $model->promiseid;
 $this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->promisid, 'url' => ['view', 'id' => $model->promisid]];
+$this->params['breadcrumbs'][] = ['label' => $model->promiseid, 'url' => ['view', 'id' => $model->promiseid]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="promise-update">

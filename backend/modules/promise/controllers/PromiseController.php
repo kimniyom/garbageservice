@@ -8,6 +8,7 @@ use app\modules\promise\models\PromiseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * PromiseController implements the CRUD actions for Promise model.
@@ -67,7 +68,7 @@ class PromiseController extends Controller
         $model = new Promise();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->promisid]);
+            return $this->redirect(['view', 'id' => $model->promiseid]);
         }
 
         return $this->render('create', [
@@ -87,7 +88,7 @@ class PromiseController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->promisid]);
+            return $this->redirect(['view', 'id' => $model->promiseid]);
         }
 
         return $this->render('update', [
@@ -108,6 +109,48 @@ class PromiseController extends Controller
 
         return $this->redirect(['index']);
     }
+
+    protected function MapData($datas, $fieldId, $fieldName) {
+		$obj = [];
+		foreach ($datas as $key => $value) {
+			array_push($obj, ['id' => $value->{$fieldId}, 'name' => $value->{$fieldName}]);
+		}
+		return $obj;
+	}
+
+	public function actionGetamphur() {
+		//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$out = [];
+		if (isset($_POST['depdrop_parents'])) {
+			$parents = $_POST['depdrop_parents'];
+			if ($parents != null) {
+				$province_id = $parents[0];
+				$datas = \app\models\Ampur::find()->where(['changwat_id' => $province_id])->all();
+				$out = $this->MapData($datas, 'ampur_id', 'ampur_name');
+				return Json::encode(['output' => $out, 'selected' => '']);
+				//return ob_get_clean();
+			}
+		}
+
+		echo Json::encode(['output' => '', 'selected' => '']);
+	}
+
+	public function actionGettambon() {
+		//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$out = [];
+		if (isset($_POST['depdrop_parents'])) {
+			$parents = $_POST['depdrop_parents'];
+			if ($parents != null) {
+				$amphur_id = $parents[0];
+				$datas = \app\models\Tambon::find()->where(['ampur_id' => $amphur_id])->all();
+				$out = $this->MapData($datas, 'tambon_id', 'tambon_name');
+				return Json::encode(['output' => $out, 'selected' => '']);
+				//return;
+			}
+		}
+
+		echo Json::encode(['output' => '', 'selected' => '']);
+	}
 
     /**
      * Finds the Promise model based on its primary key value.
