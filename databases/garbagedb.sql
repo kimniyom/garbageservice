@@ -17779,7 +17779,7 @@ INSERT INTO `zipcodes` VALUES ('7455', '961303', '96130');
 -- ----------------------------
 DROP TABLE IF EXISTS `promise`;
 CREATE TABLE `promise` (
-  `promiseid` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'เลขที่สัญญา',
+  `id` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'เลขที่สัญญา',
   `place` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สัญญาทำขึ้น ณ',
   `license` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เลขที่ใบอนุญาต',
   `promisedatebegin` date DEFAULT NULL COMMENT 'วันเริ่มต้นสัญญา',
@@ -17798,7 +17798,43 @@ CREATE TABLE `promise` (
   `createat` date DEFAULT NULL COMMENT 'วันที่ทำสัญญา',
   `contactname` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้ประสาน',
   `contactphone` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เบอร์ติดต่อผู้ประสาน',
-  PRIMARY KEY (`promiseid`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for roundmoney
+-- ----------------------------
+DROP TABLE IF EXISTS `roundmoney`;
+CREATE TABLE `roundmoney` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customerid` int(11) DEFAULT NULL COMMENT 'รหัสลูกค้า',
+  `promiseid` int(11) DEFAULT NULL COMMENT 'เลขที่สัญญา',
+  `datekeep` date DEFAULT NULL COMMENT 'วันที่เก็บเงิน',
+  `round` int(11) DEFAULT NULL COMMENT 'รอบที่',
+  `amount` int(11) DEFAULT NULL COMMENT 'จำนวนเงิน',
+  `keepby` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้เก็บ',
+  `status` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '1=จัดเก็บแล้ว,0=ยังไม่ได้จัดเก็บ',
+  `receiptnumber` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เลขที่ใบเสร็จ',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for roundgarbage
+-- ----------------------------
+DROP TABLE IF EXISTS `roundgarbage`;
+CREATE TABLE `roundgarbage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customerid` int(11) DEFAULT NULL COMMENT 'รหัสลูกค้า',
+  `promiseid` int(11) DEFAULT NULL COMMENT 'เลขที่สัญญา',
+  `datekeep` date DEFAULT NULL COMMENT 'วันที่เก็บขยะ',
+  `round` int(11) DEFAULT NULL COMMENT 'รอบที่',
+  `amount` int(11) DEFAULT NULL COMMENT 'ปริมาณขยะ',
+  `keepby` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้เก็บ',
+  `status` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '1=จัดเก็บแล้ว,0=ยังไม่ได้จัดเก็บ',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
 
 

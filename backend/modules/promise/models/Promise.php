@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "promise".
  *
- * @property string $promiseid เลขที่สัญญา
+ * @property string $id เลขที่สัญญา
  * @property string $place สัญญาทำขึ้น ณ
  * @property string $license เลขที่ใบอนุญาต
  * @property string $promisedatebegin วันเริ่มต้นสัญญา
@@ -43,14 +43,14 @@ class Promise extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['promiseid'], 'required'],
+            [['id'], 'required'],
             [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
             [['recivetype'], 'string'],
             [['rate', 'levy', 'payperyear', 'tambon', 'ampur', 'changwat'], 'integer'],
-            [['promiseid', 'place', 'ratetext', 'employer', 'payperyeartext', 'contactname'], 'string', 'max' => 64],
+            [['id', 'place', 'ratetext', 'employer', 'payperyeartext', 'contactname'], 'string', 'max' => 64],
             [['license', 'homenumber'], 'string', 'max' => 32],
             [['contactphone'], 'string', 'max' => 15],
-            [['promiseid'], 'unique'],
+            [['id'], 'unique'],
         ];
     }
 
@@ -60,7 +60,7 @@ class Promise extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'promiseid' => 'เลขที่สัญญา',
+            'id' => 'เลขที่สัญญา',
             'place' => 'สัญญาทำขึ้น ณ',
             'license' => 'เลขที่ใบอนุญาต',
             'promisedatebegin' => 'วันเริ่มต้นสัญญา',

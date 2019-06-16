@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\promise\models\Promise */
+/* @var $model app\modules\roundgarbage\models\Roundgarbage */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Roundgarbages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="promise-view">
+<div class="roundgarbage-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,24 +30,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'place',
-            'license',
-            'promisedatebegin',
-            'promisedateend',
-            'recivetype',
-            'rate',
-            'ratetext',
-            'levy',
-            'employer',
-            'payperyear',
-            'payperyeartext',
-            'homenumber',
-            'tambon',
-            'ampur',
-            'changwat',
-            'createat',
-            'contactname',
-            'contactphone',
+            'customerid',
+            'id',
+            'datekeep',
+            'round',
+            'amount',
+            'keepby',
+            [  
+                'label' => 'สถานะการจัดเก็บ',
+                'value' => $model->status==1?'จัดเก็บแล้ว':'ยังไม่ได้จัดเก็บ',
+            ],
+            
         ],
     ]) ?>
 

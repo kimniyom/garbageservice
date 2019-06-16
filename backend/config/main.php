@@ -33,6 +33,12 @@ return [
 		],
 		'promise' => [
             'class' => 'app\modules\promise\Module',
+		],
+		'roundgarbage' => [
+            'class' => 'app\modules\roundgarbage\Module',
+		],
+		'roundmoney' => [
+            'class' => 'app\modules\roundmoney\Module',
         ],
 	],
 	'components' => [

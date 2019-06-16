@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\promise\models\Promise */
+/* @var $model app\modules\roundmoney\models\Roundmoney */
 
-$this->title = 'Update Promise: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
+$this->title = 'Update Roundmoney: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Roundmoneys', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="promise-update">
+<div class="roundmoney-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

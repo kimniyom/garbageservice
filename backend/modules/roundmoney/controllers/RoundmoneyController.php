@@ -1,19 +1,18 @@
 <?php
 
-namespace app\modules\promise\controllers;
+namespace app\modules\roundmoney\controllers;
 
 use Yii;
-use app\modules\promise\models\Promise;
-use app\modules\promise\models\PromiseSearch;
+use app\modules\roundmoney\models\Roundmoney;
+use app\modules\roundmoney\models\RoundmoneySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
 
 /**
- * PromiseController implements the CRUD actions for Promise model.
+ * RoundmoneyController implements the CRUD actions for Roundmoney model.
  */
-class PromiseController extends Controller
+class RoundmoneyController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -31,12 +30,12 @@ class PromiseController extends Controller
     }
 
     /**
-     * Lists all Promise models.
+     * Lists all Roundmoney models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PromiseSearch();
+        $searchModel = new RoundmoneySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,8 +45,8 @@ class PromiseController extends Controller
     }
 
     /**
-     * Displays a single Promise model.
-     * @param string $id
+     * Displays a single Roundmoney model.
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -59,16 +58,24 @@ class PromiseController extends Controller
     }
 
     /**
-     * Creates a new Promise model.
+     * Creates a new Roundmoney model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Promise();
+        $model = new Roundmoney();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()))
+        {   
+            $number = Roundmoney::find()
+            ->where(['customerid'=>$model->customerid,'promiseid'=>$model->promiseid])
+            ->orderBy(['round'=>SORT_DESC])->one();
+            $model->round = $number === null ?1:$number->round+1;
+            if($model->save())
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -77,9 +84,9 @@ class PromiseController extends Controller
     }
 
     /**
-     * Updates an existing Promise model.
+     * Updates an existing Roundmoney model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -97,9 +104,9 @@ class PromiseController extends Controller
     }
 
     /**
-     * Deletes an existing Promise model.
+     * Deletes an existing Roundmoney model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -110,58 +117,16 @@ class PromiseController extends Controller
         return $this->redirect(['index']);
     }
 
-    protected function MapData($datas, $fieldId, $fieldName) {
-		$obj = [];
-		foreach ($datas as $key => $value) {
-			array_push($obj, ['id' => $value->{$fieldId}, 'name' => $value->{$fieldName}]);
-		}
-		return $obj;
-	}
-
-	public function actionGetamphur() {
-		//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		$out = [];
-		if (isset($_POST['depdrop_parents'])) {
-			$parents = $_POST['depdrop_parents'];
-			if ($parents != null) {
-				$province_id = $parents[0];
-				$datas = \app\models\Ampur::find()->where(['changwat_id' => $province_id])->all();
-				$out = $this->MapData($datas, 'ampur_id', 'ampur_name');
-				return Json::encode(['output' => $out, 'selected' => '']);
-				//return ob_get_clean();
-			}
-		}
-
-		echo Json::encode(['output' => '', 'selected' => '']);
-	}
-
-	public function actionGettambon() {
-		//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-		$out = [];
-		if (isset($_POST['depdrop_parents'])) {
-			$parents = $_POST['depdrop_parents'];
-			if ($parents != null) {
-				$amphur_id = $parents[0];
-				$datas = \app\models\Tambon::find()->where(['ampur_id' => $amphur_id])->all();
-				$out = $this->MapData($datas, 'tambon_id', 'tambon_name');
-				return Json::encode(['output' => $out, 'selected' => '']);
-				//return;
-			}
-		}
-
-		echo Json::encode(['output' => '', 'selected' => '']);
-	}
-
     /**
-     * Finds the Promise model based on its primary key value.
+     * Finds the Roundmoney model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return Promise the loaded model
+     * @param integer $id
+     * @return Roundmoney the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Promise::findOne($id)) !== null) {
+        if (($model = Roundmoney::findOne($id)) !== null) {
             return $model;
         }
 

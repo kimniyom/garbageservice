@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\promise\models\Promise */
+/* @var $model app\modules\roundmoney\models\Roundmoney */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Roundmoneys', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="promise-view">
+<div class="roundmoney-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,24 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'place',
-            'license',
-            'promisedatebegin',
-            'promisedateend',
-            'recivetype',
-            'rate',
-            'ratetext',
-            'levy',
-            'employer',
-            'payperyear',
-            'payperyeartext',
-            'homenumber',
-            'tambon',
-            'ampur',
-            'changwat',
-            'createat',
-            'contactname',
-            'contactphone',
+            'customerid',
+            'promiseid',
+            'datekeep',
+            'round',
+            'amount',
+            'keepby',
+            'status',
+            'receiptnumber',
         ],
     ]) ?>
 
