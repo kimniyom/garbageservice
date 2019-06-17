@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\customer\models\Customer */
 
-$this->title = $model->CUSTOMERNAME;
+$this->title = $model->company;
 $this->params['breadcrumbs'][] = ['label' => 'Customers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->ID], [
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,21 +29,22 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'CUSTOMERNAME',
-            'ADDRESS',
-            'OWNER',
-            'MOBILE',
-            'OFFICETEL',
-            'EMAIL:email',
-            'STATUS',
-            'APPROVE',
-            'CHANGWAT',
-            'AMPUR',
-            'TAMBON',
-            'ZIPCODE',
-            'CREATE_DATE',
-            'UPDATE_DATE',
-            'DATE_APPROVE',
+            'company',
+            'taxnumber',
+            'address',
+            'changwat',
+            'ampur',
+            'tambon' ,
+            'zipcode',
+            'manager',
+            'tel',
+            'telephone',
+            'flag',
+            'create_date' ,
+            'update_date',
+            'approve' ,
+            'latitude',
+            'longitude',
         ],
     ]) ?>
 

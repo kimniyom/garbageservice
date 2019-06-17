@@ -1126,26 +1126,26 @@ INSERT INTO `changwat` VALUES ('77', '97', 'บึงกาฬ', '3');
 -- ----------------------------
 -- Table structure for `customer`
 -- ----------------------------
-DROP TABLE IF EXISTS `customer`;
-CREATE TABLE `customer` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `CUSTOMERNAME` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ชื่อลูกค้า',
-  `ADDRESS` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ที่อยู่',
-  `OWNER` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เจ้าของ',
-  `MOBILE` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'โทรศัพท์มือถือ',
-  `OFFICETEL` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เบอร์โทรศัพ  ท์',
-  `EMAIL` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'อีเมล์',
-  `STATUS` enum('1','0') COLLATE utf8_unicode_ci DEFAULT '1' COMMENT '1 = ใช้งาน 0 = ไม่ใช้งาน',
-  `APPROVE` enum('1','0') COLLATE utf8_unicode_ci DEFAULT '0' COMMENT 'การยืนยัน 0 = ไม่ยืนยัน 1 = ยืนยัน',
-  `CHANGWAT` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'จังหวัด',
-  `AMPUR` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'อำเภอ',
-  `TAMBON` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ตำบล',
-  `ZIPCODE` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รหัสไปรษณีย์',
-  `CREATE_DATE` timestamp NULL DEFAULT NULL COMMENT 'วันที่บันทึก',
-  `UPDATE_DATE` timestamp NULL DEFAULT NULL COMMENT 'วันที่แก้ไขข้อมูล',
-  `DATE_APPROVE` timestamp NULL DEFAULT NULL COMMENT 'วันที่ยืนยัน',
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+--DROP TABLE IF EXISTS `customer`;
+--CREATE TABLE `customer` (
+--  `ID` int(11) NOT NULL AUTO_INCREMENT,
+--  `CUSTOMERNAME` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ชื่อลูกค้า',
+--  `ADDRESS` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ที่อยู่',
+--  `OWNER` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เจ้าของ',
+--  `MOBILE` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'โทรศัพท์มือถือ',
+--  `OFFICETEL` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เบอร์โทรศัพ  ท์',
+--  `EMAIL` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'อีเมล์',
+--  `STATUS` enum('1','0') COLLATE utf8_unicode_ci DEFAULT '1' COMMENT '1 = ใช้งาน 0 = ไม่ใช้งาน',
+--  `APPROVE` enum('1','0') COLLATE utf8_unicode_ci DEFAULT '0' COMMENT 'การยืนยัน 0 = ไม่ยืนยัน 1 = ยืนยัน',
+--  `CHANGWAT` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'จังหวัด',
+--  `AMPUR` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'อำเภอ',
+--  `TAMBON` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ตำบล',
+--  `ZIPCODE` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รหัสไปรษณีย์',
+--  `CREATE_DATE` timestamp NULL DEFAULT NULL COMMENT 'วันที่บันทึก',
+--  `UPDATE_DATE` timestamp NULL DEFAULT NULL COMMENT 'วันที่แก้ไขข้อมูล',
+--  `DATE_APPROVE` timestamp NULL DEFAULT NULL COMMENT 'วันที่ยืนยัน',
+ -- PRIMARY KEY (`ID`)
+--) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of customer

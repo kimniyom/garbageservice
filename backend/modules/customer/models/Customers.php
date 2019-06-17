@@ -9,8 +9,8 @@ use Yii;
  *
  * @property int $id
  * @property string $company ชื่อบริษัท
- * @property string $taxnumber เลขภาษี
- * @property string $aaddress ที่อยู่
+ * @property string $taxnumber เลขถาษี
+ * @property string $address ที่อยู่
  * @property string $changwat จังหวัด
  * @property string $ampur อำเภอ
  * @property string $tambon ตำบล
@@ -22,6 +22,8 @@ use Yii;
  * @property string $create_date วันที่ลงทะเบียน
  * @property string $update_date แก้ไขข้อมูลล่าสุด
  * @property string $approve การยืนยัน Y = Yes N = No
+ * @property double $latitude ละติจูด
+ * @property double $longitude ลองจิจูด
  */
 class Customers extends \yii\db\ActiveRecord
 {
@@ -39,10 +41,10 @@ class Customers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['company','aaddress','taxnumber','manager','tel','changwat','ampur','tambon','zipcode'],'required'],
             [['flag', 'approve'], 'string'],
             [['create_date', 'update_date'], 'safe'],
-            [['company', 'aaddress'], 'string', 'max' => 255],
+            [['latitude', 'longitude'], 'number'],
+            [['company', 'address'], 'string', 'max' => 255],
             [['taxnumber', 'tel', 'telephone'], 'string', 'max' => 20],
             [['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
             [['zipcode'], 'string', 'max' => 5],
@@ -58,8 +60,8 @@ class Customers extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'company' => 'ชื่อบริษัท',
-            'taxnumber' => 'เลขภาษี',
-            'aaddress' => 'ที่อยู่',
+            'taxnumber' => 'เลขถาษี',
+            'address' => 'ที่อยู่',
             'changwat' => 'จังหวัด',
             'ampur' => 'อำเภอ',
             'tambon' => 'ตำบล',
@@ -70,7 +72,9 @@ class Customers extends \yii\db\ActiveRecord
             'flag' => 'การเปิดใช้งาน 0 = Unactive, 1 = Active',
             'create_date' => 'วันที่ลงทะเบียน',
             'update_date' => 'แก้ไขข้อมูลล่าสุด',
-            'approve' => 'การยืนยัน Y = Yes N = No',
+            'approve' => 'การยืนยัน',
+            'latitude' => 'ละติจูด',
+            'longitude' => 'ลองจิจูด',
         ];
     }
 }

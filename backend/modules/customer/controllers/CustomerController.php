@@ -2,8 +2,8 @@
 
 namespace app\modules\customer\controllers;
 
-use app\modules\customer\models\Customer;
-use app\modules\customer\models\CustomerSearch;
+use app\modules\customer\models\Customers;
+use app\modules\customer\models\CustomersSearch;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
@@ -34,7 +34,7 @@ class CustomerController extends Controller {
 	 * @return mixed
 	 */
 	public function actionIndex() {
-		$searchModel = new CustomerSearch();
+		$searchModel = new CustomersSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 		return $this->render('index', [
@@ -44,7 +44,7 @@ class CustomerController extends Controller {
 	}
 
 	/**
-	 * Displays a single Customer model.
+	 * Displays a single Customers model.
 	 * @param integer $id
 	 * @return mixed
 	 * @throws NotFoundHttpException if the model cannot be found
@@ -61,15 +61,14 @@ class CustomerController extends Controller {
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = new Customer();
+		$model = new Customers();
 
 		if ($model->load(Yii::$app->request->post())) {
-			$model->CREATE_DATE = date("Y-m-d H:i:s");
-			$model->UPDATE_DATE = date("Y-m-d H:i:s");
-			$model->UPDATE_DATE = date("Y-m-d H:i:s");
+			$model->create_date = date("Y-m-d H:i:s");
+			$model->update_date = date("Y-m-d H:i:s");
 			$model->save();
 			
-			return $this->redirect(['view', 'id' => $model->ID]);
+			return $this->redirect(['view', 'id' => $model->id]);
 		}
 
 		return $this->render('create', [
@@ -78,7 +77,7 @@ class CustomerController extends Controller {
 	}
 
 	/**
-	 * Updates an existing Customer model.
+	 * Updates an existing Customers model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id
 	 * @return mixed
@@ -88,7 +87,7 @@ class CustomerController extends Controller {
 		$model = $this->findModel($id);
 
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->ID]);
+			return $this->redirect(['view', 'id' => $model->id]);
 		}
 
 		return $this->render('update', [
@@ -155,7 +154,7 @@ class CustomerController extends Controller {
 	}
 
 	/**
-	 * Deletes an existing Customer model.
+	 * Deletes an existing Customers model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
 	 * @param integer $id
 	 * @return mixed
@@ -168,14 +167,14 @@ class CustomerController extends Controller {
 	}
 
 	/**
-	 * Finds the Customer model based on its primary key value.
+	 * Finds the Customers model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
 	 * @param integer $id
-	 * @return Customer the loaded model
+	 * @return Customers the loaded model
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id) {
-		if (($model = Customer::findOne($id)) !== null) {
+		if (($model = Customers::findOne($id)) !== null) {
 			return $model;
 		}
 

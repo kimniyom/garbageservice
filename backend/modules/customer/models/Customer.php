@@ -23,6 +23,8 @@ use Yii;
  * @property string $CREATE_DATE วันที่บันทึก
  * @property string $UPDATE_DATE วันที่แก้ไขข้อมูล
  * @property string $DATE_APPROVE วันที่ยืนยัน
+ * @property double $LATITUDE ละติจูด 
+ * @property double $LONGITUDE ลองจิจูด 
  */
 class Customer extends \yii\db\ActiveRecord
 {
@@ -50,6 +52,7 @@ class Customer extends \yii\db\ActiveRecord
             [['EMAIL'], 'string', 'max' => 64],
             [['CHANGWAT', 'AMPUR', 'TAMBON'], 'string', 'max' => 10],
             [[ 'ZIPCODE'], 'string', 'min' =>5,'max' => 5],
+            [['LATITUDE', 'LONGITUDE'], 'number'], 
         ];
     }
 
@@ -74,6 +77,8 @@ class Customer extends \yii\db\ActiveRecord
             'CREATE_DATE' => 'วันที่บันทึก',
             'UPDATE_DATE' => 'วันที่แก้ไขข้อมูล',
             'DATE_APPROVE' => 'วันที่ยืนยัน',
+            'LATITUDE' => 'ละติจูด', 
+            'LONGITUDE' => 'ลองจิจูด', 
         ];
     }
 }

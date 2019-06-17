@@ -25,11 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'ID',
-            'CUSTOMERNAME',
-            'ADDRESS',
-            'OWNER',
-            'MOBILE',
+            'id',
+            'company',
+            'taxnumber',
+            'address',
+            'manager',
+            'tel',
             //'OFFICETEL',
             //'EMAIL:email',
             //'STATUS',
@@ -41,6 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'CREATE_DATE',
             //'UPDATE_DATE',
             //'DATE_APPROVE',
+            //'latitude',
+            //'longitude',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
