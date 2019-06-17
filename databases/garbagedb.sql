@@ -17799,7 +17799,7 @@ CREATE TABLE `promise` (
   `contactname` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้ประสาน',
   `contactphone` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เบอร์ติดต่อผู้ประสาน',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางสัญญาจ้าง';
 
 -- ----------------------------
 -- Table structure for roundmoney
@@ -17816,7 +17816,7 @@ CREATE TABLE `roundmoney` (
   `status` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '1=จัดเก็บแล้ว,0=ยังไม่ได้จัดเก็บ',
   `receiptnumber` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เลขที่ใบเสร็จ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='รอบการเก็บเงิน';
 
 -- ----------------------------
 -- Table structure for roundgarbage
@@ -17832,7 +17832,7 @@ CREATE TABLE `roundgarbage` (
   `keepby` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้เก็บ',
   `status` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '1=จัดเก็บแล้ว,0=ยังไม่ได้จัดเก็บ',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางรอบการเก็บขยะ';
 
 
 
