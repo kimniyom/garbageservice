@@ -13,31 +13,21 @@ use yii\filters\VerbFilter;
 /**
  * CustomersController implements the CRUD actions for Customers model.
  */
-class CustomersController extends Controller
-{
+class CustomersController extends Controller {
+
     /**
      * {@inheritdoc}
      */
     public $layout = '@app/views/layouts/template';
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Customers models.
      * @return mixed
      */
-    public function actionIndex()
-    {
-        return $this->render('index');
+    public function actionIndex() {
+        $userid = \Yii::$app->user->identity->id;
+        $data['id'] = \app\modules\customer\models\Customers::findOne(['user_id' => $userid])['id'];
+        return $this->render('index', $data);
     }
 
     /**
@@ -46,10 +36,11 @@ class CustomersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
+    public function actionView($userid) {
+        //$id = \app\modules\customer\models\Customers::findOne(['user_id' => $userid])['id'];
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -58,8 +49,7 @@ class CustomersController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Customers();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -67,7 +57,7 @@ class CustomersController extends Controller
         }
 
         return $this->render('create', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -78,8 +68,7 @@ class CustomersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -87,7 +76,7 @@ class CustomersController extends Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -98,8 +87,7 @@ class CustomersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -112,8 +100,7 @@ class CustomersController extends Controller
      * @return Customers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Customers::findOne($id)) !== null) {
             return $model;
         }
@@ -162,4 +149,9 @@ class CustomersController extends Controller
 
         echo Json::encode(['output' => '', 'selected' => '']);
     }
+
+    public function actionCheckregis() {
+
+    }
+
 }
