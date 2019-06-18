@@ -13,39 +13,37 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?=Html::encode($this->title)?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?=Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary'])?>
+        <?=Html::a('Delete', ['delete', 'id' => $model->id], [
+	'class' => 'btn btn-danger',
+	'data' => [
+		'confirm' => 'Are you sure you want to delete this item?',
+		'method' => 'post',
+	],
+])?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'company',
-            'taxnumber',
-            'address',
-            'changwat',
-            'ampur',
-            'tambon' ,
-            'zipcode',
-            'manager',
-            'tel',
-            'telephone',
-            'flag',
-            'create_date' ,
-            'update_date',
-            'approve' ,
-            'latitude',
-            'longitude',
-        ],
-    ]) ?>
+    <?=DetailView::widget([
+	'model' => $model,
+	'attributes' => [
+		'company',
+		'taxnumber',
+		'address',
+		'changwat',
+		'ampur',
+		'tambon',
+		'zipcode',
+		'manager',
+		'tel',
+		'telephone',
+		'flag',
+		'create_date',
+		'update_date',
+		'approve',
+	],
+])?>
 
 </div>

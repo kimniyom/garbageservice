@@ -38,50 +38,50 @@ use yii\widgets\ActiveForm;
 <div class="row">
     <div class="col-md-3 col-lg-3">
         <?php
-            $province = Changwat::find()->all();
-            echo $form->field($model, 'changwat')->widget(Select2::classname(), [
-                'data' => ArrayHelper::map($province, "changwat_id", "changwat_name"),
-                'language' => 'th',
-                'options' => [
-                    'placeholder' => 'Select a state ...',
-                    'id' => 'CHANGWAT',
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                ],
-            ]);
+$province = Changwat::find()->all();
+echo $form->field($model, 'changwat')->widget(Select2::classname(), [
+	'data' => ArrayHelper::map($province, "changwat_id", "changwat_name"),
+	'language' => 'th',
+	'options' => [
+		'placeholder' => 'Select a state ...',
+		'id' => 'CHANGWAT',
+	],
+	'pluginOptions' => [
+		'allowClear' => true,
+	],
+]);
 ?>
 </div>
 <div class="col-md-3 col-lg-3">
     <?=
-        $form->field($model, 'ampur')->widget(DepDrop::classname(), [
-            'data' => ArrayHelper::map(app\models\Ampur::find()->where(['changwat_id' => $model->changwat])->all(), 'ampur_id', 'ampur_name'),
-            'type' => DepDrop::TYPE_SELECT2,
-            'options' => ['id' => 'AMPUR'],
-            //'data' => [$model->truck1],
-            'pluginOptions' => [
-                'required' => 'required',
-                'depends' => ['CHANGWAT'],
-                'placeholder' => 'เลือกอำเภอ...',
-                'url' => Url::to(['customer/getamphur']),
-            ],
-        ]);
+$form->field($model, 'ampur')->widget(DepDrop::classname(), [
+	'data' => ArrayHelper::map(app\models\Ampur::find()->where(['changwat_id' => $model->changwat])->all(), 'ampur_id', 'ampur_name'),
+	'type' => DepDrop::TYPE_SELECT2,
+	'options' => ['id' => 'AMPUR'],
+	//'data' => [$model->truck1],
+	'pluginOptions' => [
+		'required' => 'required',
+		'depends' => ['CHANGWAT'],
+		'placeholder' => 'เลือกอำเภอ...',
+		'url' => Url::to(['customer/getamphur']),
+	],
+]);
 ?>
 </div>
 <div class="col-md-3 col-lg-3">
     <?=
-        $form->field($model, 'tambon')->widget(DepDrop::classname(), [
-            'data' => ArrayHelper::map(app\models\Tambon::find()->where(['ampur_id' => $model->ampur])->all(), 'tambon_id', 'tambon_name'),
-            'type' => DepDrop::TYPE_SELECT2,
-            'options' => ['id' => 'TAMBON'],
-            //'data' => [$model->truck1],
-            'pluginOptions' => [
-                'required' => 'required',
-                'depends' => ['AMPUR'],
-                'placeholder' => 'เลือกตำบล...',
-                'url' => Url::to(['customer/gettambon']),
-            ],
-        ]);
+$form->field($model, 'tambon')->widget(DepDrop::classname(), [
+	'data' => ArrayHelper::map(app\models\Tambon::find()->where(['ampur_id' => $model->ampur])->all(), 'tambon_id', 'tambon_name'),
+	'type' => DepDrop::TYPE_SELECT2,
+	'options' => ['id' => 'TAMBON'],
+	//'data' => [$model->truck1],
+	'pluginOptions' => [
+		'required' => 'required',
+		'depends' => ['AMPUR'],
+		'placeholder' => 'เลือกตำบล...',
+		'url' => Url::to(['customer/gettambon']),
+	],
+]);
 ?>
 </div>
 <div class="col-md-3 col-lg-3">
@@ -104,14 +104,6 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4 col-lg-4">
-        <?=$form->field($model, 'latitude')->textInput(['maxlength' => true])?>
-    </div>
-    <div class="col-md-4 col-lg-4">
-        <?=$form->field($model, 'longitude')->textInput(['maxlength' => true])?>
-    </div>
-</div>
 
 <!-- <div class="row">
     <div class="col-md-4 col-lg-4">
@@ -122,7 +114,7 @@ use yii\widgets\ActiveForm;
 
 <div class="row">
     <div class="col-md-3 col-lg-3">
-        <?=$form->field($model, 'approve')->radioList(['Y' => 'ยืนยัน','N' => 'ไม่ยืนยัน'])?>
+        <?=$form->field($model, 'approve')->radioList(['Y' => 'ยืนยัน', 'N' => 'ไม่ยืนยัน'])?>
     </div>
 </div>
 <hr/>

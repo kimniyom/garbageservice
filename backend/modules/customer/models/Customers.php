@@ -25,56 +25,55 @@ use Yii;
  * @property double $latitude ละติจูด
  * @property double $longitude ลองจิจูด
  */
-class Customers extends \yii\db\ActiveRecord
-{
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'customers';
-    }
+class Customers extends \yii\db\ActiveRecord {
+	/**
+	 * {@inheritdoc}
+	 */
+	public static function tableName() {
+		return 'customers';
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['flag', 'approve'], 'string'],
-            [['create_date', 'update_date'], 'safe'],
-            [['latitude', 'longitude'], 'number'],
-            [['company', 'address'], 'string', 'max' => 255],
-            [['taxnumber', 'tel', 'telephone'], 'string', 'max' => 20],
-            [['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
-            [['zipcode'], 'string', 'max' => 5],
-            [['manager'], 'string', 'max' => 100],
-        ];
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function rules() {
+		return [
+			[['company', 'address', 'taxnumber', 'tel', 'changwat', 'ampur', 'tambon', 'zipcode', 'manager', 'user_id'], 'required'],
+			[['flag', 'approve'], 'string'],
+			[['create_date', 'update_date'], 'safe'],
+			//[['latitude', 'longitude'], 'number'],
+			[['company', 'address'], 'string', 'max' => 255],
+			[['taxnumber', 'tel', 'telephone'], 'string', 'max' => 20],
+			[['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
+			[['zipcode'], 'string', 'max' => 5],
+			[['manager'], 'string', 'max' => 100],
+			[['user_id'], 'number'],
+		];
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'company' => 'ชื่อบริษัท',
-            'taxnumber' => 'เลขถาษี',
-            'address' => 'ที่อยู่',
-            'changwat' => 'จังหวัด',
-            'ampur' => 'อำเภอ',
-            'tambon' => 'ตำบล',
-            'zipcode' => 'รหัสไปรษณีย์',
-            'manager' => 'ผู้จัดการ',
-            'tel' => 'เบอร์โทรศัพท์',
-            'telephone' => 'มือถือ',
-            'flag' => 'การเปิดใช้งาน 0 = Unactive, 1 = Active',
-            'create_date' => 'วันที่ลงทะเบียน',
-            'update_date' => 'แก้ไขข้อมูลล่าสุด',
-            'approve' => 'การยืนยัน',
-            'latitude' => 'ละติจูด',
-            'longitude' => 'ลองจิจูด',
-        ];
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function attributeLabels() {
+		return [
+			'id' => 'ID',
+			'company' => 'ชื่อบริษัท',
+			'taxnumber' => 'เลขถาษี',
+			'address' => 'ที่อยู่',
+			'changwat' => 'จังหวัด',
+			'ampur' => 'อำเภอ',
+			'tambon' => 'ตำบล',
+			'zipcode' => 'รหัสไปรษณีย์',
+			'manager' => 'ผู้จัดการ',
+			'tel' => 'เบอร์โทรศัพท์',
+			'telephone' => 'มือถือ',
+			'flag' => 'การเปิดใช้งาน 0 = Unactive, 1 = Active',
+			'create_date' => 'วันที่ลงทะเบียน',
+			'update_date' => 'แก้ไขข้อมูลล่าสุด',
+			'approve' => 'การยืนยัน',
+			'user_id' => 'user',
+			//'latitude' => 'ละติจูด',
+			//'longitude' => 'ลองจิจูด',
+		];
+	}
 }

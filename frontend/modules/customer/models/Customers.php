@@ -23,54 +23,55 @@ use Yii;
  * @property string $update_date แก้ไขข้อมูลล่าสุด
  * @property string $approve การยืนยัน Y = Yes N = No
  */
-class Customers extends \yii\db\ActiveRecord
-{
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'customers';
-    }
+class Customers extends \yii\db\ActiveRecord {
+	/**
+	 * {@inheritdoc}
+	 */
+	public static function tableName() {
+		return 'customers';
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['company','aaddress','taxnumber','manager','tel','changwat','ampur','tambon','zipcode'],'required'],
-            [['flag', 'approve'], 'string'],
-            [['create_date', 'update_date'], 'safe'],
-            [['company', 'aaddress'], 'string', 'max' => 255],
-            [['taxnumber', 'tel', 'telephone'], 'string', 'max' => 20],
-            [['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
-            [['zipcode'], 'string', 'max' => 5],
-            [['manager'], 'string', 'max' => 100],
-        ];
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function rules() {
+		return [
+			[['company', 'aaddress', 'taxnumber', 'manager', 'tel', 'changwat', 'ampur', 'tambon', 'zipcode'], 'required'],
+			[['flag', 'approve'], 'string'],
+			[['create_date', 'update_date'], 'safe'],
+			[['company', 'aaddress'], 'string', 'max' => 255],
+			[['taxnumber', 'tel', 'telephone'], 'string', 'max' => 20],
+			[['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
+			[['zipcode'], 'string', 'max' => 5],
+			[['manager'], 'string', 'max' => 100],
+		];
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'company' => 'ชื่อบริษัท',
-            'taxnumber' => 'เลขภาษี',
-            'aaddress' => 'ที่อยู่',
-            'changwat' => 'จังหวัด',
-            'ampur' => 'อำเภอ',
-            'tambon' => 'ตำบล',
-            'zipcode' => 'รหัสไปรษณีย์',
-            'manager' => 'ผู้จัดการ',
-            'tel' => 'เบอร์โทรศัพท์',
-            'telephone' => 'มือถือ',
-            'flag' => 'การเปิดใช้งาน 0 = Unactive, 1 = Active',
-            'create_date' => 'วันที่ลงทะเบียน',
-            'update_date' => 'แก้ไขข้อมูลล่าสุด',
-            'approve' => 'การยืนยัน Y = Yes N = No',
-        ];
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function attributeLabels() {
+		return [
+			'id' => 'ID',
+			'company' => 'ชื่อบริษัท',
+			'taxnumber' => 'เลขภาษี',
+			'aaddress' => 'ที่อยู่',
+			'changwat' => 'จังหวัด',
+			'ampur' => 'อำเภอ',
+			'tambon' => 'ตำบล',
+			'zipcode' => 'รหัสไปรษณีย์',
+			'manager' => 'ผู้จัดการ',
+			'tel' => 'เบอร์โทรศัพท์',
+			'telephone' => 'มือถือ',
+			'flag' => 'การเปิดใช้งาน 0 = Unactive, 1 = Active',
+			'create_date' => 'วันที่ลงทะเบียน',
+			'update_date' => 'แก้ไขข้อมูลล่าสุด',
+			'approve' => 'การยืนยัน Y = Yes N = No',
+		];
+	}
+
+	public function TypeCustomer() {
+		$sql = "select * from typecustomer";
+		return Yii::$app->db->createCommand($sql)->queryAll();
+	}
 }

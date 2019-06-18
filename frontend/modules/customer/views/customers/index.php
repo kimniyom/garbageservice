@@ -12,8 +12,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Menu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\customer\models\CustomersSearch */
@@ -23,7 +21,7 @@ $this->title = 'Customers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customers-index">
-    <h3><?= Html::encode($this->title) ?></h3>
+    <h3><?=Html::encode($this->title)?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
     <div class="row">
         <div class="col-md-3 col-lg-3">
@@ -34,18 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <a href="" class="list-group-item">จำนวนสัญญาคงเหลือ <span class="badge badge-danger badge-pill" style="padding-top:5px;">0</span></a>
 
                     <?php
-                    echo
-                    Html::beginForm(['/site/logout'], 'post')
-                    . Html::submitButton(
-                            '<i class="fa fa-power-off text-danger"></i> ออกจากระบบ (' . Yii::$app->user->identity->username . ')', ['class' => 'list-group-item text-danger'])
-                    ?>
+echo
+Html::beginForm(['/site/logout'], 'post')
+. Html::submitButton(
+	'<i class="fa fa-power-off text-danger"></i> ออกจากระบบ (' . Yii::$app->user->identity->username . ')', ['class' => 'list-group-item text-danger'])
+?>
                 </div>
             </div>
         </div>
         <div class="col-md-9 col-lg-9">
             <div class="row" id="user_menu">
                 <div class="col-md-6 col-lg-4">
-                    <?php if ($id) { ?>
+                    <?php if ($id) {?>
                         <div class="card">
                             <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/view', 'userid' => Yii::$app->user->identity->id]) ?>">
                                 <div class="card-body">
@@ -53,15 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ข้อมูลร้านค้า / บริษัท
                                 </div></a>
                         </div>
-                    <?php } else { ?>
+                    <?php } else {?>
                         <div class="card" style="border:none;">
-                            <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/view', 'userid' => Yii::$app->user->identity->id]) ?>">
+                            <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/check']) ?>">
                                 <div class="card-body" style="border: #999999 dashed 2px; border-radius: 10px">
                                     <i class="fa fa-plus fa-5x"></i><br/><br/>
                                     ข้อมูลร้านค้า / บริษัท
                                 </div></a>
                         </div>
-                    <?php } ?>
+                    <?php }?>
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
