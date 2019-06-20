@@ -35,10 +35,13 @@ class CustomersController extends Controller {
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	public function actionView($userid) {
-		//$id = \app\modules\customer\models\Customers::findOne(['user_id' => $userid])['id'];
-
+		$models = new Customers();
+		$model = $models->Detail($userid);
+		$sql = "select * from location where customer_id = '" . $model['id'] . "'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
 		return $this->render('view', [
-			'model' => $this->findModel($id),
+			'model' => $model,
+			'location' => $rs,
 		]);
 	}
 
@@ -47,15 +50,22 @@ class CustomersController extends Controller {
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @return mixed
 	 */
-	public function actionCreate() {
+	public function actionCreate($taxnumber, $type, $typename) {
 		$model = new Customers();
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
+		if ($model->load(Yii::$app->request->post())) {
+			$model->user_id = \Yii::$app->user->identity->id;
+			$model->create_date = date("Y-m-d H:i:s");
+			$model->update_date = date("Y-m-d H:i:s");
+			$model->save();
+			return $this->redirect(['view', 'userid' => $model->user_id]);
 		}
 
 		return $this->render('create', [
 			'model' => $model,
+			'taxnumber' => $taxnumber,
+			'type' => $type,
+			'typename' => $typename,
 		]);
 	}
 
@@ -69,8 +79,10 @@ class CustomersController extends Controller {
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id]);
+		if ($model->load(Yii::$app->request->post())) {
+			$model->update_date = date("Y-m-d H:i:s");
+			$model->save();
+			return $this->redirect(['view', 'userid' => $model->user_id]);
 		}
 
 		return $this->render('update', [
@@ -87,7 +99,6 @@ class CustomersController extends Controller {
 	 */
 	public function actionDelete($id) {
 		$this->findModel($id)->delete();
-
 		return $this->redirect(['index']);
 	}
 
@@ -152,6 +163,52 @@ class CustomersController extends Controller {
 		$model = new Customers();
 		$data['type'] = $model->TypeCustomer();
 		return $this->render("check", $data);
+	}
+
+	public function actionChecking() {
+		$taxnumber = Yii::$app->request->post('taxnumber');
+		$sql = "select COUNT(*) AS total from customers where taxnumber = '$taxnumber'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		if ($rs['total'] > 0) {
+			$status = "1";
+		} else {
+			$status = "0";
+		}
+		return $status;
+	}
+
+	public function actionMap($id) {
+		$data['customer_id'] = $id;
+		$data['userid'] = \Yii::$app->user->identity->id;
+		return $this->renderPartial('map', $data);
+	}
+
+	public function actionAddlocation($customer_id, $cusname, $lat, $long, $zoom, $user_id) {
+		$sqlCheck = "select count(*) AS total from location where customer_id = '$customer_id' ";
+		$count = Yii::$app->db->createCommand($sqlCheck)->queryOne()['total'];
+		if ($count > 0) {
+			$columns = array(
+				"name" => $cusname,
+				"lat" => $lat,
+				"long" => $long,
+				"zoom" => $zoom,
+			);
+			Yii::$app->db->createCommand()
+				->update("location", $columns, "customer_id='$customer_id'")
+				->execute();
+		} else {
+			$columns = array(
+				"customer_id" => $customer_id,
+				"name" => $cusname,
+				"lat" => $lat,
+				"long" => $long,
+				"zoom" => $zoom,
+			);
+			Yii::$app->db->createCommand()
+				->insert("location", $columns)
+				->execute();
+		}
+		return $this->redirect(Yii::$app->urlManager->createUrl(['customer/customers/view', 'userid' => $user_id]));
 	}
 
 }
