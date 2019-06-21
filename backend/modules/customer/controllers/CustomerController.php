@@ -50,8 +50,11 @@ class CustomerController extends Controller {
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	public function actionView($id) {
+		$sql = "select * from location where customer_id = '" . $id . "'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
 		return $this->render('view', [
 			'model' => $this->findModel($id),
+			'location' => $rs,
 		]);
 	}
 
@@ -67,7 +70,7 @@ class CustomerController extends Controller {
 			$model->create_date = date("Y-m-d H:i:s");
 			$model->update_date = date("Y-m-d H:i:s");
 			$model->save();
-			
+
 			return $this->redirect(['view', 'id' => $model->id]);
 		}
 
@@ -181,13 +184,21 @@ class CustomerController extends Controller {
 		throw new NotFoundHttpException('The requested page does not exist.');
 	}
 
-	public function actionCustomernonapprove(){
-		$sql = "select c.*,t.typename 
-				from customers c inner join typecustomer t on c.type = t.id 
+	public function actionCustomernonapprove() {
+		$sql = "select c.*,t.typename
+				from customers c inner join typecustomer t on c.type = t.id
 				where c.approve = 'N'";
 		$rs = Yii::$app->db->createCommand($sql)->queryAll();
 		$data['customer'] = $rs;
-		return $this->render('customernonapprove',$data);
+		return $this->render('customernonapprove', $data);
+	}
+
+	public function actionConfirmcustomer() {
+		$id = Yii::$app->request->post('id');
+		$columns = array("approve" => 'Y');
+		Yii::$app->db->createCommand()
+			->update("customers", $columns, "id = '$id'")
+			->execute();
 	}
 
 }

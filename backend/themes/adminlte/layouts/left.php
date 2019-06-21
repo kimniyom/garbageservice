@@ -1,5 +1,3 @@
-<?php
-?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -36,12 +34,13 @@
 
 			['label' => 'ข้อมูลลูกค้า', 'icon' => 'user', 'url' => ['/'],
 				'items' => [
-					['label' => 'เพิ่ม', 'icon' => 'plus', 'url' => Yii::$app->urlManager->createUrl(['customer/customer/create'])],
+					['label' => 'ทั้งหมด', 'icon' => 'users', 'url' => ['/customer/customer/index']],
+					['label' => 'เพิ่ม', 'icon' => 'plus', 'url' => ['/customer/customer/create']],
 					['label' => 'รายเดือน', 'icon' => '', 'url' => '#'],
 					['label' => 'รายปี', 'icon' => '', 'url' => '#'],
 				],
 			],
-			['label' => 'สัญญา', 'icon' => 'fa fa-address-card-o', 'url' => Yii::$app->urlManager->createUrl(['/promise/promise'])],
+			['label' => 'สัญญา', 'icon' => 'fa fa-address-card-o', 'url' => ['/promise/promise']],
 			['label' => 'รอบเก็บ', 'icon' => 'download','url' => ['/gii'],
 				'items' => [
 					['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => Yii::$app->urlManager->createUrl(['/roundgarbage/roundgarbage'])],
