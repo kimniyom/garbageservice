@@ -123,7 +123,7 @@ class PromiseController extends Controller
 
     public function actionGetdoc($id, $customerid)
     {
-       
+        
         $rs = $this->getPromise($id, $customerid);
         Settings::setTempDir(Yii::getAlias('@webroot').'/web/temp/'); //Path ของ Folder temp ที่สร้างเอาไว้
         $templateProcessor = new TemplateProcessor(Yii::getAlias('@webroot').'/web/doc/templetpromise.docx'); //Path ของ template ที่สร้างเอาไว้
@@ -182,6 +182,13 @@ class PromiseController extends Controller
 
         $templateProcessor->saveAs(Yii::getAlias('@webroot').'/web/doc/promise.docx');
         Yii::$app->response->sendFile(Yii::getAlias('@webroot').'/web/doc/promise.docx');
+        
+        //clear temp
+        $files = glob(Yii::getAlias('@webroot').'/web/temp/*'); 
+        foreach($files as $file){ 
+        if(is_file($file))
+            unlink($file); 
+        }
     }
 
     /**

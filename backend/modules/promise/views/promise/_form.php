@@ -23,7 +23,7 @@ use kartik\date\DatePicker;
         </div>
         <div class="col-md-12 col-lg-6">
             <?php
-                $customer = Customers::find()->all();
+                $customer = Customers::find()->where(['flag'=>1,'approve'=>'Y'])->all();
                 echo $form->field($model, 'customerid')->widget(Select2::classname(), [
                     'data' => ArrayHelper::map($customer, "id", "company"),
                     'language' => 'th',
