@@ -24,7 +24,7 @@ class CustomersController extends Controller {
 	 */
 	public function actionIndex() {
 		$userid = \Yii::$app->user->identity->id;
-		$data['id'] = \app\modules\customer\models\Customers::findOne(['user_id' => $userid])['id'];
+		$data['customer'] = \app\modules\customer\models\Customers::findOne(['user_id' => $userid]);
 		return $this->render('index', $data);
 	}
 

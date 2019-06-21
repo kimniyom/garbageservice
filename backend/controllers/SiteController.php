@@ -1,100 +1,100 @@
 <?php
+
 namespace backend\controllers;
 
-use Yii;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use common\models\LoginForm;
+use app\modules\customer\models\Customers;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\Controller;
 
 /**
  * Site controller
  */
-class SiteController extends Controller
-{
-    /**
-     * {@inheritdoc}
-     */
-    //public $layout = "template";
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
+class SiteController extends Controller {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	//public $layout = "template";
+	public function behaviors() {
+		return [
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'actions' => ['login', 'error'],
+						'allow' => true,
+					],
+					[
+						'actions' => ['logout', 'index'],
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
+			'verbs' => [
+				'class' => VerbFilter::className(),
+				'actions' => [
+					'logout' => ['post'],
+				],
+			],
+		];
+	}
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function actions() {
+		return [
+			'error' => [
+				'class' => 'yii\web\ErrorAction',
+			],
+		];
+	}
 
-    /**
-     * Login action.
-     *
-     * @return string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+	/**
+	 * Displays homepage.
+	 *
+	 * @return string
+	 */
+	public function actionIndex() {
+		$customerModel = new Customers();
+		$data['customernonapprove'] = $customerModel->Countnonactive();
+		return $this->render('index',$data);
+	}
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $model->password = '';
+	/**
+	 * Login action.
+	 *
+	 * @return string
+	 */
+	public function actionLogin() {
+		if (!Yii::$app->user->isGuest) {
+			return $this->goHome();
+		}
 
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
+		$model = new LoginForm();
+		if ($model->load(Yii::$app->request->post()) && $model->login()) {
+			return $this->goBack();
+		} else {
+			$model->password = '';
 
-    /**
-     * Logout action.
-     *
-     * @return string
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-        $this->redirect(Yii::$app->urlManagerFrontend->getBaseUrl());
-    }
+			return $this->render('login', [
+				'model' => $model,
+			]);
+		}
+	}
+
+	/**
+	 * Logout action.
+	 *
+	 * @return string
+	 */
+	public function actionLogout() {
+		Yii::$app->user->logout();
+		$this->redirect(Yii::$app->urlManagerFrontend->getBaseUrl());
+	}
+
 }

@@ -181,4 +181,13 @@ class CustomerController extends Controller {
 		throw new NotFoundHttpException('The requested page does not exist.');
 	}
 
+	public function actionCustomernonapprove(){
+		$sql = "select c.*,t.typename 
+				from customers c inner join typecustomer t on c.type = t.id 
+				where c.approve = 'N'";
+		$rs = Yii::$app->db->createCommand($sql)->queryAll();
+		$data['customer'] = $rs;
+		return $this->render('customernonapprove',$data);
+	}
+
 }
