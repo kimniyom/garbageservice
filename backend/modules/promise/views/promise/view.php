@@ -48,12 +48,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label'=>'วันเริ่มสัญญา',
-                'value'=>Yii::$app->formatter->asDatetime($model['promisedatebegin'],'dd/MM/Y'),
+                'value'=>Yii::$app->thaiFormatter->asDate($model['promisedatebegin'], 'long'),
                
             ],
             [
                 'label'=>'วันสิ้นสุดสัญญา',
-                'value'=>Yii::$app->formatter->asDatetime($model['promisedateend'],'dd/MM/Y'),
+                'value'=>Yii::$app->thaiFormatter->asDate($model['promisedateend'], 'long'),
                
             ],
             [

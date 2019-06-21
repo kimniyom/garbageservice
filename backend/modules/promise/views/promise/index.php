@@ -25,18 +25,36 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'customerid',
-            'promisedatebegin',
-            'promisedateend',
-            'recivetype',
-            //'rate',
-            //'ratetext',
-            //'levy',
-            //'payperyear',
-            //'payperyeartext',
-            //'createat',
+            [
+                'attribute' => 'id',
+                'format' => 'text',
+                'label' => 'เลขที่สัญญา',
+            ],
+            [
+                'attribute' => 'customerid',
+                'format' => 'text',
+                'label' => 'รหัสลูกค้า',
+            ],
+            [
+                'attribute' => 'promisedatebegin',
+                'value'=>function($model){
+                    return Yii::$app->thaiFormatter->asDate($model->promisedatebegin, 'long');
+                },
+                'label' => 'วันเริ่มสัญญา',
+            ],
+            [
+                'attribute' => 'promisedateend',
+                'value'=>function($model){
+                    return Yii::$app->thaiFormatter->asDate($model->promisedateend, 'long');
+                },
+                'label' => 'วันสิ้นสุดสัญญา',
+            ],
+            [
+                'attribute' => 'recivetype',
+                'format' => 'text',
+                'label' => 'ประเภทการจ้าง',
+            ],
+            
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
