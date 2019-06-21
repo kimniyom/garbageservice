@@ -39,11 +39,18 @@ Html::beginForm(['/site/logout'], 'post')
 ?>
                 </div>
             </div>
+            <?php
+if ($customer['approve'] == "Y") {
+	?>
+                <label class="alert alert-success" style="width: 100%; text-align: center;"><i class="fa fa-check"></i> ยืนยันข้อมูลลูกค้า</label>
+            <?php } else {?>
+                <label class="alert alert-warning" style="width: 100%; text-align: center;"><i class="fa fa-info"></i> รอการยืนยันข้อมูล</label>
+            <?php }?>
         </div>
         <div class="col-md-9 col-lg-9">
             <div class="row" id="user_menu">
                 <div class="col-md-6 col-lg-4">
-                    <?php if ($id) {?>
+                    <?php if ($customer['id']) {?>
                         <div class="card">
                             <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/view', 'userid' => Yii::$app->user->identity->id]) ?>">
                                 <div class="card-body">

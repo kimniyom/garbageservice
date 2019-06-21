@@ -76,4 +76,10 @@ class Customers extends \yii\db\ActiveRecord {
 			//'longitude' => 'ลองจิจูด',
 		];
 	}
+
+	public function Countnonactive(){
+		$sql = "select count(*) as total from customers where approve = 'N'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		return $rs['total'];
+	}
 }
