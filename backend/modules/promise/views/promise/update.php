@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Update Promise: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id, 'customerid' => $model->customerid]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="promise-update">

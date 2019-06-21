@@ -8,7 +8,7 @@ return [
 	'id' => 'app-backend',
 	'name' => 'Garbage service',
 	'basePath' => dirname(__DIR__),
-	'language' => 'th', // Set the language here
+	'language' => 'th_TH', // Set the language here
 	'controllerNamespace' => 'backend\controllers',
 	'bootstrap' => ['log'],
 	'modules' => [
@@ -99,7 +99,10 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'baseUrl' => 'http://localhost/garbageservice/backend',
-        ],
+		],
+		'thaiFormatter'=>[
+			'class'=>'dixonsatit\thaiYearFormatter\ThaiYearFormatter',
+		],
 	],
 	'params' => $params,
 ];

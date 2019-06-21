@@ -22,7 +22,9 @@
         "ramosisw/yii2-material-dashboard": "dev-master",
         "dmstr/yii2-adminlte-asset": "^2.1",
         "kartik-v/yii2-widgets": "*",
-        "kartik-v/yii2-widget-datepicker": "*"
+        "kartik-v/yii2-widget-datepicker": "*",
+        "phpoffice/phpword": "^0.16.0",
+        "dixonsatit/yii2-thai-year-formatter": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -63,7 +63,7 @@ DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `company` varchar(255) DEFAULT NULL COMMENT 'ชื่อบริษัท',
-  `taxnumber` varchar(20) DEFAULT NULL COMMENT 'เลขถาษีหรือเลขสถานบริการที่บ่งบอกถึงลูกค้ารายนั้น ๆ ห้ามซ้ำ',
+  `taxnumber` varchar(20) DEFAULT NULL COMMENT 'เลขภาษีหรือเลขสถานบริการที่บ่งบอกถึงลูกค้ารายนั้น ๆ ห้ามซ้ำ',
   `address` varchar(255) DEFAULT NULL COMMENT 'ที่อยู่',
   `changwat` varchar(10) DEFAULT NULL COMMENT 'จังหวัด',
   `ampur` varchar(10) DEFAULT NULL COMMENT 'อำเภอ',
@@ -262,25 +262,17 @@ COMMIT;
 DROP TABLE IF EXISTS `promise`;
 CREATE TABLE `promise` (
   `id` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'เลขที่สัญญา',
-  `place` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สัญญาทำขึ้น ณ',
-  `license` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เลขที่ใบอนุญาต',
+   customerid int COMMENT 'ลูกค้า',
   `promisedatebegin` date DEFAULT NULL COMMENT 'วันเริ่มต้นสัญญา',
   `promisedateend` date DEFAULT NULL COMMENT 'วันสิ้นสุดสัญญา',
   `recivetype` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '0 = รายครั้ง 1 = รายเดือน	',
   `rate` int(11) DEFAULT NULL COMMENT 'คิดค่าจ้างเหมาในอัตราเดือนละ',
   `ratetext` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'คิดค่าจ้างเหมาในอัตราเดือนละ (ตัวอักษร)',
   `levy` int(11) DEFAULT NULL COMMENT 'จำนวนครั้งที่จัดเก็บต่อเดือน',
-  `employer` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้ว่าจ้าง',
   `payperyear` int(255) DEFAULT NULL COMMENT 'ค่าจ้างรวมทิ้งสิ้นต่อปี',
   `payperyeartext` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
-  `homenumber` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'บ้านเลขที่',
-  `tambon` int(11) DEFAULT NULL COMMENT 'ตำบล',
-  `ampur` int(11) DEFAULT NULL COMMENT 'อำเภอ',
-  `changwat` int(11) DEFAULT NULL COMMENT 'จังหวัด',
   `createat` date DEFAULT NULL COMMENT 'วันที่ทำสัญญา',
-  `contactname` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้ประสาน',
-  `contactphone` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เบอร์ติดต่อผู้ประสาน',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`,customerid) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางสัญญาจ้าง';
 
 -- ----------------------------

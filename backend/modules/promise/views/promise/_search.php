@@ -15,33 +15,27 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'promisid') ?>
+    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'place') ?>
-
-    <?= $form->field($model, 'license') ?>
+    <?= $form->field($model, 'customerid') ?>
 
     <?= $form->field($model, 'promisedatebegin') ?>
 
     <?= $form->field($model, 'promisedateend') ?>
 
-    <?php // echo $form->field($model, 'recivetype') ?>
+    <?= $form->field($model, 'recivetype') ?>
 
     <?php // echo $form->field($model, 'rate') ?>
 
+    <?php // echo $form->field($model, 'ratetext') ?>
+
     <?php // echo $form->field($model, 'levy') ?>
 
-    <?php // echo $form->field($model, 'homenumber') ?>
+    <?php // echo $form->field($model, 'payperyear') ?>
 
-    <?php // echo $form->field($model, 'tambon') ?>
-
-    <?php // echo $form->field($model, 'ampur') ?>
-
-    <?php // echo $form->field($model, 'changwat') ?>
+    <?php // echo $form->field($model, 'payperyeartext') ?>
 
     <?php // echo $form->field($model, 'createat') ?>
-
-    <?php // echo $form->field($model, 'employer') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
