@@ -15,9 +15,8 @@ class CustomersSearch extends Customers {
 	 */
 	public function rules() {
 		return [
-			[['id'], 'integer'],
-			[['company', 'taxnumber', 'address', 'changwat', 'ampur', 'tambon', 'zipcode', 'manager', 'tel', 'telephone', 'flag', 'create_date', 'update_date', 'approve'], 'safe'],
-			[['user_id'], 'number'],
+			//[['id'], 'integer'],
+			[['company', 'taxnumber'], 'safe']
 		];
 	}
 
@@ -43,6 +42,7 @@ class CustomersSearch extends Customers {
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
+			'sort' => ['attributes' => ['company', 'taxnumber']]
 		]);
 
 		$this->load($params);

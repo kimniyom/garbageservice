@@ -38,7 +38,7 @@ class Customers extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['company', 'address', 'taxnumber', 'tel', 'changwat', 'ampur', 'tambon', 'zipcode', 'manager', 'user_id'], 'required'],
+			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve'], 'required'],
 			[['flag', 'approve'], 'string'],
 			[['create_date', 'update_date'], 'safe'],
 			//[['latitude', 'longitude'], 'number'],
@@ -47,7 +47,7 @@ class Customers extends \yii\db\ActiveRecord {
 			[['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
 			[['zipcode'], 'string', 'max' => 5],
 			[['manager'], 'string', 'max' => 100],
-			[['user_id'], 'number'],
+			[['user_id','type'], 'number'],
 		];
 	}
 
@@ -72,6 +72,7 @@ class Customers extends \yii\db\ActiveRecord {
 			'update_date' => 'แก้ไขข้อมูลล่าสุด',
 			'approve' => 'การยืนยัน',
 			'user_id' => 'user',
+			'type' => 'type'
 			//'latitude' => 'ละติจูด',
 			//'longitude' => 'ลองจิจูด',
 		];
@@ -81,5 +82,10 @@ class Customers extends \yii\db\ActiveRecord {
 		$sql = "select count(*) as total from customers where approve = 'N'";
 		$rs = Yii::$app->db->createCommand($sql)->queryOne();
 		return $rs['total'];
+	}
+
+	public function TypeCustomer() {
+		$sql = "select * from typecustomer";
+		return Yii::$app->db->createCommand($sql)->queryAll();
 	}
 }

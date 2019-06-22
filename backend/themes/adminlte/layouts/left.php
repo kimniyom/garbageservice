@@ -34,8 +34,8 @@
 
 			['label' => 'ข้อมูลลูกค้า', 'icon' => 'user', 'url' => ['/'],
 				'items' => [
-					['label' => 'ทั้งหมด', 'icon' => 'users', 'url' => ['/customer/customer/index']],
-					['label' => 'เพิ่ม', 'icon' => 'plus', 'url' => ['/customer/customer/create']],
+					['label' => 'ทั้งหมด', 'icon' => 'users', 'url' => ['/customer/customers/index']],
+					['label' => 'เพิ่ม', 'icon' => 'plus', 'url' => ['/customer/customers/check']],
 					['label' => 'รายเดือน', 'icon' => '', 'url' => '#'],
 					['label' => 'รายปี', 'icon' => '', 'url' => '#'],
 				],

@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
 /**
  * CustomerController implements the CRUD actions for Customer model.
  */
-class CustomerController extends Controller {
+class CustomersController extends Controller {
 
 	/**
 	 * {@inheritdoc}
@@ -63,6 +63,8 @@ class CustomerController extends Controller {
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @return mixed
 	 */
+
+	/*
 	public function actionCreate() {
 		$model = new Customers();
 
@@ -78,7 +80,25 @@ class CustomerController extends Controller {
 			'model' => $model,
 		]);
 	}
+	*/
+	public function actionCreate($taxnumber, $type, $typename) {
+		$model = new Customers();
 
+		if ($model->load(Yii::$app->request->post())) {
+			$model->user_id = \Yii::$app->user->identity->id;
+			$model->create_date = date("Y-m-d H:i:s");
+			$model->update_date = date("Y-m-d H:i:s");
+			$model->save();
+			return $this->redirect(['view', 'id' => $model->id]);
+		}
+
+		return $this->render('create', [
+			'model' => $model,
+			'taxnumber' => $taxnumber,
+			'type' => $type,
+			'typename' => $typename,
+		]);
+	}
 	/**
 	 * Updates an existing Customers model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -199,6 +219,24 @@ class CustomerController extends Controller {
 		Yii::$app->db->createCommand()
 			->update("customers", $columns, "id = '$id'")
 			->execute();
+	}
+
+	public function actionCheck() {
+		$model = new Customers();
+		$data['type'] = $model->TypeCustomer();
+		return $this->render("check", $data);
+	}
+
+	public function actionChecking() {
+		$taxnumber = Yii::$app->request->post('taxnumber');
+		$sql = "select COUNT(*) AS total from customers where taxnumber = '$taxnumber'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		if ($rs['total'] > 0) {
+			$status = "1";
+		} else {
+			$status = "0";
+		}
+		return $status;
 	}
 
 }

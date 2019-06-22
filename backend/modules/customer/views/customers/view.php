@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\customer\models\Customer */
 
 $this->title = $model->company;
-$this->params['breadcrumbs'][] = ['label' => 'Customers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'ลูกค้าทั้งหมด', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 $urlMap = new Config();
