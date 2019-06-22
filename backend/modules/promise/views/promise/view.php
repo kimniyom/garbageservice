@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\promise\models\Promise */
 
 $this->title = $model['id'];
-$this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'สัญญา', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\promise\models\PromiseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Promises';
+$this->title = 'สัญญา';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="promise-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Promise', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Promise', ['beforecreate'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

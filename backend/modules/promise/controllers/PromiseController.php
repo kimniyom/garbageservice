@@ -66,22 +66,32 @@ class PromiseController extends Controller
         ]);
     }
 
+    public function actionBeforecreate()
+    {
+        $model = new Promise();
+        return $this->render('beforecreate',[
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Creates a new Promise model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($customerid)
     {
         $model = new Promise();
-
+        $model->customerid = $customerid;
         $model->createat = date('Y-m-d');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'customerid' => $model->customerid]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'customer' => $this->getCustomer($customerid),
         ]);
     }
 
@@ -208,6 +218,15 @@ class PromiseController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    protected function getCustomer($customerid)
+    {
+        if (($model = Customers::findOne(['id' => $customerid])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
     protected function getPromise($id, $customerid)
     {
         $sql = "
@@ -251,4 +270,25 @@ class PromiseController extends Controller
         ";
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
+
+    public function actionIscustomerexpired()
+    {
+        $customerid = Yii::$app->request->post('customerid');
+        if($customerid != '')
+        {
+            if(($model = Promise::find()->where("customerid = {$customerid} AND CURDATE() between promisedatebegin and promisedateend")->count()) > 0) 
+            {         
+                echo 1;
+            }
+            else {
+                echo -1;
+            }
+        }
+        else
+        {
+            echo 0;
+        }
+    }
+                    
+    
 }

@@ -21,21 +21,6 @@ use kartik\date\DatePicker;
         <div class="col-md-12 col-lg-6">
             <?= $form->field($model, 'id')->textInput(['maxlength' => true]) ?>
         </div>
-        <div class="col-md-12 col-lg-6">
-            <?php
-                $customer = Customers::find()->where(['flag'=>1,'approve'=>'Y'])->all();
-                echo $form->field($model, 'customerid')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map($customer, "id", "company"),
-                    'language' => 'th',
-                    'options' => [
-                        'placeholder' => 'Select a customer ...',
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                    ],
-                ]);
-            ?>
-        </div>
     </div>
 
     <div class="row">

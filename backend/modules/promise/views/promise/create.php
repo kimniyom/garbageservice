@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 
-$this->title = 'Create Promise';
+$this->title = $customer->company;
 $this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'customer' => $customer,
     ]) ?>
 
 </div>
