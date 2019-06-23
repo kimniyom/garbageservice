@@ -26,20 +26,20 @@ return [
 			'class' => 'app\modules\news\Module',
 		],
 		'garbagecontainer' => [
-            'class' => 'app\modules\garbagecontainer\Module',
+			'class' => 'app\modules\garbagecontainer\Module',
 		],
 		'report' => [
-            'class' => 'app\modules\report\Module',
+			'class' => 'app\modules\report\Module',
 		],
 		'promise' => [
-            'class' => 'app\modules\promise\Module',
+			'class' => 'app\modules\promise\Module',
 		],
 		'roundgarbage' => [
-            'class' => 'app\modules\roundgarbage\Module',
+			'class' => 'app\modules\roundgarbage\Module',
 		],
 		'roundmoney' => [
-            'class' => 'app\modules\roundmoney\Module',
-        ],
+			'class' => 'app\modules\roundmoney\Module',
+		],
 	],
 	'components' => [
 		'view' => [
@@ -89,19 +89,19 @@ return [
 			      ],
 		*/
 		'urlManagerFrontend' => [
-            'class' => 'yii\web\urlManager',
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'baseUrl' => 'http://localhost/garbageservice/frontend',
-        ],
-		'urlManagerBackend' => [
-            'class' => 'yii\web\urlManager',
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'baseUrl' => 'http://localhost/garbageservice/backend',
+			'class' => 'yii\web\urlManager',
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
+			'baseUrl' => 'http://localhost/garbageservice/frontend',
 		],
-		'thaiFormatter'=>[
-			'class'=>'dixonsatit\thaiYearFormatter\ThaiYearFormatter',
+		'urlManagerBackend' => [
+			'class' => 'yii\web\urlManager',
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
+			'baseUrl' => 'http://localhost/garbageservice/backend',
+		],
+		'thaiFormatter' => [
+			'class' => 'dixonsatit\thaiYearFormatter\ThaiYearFormatter',
 		],
 	],
 	'params' => $params,

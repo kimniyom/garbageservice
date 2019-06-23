@@ -2,29 +2,27 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAssetTheme;
 use common\widgets\Alert;
+use frontend\assets\AppAssetTheme;
+use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Breadcrumbs;
 
 AppAssetTheme::register($this);
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage()?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?=Yii::$app->language?>">
     <head>
-        <meta charset="<?= Yii::$app->charset ?>">
+        <meta charset="<?=Yii::$app->charset?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php $this->registerCsrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?></title>
-        <?php $this->head() ?>
+        <?php $this->registerCsrfMetaTags()?>
+        <title><?=Html::encode($this->title)?></title>
+        <?php $this->head()?>
     </head>
     <body>
-        <?php $this->beginBody() ?>
+        <?php $this->beginBody()?>
 
         <div class="super_container">
             <!-- Header -->
@@ -49,25 +47,25 @@ AppAssetTheme::register($this);
                                 </div>
                                 <div class="top_bar_content ml-auto">
                                     <div class="top_bar_user">
-                                        <?php if(Yii::$app->user->isGuest) { ?>
+                                        <?php if (Yii::$app->user->isGuest) {?>
                                         <div class="user_icon">
                                             <img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt="">
                                         </div>
                                         <div><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">Register</a></div>
-                                        <?php } ?>
+                                        <?php }?>
                                         <div>
-                                        <?php if(Yii::$app->user->isGuest) { ?>
+                                        <?php if (Yii::$app->user->isGuest) {?>
                                             <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>">Sign in</a>
-                                        <?php } else { ?>
-                                          
-                                            <?php if(Yii::$app->user->identity->status == "U") { ?>
+                                        <?php } else {?>
+
+                                            <?php if (Yii::$app->user->identity->status == "U") {?>
                                                 <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
-                                            <?php } else { ?>
+                                            <?php } else {?>
 
                                                 <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
-                                            
-                                            <?php } ?>
-                                        <?php } ?>
+
+                                            <?php }?>
+                                        <?php }?>
                                         </div>
                                     </div>
                                 </div>
@@ -131,16 +129,8 @@ AppAssetTheme::register($this);
                                         <ul class="standard_dropdown main_nav_dropdown">
                                             <li><a href="#">หน้าแรก</a></li>
                                             <li class="hassubs">
-                                                <a href="#">สินค้าและบริการ<i class="fas fa-chevron-down"></i></a>
+                                                <a href="#">ข่าว<i class="fas fa-chevron-down"></i></a>
                                                 <ul>
-                                                    <li><a href="#">อัตราค่าบริการ</a></li>
-                                                    <li><a href="#">คำนวณค่าบริการ</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="hassubs">
-                                                <a href="#">ข่าวและโปรโมชั่น<i class="fas fa-chevron-down"></i></a>
-                                                <ul>
-                                                    <li><a href="#">โปรโมชั่น</a></li>
                                                     <li><a href="#">ข่าวสารและกิจกรรม</a></li>
                                                 </ul>
                                             </li>
@@ -289,12 +279,12 @@ AppAssetTheme::register($this);
             <div class="characteristics" style="padding-top: 0px;">
                 <div class="container">
                     <?=
-                    Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    ])
-                    ?>
-                    <?= Alert::widget() ?>
-                    <?= $content ?>
+Breadcrumbs::widget([
+	'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+])
+?>
+                    <?=Alert::widget()?>
+                    <?=$content?>
                 </div>
             </div>
             <!-- Newsletter -->
@@ -342,9 +332,8 @@ AppAssetTheme::register($this);
 
                         <div class="col-lg-2 offset-lg-2">
                             <div class="footer_column">
-                                <div class="footer_title">ข่าวสารและโปรโมชั่น</div>
+                                <div class="footer_title">ข่าวสาร</div>
                                 <ul class="footer_list">
-                                    <li><a href="#">โปรโมชั่น</a></li>
                                     <li><a href="#">ข่าวสารและกิจกรรม</a></li>
                                 </ul>
                             </div>
@@ -391,7 +380,7 @@ AppAssetTheme::register($this);
                 </div>
             </div>
         </div>
-        <?php $this->endBody() ?>
+        <?php $this->endBody()?>
     </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage()?>

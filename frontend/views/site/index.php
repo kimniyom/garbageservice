@@ -11,8 +11,8 @@
 <?php
 /* @var $this yii\web\View */
 
-use yii\helpers\Url;
 use app\modules\news\models\News;
+use yii\helpers\Url;
 
 $newsModel = new News();
 $this->title = 'IC';
@@ -23,7 +23,8 @@ $this->title = 'IC';
         <div class="char_item d-flex flex-row align-items-center justify-content-start">
             <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_1.png') ?>" alt=""></div>
             <div class="char_content">
-                <div class="char_title">ระบบการจัดเก็บและขนส่ง</div>
+                <a href="<?php echo Yii::$app->urlManager->createUrl(['site/transport']) ?>">
+                    <div class="char_title">ระบบการจัดเก็บและขนส่ง</div></a>
             </div>
         </div>
     </div>
@@ -34,7 +35,8 @@ $this->title = 'IC';
         <div class="char_item d-flex flex-row align-items-center justify-content-start">
             <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_2.png') ?>" alt=""></div>
             <div class="char_content">
-                <div class="char_title">ทำไมถึงเลือกใช้บริการของเรา?</div>
+                <a href="<?php echo Yii::$app->urlManager->createUrl(['site/service']) ?>">
+                    <div class="char_title">ทำไมถึงเลือกใช้บริการของเรา?</div></a>
             </div>
         </div>
     </div>
@@ -44,7 +46,8 @@ $this->title = 'IC';
         <div class="char_item d-flex flex-row align-items-center justify-content-start">
             <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_3.png') ?>" alt=""></div>
             <div class="char_content">
-                <div class="char_title">ขั้นตอนการกำจัดขยะมูลฝอยติดเชื้อ</div>
+                <a href="<?php echo Yii::$app->urlManager->createUrl(['site/service']) ?>">
+                    <div class="char_title">ขั้นตอนการกำจัดขยะมูลฝอยติดเชื้อ</div></a>
             </div>
         </div>
     </div>
@@ -70,16 +73,16 @@ $this->title = 'IC';
             <div class="col-lg-8">
                 <div class="popular_categories_slider_container">
                     <div class="owl-carousel owl-theme popular_categories_slider">
-                        <?php foreach($categorys as $rsCat): ?>
+                        <?php foreach ($categorys as $rsCat): ?>
                         <!-- Popular Categories Item -->
                         <div class="owl-item">
                             <div class="popular_category d-flex flex-column align-items-center justify-content-center">
                                 <div class="popular_category_image">
-                                    <img src="<?php echo Url::to('../uploads/containner/gallerry/'.$rsCat['image']) ?>" alt=""></div>
+                                    <img src="<?php echo Url::to('../uploads/containner/gallerry/' . $rsCat['image']) ?>" alt=""></div>
                                 <div class="popular_category_text"><?php echo $rsCat['garbagecontainer'] ?></div>
                             </div>
                         </div>
-                    <?php endforeach ?>
+                    <?php endforeach?>
                     </div>
                 </div>
             </div>
@@ -100,25 +103,25 @@ $this->title = 'IC';
         <div class="row">
 
             <?php
-            foreach ($news as $new):
-                $img = $newsModel->getAlbum($new['ID']);
-                $fImg = Url::to('../uploads/news/gallery/200-' . $img);
-                ?>
-                <div class="col-lg-4 advert_col">
-                    <!-- Advert Item -->
-                    <div class="advert d-flex flex-row align-items-center justify-content-start">
-                        <div class="advert_content">
-                            <div class="advert_subtitle"><?php echo $new['CREATEAT'] ?></div>
-                            <div class="advert_text">
-                                <a href="<?php echo Url::to(['news/news/view','id' => $new['ID']]) ?>">
-                                    <?php echo $new['TITLE'] ?>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ml-auto"><div class="advert_image"><img src="<?php echo $fImg ?>" alt=""></div></div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+foreach ($news as $new):
+	$img = $newsModel->getAlbum($new['ID']);
+	$fImg = Url::to('../uploads/news/gallery/200-' . $img);
+	?>
+						                <div class="col-lg-4 advert_col">
+						                    <!-- Advert Item -->
+						                    <div class="advert d-flex flex-row align-items-center justify-content-start">
+						                        <div class="advert_content">
+						                            <div class="advert_subtitle"><?php echo $new['CREATEAT'] ?></div>
+						                            <div class="advert_text">
+						                                <a href="<?php echo Url::to(['news/news/view', 'id' => $new['ID']]) ?>">
+						                                    <?php echo $new['TITLE'] ?>
+						                                </a>
+						                            </div>
+						                        </div>
+						                        <div class="ml-auto"><div class="advert_image"><img src="<?php echo $fImg ?>" alt=""></div></div>
+						                    </div>
+						                </div>
+						            <?php endforeach;?>
 
         </div>
     </div>
@@ -126,9 +129,9 @@ $this->title = 'IC';
 
 
 
-    <?php 
-        $this->registerJs('
+    <?php
+$this->registerJs('
         $(document).ready(function(){;
             $(".banner").show();
         })');
-    ?>
+?>
