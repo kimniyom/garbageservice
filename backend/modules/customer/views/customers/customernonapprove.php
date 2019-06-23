@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model app\modules\customer\models\Customer */
 
@@ -23,24 +21,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 </tr>
             </thead>
             <tbody>
-            <?php $i=0;foreach($customer as $rs): $i++;?>
-                <tr>
-                    <td><?php echo $i ?></td>
-                    <td>
-                        <?php echo $rs['typename'] ?><br/>
-                        <?php echo $rs['company'] ?>
-                    </td>
-                    <td>
-                        <?php echo "คุณ ".$rs['manager'] ?><br/>
-                        <?php echo $rs['tel'] ?> <?php echo ($rs['telephone']) ? ",".$rs['telephone'] : "" ?>
-                    </td>
-                    <td><?php echo $rs['create_date'] ?></td>
-                    <td>
-                    <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customer/view','id' => $rs['id']]) ?>">
-                    ตรวจสอบข้อมูล</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+            <?php $i = 0;foreach ($customer as $rs): $i++;?>
+	                <tr>
+	                    <td><?php echo $i ?></td>
+	                    <td>
+	                        <?php echo $rs['typename'] ?><br/>
+	                        <?php echo $rs['company'] ?>
+	                    </td>
+	                    <td>
+	                        <?php echo "คุณ " . $rs['manager'] ?><br/>
+	                        <?php echo $rs['tel'] ?> <?php echo ($rs['telephone']) ? "," . $rs['telephone'] : "" ?>
+	                    </td>
+	                    <td><?php echo $rs['create_date'] ?></td>
+	                    <td>
+	                    <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/view', 'id' => $rs['id']]) ?>">
+	                    ตรวจสอบข้อมูล</a>
+	                    </td>
+	                </tr>
+	            <?php endforeach;?>
             </tbody>
         </table>
     </div>
