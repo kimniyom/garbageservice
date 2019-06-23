@@ -72,6 +72,15 @@ use kartik\date\DatePicker;
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+            <?= $form->field($model, 'garbageweight')->textInput() ?>
+        </div>
+        <div class="col-md-12 col-lg-6">
+            <?= $form->field($model, 'active')->dropDownList([ 1 => 'ใช้งาน', 0 => 'ไม่ใช้', ]) ?>
+        </div>
+    </div>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

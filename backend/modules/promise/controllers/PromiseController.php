@@ -68,9 +68,9 @@ class PromiseController extends Controller
 
     public function actionBeforecreate()
     {
-        $model = new Promise();
+        $customer = Customers::find()->where(['flag'=>1,'approve'=>'Y'])->all();
         return $this->render('beforecreate',[
-            'model' => $model,
+            'customer' => $customer,
         ]);
     }
 
@@ -242,6 +242,8 @@ class PromiseController extends Controller
                     promise.payperyear,
                     promise.payperyeartext,
                     promise.createat,
+                    promise.garbageweight,
+                    promise.active,
                     customers.company,
                     customers.taxnumber,
                     customers.address,
@@ -274,20 +276,13 @@ class PromiseController extends Controller
     public function actionIscustomerexpired()
     {
         $customerid = Yii::$app->request->post('customerid');
-        if($customerid != '')
-        {
-            if(($model = Promise::find()->where("customerid = {$customerid} AND CURDATE() between promisedatebegin and promisedateend")->count()) > 0) 
-            {         
-                echo 1;
-            }
-            else {
-                echo -1;
-            }
+        $isReccord = 0;
+        $rs = Promise::find()->where("customerid = {$customerid} AND CURDATE() between promisedatebegin and promisedateend")->count();
+        if($rs > 0) 
+        {         
+            $isReccord = 1;
         }
-        else
-        {
-            echo 0;
-        }
+        return $isReccord;   
     }
                     
     

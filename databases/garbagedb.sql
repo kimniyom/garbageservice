@@ -233,7 +233,7 @@ COMMIT;
 DROP TABLE IF EXISTS `promise`;
 CREATE TABLE `promise` (
   `id` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'เลขที่สัญญา',
-   customerid int COMMENT 'ลูกค้า',
+  `customerid` int(11) NOT NULL COMMENT 'ลูกค้า',
   `promisedatebegin` date DEFAULT NULL COMMENT 'วันเริ่มต้นสัญญา',
   `promisedateend` date DEFAULT NULL COMMENT 'วันสิ้นสุดสัญญา',
   `recivetype` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '0 = รายครั้ง 1 = รายเดือน	',
@@ -243,8 +243,21 @@ CREATE TABLE `promise` (
   `payperyear` int(255) DEFAULT NULL COMMENT 'ค่าจ้างรวมทิ้งสิ้นต่อปี',
   `payperyeartext` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
   `createat` date DEFAULT NULL COMMENT 'วันที่ทำสัญญา',
-  PRIMARY KEY (`id`,customerid) USING BTREE
+  `active` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'การใช้งาน 1=ใช้งาน 0=ไม่ใช้',
+  `garbageweight` double DEFAULT NULL COMMENT 'ปริมาณขยะ (กิโลกรัม)',
+  PRIMARY KEY (`id`,`customerid`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางสัญญาจ้าง';
+
+-- ----------------------------
+-- Records of promise
+-- ----------------------------
+BEGIN;
+INSERT INTO `promise` VALUES ('1122', 2, '2019-06-21', '2019-06-21', '1', 500, 'ห้าร้อยบาทถ้วน', 2, 60000, 'หกหมื่นบาทถ้วน', '2019-06-21', NULL, NULL);
+INSERT INTO `promise` VALUES ('1123', 2, '2019-06-02', '2019-06-20', '1', 500, 'ห้าร้อยบาทถ้วน', 5, 50000, 'ห้าหมื่นบาทถ้วน', '2019-06-22', NULL, NULL);
+INSERT INTO `promise` VALUES ('1124', 2, '2019-05-22', '2019-06-25', '1', 500, 'ห้าร้อยบาทถ้วน', 5, 60000, 'หกหมื่นบาทถ้วน', '2019-06-22', NULL, NULL);
+INSERT INTO `promise` VALUES ('1125', 2, '2019-07-01', '2019-07-31', '0', 500, 'ห้าร้อยบาทถ้วน', 5, 50000, 'หกหมื่นบาทถ้วน', '2019-06-22', NULL, NULL);
+INSERT INTO `promise` VALUES ('2000', 1, '2019-06-23', '2019-06-26', '1', 500, 'ห้าร้อยบาทถ้วน', 5, 60000, 'หกหมื่นบาทถ้วน', '2019-06-23', '0', 10);
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `roundgarbage`

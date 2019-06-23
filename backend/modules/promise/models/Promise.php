@@ -39,7 +39,8 @@ class Promise extends \yii\db\ActiveRecord
             [['id'], 'unique', 'message'=>'เลขสัญญาซ้ำ'],
             [['customerid', 'rate', 'levy', 'payperyear'], 'integer'],
             [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
-            [['recivetype'], 'string'],
+            [['recivetype', 'active'], 'string'],
+            [['garbageweight'], 'number'],
             [['id', 'ratetext', 'payperyeartext'], 'string', 'max' => 64],
             ['ratetext', 'string'], 
             [['id', 'customerid'], 'unique', 'targetAttribute' => ['id', 'customerid']],
@@ -63,6 +64,9 @@ class Promise extends \yii\db\ActiveRecord
             'payperyear' => '* ค่าจ้างรวมทิ้งสิ้นต่อปี',
             'payperyeartext' => '* ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
             'createat' => 'วันที่ทำสัญญา',
+            'active' => 'สถานะการใช้งาน', 
+            'garbageweight' => 'ปริมาณขยะ (กิโลกรัม)', 
+ 
         ];
     }
 }

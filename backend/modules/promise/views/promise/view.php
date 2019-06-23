@@ -95,6 +95,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>$model['tel'],
                
             ],
+            [
+                'label'=>'ปริมาณขยะ (กิโลกรัม)',
+                'value'=>$model['garbageweight'],
+               
+            ],
+            [
+                'label'=>'สถานะการใช้งาน',
+                'value'=>$model['active']==1?"ใช้งาน":"ไม่ใช้งาน",
+               
+            ],
            
         ],
     ]) ?>
