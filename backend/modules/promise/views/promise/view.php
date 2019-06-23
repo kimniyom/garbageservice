@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use app\models\Config;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 
@@ -10,6 +10,8 @@ $this->title = $model['id'];
 $this->params['breadcrumbs'][] = ['label' => 'สัญญา', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
+$Config = new Config();
 ?>
 <div class="promise-view">
 
@@ -48,13 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label'=>'วันเริ่มสัญญา',
-                'value'=>Yii::$app->thaiFormatter->asDate($model['promisedatebegin'], 'long'),
+                'value'=> $Config->thaidate($model['promisedatebegin']),
                
             ],
             [
                 'label'=>'วันสิ้นสุดสัญญา',
-                'value'=>Yii::$app->thaiFormatter->asDate($model['promisedateend'], 'long'),
-               
+                'value'=> $Config->thaidate($model['promisedateend']),
             ],
             [
                 'label'=>'ประเภทการจ้าง',
@@ -82,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label'=>'วันที่ทำสัญญา',
-                'value'=>Yii::$app->formatter->asDatetime($model['createat'],'dd/MM/Y'),
+                'value'=> $Config->thaidate($model['createat'],'dd/MM/Y'),
                
             ],
             [

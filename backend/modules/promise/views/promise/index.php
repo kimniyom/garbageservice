@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use app\models\Config;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\promise\models\PromiseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -38,14 +38,16 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'promisedatebegin',
                 'value'=>function($model){
-                    return Yii::$app->thaiFormatter->asDate($model->promisedatebegin, 'long');
+                    $config = new Config();
+                    return $config->thaidate($model->promisedatebegin);
                 },
                 'label' => 'วันเริ่มสัญญา',
             ],
             [
                 'attribute' => 'promisedateend',
                 'value'=>function($model){
-                    return Yii::$app->thaiFormatter->asDate($model->promisedateend, 'long');
+                    $config = new Config();
+                    return $config->thaidate($model->promisedateend);
                 },
                 'label' => 'วันสิ้นสุดสัญญา',
             ],
