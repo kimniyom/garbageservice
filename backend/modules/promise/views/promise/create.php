@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\modules\promise\models\Promise */
 
 $this->title = $customer->company;
-$this->params['breadcrumbs'][] = ['label' => 'Promises', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'สัญญา', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="promise-create">
