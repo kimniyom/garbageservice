@@ -56,16 +56,16 @@ AppAssetTheme::register($this);
                                         <div>
                                         <?php if (Yii::$app->user->isGuest) {?>
                                             <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>">Sign in</a>
-                                        <?php } else {?>
+                                        <?php } else { ?>
 
                                             <?php if (Yii::$app->user->identity->status == "U") {?>
                                                 <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
-                                            <?php } else {?>
+                                            <?php } else { ?>
 
                                                 <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
 
-                                            <?php }?>
-                                        <?php }?>
+                                            <?php } ?>
+                                        <?php } ?>
                                         </div>
                                     </div>
                                 </div>
@@ -127,11 +127,11 @@ AppAssetTheme::register($this);
 
                                     <div class="main_nav_menu ml-auto">
                                         <ul class="standard_dropdown main_nav_dropdown">
-                                            <li><a href="#">หน้าแรก</a></li>
+                                            <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site']) ?>">หน้าแรก</a></li>
                                             <li class="hassubs">
                                                 <a href="#">ข่าว<i class="fas fa-chevron-down"></i></a>
                                                 <ul>
-                                                    <li><a href="#">ข่าวสารและกิจกรรม</a></li>
+                                                    <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสาร</a></li>
                                                 </ul>
                                             </li>
                                             <li class="hassubs">

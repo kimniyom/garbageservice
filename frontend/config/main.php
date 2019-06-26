@@ -26,6 +26,9 @@ return [
 			'cost' => 12,
 			'admins' => ['admin'],
 		],
+		'pdfjs' => [
+			'class' => '\yii2assets\pdfjs\Module',
+		],
 	],
 	'components' => [
 		'request' => [

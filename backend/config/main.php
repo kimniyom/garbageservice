@@ -40,6 +40,9 @@ return [
 		'roundmoney' => [
 			'class' => 'app\modules\roundmoney\Module',
 		],
+		'navbar' => [
+            'class' => 'app\modules\navbar\Module',
+        ],
 	],
 	'components' => [
 		'view' => [

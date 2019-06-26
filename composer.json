@@ -24,7 +24,9 @@
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-widget-datepicker": "*",
         "phpoffice/phpword": "^0.16.0",
-        "dixonsatit/yii2-thai-year-formatter": "*"
+        "dixonsatit/yii2-thai-year-formatter": "*",
+        "lesha724/yii2-document-viewer": "*",
+        "yii2assets/yii2-pdfjs": ">=1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

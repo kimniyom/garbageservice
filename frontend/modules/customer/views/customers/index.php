@@ -100,6 +100,13 @@ if ($customer['approve'] == "Y") {
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            แจ้งชำระเงิน
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

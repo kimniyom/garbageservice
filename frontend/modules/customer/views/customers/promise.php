@@ -1,5 +1,5 @@
 <?php
-
+use yii\helpers\Url;
 use app\models\Config;
 /* @var $this yii\web\View */
 /* @var $model app\modules\customer\models\Customers */
@@ -11,4 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 use yii\helpers\Html;
 $urlMap = new Config();
+
 ?>
+
+<?= \yii2assets\pdfjs\PdfJs::widget([
+  'url'=> Url::base().'/../uploads/promise/test.pdf'
+]); ?>
