@@ -79,10 +79,11 @@ if ($customer['approve'] == "Y") {
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
+                        <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/promise']) ?>">
                         <div class="card-body">
                             <i class="fa fa-file-alt fa-5x"></i><br/><br/>
                             ข้อมูลสัญญา
-                        </div>
+                        </div></a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">

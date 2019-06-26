@@ -211,4 +211,12 @@ class CustomersController extends Controller {
 		return $this->redirect(Yii::$app->urlManager->createUrl(['customer/customers/view', 'userid' => $user_id]));
 	}
 
+	public function actionPromise(){
+		$customer_id = \Yii::$app->user->identity->id;
+		$sql = "select * from promise where customerid = '$customer_id' and active = '1'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		$data['promise'] = $rs;
+		return $this->render('promise',$data);
+	}
+
 }

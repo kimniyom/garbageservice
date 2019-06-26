@@ -92,13 +92,13 @@ return [
 			'class' => 'yii\web\urlManager',
 			'enablePrettyUrl' => true,
 			'showScriptName' => false,
-			'baseUrl' => 'http://122.154.239.66/garbageservice/frontend',
+			'baseUrl' => 'http://localhost/garbageservice/frontend',
 		],
 		'urlManagerBackend' => [
 			'class' => 'yii\web\urlManager',
 			'enablePrettyUrl' => true,
 			'showScriptName' => false,
-			'baseUrl' => 'http://122.154.239.66/garbageservice/backend',
+			'baseUrl' => 'http://localhost/garbageservice/backend',
 		],
 		'thaiFormatter' => [
 			'class' => 'dixonsatit\thaiYearFormatter\ThaiYearFormatter',
