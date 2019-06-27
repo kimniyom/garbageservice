@@ -59,11 +59,16 @@ use kartik\date\DatePicker;
 
     <div class="row">
         <div class="col-md-12 col-lg-12">
-            <?= $form->field($model, 'recivetype')->dropDownList([ 1 => 'รายเดือน', 0 => 'รายปี', ], ['prompt' => ''],['options'=>['onchange'=>'getrecivetype()']]) ?>
+            <?= $form->field($model, 'recivetype')->dropDownList([ 1 => 'รายเดือน', 0 => 'รายปี', ], 
+                [
+                    
+                    'onchange'=>'getrecivetype(this.value)',
+                ]) 
+            ?>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="divmonth">
         <div class="col-md-12 col-lg-6">
             <?= $form->field($model, 'rate')->textInput() ?>
         </div>
@@ -72,7 +77,7 @@ use kartik\date\DatePicker;
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" id="divyear">
         <div class="col-md-12 col-lg-6">
             <?= $form->field($model, 'payperyear')->textInput() ?>
         </div>
@@ -99,8 +104,19 @@ use kartik\date\DatePicker;
 </div>
 
 <script>
-function getrecivetype()
+
+
+function getrecivetype(type)
 {
-    console.log(123);
+    if(type==1)
+    {
+        $("#divmonth").show();
+        $("#divyear").hide();
+    }
+    else if(type==0)
+    {
+        $("#divmonth").hide();
+        $("#divyear").show();
+    }
 }
 </script>
