@@ -6,14 +6,12 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\navbar\models\Navbar */
 
-$this->title = $model->id;
+$this->title = $model->navbar;
 $this->params['breadcrumbs'][] = ['label' => 'Navbars', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="navbar-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -26,14 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'navbar',
-            'submenu',
-            'detail:ntext',
-        ],
-    ]) ?>
+    <?php echo $model->detail ?>
 
 </div>

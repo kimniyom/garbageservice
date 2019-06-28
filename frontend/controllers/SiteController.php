@@ -276,4 +276,16 @@ class SiteController extends Controller {
 		return $this->render("step");
 	}
 
+	public function actionMenubar($id){
+		$sql = "select * from navbar where id = '$id' ";
+		$data['menu'] = Yii::$app->db->createCommand($sql)->queryOne();
+		return $this->render('menu',$data);
+	}
+
+	public function actionSubmenu($id){
+		$sql = "select * from subnavbar where id = '$id' ";
+		$data['menu'] = Yii::$app->db->createCommand($sql)->queryOne();
+		return $this->render('submenu',$data);
+	}
+
 }

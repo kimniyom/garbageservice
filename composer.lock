@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ca3b29e47ebf8055d4303f5ff8aefb58",
-    "content-hash": "70d7be0d771924c7b17449431b8434eb",
+    "hash": "6c27fe428259b740a8e00e37d5000c33",
+    "content-hash": "3c02b1e07bb8a56fc651864a927ff0ba",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -71,6 +71,22 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bower-asset/fontawesome",
+            "version": "5.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "ba907eaec40fab01d410c3023a5572b2cb46cea6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/ba907eaec40fab01d410c3023a5572b2cb46cea6",
+                "reference": "ba907eaec40fab01d410c3023a5572b2cb46cea6",
+                "shasum": null
+            },
+            "type": "bower-asset"
         },
         {
             "name": "bower-asset/inputmask",
@@ -2211,6 +2227,53 @@
                 "yii"
             ],
             "time": "2017-01-11 14:05:47"
+        },
+        {
+            "name": "sersid/yii2-font-awesome-asset",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Sersid/yii2-font-awesome-asset.git",
+                "reference": "cdeb663859a05b3c7a6cd3741ed90344d623893b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Sersid/yii2-font-awesome-asset/zipball/cdeb663859a05b3c7a6cd3741ed90344d623893b",
+                "reference": "cdeb663859a05b3c7a6cd3741ed90344d623893b",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/fontawesome": "*",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "sersid\\fontawesome\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-4-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sersid",
+                    "email": "sersONEd@gmail.com"
+                }
+            ],
+            "description": "Adding FontAwesome to your Yii2 project via Composer",
+            "keywords": [
+                "FontAwesome",
+                "asset",
+                "extension",
+                "font awesome",
+                "font-awesome",
+                "yii2",
+                "yii2-fontawesome"
+            ],
+            "time": "2014-11-27 00:43:55"
         },
         {
             "name": "swiftmailer/swiftmailer",

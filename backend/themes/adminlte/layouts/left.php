@@ -49,6 +49,7 @@
 			],
 			['label' => 'ภาชนะใส่ขยะ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
 			['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],
+			['label' => 'เมนูเว็บไซต์', 'icon' => 'bars', 'url' => ['/navbar/navbar/index']],
 			['label' => 'รายงาน', 'icon' => 'wpforms', 'url' => ['/gii'],
 				'items' => [
 					['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],

@@ -35,13 +35,11 @@ class NavbarController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new NavbarSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $sql = "select * from navbar";
+        $rs = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['nav'] = $rs;
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index',$data);
     }
 
     /**
@@ -123,5 +121,90 @@ class NavbarController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionSave(){
+        $navbar = Yii::$app->request->post('navbar');
+        $submenu = Yii::$app->request->post('submenu');
+        $columns = array(
+            "navbar" => $navbar,
+            "submenu" => $submenu
+        );
+
+        Yii::$app->db->createCommand()
+            ->insert("navbar",$columns)
+            ->execute();
+
+            $sql = "select max(id) as id from navbar ";
+            $rs = Yii::$app->db->createCommand($sql)->queryOne();
+            if($submenu <= 0){
+                $menu = $rs['id'];
+            } else {
+                $menu = 0;
+            }
+
+            return $menu;
+    }
+
+    public function actionFormnav($id){
+        $sql = "select * from navbar where id = '$id'";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        $data['detail'] = $rs;
+        return $this->render("formnav",$data);
+    }
+
+    public function actionSavepage(){
+        $id = Yii::$app->request->post('id');
+        $detail = Yii::$app->request->post('detail');
+        $columns = array(
+            "detail" => $detail
+        );
+
+        Yii::$app->db->createCommand()
+            ->update("navbar",$columns,"id ='$id'")
+            ->execute();
+    }
+
+    public function actionFormsubmenu($id){
+        $data['id'] = $id;
+        return $this->render("formsubmenu",$data);
+    }
+
+    public function actionSavepagesubmenu(){
+        $navbar = Yii::$app->request->post('navbar');
+        $detail = Yii::$app->request->post('detail');
+        $subnavbar = Yii::$app->request->post('subnavbar');
+        $columns = array(
+            "navbar" => $navbar,
+            "detail" => $detail,
+            "subnavbar" => $subnavbar
+        );
+
+        Yii::$app->db->createCommand()
+            ->insert("subnavbar",$columns)
+            ->execute();
+
+    }
+
+    public function actionViewsubmenu($id){
+        $sql = "select * from subnavbar where id = '$id'";
+        $data['model'] = Yii::$app->db->createCommand($sql)->queryOne();
+        return $this->render("viewsubmenu",$data);
+    }
+
+    public function actionUpdatenavbar(){
+        $id = Yii::$app->request->post('id');
+        $navbar = Yii::$app->request->post('navbar');
+        $columns = array("navbar" => $navbar);
+        Yii::$app->db->createCommand()
+            ->update("navbar",$columns,"id = '$id'")
+            ->execute();
+    }
+
+    public function actionDeletenavbar(){
+        $id = Yii::$app->request->post('id');
+        Yii::$app->db->createCommand()
+            ->delete("navbar","id = '$id'")
+            ->execute();
     }
 }

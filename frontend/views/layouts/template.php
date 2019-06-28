@@ -7,22 +7,58 @@ use frontend\assets\AppAssetTheme;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
+use app\models\Config;
 
 AppAssetTheme::register($this);
+
+$Config = new Config();
+$menu = $Config->getMenu();
+
+use app\modules\news\models\News;
+
+$newsModel = new News();
+
+$sql = "SELECT g.*,i.image
+                FROM garbagecontainer g
+                INNER JOIN imgcontain i ON g.id = i.garbagecontainer_id";
+$categorys = Yii::$app->db->createCommand($sql)->queryAll();
+
+$sqlNews = "select * from news limit 3";
+$news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 ?>
-<?php $this->beginPage()?>
+<?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?=Yii::$app->language?>">
+<html lang="<?= Yii::$app->language ?>">
     <head>
-        <meta charset="<?=Yii::$app->charset?>">
+        <meta charset="<?= Yii::$app->charset ?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php $this->registerCsrfMetaTags()?>
-        <title><?=Html::encode($this->title)?></title>
-        <?php $this->head()?>
+        <?php $this->registerCsrfMetaTags() ?>
+        <title><?= Html::encode($this->title) ?></title>
+        <?php $this->head() ?>
+        <style type="text/css">
+            .breadcrumb {
+                padding: 8px 15px;
+                margin-bottom: 20px;
+                list-style: none;
+                background-color: #f5f5f5;
+                border-radius: 4px;
+            }
+            .breadcrumb > li {
+                display: inline-block;
+            }
+            .breadcrumb > li + li:before {
+                padding: 0 5px;
+                color: #ccc;
+                content: "/\00a0";
+            }
+            .breadcrumb > .active {
+                color: #777777;
+            }
+        </style>   
     </head>
     <body>
-        <?php $this->beginBody()?>
+        <?php $this->beginBody() ?>
 
         <div class="super_container">
             <!-- Header -->
@@ -47,25 +83,23 @@ AppAssetTheme::register($this);
                                 </div>
                                 <div class="top_bar_content ml-auto">
                                     <div class="top_bar_user">
-                                        <?php if (Yii::$app->user->isGuest) {?>
-                                        <div class="user_icon">
-                                            <img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt="">
-                                        </div>
-                                        <div><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">Register</a></div>
-                                        <?php }?>
+                                        <?php if (Yii::$app->user->isGuest) { ?>
+                                            <div class="user_icon">
+                                                <img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt="">
+                                            </div>
+                                            <div><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">Register</a></div>
+                                        <?php } ?>
                                         <div>
-                                        <?php if (Yii::$app->user->isGuest) {?>
-                                            <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>">Sign in</a>
-                                        <?php } else { ?>
-
-                                            <?php if (Yii::$app->user->identity->status == "U") {?>
-                                                <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                            <?php if (Yii::$app->user->isGuest) { ?>
+                                                <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>">Sign in</a>
                                             <?php } else { ?>
 
-                                                <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
-
+                                                <?php if (Yii::$app->user->identity->status == "U") { ?>
+                                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                                <?php } else { ?>
+                                                    <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                                <?php } ?>
                                             <?php } ?>
-                                        <?php } ?>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +111,6 @@ AppAssetTheme::register($this);
                 <div class="header_main">
                     <div class="container">
                         <div class="row" style=" display: none;">
-
                             <!-- Search -->
                             <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right" style=" display: none;">
                                 <div class="header_search" style=" display: none;">
@@ -127,6 +160,7 @@ AppAssetTheme::register($this);
 
                                     <div class="main_nav_menu ml-auto">
                                         <ul class="standard_dropdown main_nav_dropdown">
+
                                             <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site']) ?>">หน้าแรก</a></li>
                                             <li class="hassubs">
                                                 <a href="#">ข่าว<i class="fas fa-chevron-down"></i></a>
@@ -134,21 +168,23 @@ AppAssetTheme::register($this);
                                                     <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสาร</a></li>
                                                 </ul>
                                             </li>
-                                            <li class="hassubs">
-                                                <a href="#">ช่วยเหลือ<i class="fas fa-chevron-down"></i></a>
-                                                <ul>
-                                                    <li><a href="shop.html">คู่มือการขอใช้บริการ</a></li>
-                                                    <li><a href="product.html">วิธีการชำระเงิน</a></li>
-                                                    <li><a href="blog.html">แจ้งชำระเงิน</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="hassubs">
-                                                <a href="#">ติดต่อเรา<i class="fas fa-chevron-down"></i></a>
-                                                <ul>
-                                                    <li><a href="shop.html">เกี่ยวกับเรา</a></li>
-                                                    <li><a href="product.html">นโยบายและข้อตกลง</a></li>
-                                                </ul>
-                                            </li>
+                                            <?php
+                                            foreach ($menu as $menus):
+                                                if ($menus['submenu'] == "1") {
+                                                    $Smenu = $Config->getSubMenu($menus['id']);
+                                                    ?>
+                                                    <li class="hassubs">
+                                                        <a href="#"><?php echo $menus['navbar'] ?><i class="fas fa-chevron-down"></i></a>
+                                                        <ul>
+                                                            <?php foreach ($Smenu as $Smenus) { ?>
+                                                                <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
+                                                            <?php } ?>
+                                                        </ul>
+                                                    </li>
+                                                <?php } else { ?>
+                                                    <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a></li>
+                                                <?php } ?>
+                                            <?php endforeach; ?>
                                         </ul>
                                     </div>
 
@@ -252,6 +288,8 @@ AppAssetTheme::register($this);
                 </div>
             </header>
 
+
+
             <!-- Banner -->
 
             <div class="banner" style="display: none;">
@@ -275,112 +313,226 @@ AppAssetTheme::register($this);
                 </div>
             </div>
 
+
+            <div id="mainbody" style=" display: none;">
+                <div class="container">
+                    <div class="row" style="margin-top: 50px; padding-bottom:30px;margin-bottom:0px;">
+                        <!-- Char. Item -->
+                        <div class="col-lg-4 col-md-6 char_col">
+                            <div class="char_item d-flex flex-row align-items-center justify-content-start">
+                                <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_1.png') ?>" alt=""></div>
+                                <div class="char_content">
+                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/transport']) ?>">
+                                        <div class="char_title">ระบบการจัดเก็บและขนส่ง</div></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Char. Item -->
+                        <div class="col-lg-4 col-md-6 char_col">
+
+                            <div class="char_item d-flex flex-row align-items-center justify-content-start">
+                                <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_2.png') ?>" alt=""></div>
+                                <div class="char_content">
+                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/service']) ?>">
+                                        <div class="char_title">ทำไมถึงเลือกใช้บริการของเรา?</div></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Char. Item -->
+                        <div class="col-lg-4 col-md-6 char_col">
+                            <div class="char_item d-flex flex-row align-items-center justify-content-start">
+                                <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_3.png') ?>" alt=""></div>
+                                <div class="char_content">
+                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/service']) ?>">
+                                        <div class="char_title">ขั้นตอนการกำจัดขยะมูลฝอยติดเชื้อ</div></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adverts -->
+                <div class="adverts" style="margin-top:0px; padding-top:30px;background: #eff6fa;">
+                    <div class="container">
+                        <div class="reviews_title_container">
+                            <h3 class="reviews_title">ข่าวล่าสุด</h3>
+                            <div class="reviews_all ml-auto">
+                                <a href="<?php echo Url::to(['news/news/all']) ?>">view all </a>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+
+                            <?php
+                            foreach ($news as $new):
+                                $img = $newsModel->getAlbum($new['ID']);
+                                $fImg = Url::to('../uploads/news/gallery/200-' . $img);
+                                ?>
+                                <div class="col-lg-4 advert_col">
+                                    <!-- Advert Item -->
+                                    <div class="advert d-flex flex-row align-items-center justify-content-start" style="background: #FFFFFF;">
+                                        <div class="advert_content">
+                                            <div class="advert_subtitle"><?php echo $new['CREATEAT'] ?></div>
+                                            <div class="advert_text">
+                                                <a href="<?php echo Url::to(['news/news/view', 'id' => $new['ID']]) ?>">
+                                                    <?php echo $new['TITLE'] ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="ml-auto"><div class="advert_image"><img src="<?php echo $fImg ?>" alt=""></div></div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Popular Categories -->
+                <div class="popular_categories" style="margin-bottom:0px; margin-top:0px;  padding-bottom:30px; ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="popular_categories_content" style="text-align: center;">
+                                    <div class="popular_categories_title">ภาชนะที่ใช้จัดเก็บ</div>
+                                    <div class="popular_categories_slider_nav">
+                                        <div class="popular_categories_prev popular_categories_nav"><i class="fas fa-angle-left ml-auto"></i></div>
+                                        <div class="popular_categories_next popular_categories_nav"><i class="fas fa-angle-right ml-auto"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Popular Categories Slider -->
+                            <div class="col-lg-8">
+                                <div class="popular_categories_slider_container">
+                                    <div class="owl-carousel owl-theme popular_categories_slider">
+                                        <?php foreach ($categorys as $rsCat): ?>
+                                            <!-- Popular Categories Item -->
+                                            <div class="owl-item">
+                                                <div class="popular_category d-flex flex-column align-items-center justify-content-center">
+                                                    <div class="popular_category_image">
+                                                        <img src="<?php echo Url::to('../uploads/containner/gallerry/' . $rsCat['image']) ?>" alt=""></div>
+                                                    <div class="popular_category_text"><?php echo $rsCat['garbagecontainer'] ?></div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Characteristics -->
             <div class="characteristics" style="padding-top: 0px;">
                 <div class="container">
                     <?=
-Breadcrumbs::widget([
-	'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-])
-?>
-                    <?=Alert::widget()?>
-                    <?=$content?>
+                    Breadcrumbs::widget([
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    ])
+                    ?>
+                    <?= Alert::widget() ?>
+                    <?= $content ?>
                 </div>
             </div>
             <!-- Newsletter -->
-        </div>
-        <div class="newsletter">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
-                            <div class="newsletter_title_container">
-                                <div class="newsletter_icon"><img src="<?php echo Url::to('@web/web/theme/images/send.png') ?>" alt=""></div>
-                                <div class="newsletter_title">ลงทะเบียนรับข่าวสาร</div>
-                            </div>
-                            <div class="newsletter_content clearfix">
-                                <form action="#" class="newsletter_form">
-                                    <input type="email" class="newsletter_input" placeholder="Enter your email address">
-                                    <button class="newsletter_button">Subscribe</button>
-                                </form>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer class="footer">
+            <div class="newsletter">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-3 footer_col">
-                            <div class="footer_column footer_contact">
-                                <div class="logo_container">
-                                    <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
+                        <div class="col">
+                            <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
+                                <div class="newsletter_title_container">
+                                    <div class="newsletter_icon"><img src="<?php echo Url::to('@web/web/theme/images/send.png') ?>" alt=""></div>
+                                    <div class="newsletter_title">ลงทะเบียนรับข่าวสาร</div>
                                 </div>
-                                <div class="footer_title">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
-                                <div class="footer_contact_text">
-                                    <p>50/19 หมู่ 6 ต.บางหลวง</p>
-                                    <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
+                                <div class="newsletter_content clearfix">
+                                    <form action="#" class="newsletter_form">
+                                        <input type="email" class="newsletter_input" placeholder="Enter your email address">
+                                        <button class="newsletter_button">Subscribe</button>
+                                    </form>
+
                                 </div>
-                                <div class="footer_phone">โทร : (02) 1010325</div>
-                                <div class="footer_phone">Fax : (02) 581-1245</div>
-
                             </div>
                         </div>
-
-                        <div class="col-lg-2 offset-lg-2">
-                            <div class="footer_column">
-                                <div class="footer_title">ข่าวสาร</div>
-                                <ul class="footer_list">
-                                    <li><a href="#">ข่าวสารและกิจกรรม</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2">
-                            <div class="footer_column">
-                                <div class="footer_title">ช่วยเหลือ</div>
-                                <ul class="footer_list">
-                                    <li><a href="#">คู่มือการขอใช้บริการ</a></li>
-                                    <li><a href="#">วิธีการชำระเงิน</a></li>
-                                    <li><a href="#">แจ้งชำระเงิน</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2">
-                            <div class="footer_column">
-                                <div class="footer_title">ติดต่อเรา</div>
-                                <ul class="footer_list">
-                                    <li><a href="#">เกี่ยวกับเรา</a></li>
-                                    <li><a href="#">นโยบายและข้อตกลง</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-            </footer>
-        </div>
-        <!-- Copyright -->
-        <div class="copyright">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
-                            <div class="copyright_content"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> IC QUALITY SYSTEM Co., Ltd.
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-3 footer_col">
+                                <div class="footer_column footer_contact">
+                                    <div class="logo_container">
+                                        <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
+                                    </div>
+                                    <div class="footer_title">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                    <div class="footer_contact_text">
+                                        <p>50/19 หมู่ 6 ต.บางหลวง</p>
+                                        <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
+                                    </div>
+                                    <div class="footer_phone">โทร : (02) 1010325</div>
+                                    <div class="footer_phone">Fax : (02) 581-1245</div>
+
+                                </div>
                             </div>
 
+                            <div class="col-lg-2 offset-lg-2">
+                                <div class="footer_column">
+                                    <div class="footer_title">ข่าวสาร</div>
+                                    <ul class="footer_list">
+                                        <li><a href="#">ข่าวสารและกิจกรรม</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <div class="footer_column">
+                                    <div class="footer_title">ช่วยเหลือ</div>
+                                    <ul class="footer_list">
+                                        <li><a href="#">คู่มือการขอใช้บริการ</a></li>
+                                        <li><a href="#">วิธีการชำระเงิน</a></li>
+                                        <li><a href="#">แจ้งชำระเงิน</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <div class="footer_column">
+                                    <div class="footer_title">ติดต่อเรา</div>
+                                    <ul class="footer_list">
+                                        <li><a href="#">เกี่ยวกับเรา</a></li>
+                                        <li><a href="#">นโยบายและข้อตกลง</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            <!-- Copyright -->
+            <div class="copyright">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
+                                <div class="copyright_content"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> IC QUALITY SYSTEM Co., Ltd.
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <?php $this->endBody()?>
+        <?php $this->endBody() ?>
     </body>
 </html>
-<?php $this->endPage()?>
+<?php $this->endPage() ?>

@@ -58,7 +58,7 @@ class Customers extends \yii\db\ActiveRecord {
 		return [
 			'id' => 'ID',
 			'company' => 'ชื่อบริษัท',
-			'taxnumber' => 'เลขถาษี',
+			'taxnumber' => 'เลขภาษี',
 			'address' => 'ที่อยู่',
 			'changwat' => 'จังหวัด',
 			'ampur' => 'อำเภอ',

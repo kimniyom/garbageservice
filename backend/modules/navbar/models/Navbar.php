@@ -28,6 +28,7 @@ class Navbar extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['navbar','detail'],'required'],
             [['id'], 'required'],
             [['id', 'submenu'], 'integer'],
             [['detail'], 'string'],
@@ -43,9 +44,9 @@ class Navbar extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'navbar' => 'Navbar',
+            'navbar' => 'เมนู',
             'submenu' => 'Submenu',
-            'detail' => 'Detail',
+            'detail' => 'รายละเอียด',
         ];
     }
 }

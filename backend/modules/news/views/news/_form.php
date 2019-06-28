@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $model app\modules\news\models\News */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<script type="text/javascript" src="<?php echo Url::to('@web/web//ckeditor/ckeditor.js') ?>"></script>
+<script type="text/javascript" src="<?php echo Url::to('@web/web/ckeditor/ckeditor.js') ?>"></script>
 <script type="text/javascript" src="<?php echo Url::to('@web/web/ckeditor/ckfinder/ckfinder.js') ?>"></script>
 <div class="news-form">
 

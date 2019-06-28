@@ -13,13 +13,14 @@ class AppAssetTheme extends AssetBundle
     public $baseUrl = '@web/web/theme';
     public $css = [
         //'css/site.css',
-        'styles/bootstrap4/bootstrap.min.css',
+        
+        'styles/bootstrap4/bootstrap.css',
         'plugins/fontawesome-free-5.0.1/css/fontawesome-all.css',
+        'styles/main_styles.css',
         'plugins/OwlCarousel2-2.2.1/owl.carousel.css',
         'plugins/OwlCarousel2-2.2.1/owl.theme.default.css',
         'plugins/OwlCarousel2-2.2.1/animate.css',
         'plugins/slick-1.8.0/slick.css',
-        'styles/main_styles.css',
         'styles/responsive.css',
         'styles/blog_single_styles.css',
         'styles/blog_single_responsive.css',
@@ -27,6 +28,7 @@ class AppAssetTheme extends AssetBundle
         'gallery_img/dist/magnific-popup.css',
         'styles/blog_styles.css',
         'styles/blog_responsive.css'
+
     ];
     public $js = [
        //'js/jquery-3.3.1.min.js',
