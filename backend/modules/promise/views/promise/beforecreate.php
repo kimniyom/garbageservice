@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\customer\models\CustomersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -11,21 +13,22 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="check-index">
     <div class="row">
-        <div class="col-md-12 col-md-12">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" id="company">== เลือกลูกค้า ==</button>
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only" >Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <?php foreach ($customer as $rs): ?>
-                        <li><a href="#" onclick="setcustomerid('<?php echo $rs['id'] ?>','<?php echo $rs['company'] ?>')"><?php echo $rs['company'] ?></a></li>
-                    <?php endforeach;?>
-                </ul>
-            </div>
+        <div class="col-md-12 col-md-6">
+            <?php
+                echo Select2::widget([
+                    'name' => 'state_10',
+                    'data' => ArrayHelper::map($customer, "id", "company"),
+                    'options' => [
+                        'placeholder' => 'เลือกลูกค้า',
+                    ],
+                    'pluginEvents' => [
+                        "select2:select" => "function(){setcustomerid(this.value)}",
+                    ]
+                ]);
+            ?>
         </div>
     </div>
+   
     <br/>
     <div class="row">
         <div class="col-md-4 col-md-4">
@@ -51,8 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script type="text/javascript">
-    function setcustomerid(id,company){
-        $("#company").text(company);
+    function setcustomerid(id){
         $("#customerid").val(id);
         $("#next").hide();
         $("#nextfalse").hide();
