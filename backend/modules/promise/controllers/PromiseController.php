@@ -61,6 +61,7 @@ class PromiseController extends Controller
     public function actionView($id, $customerid)
     {
         $rs = $this->getPromise($id, $customerid);
+      
         return $this->render('view', [
             'model' => $rs,
         ]);
@@ -243,6 +244,8 @@ class PromiseController extends Controller
                     promise.payperyeartext,
                     promise.createat,
                     promise.garbageweight,
+                    promise.checkmoney,
+                    promise.status,
                     promise.active,
                     customers.company,
                     customers.taxnumber,
@@ -270,6 +273,7 @@ class PromiseController extends Controller
                     AND promise.customerid = {$customerid}
 
         ";
+       
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
 

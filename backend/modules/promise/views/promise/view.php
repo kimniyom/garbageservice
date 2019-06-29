@@ -29,7 +29,7 @@ $Config = new Config();
          
          <?= Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc',['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']) ?>
     </p>
-
+    
     <?= DetailView::widget([
         'model' => $model,
        
@@ -59,31 +59,25 @@ $Config = new Config();
             ],
             [
                 'label'=>'ประเภทการจ้าง',
-                'attribute'=>'recivetype'
+                'value'=> $model['recivetype']==1?"รายเดือน":"รายปี",
             ],
             [
-                'label'=>'คิดค่าจ้างเหมาในอัตราเดือนละ',
-                'attribute'=>'rate'
+                'label'=>$model['recivetype']==1?"คิดค่าจ้างเหมาในอัตราเดือนละ":"ค่าจ้างรวมทิ้งสิ้นต่อปี",
+                'value'=>($model['recivetype']==1)?(number_format($model['rate'])):(number_format($model['payperyear'])),
             ],
-            [
-                'label'=>'คิดค่าจ้างเหมาในอัตราเดือนละ (ตัวอักษร)',
-                'attribute'=>'ratetext'
-            ],
+           
             [
                 'label'=>'จำนวนครั้งที่จัดเก็บต่อเดือน',
                 'attribute'=>'levy'
             ],
             [
-                'label'=>'ค่าจ้างรวมทิ้งสิ้นต่อปี',
-                'attribute'=>'payperyear'
-            ],
-            [
-                'label'=>'ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
-                'attribute'=>'payperyeartext'
-            ],
-            [
                 'label'=>'วันที่ทำสัญญา',
-                'value'=> $Config->thaidate($model['createat'],'dd/MM/Y'),
+                'value'=> $Config->thaidate($model['createat']),
+               
+            ],
+            [
+                'label'=>'ปริมาณขยะ (กิโลกรัม)',
+                'value'=>$model['garbageweight'],
                
             ],
             [
@@ -97,8 +91,32 @@ $Config = new Config();
                
             ],
             [
-                'label'=>'ปริมาณขยะ (กิโลกรัม)',
-                'value'=>$model['garbageweight'],
+                'label'=>'สถานะการชำระเงิน',
+                'value'=>$model['checkmoney']==0?"ยังไม่ได้ชำระ":"ชำระแล้ว",
+               
+            ],
+            [
+                'label'=>'สถานะสัญญา',
+                'value'=>function($model){
+                    if($model['status']==0)
+                    {
+                        return "หมดสัญญา";
+                    }
+                    else if($model['status']==1)
+                    {
+                        return "รอยืนยัน";
+                    }
+                    else if($model['status']==2)
+                    {
+                        return "กำัลังใช้งาน";
+                    }
+                    else if($model['status']==3)
+                    {
+                        return "กำลังต่อสัญญา";
+                    }
+                     
+                },
+                
                
             ],
             [
@@ -106,6 +124,7 @@ $Config = new Config();
                 'value'=>$model['active']==1?"ใช้งาน":"ไม่ใช้งาน",
                
             ],
+
            
         ],
     ]) ?>
