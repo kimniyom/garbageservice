@@ -1075,10 +1075,12 @@ select option {
     padding-right: 25px;
     padding-left: 25px;
     cursor: pointer;
+    background: #000000;
 }
 
 .menu_trigger {
     height: 100%;
+    
 }
 
 .menu_burger_inner {

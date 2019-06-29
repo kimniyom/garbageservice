@@ -150,7 +150,6 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                 </div>
 
                 <!-- Main Navigation -->
-
                 <nav class="main_nav">
                     <div class="container">
                         <div class="row">
@@ -193,7 +192,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="menu_trigger_container ml-auto">
                                         <div class="menu_trigger d-flex flex-row align-items-center justify-content-end">
                                             <div class="menu_burger">
-                                                <div class="menu_trigger_text">menu</div>
+                                                <div class="menu_trigger_text" style="font-size: 20px;">menu</div>
                                                 <div class="cat_burger menu_burger_inner"><span></span><span></span><span></span></div>
                                             </div>
                                         </div>
@@ -206,8 +205,8 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                 </nav>
 
                 <!-- Menu -->
-                <div class="page_menu">
-                    <div class="container">
+                <div class="page_menu" style="padding:0px; margin:0px;">
+                    <div class="container" style="padding:0px;">
                         <div class="row">
                             <div class="col">
                                 <div class="page_menu_content">
@@ -306,7 +305,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     โดยยึดหลักธรรมาภิบาลเพื่อความปลอดของประชาชน
                                     และเป็นมิตรกับสิ่งแวดล้อม ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน
                                 </div>
-                                <div class="button banner_button"><a href="#">เพิ่มเติม</a></div>
+                                <div class="button banner_button"><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">ลงทะเบียนขอใช้บริการ</a></div>
                             </div>
                         </div>
                     </div>
@@ -353,7 +352,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
                 <!-- Adverts -->
                 <div class="adverts" style="margin-top:0px; padding-top:30px;background: #eff6fa;">
-                    <div class="container">
+                    <div class="container" >
                         <div class="reviews_title_container">
                             <h3 class="reviews_title">ข่าวล่าสุด</h3>
                             <div class="reviews_all ml-auto">

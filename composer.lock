@@ -4,12 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "hash": "6c27fe428259b740a8e00e37d5000c33",
     "content-hash": "3c02b1e07bb8a56fc651864a927ff0ba",
-=======
-    "content-hash": "70d7be0d771924c7b17449431b8434eb",
->>>>>>> fda5437ddde842ad7b4171d3a8b904c40d61b2f4
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -86,8 +81,7 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/ba907eaec40fab01d410c3023a5572b2cb46cea6",
-                "reference": "ba907eaec40fab01d410c3023a5572b2cb46cea6",
-                "shasum": null
+                "reference": "ba907eaec40fab01d410c3023a5572b2cb46cea6"
             },
             "type": "bower-asset"
         },
@@ -2271,7 +2265,7 @@
                 "yii2",
                 "yii2-fontawesome"
             ],
-            "time": "2014-11-27 00:43:55"
+            "time": "2014-11-27T00:43:55+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
