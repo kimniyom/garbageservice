@@ -21,13 +21,15 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('user', 'Sign up');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
-    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><?= Html::encode($this->title) ?></h3>
+<div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+    
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-dark mb-3" style="">
+                <div class="card-header" style="text-align: center;"><h4><?= Html::encode($this->title) ?></h4>
             </div>
-            <div class="panel-body">
+           <div class="card-body">
                 <?php $form = ActiveForm::begin([
                     'id' => 'registration-form',
                     'enableAjaxValidation' => true,
@@ -46,9 +48,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?php ActiveForm::end(); ?>
             </div>
-        </div>
-        <p class="text-center">
+            <div class="card-footer">
+                <p class="text-center">
             <?= Html::a(Yii::t('user', 'Already registered? Sign in!'), ['/user/security/login']) ?>
         </p>
+            </div>
+        </div>
+        
+    </div>
+        <div class="col col-lg-2">
+    
     </div>
 </div>

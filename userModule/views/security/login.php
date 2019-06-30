@@ -1,3 +1,4 @@
+
 <?php
 
 /*
@@ -26,16 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= $this->render('/_alert', ['module' => Yii::$app->getModule('user')]) ?>
 
-<div class="row" style="margin-top:50px;">
-    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title" style="text-align: center;">
-                    <?= Html::encode($this->title) ?>  
-                </h2>
-            </div>
-            <div class="panel-body">
-                <?php $form = ActiveForm::begin([
+<div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+    
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-dark mb-3" style="">
+            <div class="card-header" style="text-align: center;"><h4>Login</h4></div>
+            <div class="card-body">
+      <?php $form = ActiveForm::begin([
                     'id' => 'login-form',
                     'enableAjaxValidation' => true,
                     'enableClientValidation' => false,
@@ -80,20 +80,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= Html::submitButton(
                     Yii::t('user', 'Sign in'),
-                    ['class' => 'btn btn-primary btn-block', 'tabindex' => '4']
+                    ['class' => 'btn btn-secondary btn-block', 'tabindex' => '4']
                 ) ?>
 
                 <?php ActiveForm::end(); ?>
-            </div>
-        </div>
 
-
-            <p class="text-center">
+                            
+    </div>
+        <div class="card-footer">
+        <p class="text-center">
                 <a href="<?php echo Yii::$app->urlManagerFrontend->createUrl('') ?>">กลับหน้าหลัก</a>
             </p>
 
-        <?= Connect::widget([
-            'baseAuthUrl' => ['/user/security/auth'],
-        ]) ?>
     </div>
-</div>
+    </div>
+
+    </div>
+    <div class="col col-lg-2">
+
+    </div>
+  </div>
+
+
+

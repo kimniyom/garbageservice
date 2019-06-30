@@ -33,10 +33,10 @@ use yii\helpers\Html;
 ]); ?>
 
 <?= $form->field($profile, 'name') ?>
-<?= $form->field($profile, 'public_email') ?>
-<?= $form->field($profile, 'website') ?>
-<?= $form->field($profile, 'location') ?>
-<?= $form->field($profile, 'gravatar_email') ?>
+<?php //$form->field($profile, 'public_email') ?>
+<?php //$form->field($profile, 'website') ?>
+<?php //$form->field($profile, 'location') ?>
+<?php //$form->field($profile, 'gravatar_email') ?>
 <?= $form->field($profile, 'bio')->textarea() ?>
 
 <div class="form-group">
