@@ -41,6 +41,7 @@
 				],
 			],
 			['label' => 'สัญญา', 'icon' => 'fa fa-address-card-o', 'url' => ['/promise/promise']],
+			['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],
 			['label' => 'รอบเก็บ', 'icon' => 'download','url' => ['/gii'],
 				'items' => [
 					['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage']],
