@@ -313,7 +313,6 @@ COMMIT;
 DROP TABLE IF EXISTS `roundgarbage`;
 CREATE TABLE `roundgarbage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customerid` int(11) DEFAULT NULL COMMENT 'รหัสลูกค้า',
   `promiseid` int(11) DEFAULT NULL COMMENT 'เลขที่สัญญา',
   `datekeep` date DEFAULT NULL COMMENT 'วันที่เก็บขยะ',
   `round` int(11) DEFAULT NULL COMMENT 'รอบที่',
@@ -329,7 +328,6 @@ CREATE TABLE `roundgarbage` (
 DROP TABLE IF EXISTS `roundmoney`;
 CREATE TABLE `roundmoney` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customerid` int(11) DEFAULT NULL COMMENT 'รหัสลูกค้า',
   `promiseid` int(11) DEFAULT NULL COMMENT 'เลขที่สัญญา',
   `datekeep` date DEFAULT NULL COMMENT 'วันที่เก็บเงิน',
   `round` int(11) DEFAULT NULL COMMENT 'รอบที่',

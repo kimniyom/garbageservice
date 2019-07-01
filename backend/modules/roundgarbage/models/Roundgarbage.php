@@ -8,8 +8,6 @@ use Yii;
  * This is the model class for table "roundgarbage".
  *
  * @property int $id
- * @property int $customerid รหัสลูกค้า
- * @property int $promiseid รหัสสัญญา
  * @property string $datekeep วันที่เก็บขยะ
  * @property int $round รอบที่
  * @property int $amount ปริมาณขยะ
@@ -32,12 +30,12 @@ class Roundgarbage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customerid', 'round', 'amount'], 'integer'],
+            [['round', 'amount'], 'integer'],
             [['datekeep'], 'safe'],
             [['status'], 'string'],
             [['keepby'], 'string', 'max' => 64],
-            [['customerid', 'promiseid', 'keepby', 'amount', 'datekeep'], 'required'],
-            [['customerid', 'promiseid', 'datekeep'], 'unique', 'targetAttribute' => ['customerid', 'promiseid', 'datekeep']]
+            [['promiseid', 'keepby', 'amount', 'datekeep'], 'required'],
+            [['promiseid', 'datekeep'], 'unique', 'targetAttribute' => ['promiseid', 'datekeep']]
         ];
     }
 
@@ -48,7 +46,6 @@ class Roundgarbage extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'customerid' => 'รหัสลูกค้า',
             'promiseid' => 'เลขที่สัญญา',
             'datekeep' => 'วันที่เก็บขยะ',
             'round' => 'รอบที่',
