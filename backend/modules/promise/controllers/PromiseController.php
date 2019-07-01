@@ -281,7 +281,7 @@ class PromiseController extends Controller
     {
         $customerid = Yii::$app->request->post('customerid');
         $isReccord = 0;
-        $rs = Promise::find()->where(['customerid' => $customerid, 'status' => '2', 'active'=>'1'])->count();
+        $rs = Promise::find()->where(['customerid' => $customerid, 'status' => '0', 'active'=>'0'])->count();
         if($rs > 0) 
         {         
             $isReccord = 1;
