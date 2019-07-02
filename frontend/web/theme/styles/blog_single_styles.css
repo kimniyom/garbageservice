@@ -25,7 +25,20 @@
 ***********/
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900');
+@font-face {
+    font-family: Th;
+    src: url('font-th/TH K2D July8 Bold.ttf') format('truetype');
+}
 
+@font-face {
+    font-family: SPMK-Th;
+    src: url('font-th/supermarket.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: thaisanslite;
+    src: url('thaisanslite/thaisanslite_r1.ttf') format('truetype');
+}
 /*********************************
 2. Body and some general stuff
 *********************************/
@@ -1328,8 +1341,18 @@ select option
 	padding-right: 31px;
 	padding-top: 21px;
 	padding-bottom: 30px;
-	font-size: 18px;
-	font-weight: 500;
+	font-size: 22px;
+	font-family: 'Th';
+	overflow: hidden;
+	margin-right: 31px;
+	height: 95px;
+}
+
+.blog_text a
+{
+	
+	font-size: 24px;
+	font-family: 'Th';
 }
 .blog_button
 {

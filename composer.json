@@ -27,7 +27,8 @@
         "dixonsatit/yii2-thai-year-formatter": "*",
         "lesha724/yii2-document-viewer": "*",
         "yii2assets/yii2-pdfjs": ">=1.0",
-        "sersid/yii2-font-awesome-asset": "*"
+        "sersid/yii2-font-awesome-asset": "*",
+        "yiisoft/yii2-bootstrap4": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

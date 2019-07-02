@@ -2,19 +2,20 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use app\models\Config;
+use app\modules\news\models\News;
 use common\widgets\Alert;
 use frontend\assets\AppAssetTheme;
+use yii\bootstrap4\Breadcrumbs;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Breadcrumbs;
-use app\models\Config;
 
 AppAssetTheme::register($this);
 
 $Config = new Config();
 $menu = $Config->getMenu();
 
-use app\modules\news\models\News;
+//use yii\widgets\Breadcrumbs;
 
 $newsModel = new News();
 
@@ -26,23 +27,26 @@ $categorys = Yii::$app->db->createCommand($sql)->queryAll();
 $sqlNews = "select * from news limit 3";
 $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 ?>
-<?php $this->beginPage() ?>
+<?php $this->beginPage()?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?=Yii::$app->language?>">
     <head>
-        <meta charset="<?= Yii::$app->charset ?>">
+        <meta charset="<?=Yii::$app->charset?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php $this->registerCsrfMetaTags() ?>
-        <title><?= Html::encode($this->title) ?></title>
-        <?php $this->head() ?>
+        <?php $this->registerCsrfMetaTags()?>
+        <title><?=Html::encode($this->title)?></title>
+        <?php $this->head()?>
         <style type="text/css">
             .breadcrumb {
                 padding: 8px 15px;
+                margin-top: 20px;
                 margin-bottom: 20px;
                 list-style: none;
-                background-color: #f5f5f5;
+                background: none;
                 border-radius: 4px;
+                font-size: 20px;
+                font-family: 'Th';
             }
             .breadcrumb > li {
                 display: inline-block;
@@ -55,51 +59,97 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
             .breadcrumb > .active {
                 color: #777777;
             }
-        </style>   
+            .footer_list li a {
+                font-size: 12px;
+                font-weight: 500;
+                color: #eeeeee;
+                -webkit-transition: all 200ms ease;
+                -moz-transition: all 200ms ease;
+                -ms-transition: all 200ms ease;
+                -o-transition: all 200ms ease;
+                transition: all 200ms ease;
+            }
+
+            .footer_list li a:hover {
+                color: #0e8ce4;
+            }
+        </style>
+        <?php
+$this->registerJs('
+                    $(document).ready(function(){
+                        var btn = $("#button_top");
+                      btn.on("click", function(e) {
+                        e.preventDefault();
+                        $("html, body").animate({scrollTop:0}, "300");
+                      });
+
+                        $(window).bind("scroll", function () {
+                            if ($(window).scrollTop() > 55) {
+                                $("#navbar").addClass("fixed-top");
+                            } else {
+                                $("#navbar").removeClass("fixed-top");
+                            }
+                        });
+
+                        var w = $(window).width();
+
+                        if(w < 991){
+                            $(".top_bar_contact_item p").hide();
+                            $(".top_bar").css({"height": "50px"});
+                            $("#navbar").addClass("fixed-top");
+                            $("#img-logo").css({"height": "50px"});
+                            $(".navbar-brand").text("IC QUALITY SYSTEM");
+
+                        } else {
+                            $(".top_bar").css({"height": "70px"});
+                            $("#img-logo").css({"height": "64px"});
+                            $(".top_bar_contact_item p").show();
+                        }
+
+                        if(w < 768){
+                            $(".banner").css({"margin-top": "20px"});
+                        }
+                    });
+                ');
+?>
     </head>
     <body>
-        <?php $this->beginBody() ?>
+        <?php $this->beginBody()?>
 
         <div class="super_container">
             <!-- Header -->
             <header class="header">
                 <!-- Top Bar -->
-                <div class="top_bar" >
+                <div class="top_bar">
                     <div class="container">
                         <div class="row">
                             <div class="col d-flex flex-row">
                                 <div class="logo" style=" margin-right: 10px;">
-                                    <a href="#"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" style=" height: 48px;"/></a>
+                                    <a href="#"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" id="img-logo"/></a>
                                 </div>
-                                <div class="top_bar_contact_item" style=" margin-right: 10px;">
-                                    <div class="top_bar_icon">
-                                        <img src="<?php echo Url::to('@web/web/theme/images/phone.png') ?>" alt="">
-                                    </div>(02) 101-0325
-                                </div>
-                                <div class="top_bar_contact_item">
-                                    <div class="top_bar_icon">
-                                        <img src="<?php echo Url::to('@web/web/theme/images/mail.png') ?>" alt="">
-                                    </div>iccleanup@gmail.com
+                                <div class="top_bar_contact_item" style="margin-right: 10px;">
+                                    <p class="text-info" style="margin-bottom: 0px; margin-top:10px;">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
+                                    <p class="text-info" style="margin-bottom: 0px;">IC QUALITY SYSTEM Co., Ltd.</p>
                                 </div>
                                 <div class="top_bar_content ml-auto">
                                     <div class="top_bar_user">
-                                        <?php if (Yii::$app->user->isGuest) { ?>
+                                        <?php if (Yii::$app->user->isGuest) {?>
                                             <div class="user_icon">
                                                 <img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt="">
                                             </div>
                                             <div><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">Register</a></div>
-                                        <?php } ?>
+                                        <?php }?>
                                         <div>
-                                            <?php if (Yii::$app->user->isGuest) { ?>
-                                                <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>">Sign in</a>
-                                            <?php } else { ?>
+                                            <?php if (Yii::$app->user->isGuest) {?>
+                                                <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>"><i class="fa fa-lock"></i> Sign in</a>
+                                            <?php } else {?>
 
-                                                <?php if (Yii::$app->user->identity->status == "U") { ?>
+                                                <?php if (Yii::$app->user->identity->status == "U") {?>
                                                     <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
-                                                <?php } else { ?>
+                                                <?php } else {?>
                                                     <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
-                                                <?php } ?>
-                                            <?php } ?>
+                                                <?php }?>
+                                            <?php }?>
                                         </div>
                                     </div>
                                 </div>
@@ -149,144 +199,51 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                     </div>
                 </div>
 
-                <!-- Main Navigation -->
-                <nav class="main_nav">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <div class="main_nav_content d-flex flex-row">
-                                    <!-- Main Nav Menu -->
+                <nav id="navbar" class="navbar navbar-expand-lg navbar-light" style="background: #FFFFFF; box-shadow: #eeeeee 0px 0px 20px 0px;">
+                <div class="container">
+                <a class="navbar-brand text-info" href="#">Menu</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                                    <div class="main_nav_menu ml-auto">
-                                        <ul class="standard_dropdown main_nav_dropdown">
-
-                                            <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site']) ?>">หน้าแรก</a></li>
-                                            <li class="hassubs">
-                                                <a href="#">ข่าว<i class="fas fa-chevron-down"></i></a>
-                                                <ul>
-                                                    <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสาร</a></li>
-                                                </ul>
-                                            </li>
-                                            <?php
-                                            foreach ($menu as $menus):
-                                                if ($menus['submenu'] == "1") {
-                                                    $Smenu = $Config->getSubMenu($menus['id']);
-                                                    ?>
-                                                    <li class="hassubs">
-                                                        <a href="#"><?php echo $menus['navbar'] ?><i class="fas fa-chevron-down"></i></a>
-                                                        <ul>
-                                                            <?php foreach ($Smenu as $Smenus) { ?>
-                                                                <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
-                                                            <?php } ?>
-                                                        </ul>
-                                                    </li>
-                                                <?php } else { ?>
-                                                    <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a></li>
-                                                <?php } ?>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-
-                                    <!-- Menu Trigger -->
-
-                                    <div class="menu_trigger_container ml-auto">
-                                        <div class="menu_trigger d-flex flex-row align-items-center justify-content-end">
-                                            <div class="menu_burger">
-                                                <div class="menu_trigger_text" style="font-size: 20px;">menu</div>
-                                                <div class="cat_burger menu_burger_inner"><span></span><span></span><span></span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-
-                <!-- Menu -->
-                <div class="page_menu" style="padding:0px; margin:0px;">
-                    <div class="container" style="padding:0px;">
-                        <div class="row">
-                            <div class="col">
-                                <div class="page_menu_content">
-                                    <div class="page_menu_search">
-                                        <form action="#">
-                                            <input type="search" required="required" class="page_menu_search_input" placeholder="Search for products...">
-                                        </form>
-                                    </div>
-                                    <ul class="page_menu_nav">
-                                        <li class="page_menu_item has-children">
-                                            <a href="#">Language<i class="fa fa-angle-down"></i></a>
-                                            <ul class="page_menu_selection">
-                                                <li><a href="#">English<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Italian<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Spanish<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Japanese<i class="fa fa-angle-down"></i></a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="page_menu_item has-children">
-                                            <a href="#">Currency<i class="fa fa-angle-down"></i></a>
-                                            <ul class="page_menu_selection">
-                                                <li><a href="#">US Dollar<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">EUR Euro<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">GBP British Pound<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">JPY Japanese Yen<i class="fa fa-angle-down"></i></a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="page_menu_item">
-                                            <a href="#">Home<i class="fa fa-angle-down"></i></a>
-                                        </li>
-                                        <li class="page_menu_item has-children">
-                                            <a href="#">Super Deals<i class="fa fa-angle-down"></i></a>
-                                            <ul class="page_menu_selection">
-                                                <li><a href="#">Super Deals<i class="fa fa-angle-down"></i></a></li>
-                                                <li class="page_menu_item has-children">
-                                                    <a href="#">Menu Item<i class="fa fa-angle-down"></i></a>
-                                                    <ul class="page_menu_selection">
-                                                        <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                        <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                        <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                        <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="page_menu_item has-children">
-                                            <a href="#">Featured Brands<i class="fa fa-angle-down"></i></a>
-                                            <ul class="page_menu_selection">
-                                                <li><a href="#">Featured Brands<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="page_menu_item has-children">
-                                            <a href="#">Trending Styles<i class="fa fa-angle-down"></i></a>
-                                            <ul class="page_menu_selection">
-                                                <li><a href="#">Trending Styles<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                                <li><a href="#">Menu Item<i class="fa fa-angle-down"></i></a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="page_menu_item"><a href="blog.html">blog<i class="fa fa-angle-down"></i></a></li>
-                                        <li class="page_menu_item"><a href="contact.html">contact<i class="fa fa-angle-down"></i></a></li>
-                                    </ul>
-                                    <div class="menu_contact">
-                                        <div class="menu_contact_item"><div class="menu_contact_icon"><img src="<?php echo Url::to('@web/web/theme/images/phone_white.png') ?>" alt=""></div>+38 068 005 3570</div>
-                                        <div class="menu_contact_item"><div class="menu_contact_icon"><img src="<?php echo Url::to('@web/web/theme/images/mail_white.png') ?>" alt=""></div><a href="mailto:fastsales@gmail.com">fastsales@gmail.com</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="<?php echo Yii::$app->urlManager->createUrl(['site']) ?>"><i class="fa fa-home"></i> หน้าแรก</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าว</a>
+                        </li>
+                        <?php
+foreach ($menu as $menus):
+	if ($menus['submenu'] == "1") {
+		$Smenu = $Config->getSubMenu($menus['id']);
+		?>
+																																																																																																																																																	                                                        <li class="nav-item dropdown">
+																																																																																																																																																	                                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																																																																																																																																																	                                                                <?php echo $menus['navbar'] ?>
+																																																																																																																																																	                                                            </a>
+																																																																																																																																																	                                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+																																																																																																																																																	                                                                <?php foreach ($Smenu as $Smenus) {?>
+																																																																																																																																																	                                                                <a class="dropdown-item" href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a>
+																																																																																																																																																	                                                                <?php }?>
+																																																																																																																																																	                                                            </div>
+																																																																																																																																																	                                                        </li>
+																																																																																																																																																	                                                    <?php } else {?>
+																																																																																																																																																	                                                        <li><a class="nav-link" href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a></li>
+																																																																																																																																																	                                                    <?php }?>
+																																																																																																																																																	                                                    <?php endforeach;?>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                 </div>
-            </header>
+                </div>
+            </nav>
 
+
+            </header>
 
 
             <!-- Banner -->
@@ -315,7 +272,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
             <div id="mainbody" style=" display: none;">
                 <div class="container">
-                    <div class="row" style="margin-top: 50px; padding-bottom:30px;margin-bottom:0px;">
+                    <div class="row" style="margin-top: 35px; padding-bottom:30px;margin-bottom:0px;">
                         <!-- Char. Item -->
                         <div class="col-lg-4 col-md-6 char_col">
                             <div class="char_item d-flex flex-row align-items-center justify-content-start">
@@ -338,7 +295,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                             </div>
                         </div>
                         <!-- Char. Item -->
-                        <div class="col-lg-4 col-md-6 char_col">
+                        <div class="col-lg-4 col-md-12 char_col">
                             <div class="char_item d-flex flex-row align-items-center justify-content-start">
                                 <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_3.png') ?>" alt=""></div>
                                 <div class="char_content">
@@ -363,30 +320,29 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                         <div class="row">
 
                             <?php
-                            foreach ($news as $new):
-                                $img = $newsModel->getAlbum($new['ID']);
-                                $fImg = Url::to('../uploads/news/gallery/200-' . $img);
-                                ?>
-                                <div class="col-lg-4 advert_col">
-                                    <!-- Advert Item -->
-                                    <div class="advert d-flex flex-row align-items-center justify-content-start" style="background: #FFFFFF;">
-                                        <div class="advert_content">
-                                            <div class="advert_subtitle"><?php echo $new['CREATEAT'] ?></div>
-                                            <div class="advert_text">
-                                                <a href="<?php echo Url::to(['news/news/view', 'id' => $new['ID']]) ?>">
-                                                    <?php echo $new['TITLE'] ?>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="ml-auto"><div class="advert_image"><img src="<?php echo $fImg ?>" alt=""></div></div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
+foreach ($news as $new):
+	$img = $newsModel->getAlbum($new['ID']);
+	$fImg = Url::to('../uploads/news/gallery/200-' . $img);
+	?>
+																																																																																																																																																				                                <div class="col-lg-4 advert_col">
+																																																																																																																																																				                                    <!-- Advert Item -->
+																																																																																																																																																				                                    <div class="advert d-flex flex-row align-items-center justify-content-start" style="background: #FFFFFF;box-shadow: none;">
+																																																																																																																																																				                                        <div class="advert_content">
+																																																																																																																																																				                                            <div class="advert_subtitle"><?php echo $new['CREATEAT'] ?></div>
+																																																																																																																																																				                                            <div class="advert_text">
+																																																																																																																																																				                                                <a href="<?php echo Url::to(['news/news/view', 'id' => $new['ID']]) ?>">
+																																																																																																																																																				                                                    <?php echo $new['TITLE'] ?>
+																																																																																																																																																				                                                </a>
+																																																																																																																																																				                                            </div>
+																																																																																																																																																				                                        </div>
+																																																																																																																																																				                                        <div class="ml-auto"><div class="advert_image"><img src="<?php echo $fImg ?>" alt=""></div></div>
+																																																																																																																																																				                                    </div>
+																																																																																																																																																				                                </div>
+																																																																																																																																																				                            <?php endforeach;?>
 
                         </div>
                     </div>
                 </div>
-
 
 
                 <!-- Popular Categories -->
@@ -416,7 +372,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                                     <div class="popular_category_text"><?php echo $rsCat['garbagecontainer'] ?></div>
                                                 </div>
                                             </div>
-                                        <?php endforeach ?>
+                                        <?php endforeach?>
                                     </div>
                                 </div>
                             </div>
@@ -429,31 +385,30 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
             <div class="characteristics" style="padding-top: 0px;">
                 <div class="container">
                     <?=
-                    Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    ])
-                    ?>
-                    <?= Alert::widget() ?>
-                    <?= $content ?>
+Breadcrumbs::widget([
+	'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+])
+?>
+                    <?=Alert::widget()?>
+                    <?=$content?>
                 </div>
             </div>
             <!-- Newsletter -->
 
-            <div class="newsletter">
-                <div class="container">
+            <div class="newsletter bg-secondary" style="padding-bottom:0px; padding-top:25px;">
+                <div class="container" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col">
                             <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
                                 <div class="newsletter_title_container">
                                     <div class="newsletter_icon"><img src="<?php echo Url::to('@web/web/theme/images/send.png') ?>" alt=""></div>
-                                    <div class="newsletter_title">ลงทะเบียนรับข่าวสาร</div>
+                                    <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
                                 </div>
                                 <div class="newsletter_content clearfix">
                                     <form action="#" class="newsletter_form">
                                         <input type="email" class="newsletter_input" placeholder="Enter your email address">
                                         <button class="newsletter_button">Subscribe</button>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -461,16 +416,16 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                 </div>
 
                 <!-- Footer -->
-                <footer class="footer">
+                <footer class="footer bg-dark">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-3 footer_col">
+                            <div class="col-lg-4 footer_col">
                                 <div class="footer_column footer_contact">
                                     <div class="logo_container">
                                         <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
                                     </div>
-                                    <div class="footer_title">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
-                                    <div class="footer_contact_text">
+                                    <div class="footer_title text-white">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                    <div class="footer_contact_text text-white">
                                         <p>50/19 หมู่ 6 ต.บางหลวง</p>
                                         <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
                                     </div>
@@ -480,35 +435,43 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                 </div>
                             </div>
 
-                            <div class="col-lg-2 offset-lg-2">
+
+                            <div class="col-lg-2">
                                 <div class="footer_column">
-                                    <div class="footer_title">ข่าวสาร</div>
+                                    <div class="footer_title text-warning">ข่าวสาร</div>
                                     <ul class="footer_list">
-                                        <li><a href="#">ข่าวสารและกิจกรรม</a></li>
+                                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสารและกิจกรรม</a></li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="col-lg-2">
-                                <div class="footer_column">
-                                    <div class="footer_title">ช่วยเหลือ</div>
-                                    <ul class="footer_list">
-                                        <li><a href="#">คู่มือการขอใช้บริการ</a></li>
-                                        <li><a href="#">วิธีการชำระเงิน</a></li>
-                                        <li><a href="#">แจ้งชำระเงิน</a></li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            <div class="col-lg-2">
-                                <div class="footer_column">
-                                    <div class="footer_title">ติดต่อเรา</div>
-                                    <ul class="footer_list">
-                                        <li><a href="#">เกี่ยวกับเรา</a></li>
-                                        <li><a href="#">นโยบายและข้อตกลง</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <?php
+foreach ($menu as $menus):
+	if ($menus['submenu'] == "1") {
+		$Smenu = $Config->getSubMenu($menus['id']);
+		?>
+																																																																																																														                                        <div class="col-lg-2">
+																																																																																																														                                            <div class="footer_column">
+																																																																																																														                                                <div class="footer_title text-warning"><?php echo $menus['navbar'] ?></div>
+																																																																																																														                                                <ul class="footer_list">
+																																																																																																									                                                                    <?php foreach ($Smenu as $Smenus) {?>
+																																																																																																												                                                             <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
+																																																																																																														                                                <?php }?>
+																																																																																																									                                                                    </ul>
+																																																																																																														                                            </div>
+																																																																																																														                                        </div>
+																																																																																																								    <?php } else {?>
+																																																																																																														                                        <div class="col-lg-2">
+																																																																																																														                                            <div class="footer_column">
+																																																																																																														                                                <div class="footer_title">
+																																																																																																											                                                             <a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a>
+																																																																																																														                                                </div>
+																																																																																																														                                            </div>
+																																																																																																														                                        </div>
+																																																																																																														                                        <?php }?>
+																																																																																																								    <?php endforeach;?>
+
 
                         </div>
                     </div>
@@ -518,20 +481,26 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
             <div class="copyright">
                 <div class="container">
                     <div class="row">
-                        <div class="col">
+                        <div class="col col-lg-10 col-md-10">
                             <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
-                                <div class="copyright_content"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                <div class="copyright_content text-info"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                     Copyright &copy;<script>document.write(new Date().getFullYear());</script> IC QUALITY SYSTEM Co., Ltd.
                                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                 </div>
 
                             </div>
                         </div>
+                        <div class="col col-lg-2 col-md-2">
+                            <button type="button" class="btn btn-light pull-right text-info" id="button_top" style="margin-top:10px; float: right;"><i class="fa fa-arrow-up"></i> TOP</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <?php $this->endBody() ?>
+
+        <?php $this->endBody()?>
     </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage()?>
+
+

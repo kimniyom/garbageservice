@@ -30,15 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="list-group-item active">แจ้งเตือน</div>
                     <a href="" class="list-group-item">รายการข้อมูลค้างจ่าย <span class="badge badge-danger badge-pill" style="padding-top:5px;">0</span></a>
                     <a href="" class="list-group-item">จำนวนสัญญาคงเหลือ <span class="badge badge-danger badge-pill" style="padding-top:5px;">0</span></a>
-
-                    <?php
+                    <div class="list-group-item">
+                        <?php
 echo
 Html::beginForm(['/site/logout'], 'post')
 . Html::submitButton(
-	'<i class="fa fa-power-off text-danger"></i> ออกจากระบบ (' . Yii::$app->user->identity->username . ')', ['class' => 'list-group-item text-danger'])
+	'<i class="fa fa-power-off text-danger"></i> ออกจากระบบ (' . Yii::$app->user->identity->username . ')', ['class' => 'btn'])
 ?>
+                    </div>
+
                 </div>
             </div>
+            <br/>
             <?php
 if ($customer['approve'] == "Y") {
 	?>
