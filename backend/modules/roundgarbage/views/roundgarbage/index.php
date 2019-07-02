@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\roundgarbage\models\RoundgarbageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Roundgarbages';
+$this->title = 'รอบเก็บขยะ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="roundgarbage-index">

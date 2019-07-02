@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
+use app\models\Config;
 
 /**
  * PromiseController implements the CRUD actions for Promise model.
@@ -138,7 +139,7 @@ class PromiseController extends Controller
         $rs = $this->getPromise($id, $customerid);
         Settings::setTempDir(Yii::getAlias('@webroot').'/web/temp/'); //Path ของ Folder temp ที่สร้างเอาไว้
         $templateProcessor = new TemplateProcessor(Yii::getAlias('@webroot').'/web/doc/templetpromise.docx'); //Path ของ template ที่สร้างเอาไว้
-        
+        $Config = new Config();
         $templateProcessor->setValue(
             [
                 'id',
@@ -166,29 +167,29 @@ class PromiseController extends Controller
                 'long'
             ],
             [
-            $rs['id'],
-            $rs['customerid'],
-            Yii::$app->thaiFormatter->asDate($rs['promisedatebegin'], 'long'),
-            Yii::$app->thaiFormatter->asDate($rs['promisedateend'], 'long'),
-            $rs['recivetype']==0?'รายครั้ง':'รายเดือน',
-            $rs['rate'],
-            $rs['ratetext'],
-            $rs['levy'],
-            $rs['payperyear'],
-            $rs['payperyeartext'],
-            Yii::$app->thaiFormatter->asDate($rs['createat'], 'long'),
-            $rs['company'],
-            $rs['taxnumber'],
-            $rs['address'],
-            $rs['changwat'],
-            $rs['ampur'],
-            $rs['tambon'],
-            $rs['zipcode'],    
-            $rs['manager'],   
-            $rs['tel'],   
-            $rs['telephone'],    
-            $rs['lat'],   
-            $rs['long'],   
+                $rs['id'],
+                $rs['customerid'],
+                $Config->thaidate($rs['promisedatebegin']),
+                $Config->thaidate($rs['promisedateend']),
+                $rs['recivetype']==0?'รายครั้ง':'รายเดือน',
+                $rs['rate'],
+                $rs['ratetext'],
+                $rs['levy'],
+                $rs['payperyear'],
+                $rs['payperyeartext'],
+                $Config->thaidate($rs['createat']),
+                $rs['company'],
+                $rs['taxnumber'],
+                $rs['address'],
+                $rs['changwat'],
+                $rs['ampur'],
+                $rs['tambon'],
+                $rs['zipcode'],    
+                $rs['manager'],   
+                $rs['tel'],   
+                $rs['telephone'],    
+                $rs['lat'],   
+                $rs['long'],   
             ]); 
 
         $templateProcessor->saveAs(Yii::getAlias('@webroot').'/web/doc/promise.docx');
@@ -281,7 +282,7 @@ class PromiseController extends Controller
     {
         $customerid = Yii::$app->request->post('customerid');
         $isReccord = 0;
-        $rs = Promise::find()->where("customerid = {$customerid} AND CURDATE() between promisedatebegin and promisedateend")->count();
+        $rs = Promise::find()->where(['customerid' => $customerid, 'status' => '0', 'active'=>'0'])->count();
         if($rs > 0) 
         {         
             $isReccord = 1;

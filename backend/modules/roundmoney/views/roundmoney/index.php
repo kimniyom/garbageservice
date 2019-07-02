@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="roundmoney-index">
     <p>
-        <?= Html::a('Create Roundmoney', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('เพิ่มรอบการเก็บเงิน', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

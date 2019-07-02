@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "roundmoney".
  *
  * @property int $id
- * @property int $customerid รหัสลูกค้า
  * @property int $promiseid รหัสสัญญา
  * @property string $datekeep วันที่เก็บเงิน
  * @property int $round รอบที่
@@ -33,8 +32,8 @@ class Roundmoney extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customerid', 'promiseid', 'round', 'amount'], 'integer'],
-            [['customerid', 'promiseid', 'round', 'amount', 'datekeep','keepby'], 'required'],
+            [['promiseid', 'round', 'amount'], 'integer'],
+            [['promiseid', 'round', 'amount', 'datekeep','keepby'], 'required'],
             [['datekeep'], 'safe'],
             [['status'], 'string'],
             [['keepby'], 'string', 'max' => 64],
@@ -49,7 +48,6 @@ class Roundmoney extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'customerid' => 'รหัสลูกค้า',
             'promiseid' => 'เลขที่สัญญา',
             'datekeep' => 'วันที่เก็บเงิน',
             'round' => 'รอบที่',
