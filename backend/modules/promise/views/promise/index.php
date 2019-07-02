@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="promise-index">
 
     <p>
-        <?= Html::a('Create Promise', ['beforecreate'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('ทำสัญญา', ['beforecreate'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
