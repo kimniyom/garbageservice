@@ -275,9 +275,6 @@ BEGIN;
 INSERT INTO `profile` VALUES ('1', null, null, null, null, null, null, null, null), ('2', null, null, null, null, null, null, null, null), ('3', '', '', '', 'd41d8cd98f00b204e9800998ecf8427e', '', '', '', 'Pacific/Kiritimati'), ('4', null, null, null, null, null, null, null, null), ('5', null, null, null, null, null, null, null, null), ('6', null, null, null, null, null, null, null, null), ('7', null, null, null, null, null, null, null, null);
 COMMIT;
 
--- ----------------------------
---  Table structure for `promise`
--- ----------------------------
 DROP TABLE IF EXISTS `promise`;
 CREATE TABLE `promise` (
   `id` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'เลขที่สัญญา',
@@ -291,12 +288,13 @@ CREATE TABLE `promise` (
   `payperyear` int(255) DEFAULT NULL COMMENT 'ค่าจ้างรวมทิ้งสิ้นต่อปี',
   `payperyeartext` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
   `createat` date DEFAULT NULL COMMENT 'วันที่ทำสัญญา',
-  `active` enum('1','0') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'การใช้งาน 1=ใช้งาน 0=ไม่ใช้',
+  `active` enum('1','0') COLLATE utf8_unicode_ci DEFAULT '0' COMMENT 'การใช้งาน 1=ใช้งาน 0=ไม่ใช้',
   `garbageweight` double DEFAULT NULL COMMENT 'ปริมาณขยะ (กิโลกรัม)',
-  `status` enum('0','1','2','3') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สถานะสัญญา 0=หมดสัญญา, 1=รอยืนยัน, 2=กำลังใช้งาน, 3=กำลังต่อสัญญา',
+  `status` enum('0','1','2','3') COLLATE utf8_unicode_ci DEFAULT '0' COMMENT 'สถานะสัญญา 0=หมดสัญญา, 1=รอยืนยัน, 2=กำลังใช้งาน, 3=กำลังต่อสัญญา',
   `checkmoney` enum('0','1') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สถานะการชำระเงิน 0=ยังไม่ได้ชำระ, 1=ชำระเงินแล้ว',
   `monthunit` int(11) DEFAULT NULL COMMENT 'จำนวนเดือน',
   `yearunit` int(11) DEFAULT NULL COMMENT 'จำนวนปี',
+  `deposit` int(11) DEFAULT NULL COMMENT 'มัดจำล่วงหน้า(เดือน)',
   PRIMARY KEY (`id`,`customerid`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางสัญญาจ้าง';
 
