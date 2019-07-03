@@ -91,6 +91,15 @@ if ($customer['approve'] == "Y") {
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
+                        <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/promise']) ?>">
+                        <div class="card-body">
+                            <i class="fa fa-dollar-sign fa-5x"></i><br/><br/>
+                            แจ้งชำระเงิน
+                        </div></a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
                         <div class="card-body">
                             รายการข้อมูลค้างจ่าย
                         </div>
@@ -103,13 +112,7 @@ if ($customer['approve'] == "Y") {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
-                            แจ้งชำระเงิน
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
