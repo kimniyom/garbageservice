@@ -16,7 +16,6 @@ $Config = new Config();
 <div class="promise-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
             'class' => 'btn btn-danger',
             'data' => [

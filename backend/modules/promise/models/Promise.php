@@ -24,6 +24,7 @@ use Yii;
  * @property string $checkmoney สถานะการชำระเงิน 0=ยังไม่ได้ชำระ, 1=ชำระเงินแล้ว 
  * @property int $monthunit จำนวนเดือน 
  * @property int $yearunit จำนวนปี 
+ * @property int $deposit มัดจำล่วงหน้า
 **/
 class Promise extends \yii\db\ActiveRecord
 {
@@ -41,12 +42,24 @@ class Promise extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'customerid'], 'required'],
+            [['id', 'customerid', 'promisedatebegin', 'promisedateend', 'garbageweight'], 'required'],
+            ['rate', 'required', 'when' => function ($model) {
+                return $model->recivetype == 1;
+                }, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 1;
+                }"
+            ],
+            ['payperyear', 'required', 'when' => function ($model) {
+                return $model->recivetype == 0;
+                }, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 0;
+                }"
+            ],
             [['id'], 'unique', 'message'=>'เลขสัญญาซ้ำ'],
             [['customerid', 'rate', 'levy', 'payperyear', 'monthunit', 'yearunit'], 'integer'],
             [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
             [['recivetype', 'active', 'status', 'checkmoney'], 'string'],
-            [['garbageweight'], 'number'],
+            [['garbageweight','deposit'], 'number'],
             [['id', 'ratetext', 'payperyeartext'], 'string', 'max' => 64],
             ['ratetext', 'string'], 
             [['id', 'customerid'], 'unique', 'targetAttribute' => ['id', 'customerid']],
@@ -70,12 +83,13 @@ class Promise extends \yii\db\ActiveRecord
             'payperyear' => '* ค่าจ้างรวมทิ้งสิ้นต่อปี',
             'payperyeartext' => '* ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
             'createat' => 'วันที่ทำสัญญา',
-            'active' => 'สถานะการใช้งาน', 
-            'garbageweight' => 'ปริมาณขยะ (กิโลกรัม)', 
+            'active' => '* สถานะการใช้งาน', 
+            'garbageweight' => '* ปริมาณขยะ (กิโลกรัม)', 
             'status' => 'สถานะสัญญา',
             'checkmoney' => 'สถานะการชำระเงิน',
-            'monthunit' => 'จำนวนเดือน',
+            'monthunit' => 'ระยะเวลาสัญญารายเดือน',
             'yearunit' => 'จำนวนปี',
+            'deposit' => 'มัดจำล่วงหน้า(เดือน)'
         ];
     }
 }
