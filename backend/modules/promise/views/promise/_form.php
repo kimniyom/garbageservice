@@ -91,13 +91,13 @@ for($i=1;$i<=36;$i++)
     </div>
 
     <div class="row" id="divmonth">
-        <div class="col-md-12 col-lg-4">
+        <div class="col-md-12 col-lg-6">
             <?= $form->field($model, 'rate')->textInput() ?>
         </div>
-        <div class="col-md-12 col-lg-4">
+        <!-- <div class="col-md-12 col-lg-4">
             <?= $form->field($model, 'monthunit')->dropDownList($monthunit) ?>
-        </div>
-        <div class="col-md-12 col-lg-4">
+        </div> -->
+        <div class="col-md-12 col-lg-6">
             <?= $form->field($model, 'deposit')->dropDownList($deposit) ?>
         </div>
     </div>

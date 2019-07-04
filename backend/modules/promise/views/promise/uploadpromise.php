@@ -120,7 +120,7 @@ $Config = new Config();
 <div class="promise-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
+    <?= $form->field($promisefile, 'filename')->fileInput()?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

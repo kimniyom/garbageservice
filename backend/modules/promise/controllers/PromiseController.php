@@ -4,6 +4,7 @@ namespace app\modules\promise\controllers;
 
 use Yii;
 use app\modules\promise\models\Promise;
+use app\modules\promise\models\Promisefile;
 use app\modules\promise\models\PromiseSearch;
 use common\models\Customers;
 use yii\web\Controller;
@@ -288,6 +289,26 @@ class PromiseController extends Controller
             $isReccord = 1;
         }
         return $isReccord;   
+    }
+
+    public function actionSetstatus()
+    {
+        $id = Yii::$app->request->post('id');
+        $status = Yii::$app->request->post('status');
+        $model = Promise::findOne(['id' => $id]);
+        $model->status = $status;
+       
+        return $model->save();   
+    }
+
+    public function actionUploadpromise($id, $customerid)
+    {
+        $promiseFile = new Promisefile();
+        $model = $this->getPromise($id, $customerid);
+        return $this->render('uploadpromise',[
+            'model'=>$model,
+            'promisefile'=>$promiseFile,
+        ]);
     }
                     
     

@@ -24,7 +24,13 @@ $Config = new Config();
             ],
         ]) ?>
          
-         <?= Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc',['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']) ?>
+         <?= Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc',['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word', 'onclick'=>'setstatus('.$model['id'].',\'1\')']) ?>
+        <?php
+            if($model['status']=='1')
+            {
+                echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> .Upload PDF',['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
+            }
+        ?>
     </p>
     
     <?= DetailView::widget([
@@ -127,3 +133,19 @@ $Config = new Config();
     ]) ?>
 
 </div>
+
+<script>
+function setstatus(id,status)
+{
+    var data = {id:id, status: status};
+    var url = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/setstatus']) ?>";
+    $.post(url,data,function(result){
+        if(result){
+            alert("สถานะสัญญา : รอยืนยัน");  
+        }
+        else{
+            alert("ไม่สามารถแก้ไขสถานะสัญญาได้");  
+        }
+    })
+}
+</script>

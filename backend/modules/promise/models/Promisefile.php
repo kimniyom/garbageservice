@@ -32,7 +32,9 @@ class Promisefile extends \yii\db\ActiveRecord
             [['promiseid', 'filename'], 'required'],
             [['dateupload'], 'safe'],
             [['uploadby'], 'integer'],
-            [['promiseid', 'filename'], 'string', 'max' => 64],
+            [['promiseid'], 'string', 'max' => 64],
+            [['filename'], 'file', 'extensions' => 'pdf','skipOnEmpty' => true],
+            [['filename'], 'required', 'on'=>'create']
         ];
     }
 
