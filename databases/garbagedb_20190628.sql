@@ -500,3 +500,38 @@ INSERT INTO `zipcodes` VALUES ('6820', '850502', '85120'), ('6821', '860101', '8
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : localhost
+Source Server Version : 50505
+Source Host           : localhost:3306
+Source Database       : garbagedb
+
+Target Server Type    : MYSQL
+Target Server Version : 50505
+File Encoding         : 65001
+
+Date: 2019-07-04 16:04:33
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `promisefile`
+-- ----------------------------
+DROP TABLE IF EXISTS `promisefile`;
+CREATE TABLE `promisefile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `promiseid` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'เลขที่สัญญา',
+  `filename` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'ชื่อไฟล์สัญญญาที่อัพโหลด จะเป็นชื่อเดียวกับเลขสัญญา',
+  `dateupload` datetime DEFAULT NULL COMMENT 'วันที่อัพโหลดไฟล์',
+  `uploadby` int(11) DEFAULT NULL COMMENT 'user ที่อัพโหลดไฟล์',
+  PRIMARY KEY (`id`,`promiseid`,`filename`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางเก็บไฟล์อัพโหลดสัญญา';
+
+-- ----------------------------
+-- Records of promisefile
+-- ----------------------------
+
