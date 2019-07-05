@@ -147,10 +147,16 @@ $form = ActiveForm::begin([
         <div class="col-md-5 col-lg-3">
             <?=$form->field($model, 'deposit')->dropDownList($deposit)?>
         </div>
-    </div>
+        <div class="col-md-12 col-lg-6">
+            <?=$form->field($model, 'rate')->textInput()?>
+        </div>
+        <!-- <div class="col-md-12 col-lg-4">
+            <?php //$form->field($model, 'monthunit')->dropDownList($monthunit) ?>
+        </div> -->
 
+    </div>
     <div class="row" id="divyear">
-        <div class="col-md-3 col-lg-3">
+        <div class="col-md-3 col-lg-4">
             <?=$form->field($model, 'payperyear')->textInput()?>
         </div>
     </div>
@@ -180,6 +186,7 @@ $form = ActiveForm::begin([
 </div>
 </div>
 </div>
+
 <?php
 if ($model->id == "") {
 	$this->registerJs("getrecivetype(1);");

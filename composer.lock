@@ -3409,8 +3409,12 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/eternicode/bootstrap-datepicker/zipball/d364be5b066b38f3675a5a1dc174ce1ab1f3360e",
+<<<<<<< HEAD
                 "reference": "d364be5b066b38f3675a5a1dc174ce1ab1f3360e",
                 "shasum": null
+=======
+                "reference": "d364be5b066b38f3675a5a1dc174ce1ab1f3360e"
+>>>>>>> 43206e9f221130ec05c8aa0383aaaf79b3b00705
             },
             "require": {
                 "bower-asset/jquery": ">=1.7.1,<4.0.0"
