@@ -80,7 +80,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
     <?php }?>
     </p>
 
-	
+
     <?=DetailView::widget([
 	'model' => $model,
 	'attributes' => [
@@ -109,9 +109,10 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
 	<div class="box-body">
 <?php if ($location['customer_id']) {?>
         <div id="map"></div>
-    <?php } else { ?>
+    <?php } else {?>
 		<div style="text-align:center">== ไม่ได้กำหนด ==</div>
-	<?php } ?>
+	<?php }?>
+</div>
 </div>
 </div>
 </div>

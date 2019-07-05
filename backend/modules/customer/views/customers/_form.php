@@ -25,8 +25,8 @@ use yii\widgets\ActiveForm;
 
 <div class="row">
     <div class="col-md-5 col-lg-5">
-         <?=$form->field($model, 'taxnumber')->textInput(['maxlength' => true,'value' => $taxnumber,'readonly' => 'readonly'])?>
-         <?=$form->field($model, 'type')->hiddenInput(['maxlength' => true,'value' => $type])->label(false)?>
+         <?=$form->field($model, 'taxnumber')->textInput(['maxlength' => true, 'value' => $taxnumber, 'readonly' => 'readonly'])?>
+         <?=$form->field($model, 'type')->hiddenInput(['maxlength' => true, 'value' => $type])->label(false)?>
     </div>
 </div>
 <div class="row">

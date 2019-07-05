@@ -41,8 +41,11 @@ return [
 			'class' => 'app\modules\roundmoney\Module',
 		],
 		'navbar' => [
-            'class' => 'app\modules\navbar\Module',
-        ],
+			'class' => 'app\modules\navbar\Module',
+		],
+		'gridview' => [
+			'class' => '\kartik\grid\Module',
+		],
 	],
 	'components' => [
 		'view' => [

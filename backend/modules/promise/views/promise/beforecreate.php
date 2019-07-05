@@ -1,7 +1,5 @@
 <?php
 
-use yii\helpers\Html;
-use yii\helpers\Url;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
@@ -15,20 +13,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-12 col-md-6">
             <?php
-                echo Select2::widget([
-                    'name' => 'state_10',
-                    'data' => ArrayHelper::map($customer, "id", "company"),
-                    'options' => [
-                        'placeholder' => 'เลือกลูกค้า',
-                    ],
-                    'pluginEvents' => [
-                        "select2:select" => "function(){setcustomerid(this.value)}",
-                    ]
-                ]);
-            ?>
+echo Select2::widget([
+	'name' => 'state_10',
+	'data' => ArrayHelper::map($customer, "id", "company"),
+	'options' => [
+		'placeholder' => 'เลือกลูกค้า',
+	],
+	'pluginEvents' => [
+		"select2:select" => "function(){setcustomerid(this.value)}",
+	],
+]);
+?>
         </div>
     </div>
-   
+
     <br/>
     <div class="row">
         <div class="col-md-4 col-md-4">
@@ -36,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <i class="fa fa-search"></i> ค้นหา
             </button>
         </div>
-    </div>                 
+    </div>
         <label id="loading"></label>
         <input type="hidden" id="customerid"/>
         <div class="row" id="next" style="display: none;">
@@ -81,6 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 } else {
                     $("#nextfalse").show();
                     $("#next").hide();
+                    $("#loading").html("");
                 }
             })
         }

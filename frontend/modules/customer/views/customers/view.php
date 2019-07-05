@@ -75,7 +75,7 @@ $urlMap = new Config();
           <strong>แจ้งเตือน!</strong> ยังไม่ได้กำหนดจุดพิกัดสถานบริการหรือบริษัท
           <hr/>
           <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/map', 'id' => $model['id']]) ?>">
-              <button type="button" class="btn btn-default"><i class="fa fa-map-marker"></i> กำหนดพิกัด</button></a>
+              <button type="button" class="btn btn-light"><i class="fa fa-map-marker"></i> กำหนดพิกัด</button></a>
         </div>
     <?php }?>
     <ul class="list-group">
@@ -99,9 +99,11 @@ $urlMap = new Config();
 </div>
 
 <?php
-$this->registerJs('
-        initMap();
-        ');
+if ($location['customer_id']) {
+	$this->registerJs('
+          initMap();
+          ');
+}
 ?>
 
 
