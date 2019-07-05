@@ -21,26 +21,34 @@ $Config = new Config();
             <div class="box-body">
     <p>
         <?php if ($model['status'] == "1") {?>
-        <?=Html::a('Update', ['update', 'id' => $model['id']], ['class' => 'btn btn-primary'])?>
-        <?php }?>
-        <?=Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
-	'class' => 'btn btn-danger',
-	'data' => [
-		'confirm' => 'Are you sure you want to delete this item?',
-		'method' => 'post',
-	],
-])?>
+				<?=Html::a('Update', ['update', 'id' => $model['id']], ['class' => 'btn btn-primary'])?>
+				<?php }?>
+				<?=Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
+			'class' => 'btn btn-danger',
+			'data' => [
+				'confirm' => 'Are you sure you want to delete this item?',
+				'method' => 'post',
+			],
+		])?>
 
 
-
-         <?=Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word', 'onclick' => 'setstatus(' . $model['id'] . ',\'1\')'])?>
-        <?php
-if ($model['status'] == '1') {
-	echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> .Upload PDF', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
-}
-?>
+		<?php
+			if ($model['status'] == '1') 
+			{
+				//ms word
+        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word', 'onclick' => 'setstatus(' . $model['id'] . ',\'1\')']);
+				//upload pdf
+				echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> .Upload PDF', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
+			}
+			if ($model['status'] == '2') 
+			{
+				//save pdf
+        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word', 'onclick' => 'setstatus(' . $model['id'] . ',\'1\')']);
+				
+			}
+		?>
     </p>
-
+	
     <?=DetailView::widget([
 	'model' => $model,
 

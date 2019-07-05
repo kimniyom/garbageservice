@@ -13,6 +13,7 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * PromiseController implements the CRUD actions for Promise model.
@@ -56,6 +57,7 @@ class PromiseController extends Controller {
 	public function actionView($id) {
 		$data['model'] = $this->getPromise($id);
 		$data['roundmoney'] = $this->getRoundMoney($id);
+		
 		return $this->render('view', $data);
 	}
 
@@ -331,7 +333,7 @@ class PromiseController extends Controller {
                 INNER JOIN changwat ON customers.changwat = changwat.changwat_id
                 INNER JOIN ampur ON customers.ampur = ampur.ampur_id
                 INNER JOIN tambon ON customers.tambon = tambon.tambon_id
-                INNER JOIN location ON promise.customerid = location.customer_id
+                LEFT JOIN location ON promise.customerid = location.customer_id
                 WHERE
                     customers.flag = 1
                     AND customers.approve = 'Y'
@@ -352,19 +354,7 @@ class PromiseController extends Controller {
 		return $isReccord;
 	}
 
-	/*
-		    public function actionIscustomerexpired()
-		    {
-		        $customerid = Yii::$app->request->post('customerid');
-		        $isReccord = 0;
-		        $rs = Promise::find()->where(['customerid' => $customerid, 'status' => '0', 'active'=>'0'])->count();
-		        if($rs > 0)
-		        {
-		            $isReccord = 1;
-		        }
-		        return $isReccord;
-		    }
-	*/
+	
 	public function actionSetstatus() {
 		$id = Yii::$app->request->post('id');
 		$status = Yii::$app->request->post('status');
@@ -374,13 +364,42 @@ class PromiseController extends Controller {
 		return $model->save();
 	}
 
-	public function actionUploadpromise($id, $customerid) {
-		$promiseFile = new Promisefile();
-		$model = $this->getPromise($id, $customerid);
-		return $this->render('uploadpromise', [
-			'model' => $model,
-			'promisefile' => $promiseFile,
-		]);
-	}
+	public function actionUploadpromise($id, $customerid)
+    {
+        $model = $this->getPromise($id, $customerid);
+        $promise = Promise::findOne(['id'=>$id]);
+        $promisefile = new Promisefile();
+        $promisefile->scenario = 'create';
+
+        if ($promisefile->load(Yii::$app->request->post())) {
+
+            $promisefile->filename = UploadedFile::getInstance($promisefile,'filename');
+            $promisefile->promiseid = $id;
+            $promisefile->uploadby = Yii::$app->user->id;
+            $promisefile->dateupload = date('Y-m-d H:i');
+
+            if($promisefile->filename && $promisefile->validate())
+            {
+                $path = '../uploads/promise/pdf/'.$id.'.'.$promisefile->filename->extension;
+                $promisefile->promiseid =$id;
+                $promisefile->filename->name = $id.'.'.$promisefile->filename->extension;
+
+                if($promisefile->save() && $promisefile->filename->saveAs($path)){
+                    $promise->status = '2';
+                    $promise->save();
+                    return $this->redirect(['view', 
+                        'id' => $id, 
+                        'customerid'=>$customerid
+                    ]);
+                }
+            }
+            
+        }
+
+        return $this->render('uploadpromise',[
+            'model'=>$model,
+            'promisefile'=>$promisefile,
+        ]);
+    }
 
 }

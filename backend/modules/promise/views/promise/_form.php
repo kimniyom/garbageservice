@@ -13,20 +13,20 @@ $levy = array();
 $monthunit = array();
 $deposit = array();
 
-for ($i = 0; $i <= 36; $i++) {
-	if ($i <= 5) {
-		array_push($yearUnit, $i);
-	}
-	if ($i <= 10) {
-		//array_push($levy, $i);
-		$levy[] = $i;
-	}
-	if ($i >= 12) {
-		array_push($monthunit, $i);
-	}
-	if ($i <= 12) {
-		array_push($deposit, $i);
-	}
+for($i=1;$i<=36;$i++)
+{
+    if($i<=5){
+        $yearUnit[$i] = $i;
+    }
+    if($i<=10){
+        $levy[$i] = $i;
+    }
+    if($i >=12){
+        $monthunit[$i] = $i;
+    }
+    if($i<=12){
+        $deposit[$i] = $i;
+    }
 }
 //echo print_r($levy);
 ?>
@@ -90,7 +90,7 @@ $form = ActiveForm::begin([
     </div>
 -->
     <div class="row">
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedatebegin')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
 	'autoclose' => true,
 	'format' => 'yyyy-mm-dd',
@@ -101,7 +101,7 @@ $form = ActiveForm::begin([
 	'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
 ?>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedateend')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
 	'autoclose' => true,
 	'format' => 'yyyy-mm-dd',
@@ -112,58 +112,47 @@ $form = ActiveForm::begin([
     </div>
 
     <div class="row">
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'garbageweight')->textInput()?>
         </div>
 
-        <div class="col-md-6 col-lg-4">
+        <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'levy')->dropDownList($levy)?>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-4 col-lg-4">
+        <div class="col-md-4 col-lg-5">
             <?=$form->field($model, 'recivetype')->dropDownList([1 => 'รายเดือน', 0 => 'รายปี'],
-	[
-		'onchange' => 'getrecivetype(this.value)',
-	]
+                [
+                    'onchange' => 'getrecivetype(this.value)',
+                ]
 
-);
-?>
+            );
+            ?>
         </div>
     </div>
 
     <div class="row" id="divmonth">
-        <div class="col-md-8 col-lg-4">
+        <div class="col-md-8 col-lg-5">
             <?=$form->field($model, 'rate')->textInput()?>
         </div>
-    </div>
-        <!--
-        <div class="col-md-12 col-lg-4">
-            <?php //$form->field($model, 'monthunit')->dropDownList($monthunit)?>
-        </div>
-    -->
-    <div class="row">
-        <div class="col-md-5 col-lg-3">
+        <div class="col-md-5 col-lg-5">
             <?=$form->field($model, 'deposit')->dropDownList($deposit)?>
         </div>
-        <div class="col-md-12 col-lg-6">
-            <?=$form->field($model, 'rate')->textInput()?>
-        </div>
-        <!-- <div class="col-md-12 col-lg-4">
-            <?php //$form->field($model, 'monthunit')->dropDownList($monthunit) ?>
-        </div> -->
-
     </div>
+      
+   
     <div class="row" id="divyear">
-        <div class="col-md-3 col-lg-4">
+        <div class="col-md-3 col-lg-5">
             <?=$form->field($model, 'payperyear')->textInput()?>
+        </div>
+        <div class="col-md-4 col-lg-5">
+            <?=$form->field($model, 'yearunit')->dropDownList($yearUnit)?>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 col-lg-3">
-            <?=$form->field($model, 'yearunit')->dropDownList($yearUnit)?>
-        </div>
+        
     </div>
 
     <!-- <div class="row">
