@@ -36,14 +36,14 @@ $Config = new Config();
 			if ($model['status'] == '1') 
 			{
 				//ms word
-        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word', 'onclick' => 'setstatus(' . $model['id'] . ',\'1\')']);
+        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']);
 				//upload pdf
 				echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> .Upload PDF', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
 			}
 			if ($model['status'] == '2') 
 			{
 				//save pdf
-        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word', 'onclick' => 'setstatus(' . $model['id'] . ',\'1\')']);
+        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .ดาวห์โหลดสัญญา', ['getpromisepdf', 'id' => $model['id']], ['class' => 'btn btn-black', 'title' => 'ดาวโหลดสัญญา']);
 				
 			}
 		?>

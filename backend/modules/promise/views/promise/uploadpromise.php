@@ -128,37 +128,30 @@ $Config = new Config();
 </div>
 <div class="col-md-4 col-lg-4">
     <div class="box">
-        <?php if ($model['recivetype'] == 1) {
-	?>
-<div class="box-header" style=" padding-bottom: 0px;">
-    <?php $month = ($model['yearunit'] * 12);?>
-    จำนวนที่ต้องชำระ <?php echo $month ?> เดือน ชำระเดือนละ <?php echo number_format($model['rate'], 2) ?>
+       
+		<div class="box-header" style=" padding-bottom: 0px;">
+			อัพโหลดสัญญาที่เสร็จสมบูรณ์แล้ว
+		</div>
+		<div class="box-body" id="box-unit">
+			<div class="promise-form">
 
-</div>
-            <div class="box-body" id="box-unit">
-    <?php
+				<?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+				<?= $form->field($promisefile, 'filename')->fileInput()?>
+				<div class="form-group">
+					<?= Html::submitButton('อัพโหลด', 
+						[
+							'class' => 'btn btn-success',
+							'data' => [
+								'confirm' => 'ตรวจสอบสัญญาเรียบร้อยแล้วใช่หรือไม่',
+							],
+						]) 
+					?>
+				</div>
 
-	foreach ($roundmoney as $rs) {
+				<?php ActiveForm::end(); ?>  
+			</div>
 
-		echo "<pre>";
-		echo " งวดที่ " . $rs['round'];
-		echo " กำหนดชำระ ";
-		echo $Config->thaidate($rs['datekeep']);
-
-		echo "</pre>";
-	}
-	?>
-</div>
-<?php } else {?>
-    <div class="box-body">
-        <h4 style="text-align: center;">สัญญารายปี</h4>
-        <hr/>
-        <h4 style="text-align: center;">
-            <?php echo $model['checkmoney'] == 0 ? "ยังไม่ได้ชำระ" : "ชำระแล้ว"; ?>
-        </h4>
-    </div>
-    <?php }?>
-</div>
+	</div>
 </div>
 </div>
 </div>
@@ -186,20 +179,5 @@ function setstatus(id,status)
 }
 </script>
 
-<div class="promise-form">
 
-    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
-    <?= $form->field($promisefile, 'filename')->fileInput()?>
-    <div class="form-group">
-        <?= Html::submitButton('Save', 
-            [
-                'class' => 'btn btn-success',
-                'data' => [
-                    'confirm' => 'ตรวจสอบสัญญาเรียบร้อยแล้วใช่หรือไม่',
-                ],
-            ]) 
-        ?>
-    </div>
-   
-<?php ActiveForm::end(); ?>  
 

@@ -298,7 +298,7 @@ CREATE TABLE `promise` (
   `checkmoney` enum('0','1') COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'สถานะการชำระเงิน 0=ยังไม่ได้ชำระ, 1=ชำระเงินแล้ว',
   `monthunit` int(11) DEFAULT NULL COMMENT 'จำนวนเดือน',
   `yearunit` int(11) DEFAULT NULL COMMENT 'จำนวนปี',
-  `deposit` int(2) DEFAULT NULL COMMENT'มัดจำล่วงหน้า(เดือน)',,
+  `deposit` int(2) DEFAULT NULL COMMENT'มัดจำล่วงหน้า(เดือน)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางสัญญาจ้าง';
 

@@ -39,7 +39,7 @@ class Promise extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['customerid', 'promisedatebegin', 'promisedateend', 'garbageweight', 'yearunit'], 'required'],
+			[['customerid', 'promisedatebegin', 'promisedateend', 'garbageweight'], 'required'],
 			['rate', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
@@ -68,19 +68,19 @@ class Promise extends \yii\db\ActiveRecord {
 	public function attributeLabels() {
 		return [
 			'id' => 'ID',
-			'promisenumber' => '* เลขที่สัญญา',
-			'customerid' => '* ลูกค้า',
-			'promisedatebegin' => '* วันเริ่มต้นสัญญา',
-			'promisedateend' => '* วันสิ้นสุดสัญญา',
-			'recivetype' => '* ประเภทการจ้าง',
-			'rate' => '* คิดค่าจ้างเหมาในอัตราเดือนละ',
-			'ratetext' => '* คิดค่าจ้างเหมาในอัตราเดือนละ (ตัวอักษร)',
-			'levy' => '* จำนวนครั้งที่จัดเก็บต่อเดือน',
-			'payperyear' => '* ค่าจ้างรวมทิ้งสิ้นต่อปี',
-			'payperyeartext' => '* ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
+			'promisenumber' => 'เลขที่สัญญา',
+			'customerid' => 'ลูกค้า',
+			'promisedatebegin' => 'วันเริ่มต้นสัญญา',
+			'promisedateend' => 'วันสิ้นสุดสัญญา',
+			'recivetype' => 'ประเภทการจ้าง',
+			'rate' => 'คิดค่าจ้างเหมาในอัตราเดือนละ',
+			'ratetext' => 'คิดค่าจ้างเหมาในอัตราเดือนละ (ตัวอักษร)',
+			'levy' => 'จำนวนครั้งที่จัดเก็บต่อเดือน',
+			'payperyear' => 'ค่าจ้างรวมทิ้งสิ้นต่อปี',
+			'payperyeartext' => 'ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)',
 			'createat' => 'วันที่ทำสัญญา',
-			'active' => '* สถานะการใช้งาน',
-			'garbageweight' => '* ปริมาณขยะ (กิโลกรัม)',
+			'active' => 'สถานะการใช้งาน',
+			'garbageweight' => 'ปริมาณขยะ (กิโลกรัม)',
 			'status' => 'สถานะสัญญา',
 			'checkmoney' => 'สถานะการชำระเงิน',
 			'monthunit' => 'ระยะเวลาสัญญารายเดือน',

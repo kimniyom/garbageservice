@@ -92,22 +92,22 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedatebegin')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-	'autoclose' => true,
-	'format' => 'yyyy-mm-dd',
-	'todayHighlight' => true,
-	'startDate' => "0d",
-],
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'startDate' => "0d",
+            ],
 
-	'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
-?>
+            'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
+        ?>
         </div>
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedateend')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-	'autoclose' => true,
-	'format' => 'yyyy-mm-dd',
-	'todayHighlight' => true,
-	'startDate' => "0d",
-], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'startDate' => "0d",
+            ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
         </div>
     </div>
 
@@ -138,7 +138,7 @@ $form = ActiveForm::begin([
             <?=$form->field($model, 'rate')->textInput()?>
         </div>
         <div class="col-md-5 col-lg-5">
-            <?=$form->field($model, 'deposit')->dropDownList($deposit)?>
+            <?=$form->field($model, 'deposit')->dropDownList($deposit,['prompt'=>'ไม่มีมัดจำ'])?>
         </div>
     </div>
       

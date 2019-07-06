@@ -402,4 +402,15 @@ class PromiseController extends Controller {
         ]);
     }
 
+    public function actionGetpromisepdf($id)
+    {
+        $path = Yii::getAlias('@webroot') . '/../uploads/promise/pdf/'.$id.'.pdf';
+        
+        if(is_file($path))
+        {
+            Yii::$app->response->sendFile($path);
+        }
+        
+    }
+
 }
