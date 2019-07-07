@@ -1,3 +1,4 @@
+
 <?php
 
 /* @var $this yii\web\View */
@@ -59,10 +60,14 @@ $newsModel = new News();
 						<!-- Blog post -->
 						<div class="blog_post">
 							<div class="blog_image" style="background:url('<?php echo $fImg ?>') top"></div>
-							<div class="blog_text"><?php echo $new['TITLE'] ?></div>
-							<div class="blog_button">
-								<a href="<?php echo Url::to(['news/view','id' => $new['ID']]) ?>">อ่านเพิ่มเติม ...</a>
+							<div class="blog_text">
+								<div style="height:200px;">
+								<a href="<?php echo Url::to(['news/view', 'id' => $new['ID']]) ?>">
+																	<?php echo $new['TITLE'] ?>
+																</a>
+															</div>
 							</div>
+							
 						</div>
 
 						<?php endforeach; ?>
@@ -72,7 +77,7 @@ $newsModel = new News();
 			</div>
 		</div>
 	</div>
-
+</div>
 	<?php 
 		$this->registerJs('
 			$(document).ready(function () {

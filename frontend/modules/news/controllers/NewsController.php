@@ -20,7 +20,11 @@ class NewsController extends Controller {
 	public function actionView($id) {
 		$Model = new News();
 		$result = $Model->getDetail($id);
-		$newsAll = $Model::find()->where(['CATEGORY' => 1])->all();
+
+		$newsAll = $Model::find()->where("CATEGORY = 1 and id != '$id'")
+					->orderBy(['id' => SORT_DESC])
+					->limit(3)
+					->all();
 		$gallery = $this->getGallery($id);
 		return $this->render('view', [
 			'datas' => $result,
