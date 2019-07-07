@@ -1,3 +1,10 @@
+<style type="text/css">
+    body{
+        background:#eeeeee;
+    }
+
+
+</style>
 <?php
 
 /*
@@ -26,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
     
     </div>
     <div class="col-md-4">
-        <div class="card text-white bg-dark mb-3" style="">
-                <div class="card-header" style="text-align: center;"><h4><?= Html::encode($this->title) ?></h4>
+        <div class="card" style="">
+                <div class="card-header" style="text-align: center;color:#ab8f52;"><h4><?= Html::encode($this->title) ?></h4>
             </div>
            <div class="card-body">
                 <?php $form = ActiveForm::begin([
@@ -54,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
             </div>
         </div>
-        
+        <p style="text-align:center;color: #ab8f52; margin-top:10px;">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
     </div>
         <div class="col col-lg-2">
     
