@@ -13,7 +13,7 @@ use yii\web\Controller;
  * Site controller
  */
 class SiteController extends Controller {
-
+	public $enableCsrfValidation = false;
 	/**
 	 * {@inheritdoc}
 	 */
@@ -24,7 +24,7 @@ class SiteController extends Controller {
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['login', 'error'],
+						'actions' => ['login', 'error','getlocation'],
 						'allow' => true,
 					],
 					[
@@ -85,6 +85,21 @@ class SiteController extends Controller {
 				'model' => $model,
 			]);
 		}
+	}
+
+	public function actionGetlocation(){
+		\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+		$sql = "select l.*,c.company from location l inner join customers c on l.customer_id = c.id";
+		$rs = Yii::$app->db->createCommand($sql)->queryAll();
+		$json_data = array();
+		foreach($rs as $row):
+			$json_data[] = array(
+            "name" => $row['company'],
+            "lat" => $row['lat'],
+            "long" => $row['long']                      
+        );
+		endforeach;
+		return json_encode($json_data);
 	}
 
 	/**
