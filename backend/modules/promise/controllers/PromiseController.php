@@ -380,9 +380,9 @@ class PromiseController extends Controller {
 
             if($promisefile->filename && $promisefile->validate())
             {
-                $path = '../uploads/promise/pdf/'.$id.'.'.$promisefile->filename->extension;
+                $path = '../uploads/promise/pdf/'.$promise->promisenumber.'.'.$promisefile->filename->extension;
                 $promisefile->promiseid =$id;
-                $promisefile->filename->name = $id.'.'.$promisefile->filename->extension;
+                $promisefile->filename->name = $promise->promisenumber.'.'.$promisefile->filename->extension;
 
                 if($promisefile->save() && $promisefile->filename->saveAs($path)){
                     $promise->status = '2';
@@ -402,9 +402,9 @@ class PromiseController extends Controller {
         ]);
     }
 
-    public function actionGetpromisepdf($id)
+    public function actionGetpromisepdf($promisenumber)
     {
-        $path = Yii::getAlias('@webroot') . '/../uploads/promise/pdf/'.$id.'.pdf';
+        $path = Yii::getAlias('@webroot') . '/../uploads/promise/pdf/'.$promisenumber.'.pdf';
         
         if(is_file($path))
         {

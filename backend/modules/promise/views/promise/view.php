@@ -22,7 +22,7 @@ $Config = new Config();
     <p>
         <?php if ($model['status'] == "1") {?>
 				<?=Html::a('Update', ['update', 'id' => $model['id']], ['class' => 'btn btn-primary'])?>
-				<?php }?>
+			
 				<?=Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
 			'class' => 'btn btn-danger',
 			'data' => [
@@ -30,7 +30,7 @@ $Config = new Config();
 				'method' => 'post',
 			],
 		])?>
-
+			<?php }?>
 
 		<?php
 			if ($model['status'] == '1') 
@@ -43,7 +43,7 @@ $Config = new Config();
 			if ($model['status'] == '2') 
 			{
 				//save pdf
-        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .ดาวห์โหลดสัญญา', ['getpromisepdf', 'id' => $model['id']], ['class' => 'btn btn-black', 'title' => 'ดาวโหลดสัญญา']);
+        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'ดาวโหลดสัญญา']);
 				
 			}
 		?>
