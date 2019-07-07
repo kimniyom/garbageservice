@@ -3,6 +3,7 @@
 namespace app\modules\customer\controllers;
 
 use app\modules\customer\models\Customers;
+
 use Yii;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -24,7 +25,10 @@ class CustomersController extends Controller {
 	 */
 	public function actionIndex() {
 		$userid = \Yii::$app->user->identity->id;
-		$data['customer'] = \app\modules\customer\models\Customers::findOne(['user_id' => $userid]);
+		$customer = \app\modules\customer\models\Customers::findOne(['user_id' => $userid]);
+		$data['promise'] = \app\modules\customer\models\Promise::find()->where(['customerid' => $customer['id']])
+		->orWhere(['status' => '1','status' => '2'])->one();
+		$data['customer'] = $customer;
 		return $this->render('index', $data);
 	}
 
@@ -212,8 +216,12 @@ class CustomersController extends Controller {
 	}
 
 	public function actionPromise(){
-		$customer_id = \Yii::$app->user->identity->id;
-		$sql = "select * from promise where customerid = '$customer_id' and active = '1'";
+		$user_id = \Yii::$app->user->identity->id;
+
+		$sql = "select f.filename 
+				from customers c inner join promise p on c.id = p.customerid
+				inner join promisefile f on p.id = f.promiseid
+				where c.user_id = '$user_id' and p.active = '1' and p.status = '2'";
 		$rs = Yii::$app->db->createCommand($sql)->queryOne();
 		$data['promise'] = $rs;
 		return $this->render('promise',$data);

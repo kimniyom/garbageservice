@@ -15,5 +15,5 @@ $urlMap = new Config();
 ?>
 
 <?= \yii2assets\pdfjs\PdfJs::widget([
-  'url'=> Url::base().'/../uploads/promise/test.pdf'
+  'url'=> Url::base().'/../uploads/promise/pdf/'.$promise['filename']
 ]); ?>

@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 echo
 Html::beginForm(['/site/logout'], 'post')
 . Html::submitButton(
-	'<i class="fa fa-power-off text-danger"></i> ออกจากระบบ (' . Yii::$app->user->identity->username . ')', ['class' => 'btn'])
+	'<i class="fa fa-power-off text-danger"></i> ออกจากระบบ (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-block'])
 ?>
                     </div>
 
@@ -82,16 +82,28 @@ if ($customer['approve'] == "Y") {
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
+                        <?php if($promise['status'] == "2") { ?>
                         <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/promise']) ?>">
                         <div class="card-body">
                             <i class="fa fa-file-alt fa-5x"></i><br/><br/>
                             ข้อมูลสัญญา
                         </div></a>
+                    <?php } else if($promise['status'] == "1"){ ?>
+                        <div class="card-body" style="padding-bottom: 26px; background: #eeeeee;">
+                            <i class="fa fa-file-alt fa-3x"></i><br/><br/>
+                            ข้อมูลสัญญารอการตรวจสอบจากผู้ให้บริการ
+                        </div>
+                    <?php } else { ?>
+                        <div class="card-body" style="background: #eeeeee;">
+                            <i class="fa fa-info fa-5x"></i><br/><br/>
+                            ยังไม่มีการตกลงสัญญา
+                        </div>
+                    <?php } ?>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
-                        <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/promise']) ?>">
+                        <a href="#">
                         <div class="card-body">
                             <i class="fa fa-dollar-sign fa-5x"></i><br/><br/>
                             แจ้งชำระเงิน
@@ -101,6 +113,7 @@ if ($customer['approve'] == "Y") {
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
+                             <i class="fa fa-credit-card fa-5x"></i><br/><br/>
                             รายการข้อมูลค้างจ่าย
                         </div>
                     </div>
@@ -108,6 +121,7 @@ if ($customer['approve'] == "Y") {
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
+                             <i class="fa fa-file fa-5x"></i><br/><br/>
                             จำนวนสัญญาคงเหลือ
                         </div>
                     </div>
