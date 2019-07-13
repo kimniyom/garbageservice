@@ -38,7 +38,7 @@ $Config = new Config();
 				//ms word
 				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']);
 				//pdf preview 
-				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .pdf', ['pdfpreview', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'PDF']);
+				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .pdf', ['pdfpreview', 'id' => $model['id'], 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'PDF']);
 				//upload pdf
 				echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> .Upload PDF', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
 			}

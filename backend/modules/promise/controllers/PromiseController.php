@@ -15,6 +15,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use kartik\mpdf\Pdf;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
 
 /**
  * PromiseController implements the CRUD actions for Promise model.
@@ -414,10 +416,10 @@ class PromiseController extends Controller {
         
 	}
 	
-	public function actionPdfpreview($id, $customerid)
+	public function actionPdfpreview($id, $promisenumber)
 	{
 		// get your HTML raw content without any layouts or scripts
-		$content = $this->renderPartial('html');
+		$content = $this->renderPartial('promisetype/_promisetype1');
     
 		$pdf = new Pdf([
 			// set to use core fonts only
@@ -437,12 +439,33 @@ class PromiseController extends Controller {
 			'cssInline' => '.kv-heading-1{font-size:18px}', 
 			 // set mPDF properties on the fly
 			'options' => ['title' => 'Krajee Report Title'],
+			
+			'filename'=>'สัญญาเลขที่ '.$promisenumber,
 			 // call mPDF methods on the fly
 			'methods' => [ 
 				//'SetHeader'=>['Krajee Report Header'], 
 				'SetFooter'=>['{PAGENO}'],
 			]
 		]);
+
+		$defaultConfig = (new ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
+
+        $defaultFontConfig = (new FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
+				
+        $pdf->options['fontDir'] = array_merge($fontDirs, [
+            Yii::getAlias('@webroot').'/web/fonts/thsarabun/'
+        ]);
+
+
+
+        $pdf->options['fontdata'] = $fontData + [
+               
+                'sarabun' => [
+                    'R' => 'THSarabun.ttf',
+                ]
+            ];
 		
 		// return the pdf output as per the destination setting
 		return $pdf->render(); 
