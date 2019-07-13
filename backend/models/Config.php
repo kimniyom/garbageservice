@@ -30,7 +30,7 @@ class Config {
 		$sql = "select $field from $table order by id desc  limit 1";
 		$rs = Yii::$app->db->createCommand($sql)->queryOne();
 		if ($rs) {
-			$digit = explode('IC', $rs[$field]);
+			$digit = explode("IC", $rs[$field]);
 			$lastDigit = ((int) $digit); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
 			$lastDigit++; //เพิ่ม 1
 			$lastDigit = str_pad($lastDigit, $number, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
@@ -38,7 +38,23 @@ class Config {
 			$lastDigit = '00001';
 		}
 
-		return 'IC' . $lastDigit;
+		return "IC" . $lastDigit;
+
+	}
+
+	function getCustomerCode($table, $field, $number) {
+		$sql = "select $field from $table order by id desc limit 1";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		if ($rs) {
+			$digit = explode("C", $rs[$field]);
+			$lastDigit = ((int) $digit); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+			$lastDigit++; //เพิ่ม 1
+			$lastDigit = str_pad($lastDigit, $number, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
+		} else {
+			$lastDigit = '00001';
+		}
+
+		return "C" . $lastDigit;
 
 	}
 

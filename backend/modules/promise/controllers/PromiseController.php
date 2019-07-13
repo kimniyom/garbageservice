@@ -87,7 +87,7 @@ class PromiseController extends Controller {
 		$model = new Promise();
 		$model->customerid = $customerid;
 		$model->createat = date('Y-m-d');
-		$model->promisenumber = $conFig->getNextId("promise", "promisenumber", 5);
+		$model->promisenumber = $conFig->getNextId("promise", "promisenumber", 5,"IC");
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			if ($model->recivetype == 1) {
 				$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->createat, $model->rate);
