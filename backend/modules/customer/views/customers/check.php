@@ -11,26 +11,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="check-index">
     <div class="row">
-        <div class="col-md-12 col-md-12">
-                        เลือกประเภท<br/>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default" id="typetext">== เลือกประเภท ==</button>
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only" >Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <?php foreach ($type as $rs): ?>
-                    <li><a href="#" onclick="changetype('<?php echo $rs['id'] ?>','<?php echo $rs['codenumber'] ?>','<?php echo $rs['description'] ?>','<?php echo $rs['typename'] ?>')"><?php echo $rs['typename'] ?></a></li>
-                <?php endforeach;?>
-            </ul>
-        </div>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-4 col-md-4">
-            รหัส<br/>
-            <input type="search" required="required" class="form-control" id="taxnumber" placeholder="กรอกข้อมูล...">
+            เลขที่ใบอนุญาติ<br/>
+            <input type="search" required="required" class="form-control" id="taxnumber" placeholder="กรอกข้อมูล..." maxlength="13">
         </div>
     </div>
     <br/>
@@ -42,48 +25,32 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>                 
         <label id="loading"></label>
-        <input type="hidden" id="codenumber"/>
-        <input type="hidden" id="type"/>
-        <input type="hidden" id="typename"/>
         <div class="row" id="next" style="display: none;">
             <div class="col col-md-4 col-lg-4">
-                <p style="font-size: 18px;"><i class="fa fa-check text-success"></i> ยังไม่มีการลงทะเบียนด้วยรหัสนี้</p>
+                <p style="font-size: 18px;"><i class="fa fa-check text-success"></i> ยังไม่มีการลงทะเบียนด้วยเลขนี้</p>
                 <button type="button" class="btn btn-success" style="font-size: 20px;" onclick="regiscustomer()">ขั้นตอนต่อไป <i class="fa fa-arrow-right"></i></button>
             </div>
         </div>
 
         <div class="row" id="nextfalse" style="display: none;">
             <div class="col col-md-4 col-lg-4">
-                <p style="font-size: 18px; color:red;"><i class="fa fa-info text-danger"></i> ... มีการลงทะเบียนด้วยรหัสนี้แล้วไม่สามารถลงทะเบียนซ้ำได้ กรณีที่ท่านลืมรหัสเข้าใช้งานกรุณาติดต่อสอบถามกับทางบริษัทโดยตรง</p>
+                <p style="font-size: 18px; color:red;"><i class="fa fa-info text-danger"></i> ... มีการลงทะเบียนแล้วไม่สามารถลงทะเบียนซ้ำได้ กรณีที่ท่านลืมรหัสเข้าใช้งานกรุณาติดต่อสอบถามกับทางบริษัทโดยตรง</p>
             </div>
         </div>
 </div>
 
 <script type="text/javascript">
-    function changetype(type,codenumber,description,typename){
-        $("#typetext").text(typename);
-        $("#next").hide();
-        $("#nextfalse").hide();
-        $("#taxnumber").val("");
-        $("#type").val(type);
-        $("#typename").val(typename);
-        $("#taxnumber").attr("placeholder", description + "...");
-        $("#taxnumber").attr('maxlength',codenumber);
-        $("#description").text(description);
-        $("#codenumber").val(codenumber);
-    }
-
+   
     function check(){
         $("#next").hide();
         $("#nextfalse").hide();
-        var codenumber = parseInt($("#codenumber").val());
         var taxnumber = $("#taxnumber").val();
-        if(codenumber == "" || taxnumber == ""){
+        if(taxnumber == ""){
             alert("กรอกข้อมูลไม่ครบ..!");
             return false;
         }
         var description = "ข้อมูลไม่ตรงกับที่ระบบต้องการกรุณาตรวจสอบ ..!";
-        if(taxnumber.length != codenumber){
+        if(taxnumber.length != 13){
             alert(description);
             return false;
         } else {
@@ -107,8 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
     function regiscustomer(){
         var type = $("#type").val();
         var taxnumber = $("#taxnumber").val();
-        var typename = $("#typename").val();
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/create']) ?>" + "&type=" + type + "&taxnumber=" + taxnumber + "&typename=" + typename;
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/create']) ?>" + "&taxnumber=" + taxnumber;
         window.location=url;
         //alert(url);
     }

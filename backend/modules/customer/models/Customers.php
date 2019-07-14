@@ -38,12 +38,13 @@ class Customers extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve'], 'required'],
+			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve','type'], 'required'],
 			[['flag', 'approve'], 'string'],
 			[['create_date', 'update_date'], 'safe'],
 			//[['latitude', 'longitude'], 'number'],
-			[['company', 'address'], 'string', 'max' => 255],
-			[['taxnumber', 'tel', 'telephone'], 'string', 'max' => 20],
+			[['company', 'address','remark'], 'string', 'max' => 255],
+			[['taxnumber', 'tel','customercode'], 'string', 'max' => 20],
+			[['telephone'],'string','min' => 10,'max' => 10],
 			[['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
 			[['zipcode'], 'string', 'max' => 5],
 			[['manager'], 'string', 'max' => 100],
@@ -57,14 +58,15 @@ class Customers extends \yii\db\ActiveRecord {
 	public function attributeLabels() {
 		return [
 			'id' => 'ID',
-			'company' => 'ชื่อบริษัท',
-			'taxnumber' => 'เลขภาษี',
+			'company' => 'ชื่อบริษัท/สถานประกอบการ',
+			'customercode' => 'เลขที่ใบอนุญาติ',
+			'taxnumber' => 'เลขที่ใบอนุญาติ',
 			'address' => 'ที่อยู่',
 			'changwat' => 'จังหวัด',
-			'ampur' => 'อำเภอ',
-			'tambon' => 'ตำบล',
+			'ampur' => 'อำเภอ/เขต',
+			'tambon' => 'ตำบล/แขวง',
 			'zipcode' => 'รหัสไปรษณีย์',
-			'manager' => 'ผู้จัดการ',
+			'manager' => 'ชื่อผู้ติดต่อได้สะดวก',
 			'tel' => 'เบอร์โทรศัพท์',
 			'telephone' => 'มือถือ',
 			'flag' => 'การเปิดใช้งาน 0 = Unactive, 1 = Active',
@@ -72,7 +74,8 @@ class Customers extends \yii\db\ActiveRecord {
 			'update_date' => 'แก้ไขข้อมูลล่าสุด',
 			'approve' => 'การยืนยัน',
 			'user_id' => 'user',
-			'type' => 'type'
+			'type' => 'ประเภทสถานประกอบการ',
+			'remark' => 'หมายเหตุ'
 			//'latitude' => 'ละติจูด',
 			//'longitude' => 'ลองจิจูด',
 		];

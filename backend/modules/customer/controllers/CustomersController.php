@@ -2,6 +2,7 @@
 
 namespace app\modules\customer\controllers;
 
+use app\models\Config;
 use app\modules\customer\models\Customers;
 use app\modules\customer\models\CustomersSearch;
 use Yii;
@@ -81,11 +82,12 @@ class CustomersController extends Controller {
 		]);
 	}
 	*/
-	public function actionCreate($taxnumber, $type, $typename) {
+	public function actionCreate($taxnumber) {
+		
 		$model = new Customers();
-
 		if ($model->load(Yii::$app->request->post())) {
 			$model->user_id = \Yii::$app->user->identity->id;
+			$model->customercode = $this->getNextId();
 			$model->create_date = date("Y-m-d H:i:s");
 			$model->update_date = date("Y-m-d H:i:s");
 			$model->save();
@@ -94,11 +96,31 @@ class CustomersController extends Controller {
 
 		return $this->render('create', [
 			'model' => $model,
-			'taxnumber' => $taxnumber,
-			'type' => $type,
-			'typename' => $typename,
+			'taxnumber' => $taxnumber
 		]);
+		
 	}
+
+public function getNextId(){
+    //ตัวอย่างหากต้องการ SN59-00001
+
+    $lastRecord= Customers::find()->where(['like', 'customercode', 'C'])->orderBy(['id' => SORT_DESC])->one();//หาตัวล่าสุดก่อน
+
+    if ($lastRecord) {
+
+        $digit = explode('C', $lastRecord->customercode);
+            
+        $lastDigit = ((int) $digit[1]);  // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+        $lastDigit++; //เพิ่ม 1
+        $lastDigit = str_pad($lastDigit, 5, '0', STR_PAD_LEFT);//ใส่ 0 ข้างหน้าหน่อย
+    } else {
+        $lastDigit = '00001';
+    }
+
+    return 'C' . $lastDigit;
+
+}
+
 	/**
 	 * Updates an existing Customers model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -223,8 +245,8 @@ class CustomersController extends Controller {
 
 	public function actionCheck() {
 		$model = new Customers();
-		$data['type'] = $model->TypeCustomer();
-		return $this->render("check", $data);
+		//$data['type'] = $model->TypeCustomer();
+		return $this->render("check");
 	}
 
 	public function actionChecking() {
