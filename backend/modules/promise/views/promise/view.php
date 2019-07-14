@@ -24,13 +24,20 @@ $Config = new Config();
 				<?=Html::a('Update', ['update', 'id' => $model['id']], ['class' => 'btn btn-primary'])?>
 			
 				<?=Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
-			'class' => 'btn btn-danger',
-			'data' => [
-				'confirm' => 'Are you sure you want to delete this item?',
-				'method' => 'post',
-			],
-		])?>
-			<?php }?>
+					'class' => 'btn btn-danger',
+					'data' => [
+						'confirm' => 'Are you sure you want to delete this item?',
+						'method' => 'post',
+					],
+				])?>
+				<?=Html::a('Cancel', ['cancelpromise', 'id' => $model['id'], 'status'=>'4'], [
+					'class' => 'btn btn-warning',
+					'data' => [
+						'confirm' => 'Are you sure you want to cancel this item?',
+						'method' => 'post',
+					],
+				])?>
+		<?php }?>
 
 		<?php
 			if ($model['status'] == '1') 

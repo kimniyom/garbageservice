@@ -25,6 +25,7 @@ use Yii;
  * @property int $monthunit จำนวนเดือน
  * @property int $yearunit จำนวนปี
  * @property int $deposit มัดจำล่วงหน้า
+ * @property int $vattype
  **/
 class Promise extends \yii\db\ActiveRecord {
 	/**
@@ -39,7 +40,7 @@ class Promise extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['customerid', 'promisedatebegin', 'promisedateend', 'garbageweight'], 'required'],
+			[['customerid', 'promisedatebegin', 'promisedateend', 'garbageweight','vattype'], 'required'],
 			['rate', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
@@ -56,7 +57,7 @@ class Promise extends \yii\db\ActiveRecord {
 			[['customerid', 'rate', 'levy', 'payperyear', 'monthunit', 'yearunit'], 'integer'],
 			[['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
 			[['recivetype', 'active', 'status', 'checkmoney'], 'string'],
-			[['garbageweight', 'deposit'], 'number'],
+			[['garbageweight', 'deposit', 'vattype'], 'number'],
 			[['ratetext', 'payperyeartext'], 'string', 'max' => 64],
 			['ratetext', 'string'],
 		];
@@ -86,6 +87,7 @@ class Promise extends \yii\db\ActiveRecord {
 			'monthunit' => 'ระยะเวลาสัญญารายเดือน',
 			'yearunit' => 'จำนวนปี',
 			'deposit' => 'มัดจำล่วงหน้า(เดือน)',
+			'vattype' => 'ประเภทการคิด vat'
 		];
 	}
 }

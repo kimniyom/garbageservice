@@ -4,6 +4,9 @@ use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
 //use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use app\modules\promise\models\Vattype;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
@@ -131,6 +134,22 @@ $form = ActiveForm::begin([
             );
             ?>
         </div>
+        <div class="col-md-4 col-lg-5">
+            <?php
+                $vattype = Vattype::find()->all();
+                echo $form->field($model, 'vattype')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map($vattype, "id", "vattype"),
+                    'language' => 'th',
+                    'options' => [
+                        'placeholder' => 'Select a vattype ...',
+                        'id' => 'vattype',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]);
+            ?>
+        </div>    
     </div>
 
     <div class="row" id="divmonth">

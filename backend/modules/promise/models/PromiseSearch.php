@@ -36,7 +36,7 @@ class PromiseSearch extends Promise {
 	 * @return ActiveDataProvider
 	 */
 	public function search($params) {
-		$query = Promise::find();
+		$query = Promise::find()->where("status != '4'");
 
 		// add conditions that should always apply here
 

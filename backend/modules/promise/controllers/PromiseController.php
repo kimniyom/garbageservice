@@ -31,6 +31,7 @@ class PromiseController extends Controller {
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['POST'],
+					'cancelpromise' => ['POST'],
 				],
 			],
 		];
@@ -177,6 +178,16 @@ class PromiseController extends Controller {
 		return $this->redirect(['index']);
 	}
 
+	public function actionCancelpromise($id, $status) {
+		$model = Promise::findOne(['id' => $id]);
+		$model->status = $status;
+		$model->active = '0';
+
+		if($model->save()){
+			return $this->redirect(['index']);
+		}
+	}
+
 	public function actionGetdoc($id, $customerid) {
 
 		$rs = $this->getPromise($id, $customerid);
@@ -315,7 +326,8 @@ class PromiseController extends Controller {
                     promise.garbageweight,
                     promise.checkmoney,
                     promise.status,
-                    promise.active,
+					promise.active,
+					promise.vattype,
                     customers.company,
                     customers.taxnumber,
                     customers.address,
@@ -418,9 +430,20 @@ class PromiseController extends Controller {
 	
 	public function actionPdfpreview($id, $promisenumber)
 	{
-		// get your HTML raw content without any layouts or scripts
-		$content = $this->renderPartial('promisetype/_promisetype1');
-    
+		$model = $this->getPromise($id);
+		//promise form มี 3 แบบ นิติบุคคลรวม vat, นิติบุคคลรวม ไม่รวม vat, บุคคลธรรมดา
+		// นิติบุคคลรวม ไม่รวม vat
+		if($model['vattype']==1){
+			$content = $this->renderPartial('promisetype/_promisetype1',['model'=>$model]);
+		}
+		// นิติบุคคลรวม vat
+		if($model['vattype']==2){
+			$content = $this->renderPartial('promisetype/_promisetype2',['model'=>$model]);
+		}
+		// บุคคลธรรมดา ไม่คิด vat
+		if($model['vattype']==3){
+			$content = $this->renderPartial('promisetype/_promisetype3',['model'=>$model]);
+		}
 		$pdf = new Pdf([
 			// set to use core fonts only
 			'mode' => 'th', 
