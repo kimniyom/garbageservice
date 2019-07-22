@@ -59,8 +59,8 @@ $baseUrl = '/userfiles/';
 ATTENTION: The trailing slash is required.
  */
 //$baseUrl = 'http://'.$_SERVER['HTTP_HOST'].'/EDITOR_FILE/';
-//$baseUrl = 'http://localhost/shopping_cart/EDITOR_FILE/';
-$baseUrl = 'http://localhost/garbageservice/files/';
+$baseUrl = 'http://122.154.239.66/garbageservice/files/';
+//$baseUrl = 'http://www.kstudio-th.com/files/';
 
 //$baseUrl = 'http://www.tako.moph.go.th/takmoph2015upgrad/EDITOR_FILE/';
 /*

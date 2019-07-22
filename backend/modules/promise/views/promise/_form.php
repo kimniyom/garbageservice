@@ -1,13 +1,12 @@
 <?php
 
+//use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
-//use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-use app\modules\promise\models\Vattype;
-use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 
+use app\models\Maspackage;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,20 +15,19 @@ $levy = array();
 $monthunit = array();
 $deposit = array();
 
-for($i=1;$i<=36;$i++)
-{
-    if($i<=5){
-        $yearUnit[$i] = $i;
-    }
-    if($i<=10){
-        $levy[$i] = $i;
-    }
-    if($i >=12){
-        $monthunit[$i] = $i;
-    }
-    if($i<=12){
-        $deposit[$i] = $i;
-    }
+for ($i = 1; $i <= 36; $i++) {
+	if ($i <= 5) {
+		$yearUnit[$i] = $i;
+	}
+	if ($i <= 10) {
+		$levy[$i] = $i;
+	}
+	if ($i >= 12) {
+		$monthunit[$i] = $i;
+	}
+	if ($i <= 12) {
+		$deposit[$i] = $i;
+	}
 }
 //echo print_r($levy);
 ?>
@@ -100,56 +98,71 @@ $form = ActiveForm::begin([
                 'todayHighlight' => true,
                 'startDate' => "0d",
             ],
-
-            'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
-        ?>
+	        'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
+            ?>
         </div>
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedateend')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'todayHighlight' => true,
-                'startDate' => "0d",
-            ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 col-lg-5">
-            <?=$form->field($model, 'garbageweight')->textInput()?>
-        </div>
-
-        <div class="col-md-6 col-lg-5">
-            <?=$form->field($model, 'levy')->dropDownList($levy)?>
+	'autoclose' => true,
+	'format' => 'yyyy-mm-dd',
+	'todayHighlight' => true,
+	'startDate' => "0d",
+], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-4 col-lg-5">
-            <?=$form->field($model, 'recivetype')->dropDownList([1 => 'รายเดือน', 0 => 'รายปี'],
+        <?php 
+            $listPackage=ArrayHelper::map(Maspackage::find()->all(),'id','package');
+        ?>
+        <?=$form->field($model, 'recivetype')->dropDownList($listPackage,
                 [
                     'onchange' => 'getrecivetype(this.value)',
                 ]
-
             );
-            ?>
+        ?>
         </div>
+        <div class="col-md-4 col-lg-5" style="padding-top:5px;">
+        <?php $model->vat = 0;?>
         <div class="col-md-4 col-lg-5">
-            <?php
-                $vattype = Vattype::find()->all();
-                echo $form->field($model, 'vattype')->widget(Select2::classname(), [
-                    'data' => ArrayHelper::map($vattype, "id", "vattype"),
-                    'language' => 'th',
-                    'options' => [
-                        'placeholder' => 'Select a vattype ...',
-                        'id' => 'vattype',
-                    ],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                    ],
-                ]);
-            ?>
-        </div>    
+            <?=$form->field($model, 'vat')->dropDownList([
+                     1 => 'มี vat', 0 => 'ไม่มี vat'
+                 ],[
+                    'onchange' => 'calculation()'
+                ])?>
+        </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-lg-5">
+            <?=$form->field($model, 'yearunit')->dropDownList($yearUnit)?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <?=$form->field($model, 'unitprice')->textInput(
+                [
+                    'onkeyup' => 'calculation()'
+                ]
+            )?>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <?=$form->field($model, 'garbageweight')->textInput(
+                [
+                    'onkeyup' => 'calculation()'
+                ]
+            )?>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <?=$form->field($model, 'levy')->dropDownList(
+                $levy,
+                [
+                    'onchange' => 'calculation()'
+                ]
+                )?>
+        </div>
     </div>
 
     <div class="row" id="divmonth">
@@ -157,21 +170,47 @@ $form = ActiveForm::begin([
             <?=$form->field($model, 'rate')->textInput()?>
         </div>
         <div class="col-md-5 col-lg-5">
-            <?=$form->field($model, 'deposit')->dropDownList($deposit,['prompt'=>'ไม่มีมัดจำ'])?>
+            <?=$form->field($model, 'deposit')->dropDownList($deposit, ['prompt' => 'ไม่มีมัดจำ'])?>
         </div>
     </div>
-      
-   
+    <div class="fine">
+        <h4>ค่าปรับ</h4>
+        <hr style="margin-top:0px;"/>
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+                <?=$form->field($model, 'fine')->textInput()?>
+            </div>
+        </div>
+    </div>
+
+    <div class="distcount">
+        <h4>ส่วนลด</h4>(*ถ้ามีการแก้ไขข้อมูลข้างบนส่วนลดจะต้องคำนวณใหม่ทุกครั้ง)
+        <hr style="margin-top:0px;"/>
+        <div class="row">
+            <div class="col-md-4 col-lg-4">
+                <?=$form->field($model, 'distcountpercent')->textInput(
+                    [
+                        'onkeyup' => 'calculationPercent()'
+                    ]
+                )?>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <?=$form->field($model, 'distcountbath')->textInput(
+                    [
+                        'onkeyup' => 'calculationBath()'
+                    ]
+                )?>
+            </div>
+        </div>
+    </div>
+
     <div class="row" id="divyear">
         <div class="col-md-3 col-lg-5">
-            <?=$form->field($model, 'payperyear')->textInput()?>
+            <?=$form->field($model, 'payperyear')->textInput(['readonly' => 'readonly'])?>
         </div>
-        <div class="col-md-4 col-lg-5">
-            <?=$form->field($model, 'yearunit')->dropDownList($yearUnit)?>
+        <div class="col-md-3 col-lg-5">
+            <?=$form->field($model, 'total')->textInput(['readonly' => 'readonly'])?>
         </div>
-    </div>
-    <div class="row">
-        
     </div>
 
     <!-- <div class="row">
@@ -204,18 +243,66 @@ if ($model->id == "") {
 ?>
 <script>
 
-function getrecivetype(type)
-{
-    if(type==1)
-    {
-
+function getrecivetype(type){
+    if(type==1){
+        $(".fine").show();
         $("#divmonth").show();
-        $("#divyear").hide();
-    }
-    else if(type==0)
-    {
+        $("#divyear").show();
+        $(".distcount").show();
+        calculation();
+    } else if(type==2) {
+        $(".fine").hide();
         $("#divmonth").hide();
         $("#divyear").show();
+        $(".distcount").show();
+    } else if(type==3){
+        $(".distcount").hide();
+        $(".fine").hide();
     }
+}
+
+function calculation(){
+    var total = "";
+    var totalSum= "";
+    var vat = $("#promise-vat").val();
+    var type = parseInt($("#promise-recivetype").val());
+    var unit = parseInt($("#promise-unitprice").val());
+    var garbageweight = parseInt($("#promise-garbageweight").val());
+    var levy = parseInt($("#promise-levy").val());
+
+    if(type == 1){
+        total = (unit * levy);
+        totalyear = (total * 12);
+        let vatBath = (totalyear * 7) / 100;
+        if(vat == 1){
+            totalSum = (totalyear - vatBath);
+        } else {
+            totalSum = totalyear;
+        }
+
+        $("#promise-rate").val(total);
+        $("#promise-payperyear").val(totalSum);
+        $("#promise-total").val(totalSum);
+        $("#promise-distcountpercent").val("");
+        $("#promise-distcountbath").val("");
+    }
+}
+
+function calculationPercent(){
+    var totalYear = parseInt($("#promise-payperyear").val());
+    var percent = parseInt($("#promise-distcountpercent").val());
+    var distCount = ((totalYear * percent) / 100);
+    var totalAll = (totalYear - distCount);
+    $("#promise-distcountbath").val(distCount);
+    $("#promise-total").val(totalAll);
+}
+
+function calculationBath(){
+    var totalYear = parseInt($("#promise-payperyear").val());
+    $("#promise-distcountpercent").val(0);
+    var distCount = $("#promise-distcountbath").val();
+    var totalAll = (totalYear - distCount);
+    //$("#promise-distcountbath").val(distCount);
+    $("#promise-total").val(totalAll);
 }
 </script>

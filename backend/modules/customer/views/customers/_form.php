@@ -1,9 +1,9 @@
 <?php
-use app\models\Config;
 use app\models\Ampur;
 use app\models\Changwat;
 use app\models\Tambon;
 use app\models\Typecustomer;
+use app\models\Vattype;
 use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -15,23 +15,38 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-
 <div class="customer-form">
-
     <?php $form = ActiveForm::begin();?>
     <div class="row">
     <div class="col-md-3 col-lg-3">
         <?php
 $type = Typecustomer::find()->all();
 echo $form->field($model, 'type')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map($type, "id", "typename"),
-    'language' => 'th',
-    'options' => [
-        'placeholder' => 'Select a state ...',
-    ],
-    'pluginOptions' => [
-        'allowClear' => true,
-    ],
+	'data' => ArrayHelper::map($type, "id", "typename"),
+	'language' => 'th',
+	'options' => [
+		'placeholder' => 'Select a state ...',
+	],
+	'pluginOptions' => [
+		'allowClear' => true,
+	],
+]);
+?>
+</div>
+</div>
+<div class="row">
+    <div class="col-md-3 col-lg-3">
+        <?php
+$vattype = Vattype::find()->all();
+echo $form->field($model, 'typeregister')->widget(Select2::classname(), [
+	'data' => ArrayHelper::map($vattype, "id", "vattype"),
+	'language' => 'th',
+	'options' => [
+		'placeholder' => 'Select a state ...',
+	],
+	'pluginOptions' => [
+		'allowClear' => true,
+	],
 ]);
 ?>
 </div>
@@ -117,7 +132,14 @@ $form->field($model, 'tambon')->widget(DepDrop::classname(), [
         <?=$form->field($model, 'tel')->textInput(['maxlength' => true])?>
     </div>
     <div class="col-md-4 col-lg-4">
-        <?=$form->field($model, 'telephone')->textInput(['maxlength' => true,'placeholder' => 'Ex.0800000000'])?>
+        <?=$form->field($model, 'telephone')->textInput(['maxlength' => true, 'placeholder' => 'Ex.0800000000'])?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <?=$form->field($model, 'remark')->textArea(['rows' => 5])?>
+
     </div>
 </div>
 

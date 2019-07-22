@@ -2,7 +2,6 @@
 
 namespace app\modules\customer\controllers;
 
-use app\models\Config;
 use app\modules\customer\models\Customers;
 use app\modules\customer\models\CustomersSearch;
 use Yii;
@@ -66,24 +65,23 @@ class CustomersController extends Controller {
 	 */
 
 	/*
-	public function actionCreate() {
-		$model = new Customers();
+		public function actionCreate() {
+			$model = new Customers();
 
-		if ($model->load(Yii::$app->request->post())) {
-			$model->create_date = date("Y-m-d H:i:s");
-			$model->update_date = date("Y-m-d H:i:s");
-			$model->save();
+			if ($model->load(Yii::$app->request->post())) {
+				$model->create_date = date("Y-m-d H:i:s");
+				$model->update_date = date("Y-m-d H:i:s");
+				$model->save();
 
-			return $this->redirect(['view', 'id' => $model->id]);
+				return $this->redirect(['view', 'id' => $model->id]);
+			}
+
+			return $this->render('create', [
+				'model' => $model,
+			]);
 		}
-
-		return $this->render('create', [
-			'model' => $model,
-		]);
-	}
 	*/
 	public function actionCreate($taxnumber) {
-		
 		$model = new Customers();
 		if ($model->load(Yii::$app->request->post())) {
 			$model->user_id = \Yii::$app->user->identity->id;
@@ -96,30 +94,27 @@ class CustomersController extends Controller {
 
 		return $this->render('create', [
 			'model' => $model,
-			'taxnumber' => $taxnumber
+			'taxnumber' => $taxnumber,
 		]);
-		
 	}
 
-public function getNextId(){
-    //ตัวอย่างหากต้องการ SN59-00001
+	public function getNextId() {
+		//ตัวอย่างหากต้องการ SN59-00001
+		$lastRecord = Customers::find()->where(['like', 'customercode', 'C'])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
+		if ($lastRecord) {
 
-    $lastRecord= Customers::find()->where(['like', 'customercode', 'C'])->orderBy(['id' => SORT_DESC])->one();//หาตัวล่าสุดก่อน
+			$digit = explode('C', $lastRecord->customercode);
 
-    if ($lastRecord) {
+			$lastDigit = ((int) $digit[1]); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+			$lastDigit++; //เพิ่ม 1
+			$lastDigit = str_pad($lastDigit, 5, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
+		} else {
+			$lastDigit = '00001';
+		}
 
-        $digit = explode('C', $lastRecord->customercode);
-            
-        $lastDigit = ((int) $digit[1]);  // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
-        $lastDigit++; //เพิ่ม 1
-        $lastDigit = str_pad($lastDigit, 5, '0', STR_PAD_LEFT);//ใส่ 0 ข้างหน้าหน่อย
-    } else {
-        $lastDigit = '00001';
-    }
+		return 'C' . $lastDigit;
 
-    return 'C' . $lastDigit;
-
-}
+	}
 
 	/**
 	 * Updates an existing Customers model.

@@ -7,6 +7,9 @@ use app\modules\promise\models\Promise;
 use app\modules\promise\models\Promisefile;
 use app\modules\promise\models\PromiseSearch;
 use common\models\Customers;
+use kartik\mpdf\Pdf;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Yii;
@@ -14,9 +17,6 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
-use kartik\mpdf\Pdf;
-use Mpdf\Config\ConfigVariables;
-use Mpdf\Config\FontVariables;
 
 /**
  * PromiseController implements the CRUD actions for Promise model.
@@ -61,7 +61,7 @@ class PromiseController extends Controller {
 	public function actionView($id) {
 		$data['model'] = $this->getPromise($id);
 		$data['roundmoney'] = $this->getRoundMoney($id);
-		
+
 		return $this->render('view', $data);
 	}
 
@@ -183,7 +183,7 @@ class PromiseController extends Controller {
 		$model->status = $status;
 		$model->active = '0';
 
-		if($model->save()){
+		if ($model->save()) {
 			return $this->redirect(['index']);
 		}
 	}
@@ -327,7 +327,7 @@ class PromiseController extends Controller {
                     promise.checkmoney,
                     promise.status,
 					promise.active,
-					promise.vattype,
+					promise.vat,
                     customers.company,
                     customers.taxnumber,
                     customers.address,
@@ -369,7 +369,6 @@ class PromiseController extends Controller {
 		return $isReccord;
 	}
 
-	
 	public function actionSetstatus() {
 		$id = Yii::$app->request->post('id');
 		$status = Yii::$app->request->post('status');
@@ -379,119 +378,112 @@ class PromiseController extends Controller {
 		return $model->save();
 	}
 
-	public function actionUploadpromise($id, $customerid)
-    {
-        $model = $this->getPromise($id, $customerid);
-        $promise = Promise::findOne(['id'=>$id]);
-        $promisefile = new Promisefile();
-        $promisefile->scenario = 'create';
+	public function actionUploadpromise($id, $customerid) {
+		$model = $this->getPromise($id, $customerid);
+		$promise = Promise::findOne(['id' => $id]);
+		$promisefile = new Promisefile();
+		$promisefile->scenario = 'create';
 
-        if ($promisefile->load(Yii::$app->request->post())) {
+		if ($promisefile->load(Yii::$app->request->post())) {
 
-            $promisefile->filename = UploadedFile::getInstance($promisefile,'filename');
-            $promisefile->promiseid = $id;
-            $promisefile->uploadby = Yii::$app->user->id;
-            $promisefile->dateupload = date('Y-m-d H:i');
+			$promisefile->filename = UploadedFile::getInstance($promisefile, 'filename');
+			$promisefile->promiseid = $id;
+			$promisefile->uploadby = Yii::$app->user->id;
+			$promisefile->dateupload = date('Y-m-d H:i');
 
-            if($promisefile->filename && $promisefile->validate())
-            {
-                $path = '../uploads/promise/pdf/'.$promise->promisenumber.'.'.$promisefile->filename->extension;
-                $promisefile->promiseid =$id;
-                $promisefile->filename->name = $promise->promisenumber.'.'.$promisefile->filename->extension;
+			if ($promisefile->filename && $promisefile->validate()) {
+				$path = '../uploads/promise/pdf/' . $promise->promisenumber . '.' . $promisefile->filename->extension;
+				$promisefile->promiseid = $id;
+				$promisefile->filename->name = $promise->promisenumber . '.' . $promisefile->filename->extension;
 
-                if($promisefile->save() && $promisefile->filename->saveAs($path)){
-                    $promise->status = '2';
-                    $promise->save();
-                    return $this->redirect(['view', 
-                        'id' => $id, 
-                        'customerid'=>$customerid
-                    ]);
-                }
-            }
-            
-        }
+				if ($promisefile->save() && $promisefile->filename->saveAs($path)) {
+					$promise->status = '2';
+					$promise->save();
+					return $this->redirect(['view',
+						'id' => $id,
+						'customerid' => $customerid,
+					]);
+				}
+			}
 
-        return $this->render('uploadpromise',[
-            'model'=>$model,
-            'promisefile'=>$promisefile,
-        ]);
-    }
+		}
 
-    public function actionGetpromisepdf($promisenumber)
-    {
-        $path = Yii::getAlias('@webroot') . '/../uploads/promise/pdf/'.$promisenumber.'.pdf';
-        
-        if(is_file($path))
-        {
-            Yii::$app->response->sendFile($path);
-        }
-        
+		return $this->render('uploadpromise', [
+			'model' => $model,
+			'promisefile' => $promisefile,
+		]);
 	}
-	
-	public function actionPdfpreview($id, $promisenumber)
-	{
+
+	public function actionGetpromisepdf($promisenumber) {
+		$path = Yii::getAlias('@webroot') . '/../uploads/promise/pdf/' . $promisenumber . '.pdf';
+
+		if (is_file($path)) {
+			Yii::$app->response->sendFile($path);
+		}
+
+	}
+
+	public function actionPdfpreview($id, $promisenumber) {
 		$model = $this->getPromise($id);
 		//promise form มี 3 แบบ นิติบุคคลรวม vat, นิติบุคคลรวม ไม่รวม vat, บุคคลธรรมดา
 		// นิติบุคคลรวม ไม่รวม vat
-		if($model['vattype']==1){
-			$content = $this->renderPartial('promisetype/_promisetype1',['model'=>$model]);
+		if ($model['vattype'] == 1) {
+			$content = $this->renderPartial('promisetype/_promisetype1', ['model' => $model]);
 		}
 		// นิติบุคคลรวม vat
-		if($model['vattype']==2){
-			$content = $this->renderPartial('promisetype/_promisetype2',['model'=>$model]);
+		if ($model['vattype'] == 2) {
+			$content = $this->renderPartial('promisetype/_promisetype2', ['model' => $model]);
 		}
 		// บุคคลธรรมดา ไม่คิด vat
-		if($model['vattype']==3){
-			$content = $this->renderPartial('promisetype/_promisetype3',['model'=>$model]);
+		if ($model['vattype'] == 3) {
+			$content = $this->renderPartial('promisetype/_promisetype3', ['model' => $model]);
 		}
 		$pdf = new Pdf([
 			// set to use core fonts only
-			'mode' => 'th', 
+			'mode' => 'th',
 			// A4 paper format
-			'format' => Pdf::FORMAT_A4, 
+			'format' => Pdf::FORMAT_A4,
 			// portrait orientation
-			'orientation' => Pdf::ORIENT_PORTRAIT, 
+			'orientation' => Pdf::ORIENT_PORTRAIT,
 			// stream to browser inline
-			'destination' => Pdf::DEST_BROWSER, 
+			'destination' => Pdf::DEST_BROWSER,
 			// your html content input
-			'content' => $content,  
+			'content' => $content,
 			// format content from your own css file if needed or use the
-			// enhanced bootstrap css built by Krajee for mPDF formatting 
+			// enhanced bootstrap css built by Krajee for mPDF formatting
 			'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
 			// any css to be embedded if required
-			'cssInline' => '.kv-heading-1{font-size:18px}', 
-			 // set mPDF properties on the fly
+			'cssInline' => '.kv-heading-1{font-size:18px}',
+			// set mPDF properties on the fly
 			'options' => ['title' => 'Krajee Report Title'],
-			
-			'filename'=>'สัญญาเลขที่ '.$promisenumber,
-			 // call mPDF methods on the fly
-			'methods' => [ 
-				//'SetHeader'=>['Krajee Report Header'], 
-				'SetFooter'=>['{PAGENO}'],
-			]
+
+			'filename' => 'สัญญาเลขที่ ' . $promisenumber,
+			// call mPDF methods on the fly
+			'methods' => [
+				//'SetHeader'=>['Krajee Report Header'],
+				'SetFooter' => ['{PAGENO}'],
+			],
 		]);
 
 		$defaultConfig = (new ConfigVariables())->getDefaults();
-        $fontDirs = $defaultConfig['fontDir'];
+		$fontDirs = $defaultConfig['fontDir'];
 
-        $defaultFontConfig = (new FontVariables())->getDefaults();
-        $fontData = $defaultFontConfig['fontdata'];
-				
-        $pdf->options['fontDir'] = array_merge($fontDirs, [
-            Yii::getAlias('@webroot').'/web/fonts/thsarabun/'
-        ]);
+		$defaultFontConfig = (new FontVariables())->getDefaults();
+		$fontData = $defaultFontConfig['fontdata'];
 
+		$pdf->options['fontDir'] = array_merge($fontDirs, [
+			Yii::getAlias('@webroot') . '/web/fonts/thsarabun/',
+		]);
 
+		$pdf->options['fontdata'] = $fontData + [
 
-        $pdf->options['fontdata'] = $fontData + [
-               
-                'sarabun' => [
-                    'R' => 'THSarabun.ttf',
-                ]
-            ];
-		
+			'sarabun' => [
+				'R' => 'THSarabun.ttf',
+			],
+		];
+
 		// return the pdf output as per the destination setting
-		return $pdf->render(); 
+		return $pdf->render();
 	}
 
 }

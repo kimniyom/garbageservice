@@ -38,7 +38,7 @@ class Customers extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve','type'], 'required'],
+			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve','type','typeregister'], 'required'],
 			[['flag', 'approve'], 'string'],
 			[['create_date', 'update_date'], 'safe'],
 			//[['latitude', 'longitude'], 'number'],
@@ -49,6 +49,7 @@ class Customers extends \yii\db\ActiveRecord {
 			[['zipcode'], 'string', 'max' => 5],
 			[['manager'], 'string', 'max' => 100],
 			[['user_id','type'], 'number'],
+			[['typeregister'],'number']
 		];
 	}
 
@@ -61,6 +62,7 @@ class Customers extends \yii\db\ActiveRecord {
 			'company' => 'ชื่อบริษัท/สถานประกอบการ',
 			'customercode' => 'เลขที่ใบอนุญาติ',
 			'taxnumber' => 'เลขที่ใบอนุญาติ',
+			'typeregister' => 'ประเภทการจดทะเบียน',
 			'address' => 'ที่อยู่',
 			'changwat' => 'จังหวัด',
 			'ampur' => 'อำเภอ/เขต',
@@ -75,7 +77,7 @@ class Customers extends \yii\db\ActiveRecord {
 			'approve' => 'การยืนยัน',
 			'user_id' => 'user',
 			'type' => 'ประเภทสถานประกอบการ',
-			'remark' => 'หมายเหตุ'
+			'remark' => 'หมายเหตุ',
 			//'latitude' => 'ละติจูด',
 			//'longitude' => 'ลองจิจูด',
 		];

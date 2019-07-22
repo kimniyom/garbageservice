@@ -3,6 +3,7 @@
 use app\models\Ampur;
 use app\models\Changwat;
 use app\models\Tambon;
+use app\models\Typecustomer;
 use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -17,6 +18,24 @@ use yii\widgets\ActiveForm;
 <div class="customer-form">
 
     <?php $form = ActiveForm::begin();?>
+        <div class="row">
+    <div class="col-md-3 col-lg-3">
+        <?php
+$type = Typecustomer::find()->all();
+echo $form->field($model, 'type')->widget(Select2::classname(), [
+	'data' => ArrayHelper::map($type, "id", "typename"),
+	'language' => 'th',
+	'options' => [
+		'placeholder' => 'Select a state ...',
+	],
+	'pluginOptions' => [
+		'allowClear' => true,
+	],
+]);
+?>
+</div>
+</div>
+
 <div class="row">
     <div class="col-md-12 col-lg-12">
         <?=$form->field($model, 'company')->textInput(['maxlength' => true])?>
@@ -109,7 +128,12 @@ $form->field($model, 'tambon')->widget(DepDrop::classname(), [
         <?//=$form->field($model, 'STATUS')->radioList([1 => 'ใช้งาน', 0 => 'ไม่ใช้งาน'])?>
     </div>
 </div> -->
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <?=$form->field($model, 'remark')->textArea(['rows' => 5])?>
 
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-3 col-lg-3">

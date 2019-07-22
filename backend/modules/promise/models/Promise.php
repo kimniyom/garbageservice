@@ -40,7 +40,7 @@ class Promise extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['customerid', 'promisedatebegin', 'promisedateend', 'garbageweight','vattype'], 'required'],
+			[['customerid', 'promisedatebegin', 'promisedateend', 'garbageweight', 'vat','unitprice'], 'required'],
 			['rate', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
@@ -53,13 +53,26 @@ class Promise extends \yii\db\ActiveRecord {
                     return $('#promise-recivetype').val() == 0;
                 }",
 			],
+			['fine', 'required', 'when' => function ($model) {
+				return $model->recivetype == 1;
+			}, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 1;
+                }",
+			],
+			['distcountbath','required','when' => function($model){
+				return $model->recivetype == 1;
+			}, 'whenClient' => "function (attribute, value) {
+				return $('#promise-recivetype').val() == 1;
+			}",
+			],
 			[['promisenumber'], 'string'],
-			[['customerid', 'rate', 'levy', 'payperyear', 'monthunit', 'yearunit'], 'integer'],
+			[['customerid', 'rate', 'levy', 'payperyear', 'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine'], 'integer'],
 			[['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
-			[['recivetype', 'active', 'status', 'checkmoney'], 'string'],
-			[['garbageweight', 'deposit', 'vattype'], 'number'],
+			[['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
+			[['garbageweight', 'deposit', 'vat'], 'number'],
 			[['ratetext', 'payperyeartext'], 'string', 'max' => 64],
 			['ratetext', 'string'],
+			[['distcountbath', 'total'], 'safe'],
 		];
 	}
 
@@ -87,7 +100,13 @@ class Promise extends \yii\db\ActiveRecord {
 			'monthunit' => 'ระยะเวลาสัญญารายเดือน',
 			'yearunit' => 'จำนวนปี',
 			'deposit' => 'มัดจำล่วงหน้า(เดือน)',
-			'vattype' => 'ประเภทการคิด vat'
+			'vat' => 'vat',
+			'unitprice' => 'ราคาต่อหน่วย',
+			'distcountpercent' => 'ส่วนลด %',
+			'distcountbath' => 'ส่วนลด(บาท)',
+			'total' => 'ราคาหักส่วนลด',
+			'fine' => 'ค่าปรับขยะเกิน(กิโลกรัมละ)',
+			'etc' => 'สาเหตุที่ยกเลิกสัญญา',
 		];
 	}
 }
