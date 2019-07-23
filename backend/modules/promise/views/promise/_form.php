@@ -113,7 +113,7 @@ $form = ActiveForm::begin([
 
     <div class="row">
         <div class="col-md-4 col-lg-5">
-        <?php 
+        <?php
             $listPackage=ArrayHelper::map(Maspackage::find()->all(),'id','package');
         ?>
         <?=$form->field($model, 'recivetype')->dropDownList($listPackage,
@@ -148,7 +148,7 @@ $form = ActiveForm::begin([
                 ]
             )?>
         </div>
-        <div class="col-md-4 col-lg-4">
+        <div class="col-md-4 col-lg-4" id="garbageweight">
             <?=$form->field($model, 'garbageweight')->textInput(
                 [
                     'onkeyup' => 'calculation()'
@@ -245,6 +245,7 @@ if ($model->id == "") {
 
 function getrecivetype(type){
     if(type==1){
+				$("#garbageweight").show();
         $(".fine").show();
         $("#divmonth").show();
         $("#divyear").show();
@@ -256,8 +257,10 @@ function getrecivetype(type){
         $("#divyear").show();
         $(".distcount").show();
     } else if(type==3){
-        $(".distcount").hide();
+				$("#garbageweight").hide();
+        $(".distcount").show();
         $(".fine").hide();
+				$(".distcount").show();
     }
 }
 
@@ -279,13 +282,26 @@ function calculation(){
         } else {
             totalSum = totalyear;
         }
-
         $("#promise-rate").val(total);
         $("#promise-payperyear").val(totalSum);
         $("#promise-total").val(totalSum);
         $("#promise-distcountpercent").val("");
         $("#promise-distcountbath").val("");
-    }
+    } else if(type == 3){
+			total = (unit * levy);
+			totalyear = (total * 12);
+			let vatBath = (totalyear * 7) / 100;
+			if(vat == 1){
+					totalSum = (totalyear - vatBath);
+			} else {
+					totalSum = totalyear;
+			}
+			$("#promise-rate").val(total);
+			$("#promise-payperyear").val(totalSum);
+			$("#promise-total").val(totalSum);
+			$("#promise-distcountpercent").val("");
+			$("#promise-distcountbath").val("");
+		}
 }
 
 function calculationPercent(){

@@ -3,6 +3,7 @@
 use app\models\Config;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Maspackage;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 
@@ -22,7 +23,7 @@ $Config = new Config();
     <p>
         <?php if ($model['status'] == "1") {?>
 				<?=Html::a('Update', ['update', 'id' => $model['id']], ['class' => 'btn btn-primary'])?>
-			
+
 				<?=Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
 					'class' => 'btn btn-danger',
 					'data' => [
@@ -40,24 +41,30 @@ $Config = new Config();
 		<?php }?>
 
 		<?php
-			if ($model['status'] == '1') 
+			if ($model['status'] == '1')
 			{
 				//ms word
 				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']);
-				//pdf preview 
-				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .pdf', ['pdfpreview', 'id' => $model['id'], 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'PDF']);
+				//pdf preview
+				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .pdf', ['pdfpreview', 'id' => $model['id'], 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'PDF','target' => '_blank']);
 				//upload pdf
 				echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> .Upload PDF', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
 			}
-			if ($model['status'] == '2') 
+			if ($model['status'] == '2')
 			{
 				//save pdf
         		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'ดาวโหลดสัญญา']);
-				
+
 			}
 		?>
     </p>
-	
+<?php
+  if($model['vat'] == 1) {
+    $vat = "รวม vat 7%";
+  } else {
+    $vat = "";
+  }
+?>
     <?=DetailView::widget([
 	'model' => $model,
 
@@ -87,22 +94,42 @@ $Config = new Config();
 		],
 		[
 			'label' => 'ประเภทการจ้าง',
-			'value' => $model['recivetype'] == 1 ? "รายเดือน" : "รายปี",
+			'value' => Maspackage::findOne(['id' => $model['recivetype']])['package'],
 		],
-		[
-			'label' => $model['recivetype'] == 1 ? "คิดค่าจ้างเหมาในอัตราเดือนละ" : "ค่าจ้างรวมทิ้งสิ้นต่อปี",
-			'value' => ($model['recivetype'] == 1) ? (number_format($model['rate'])) : (number_format($model['payperyear'])),
+    [
+			'label' => 'ราคาต่อหน่วย',
+			'value' => $model['unitprice'],
 		],
-
 		[
 			'label' => 'จำนวนครั้งที่จัดเก็บต่อเดือน',
 			'attribute' => 'levy',
 		],
-
+    [
+			'label' => 'ค่าบริการรายเดือน',
+			'attribute' => 'rate',
+		],
+    [
+			'label' => ($model['recivetype'] == 2) ? "-" : "ค่าจ้างต่อปี(ปกติ) ",
+      'format' => 'html',
+			'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['payperyear'],2))." <em>(".$vat.")</em>",
+		],
+    [
+			'label' => ($model['distcountpercent'] != "") ? "ส่วนลด ".$model['distcountpercent']." %" : "ส่วนลด",
+			'value' => ($model['distcountbath'] != "") ? number_format($model['distcountbath'],2) : "-",
+		],
+    [
+			'label' => $model['recivetype'] == 2 ? "-" : "ค่าจ้างต่อปี(หักส่วนลด)",
+			'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['total'],2)),
+		],
+    [
+			'label' => "ค่าปรับกิโลที่เกิน",
+      'format' => 'html',
+			'value' => ($model['fine'] != "") ? "กิโลกรัมละ ".$model['fine']." บาท" : "-",
+		],
 		[
 			'label' => 'ระยะสัญญา',
 			'attribute' => 'yearunit',
-			'value' => $model['yearunit'],
+			'value' => $model['yearunit']." ปี",
 		],
 		[
 			'label' => 'วันที่ทำสัญญา',
@@ -110,18 +137,17 @@ $Config = new Config();
 
 		],
 		[
-			'label' => 'ปริมาณขยะ (กิโลกรัม)',
-			'value' => $model['garbageweight'],
-
+			'label' => 'ปริมาณขยะ',
+			'value' => ($model['recivetype'] == 1) ? "ไม่เกิน ".$model['garbageweight']." กิโลกรัมต่อครั้ง" : "-",
 		],
 		[
 			'label' => 'มัดจำล่วงหน้า (เดือน)',
-			'value' => $model['deposit'],
+			'value' => ($model['deposit'] != "") ? $model['deposit']." เดือน" : "-",
 
 		],
 
 		[
-			'label' => 'ผู้ประสาน',
+			'label' => 'ชื่อผู้ติดต่อได้สะดวก',
 			'value' => $model['manager'],
 
 		],
@@ -221,4 +247,3 @@ function setstatus(id,status)
     })
 }
 </script>
-

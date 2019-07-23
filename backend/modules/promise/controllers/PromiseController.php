@@ -88,7 +88,7 @@ class PromiseController extends Controller {
 		$model = new Promise();
 		$model->customerid = $customerid;
 		$model->createat = date('Y-m-d');
-		$model->promisenumber = $conFig->getNextId("promise", "promisenumber", 5);
+		$model->promisenumber = $this->getNextId("promise", "promisenumber", 5);
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			if ($model->recivetype == 1) {
 				$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->createat, $model->rate);
@@ -100,6 +100,24 @@ class PromiseController extends Controller {
 			'model' => $model,
 			'customer' => $this->getCustomer($customerid),
 		]);
+	}
+
+	public function getNextId() {
+		//ตัวอย่างหากต้องการ SN59-00001
+		$lastRecord = Promise::find()->where(['like', 'promisenumber', 'IC'])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
+		if ($lastRecord) {
+
+			$digit = explode('IC', $lastRecord->promisenumber);
+
+			$lastDigit = ((int) $digit[1]); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+			$lastDigit++; //เพิ่ม 1
+			$lastDigit = str_pad($lastDigit, 5, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
+		} else {
+			$lastDigit = '00001';
+		}
+
+		return 'IC' . $lastDigit;
+
 	}
 
 	public function actionSetmonth($promiseID, $customerID, $promiesYear, $dateStart, $priceMonth) {
@@ -341,7 +359,12 @@ class PromiseController extends Controller {
                     location.lat,
                     location.long,
                     promise.deposit,
-                    promise.yearunit
+                    promise.yearunit,
+										promise.unitprice,
+										promise.distcountpercent,
+										promise.distcountbath,
+										promise.total,
+										promise.fine
                     FROM
                     promise
                 INNER JOIN customers ON promise.customerid = customers.id
@@ -427,15 +450,15 @@ class PromiseController extends Controller {
 		$model = $this->getPromise($id);
 		//promise form มี 3 แบบ นิติบุคคลรวม vat, นิติบุคคลรวม ไม่รวม vat, บุคคลธรรมดา
 		// นิติบุคคลรวม ไม่รวม vat
-		if ($model['vattype'] == 1) {
+		if ($model['recivetype'] == 1) {
 			$content = $this->renderPartial('promisetype/_promisetype1', ['model' => $model]);
 		}
 		// นิติบุคคลรวม vat
-		if ($model['vattype'] == 2) {
+		if ($model['recivetype'] == 2) {
 			$content = $this->renderPartial('promisetype/_promisetype2', ['model' => $model]);
 		}
 		// บุคคลธรรมดา ไม่คิด vat
-		if ($model['vattype'] == 3) {
+		if ($model['recivetype'] == 3) {
 			$content = $this->renderPartial('promisetype/_promisetype3', ['model' => $model]);
 		}
 		$pdf = new Pdf([
@@ -451,7 +474,7 @@ class PromiseController extends Controller {
 			'content' => $content,
 			// format content from your own css file if needed or use the
 			// enhanced bootstrap css built by Krajee for mPDF formatting
-			'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+			'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
 			// any css to be embedded if required
 			'cssInline' => '.kv-heading-1{font-size:18px}',
 			// set mPDF properties on the fly

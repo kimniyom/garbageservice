@@ -31,7 +31,8 @@
         "yiisoft/yii2-bootstrap4": "^2.0",
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-widget-activeform": "dev-master",
-        "kartik-v/yii2-mpdf": "*"
+        "kartik-v/yii2-mpdf": "dev-master",
+        "paragonie/random_compat": "~1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

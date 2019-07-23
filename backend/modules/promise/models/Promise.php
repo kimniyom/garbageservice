@@ -40,12 +40,18 @@ class Promise extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['customerid', 'promisedatebegin', 'promisedateend', 'garbageweight', 'vat','unitprice'], 'required'],
+			[['customerid', 'promisedatebegin', 'promisedateend', 'vat','unitprice'], 'required'],
 			['rate', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
                 }",
+			],
+			['garbageweight', 'required', 'when' => function ($model) {
+				return $model->recivetype == 1;
+			}, 'whenClient' => "function (attribute, value) {
+										return $('#promise-recivetype').val() == 1;
+								}",
 			],
 			['payperyear', 'required', 'when' => function ($model) {
 				return $model->recivetype == 0;
@@ -63,6 +69,13 @@ class Promise extends \yii\db\ActiveRecord {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
 				return $('#promise-recivetype').val() == 1;
+			}",
+			],
+
+			['distcountbath','required','when' => function($model){
+				return $model->recivetype == 3;
+			}, 'whenClient' => "function (attribute, value) {
+				return $('#promise-recivetype').val() == 3;
 			}",
 			],
 			[['promisenumber'], 'string'],
