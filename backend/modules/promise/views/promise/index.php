@@ -60,7 +60,19 @@ $this->params['breadcrumbs'][] = $this->title;
 			'format' => 'text',
 			'label' => 'ประเภทการจ้าง',
 			'value' => function ($model) {
-				return ($model->recivetype == "0") ? "รายปี" : "รายเดือน";
+				if($model->recivetype == "1")
+				{
+					return "รายครั้ง";
+				}
+				else if($model->recivetype == "2")
+				{
+					return "คิดตามน้ำหนักจริง";
+				}
+				else if($model->recivetype == "3")
+				{
+					return "เหมาจ่ายรายเดือน";
+				}
+				
 			},
 		],
 

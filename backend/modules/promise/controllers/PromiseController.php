@@ -346,6 +346,13 @@ class PromiseController extends Controller {
                     promise.status,
 					promise.active,
 					promise.vat,
+					promise.deposit,
+                    promise.yearunit,
+					promise.unitprice,
+					promise.distcountpercent,
+					promise.distcountbath,
+					promise.total,
+					promise.fine,
                     customers.company,
                     customers.taxnumber,
                     customers.address,
@@ -357,15 +364,8 @@ class PromiseController extends Controller {
                     customers.tel,
                     customers.telephone,
                     location.lat,
-                    location.long,
-                    promise.deposit,
-                    promise.yearunit,
-										promise.unitprice,
-										promise.distcountpercent,
-										promise.distcountbath,
-										promise.total,
-										promise.fine
-                    FROM
+                    location.long
+                FROM
                     promise
                 INNER JOIN customers ON promise.customerid = customers.id
                 INNER JOIN changwat ON customers.changwat = changwat.changwat_id
@@ -449,17 +449,34 @@ class PromiseController extends Controller {
 	public function actionPdfpreview($id, $promisenumber) {
 		$model = $this->getPromise($id);
 		//promise form มี 3 แบบ นิติบุคคลรวม vat, นิติบุคคลรวม ไม่รวม vat, บุคคลธรรมดา
-		// นิติบุคคลรวม ไม่รวม vat
-		if ($model['recivetype'] == 1) {
-			$content = $this->renderPartial('promisetype/_promisetype1', ['model' => $model]);
+		// นิติบุคคล รายครั้ง ไม่รวม vat
+		if ($model['recivetype'] == 1 && $model['vat']=='0') {
+			$content = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
 		}
-		// นิติบุคคลรวม vat
-		if ($model['recivetype'] == 2) {
-			$content = $this->renderPartial('promisetype/_promisetype2', ['model' => $model]);
+		// นิติบุคคล รายครั้ง รวม vat
+		else if ($model['recivetype'] == 1 && $model['vat']=='1') {
+			$content = $this->renderPartial('promisetype/_promisetype1_2', ['model' => $model]);
+		}
+		// นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่รวม vat
+		else if ($model['recivetype'] == 2 && $model['vat']=='0') {
+			$content = $this->renderPartial('promisetype/_promisetype2_1', ['model' => $model]);
+		}
+		// นิติบุคคลรวม คิดตามน้ำหนักจริง รวม vat
+		else if ($model['recivetype'] == 2 && $model['vat']=='1') {
+			$content = $this->renderPartial('promisetype/_promisetype2_2', ['model' => $model]);
 		}
 		// บุคคลธรรมดา ไม่คิด vat
-		if ($model['recivetype'] == 3) {
-			$content = $this->renderPartial('promisetype/_promisetype3', ['model' => $model]);
+		//if ($model['recivetype'] == 3) {
+		//	$content = $this->renderPartial('promisetype/_promisetype3', ['model' => $model]);
+		//}
+
+		// นิติบุคคล รายเดือน ไม่รวม vat
+		else if ($model['recivetype'] == 3 && $model['vat']=='0') {
+			$content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
+		}
+		// นิติบุคคล รายเดือน รวม vat
+		else if ($model['recivetype'] == 3 && $model['vat']=='1') {
+			$content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
 		}
 		$pdf = new Pdf([
 			// set to use core fonts only

@@ -103,11 +103,11 @@ $form = ActiveForm::begin([
         </div>
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedateend')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-	'autoclose' => true,
-	'format' => 'yyyy-mm-dd',
-	'todayHighlight' => true,
-	'startDate' => "0d",
-], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+                'todayHighlight' => true,
+                'startDate' => "0d",
+            ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
         </div>
     </div>
 
@@ -123,7 +123,7 @@ $form = ActiveForm::begin([
             );
         ?>
         </div>
-        <div class="col-md-4 col-lg-5" style="padding-top:5px;">
+        
         <?php $model->vat = 0;?>
         <div class="col-md-4 col-lg-5">
             <?=$form->field($model, 'vat')->dropDownList([
@@ -132,7 +132,7 @@ $form = ActiveForm::begin([
                     'onchange' => 'calculation()'
                 ])?>
         </div>
-        </div>
+       
     </div>
 
     <div class="row">
@@ -155,7 +155,7 @@ $form = ActiveForm::begin([
                 ]
             )?>
         </div>
-        <div class="col-md-4 col-lg-4">
+        <div class="col-md-4 col-lg-4" id="divlevy">
             <?=$form->field($model, 'levy')->dropDownList(
                 $levy,
                 [
@@ -245,7 +245,7 @@ if ($model->id == "") {
 
 function getrecivetype(type){
     if(type==1){
-				$("#garbageweight").show();
+		$("#garbageweight").show();
         $(".fine").show();
         $("#divmonth").show();
         $("#divyear").show();
@@ -254,13 +254,16 @@ function getrecivetype(type){
     } else if(type==2) {
         $(".fine").hide();
         $("#divmonth").hide();
-        $("#divyear").show();
-        $(".distcount").show();
+        $(".distcount").hide();
+        $("#garbageweight").hide();
+        $("#divyear").hide();
+        $("#promise-rate").val(0);
+        $("#promise-payperyear").val(0);
     } else if(type==3){
-				$("#garbageweight").hide();
+		$("#garbageweight").hide();
         $(".distcount").show();
         $(".fine").hide();
-				$(".distcount").show();
+		$(".distcount").show();
     }
 }
 
@@ -297,8 +300,8 @@ function calculation(){
 					totalSum = totalyear;
 			}
 			$("#promise-rate").val(total);
-			$("#promise-payperyear").val(totalSum);
-			$("#promise-total").val(totalSum);
+			$("#promise-payperyear").val(parseInt(totalSum));
+			$("#promise-total").val(parseInt(totalSum));
 			$("#promise-distcountpercent").val("");
 			$("#promise-distcountbath").val("");
 		}
@@ -319,6 +322,6 @@ function calculationBath(){
     var distCount = $("#promise-distcountbath").val();
     var totalAll = (totalYear - distCount);
     //$("#promise-distcountbath").val(distCount);
-    $("#promise-total").val(totalAll);
+    $("#promise-total").val(parseInt(totalAll));
 }
 </script>

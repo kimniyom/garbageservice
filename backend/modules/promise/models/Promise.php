@@ -78,6 +78,18 @@ class Promise extends \yii\db\ActiveRecord {
 				return $('#promise-recivetype').val() == 3;
 			}",
 			],
+			['rate', 'integer', 'when' => function ($model) {
+				return $model->recivetype == 1 || $model->recivetype == 3;
+			}, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 1;
+                }",
+			],
+			['payperyear', 'integer', 'when' => function ($model) {
+				return $model->recivetype == 1 || $model->recivetype == 3;
+			}, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 1;
+                }",
+			],
 			[['promisenumber'], 'string'],
 			[['customerid', 'rate', 'levy', 'payperyear', 'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine'], 'integer'],
 			[['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
