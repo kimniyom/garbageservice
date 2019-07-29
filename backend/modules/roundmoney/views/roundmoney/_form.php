@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="roundmoney-form">
+<div class="roundmoney-form col-md-5 col-lg-5">
 
     <?php $form = ActiveForm::begin(); ?>
 

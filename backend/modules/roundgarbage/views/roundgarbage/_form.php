@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="roundgarbage-form">
+<div class="roundgarbage-form col-md-5 col-lg-5">
 
     <?php $form = ActiveForm::begin();?>
 
