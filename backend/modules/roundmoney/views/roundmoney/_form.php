@@ -43,13 +43,13 @@ use yii\helpers\ArrayHelper;
         'format' => 'yyyy-mm-dd'
     ],'options'=>['class'=>'form-control','autocomplete'=>'off']]); ?>
 
-    <?= $form->field($model, 'amount')->textInput() ?>
+    <?//= $form->field($model, 'amount')->textInput() ?>
 
-    <?= $form->field($model, 'keepby')->textInput(['maxlength' => true]) ?>
+    <?//= $form->field($model, 'keepby')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList([ 1 => 'เก็บเรียบร้อย', 0 => 'ยังไม่ได้เก็บ', ]) ?>
+    <?= $form->field($model, 'status')->dropDownList([ 0 => 'ยังไม่ได้เก็บ',1 => 'เก็บเรียบร้อย' ]) ?>
 
-    <?= $form->field($model, 'receiptnumber')->textInput(['maxlength' => true]) ?>
+    <?//= $form->field($model, 'receiptnumber')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
