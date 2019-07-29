@@ -1,12 +1,12 @@
 <?php
 
 //use yii\widgets\ActiveForm;
+use app\models\Maspackage;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
-use yii\helpers\Html;
+use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-
-use app\models\Maspackage;
+use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 /* @var $form yii\widgets\ActiveForm */
@@ -14,12 +14,20 @@ $yearUnit = array();
 $levy = array();
 $monthunit = array();
 $deposit = array();
-
+$dayInweek = array(
+	'0' => 'จันทร์',
+	'1' => 'อังคาร',
+	'2' => 'พุธ',
+	'3' => 'พฤหัสบดี',
+	'4' => 'วันศุกร์',
+	'5' => 'วันเสาร์',
+	'6' => 'วันอาทิตย์',
+);
 for ($i = 1; $i <= 36; $i++) {
 	if ($i <= 5) {
 		$yearUnit[$i] = $i;
 	}
-	if ($i <= 10) {
+	if ($i <= 5) {
 		$levy[$i] = $i;
 	}
 	if ($i >= 12) {
@@ -93,75 +101,85 @@ $form = ActiveForm::begin([
     <div class="row">
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedatebegin')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'todayHighlight' => true,
-                'startDate' => "0d",
-            ],
-	        'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
-            ?>
+	'autoclose' => true,
+	'format' => 'yyyy-mm-dd',
+	'todayHighlight' => true,
+	'startDate' => "0d",
+],
+	'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
+?>
         </div>
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedateend')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-                'todayHighlight' => true,
-                'startDate' => "0d",
-            ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
+	'autoclose' => true,
+	'format' => 'yyyy-mm-dd',
+	'todayHighlight' => true,
+	'startDate' => "0d",
+], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-4 col-lg-5">
         <?php
-            $listPackage=ArrayHelper::map(Maspackage::find()->all(),'id','package');
-        ?>
+$listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package');
+?>
         <?=$form->field($model, 'recivetype')->dropDownList($listPackage,
-                [
-                    'onchange' => 'getrecivetype(this.value)',
-                ]
-            );
-        ?>
+	[
+		'onchange' => 'getrecivetype(this.value)',
+	]
+);
+?>
         </div>
-        
+
         <?php $model->vat = 0;?>
         <div class="col-md-4 col-lg-5">
             <?=$form->field($model, 'vat')->dropDownList([
-                     1 => 'มี vat', 0 => 'ไม่มี vat'
-                 ],[
-                    'onchange' => 'calculation()'
-                ])?>
+	1 => 'มี vat', 0 => 'ไม่มี vat',
+], [
+	'onchange' => 'calculation()',
+])?>
         </div>
-       
+
+    </div>
+ <div class="row">
+            <div class="col-md-4 col-lg-5">
+            <?=$form->field($model, 'payment')->dropDownList([
+	0 => 'แบ่งจ่ายรายเดือน / รายครั้ง', 1 => 'เหมาจ่าย',
+], [
+	'onchange' => 'calculation()',
+])?>
+        </div>
     </div>
 
     <div class="row">
         <div class="col-md-4 col-lg-5">
-            <?=$form->field($model, 'yearunit')->dropDownList($yearUnit)?>
+            <?=$form->field($model, 'yearunit')->hiddenInput(['value' => '1'])->label(false)?>
+            <?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false)?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">
             <?=$form->field($model, 'unitprice')->textInput(
-                [
-                    'onkeyup' => 'calculation()'
-                ]
-            )?>
+	[
+		'onkeyup' => 'calculation()',
+	]
+)?>
         </div>
         <div class="col-md-4 col-lg-4" id="garbageweight">
             <?=$form->field($model, 'garbageweight')->textInput(
-                [
-                    'onkeyup' => 'calculation()'
-                ]
-            )?>
+	[
+		'onkeyup' => 'calculation()',
+	]
+)?>
         </div>
         <div class="col-md-4 col-lg-4" id="divlevy">
             <?=$form->field($model, 'levy')->dropDownList(
-                $levy,
-                [
-                    'onchange' => 'calculation()'
-                ]
-                )?>
+	$levy,
+	[
+		'onchange' => 'calculation()',
+	]
+)?>
         </div>
     </div>
 
@@ -189,17 +207,17 @@ $form = ActiveForm::begin([
         <div class="row">
             <div class="col-md-4 col-lg-4">
                 <?=$form->field($model, 'distcountpercent')->textInput(
-                    [
-                        'onkeyup' => 'calculationPercent()'
-                    ]
-                )?>
+	[
+		'onkeyup' => 'calculationPercent()',
+	]
+)?>
             </div>
             <div class="col-md-4 col-lg-4">
                 <?=$form->field($model, 'distcountbath')->textInput(
-                    [
-                        'onkeyup' => 'calculationBath()'
-                    ]
-                )?>
+	[
+		'onkeyup' => 'calculationBath()',
+	]
+)?>
             </div>
         </div>
     </div>
@@ -212,6 +230,29 @@ $form = ActiveForm::begin([
             <?=$form->field($model, 'total')->textInput(['readonly' => 'readonly'])?>
         </div>
     </div>
+
+    <div id="dateservice">
+    <h4>วันที่จัดเก็บ</h4>
+<hr style="margin-top:0px;"/>
+        <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <?=$form->field($model, 'dayinweek')->dropDownList($dayInweek);?>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+            <?php
+echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
+	'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
+	'options' => ['placeholder' => 'Select a week ...'],
+	'pluginOptions' => [
+		'allowClear' => true,
+		'multiple' => true,
+	],
+]);
+?>
+        </div>
+    </div>
+</div>
 
     <!-- <div class="row">
         <div class="col-md-12 col-lg-6">
@@ -226,7 +267,11 @@ $form = ActiveForm::begin([
         <?=Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success'])?>
     </div>
 
+
     <?php ActiveForm::end();?>
+    <?php if ($error) {?>
+     <div class="alert alert-danger"><?php echo $error ?></div>
+ <?php }?>
 </div>
 </div>
 </div>
@@ -250,7 +295,8 @@ function getrecivetype(type){
         $("#divmonth").show();
         $("#divyear").show();
         $(".distcount").show();
-        calculation();
+        $("#dateservice").show();
+        //calculation();
     } else if(type==2) {
         $(".fine").hide();
         $("#divmonth").hide();
@@ -259,11 +305,13 @@ function getrecivetype(type){
         $("#divyear").hide();
         $("#promise-rate").val(0);
         $("#promise-payperyear").val(0);
+        $("#dateservice").hide();
     } else if(type==3){
 		$("#garbageweight").hide();
         $(".distcount").show();
         $(".fine").hide();
 		$(".distcount").show();
+        $("#dateservice").show();
     }
 }
 
@@ -285,6 +333,7 @@ function calculation(){
         } else {
             totalSum = totalyear;
         }
+
         $("#promise-rate").val(total);
         $("#promise-payperyear").val(totalSum);
         $("#promise-total").val(totalSum);

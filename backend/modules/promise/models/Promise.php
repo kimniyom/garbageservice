@@ -40,7 +40,7 @@ class Promise extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['customerid', 'promisedatebegin', 'promisedateend', 'vat','unitprice'], 'required'],
+			[['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'unitprice', 'payment'], 'required'],
 			['rate', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
@@ -65,14 +65,14 @@ class Promise extends \yii\db\ActiveRecord {
                     return $('#promise-recivetype').val() == 1;
                 }",
 			],
-			['distcountbath','required','when' => function($model){
+			['distcountbath', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
 				return $('#promise-recivetype').val() == 1;
 			}",
 			],
 
-			['distcountbath','required','when' => function($model){
+			['distcountbath', 'required', 'when' => function ($model) {
 				return $model->recivetype == 3;
 			}, 'whenClient' => "function (attribute, value) {
 				return $('#promise-recivetype').val() == 3;
@@ -90,8 +90,15 @@ class Promise extends \yii\db\ActiveRecord {
                     return $('#promise-recivetype').val() == 1;
                 }",
 			],
+			['weekinmonth', 'required', 'when' => function ($model) {
+				return $model->recivetype == 1 || $model->recivetype == 3;
+			}, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 1;
+                }",
+			],
 			[['promisenumber'], 'string'],
-			[['customerid', 'rate', 'levy', 'payperyear', 'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine'], 'integer'],
+			[['customerid', 'rate', 'levy', 'payperyear', 'dayinweek',
+				'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment'], 'integer'],
 			[['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
 			[['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
 			[['garbageweight', 'deposit', 'vat'], 'number'],
@@ -132,6 +139,9 @@ class Promise extends \yii\db\ActiveRecord {
 			'total' => 'ราคาหักส่วนลด',
 			'fine' => 'ค่าปรับขยะเกิน(กิโลกรัมละ)',
 			'etc' => 'สาเหตุที่ยกเลิกสัญญา',
+			'dayinweek' => 'วันที่เข้าจัดเก็บ',
+			'weekinmonth' => 'สัปดาห์เข้าจัดเก็บ',
+			'payment' => 'การชำระเงิน',
 		];
 	}
 }

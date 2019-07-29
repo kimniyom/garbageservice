@@ -1,9 +1,9 @@
 <?php
 
 use app\models\Config;
+use app\models\Maspackage;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use app\models\Maspackage;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 
@@ -21,49 +21,50 @@ $Config = new Config();
             <div class="box-header" style=" padding-bottom: 0px;">รายละเอียดสัญญา</div>
             <div class="box-body">
     <p>
-        <?php if ($model['status'] == "1") {?>
+        <?php if ($model['status'] == "1") {
+	?>
 				<?=Html::a('Update', ['update', 'id' => $model['id']], ['class' => 'btn btn-primary'])?>
 
 				<?=Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
-					'class' => 'btn btn-danger',
-					'data' => [
-						'confirm' => 'Are you sure you want to delete this item?',
-						'method' => 'post',
-					],
-				])?>
-				<?=Html::a('Cancel', ['cancelpromise', 'id' => $model['id'], 'status'=>'4'], [
-					'class' => 'btn btn-warning',
-					'data' => [
-						'confirm' => 'Are you sure you want to cancel this item?',
-						'method' => 'post',
-					],
-				])?>
+		'class' => 'btn btn-danger',
+		'data' => [
+			'confirm' => 'Are you sure you want to delete this item?',
+			'method' => 'post',
+		],
+	])?>
+				<?=Html::a('Cancel', ['cancelpromise', 'id' => $model['id'], 'status' => '4'], [
+		'class' => 'btn btn-warning',
+		'data' => [
+			'confirm' => 'Are you sure you want to cancel this item?',
+			'method' => 'post',
+		],
+	])?>
 		<?php }?>
 
 		<?php
-			if ($model['status'] == '1')
-			{
-				//ms word
-				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']);
-				//pdf preview
-				echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .pdf', ['pdfpreview', 'id' => $model['id'], 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'PDF','target' => '_blank']);
-				//upload pdf
-				echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> .Upload PDF', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
-			}
-			if ($model['status'] == '2')
-			{
-				//save pdf
-        		echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'ดาวโหลดสัญญา']);
+if ($model['status'] == '1') {
+	//ms word
+	/*
+	echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']);
+	*/
+	//pdf preview
+	echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> พิมพ์สัญญา', ['pdfpreview', 'id' => $model['id'], 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'PDF', 'target' => '_blank']);
+	//upload pdf
+	echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> อัพโหลดไฟล์สัญญาที่มีลายเซ็นต์ทั้ง 2 ฝ่าย', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
+}
+if ($model['status'] == '2') {
+	//save pdf
+	echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'ดาวโหลดสัญญา']);
 
-			}
-		?>
+}
+?>
     </p>
 <?php
-  if($model['vat'] == 1) {
-    $vat = "รวม vat 7%";
-  } else {
-    $vat = "";
-  }
+if ($model['vat'] == 1) {
+	$vat = "(รวม vat 7%)";
+} else {
+	$vat = "";
+}
 ?>
     <?=DetailView::widget([
 	'model' => $model,
@@ -96,7 +97,7 @@ $Config = new Config();
 			'label' => 'ประเภทการจ้าง',
 			'value' => Maspackage::findOne(['id' => $model['recivetype']])['package'],
 		],
-    [
+		[
 			'label' => 'ราคาต่อหน่วย',
 			'value' => $model['unitprice'],
 		],
@@ -104,33 +105,40 @@ $Config = new Config();
 			'label' => 'จำนวนครั้งที่จัดเก็บต่อเดือน',
 			'attribute' => 'levy',
 		],
-    [
+		[
 			'label' => 'ค่าบริการรายเดือน',
 			'attribute' => 'rate',
 		],
-    [
+		[
 			'label' => ($model['recivetype'] == 2) ? "-" : "ค่าจ้างต่อปี(ปกติ) ",
-      'format' => 'html',
-			'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['payperyear'],2))." <em>(".$vat.")</em>",
+			'format' => 'html',
+			'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['payperyear'], 2)) . " <em>" . $vat . "</em>",
 		],
-    [
-			'label' => ($model['distcountpercent'] != "") ? "ส่วนลด ".$model['distcountpercent']." %" : "ส่วนลด",
-			'value' => ($model['distcountbath'] != "") ? number_format($model['distcountbath'],2) : "-",
+		[
+			'label' => ($model['distcountpercent'] != "") ? "ส่วนลด " . $model['distcountpercent'] . " %" : "ส่วนลด",
+			'value' => ($model['distcountbath'] != "") ? number_format($model['distcountbath'], 2) : "-",
 		],
-    [
+		[
 			'label' => $model['recivetype'] == 2 ? "-" : "ค่าจ้างต่อปี(หักส่วนลด)",
-			'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['total'],2)),
+			'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['total'], 2)),
 		],
-    [
+		[
 			'label' => "ค่าปรับกิโลที่เกิน",
-      'format' => 'html',
-			'value' => ($model['fine'] != "") ? "กิโลกรัมละ ".$model['fine']." บาท" : "-",
+			'format' => 'html',
+			'value' => ($model['fine'] != "") ? "กิโลกรัมละ " . $model['fine'] . " บาท" : "-",
 		],
 		[
 			'label' => 'ระยะสัญญา',
 			'attribute' => 'yearunit',
-			'value' => $model['yearunit']." ปี",
+			'value' => $model['yearunit'] . " ปี",
 		],
+		/*
+			[
+				'label' => 'วันที่จัดเก็บ',
+				'attribute' => 'dayinweek',
+				'value' => "ทุกวัน " . $Config->dayInweek($model['dayinweek']) . " ของสัปดาห์ที่ " . $model['weekinmonth'],
+			],
+		*/
 		[
 			'label' => 'วันที่ทำสัญญา',
 			'value' => $Config->thaidate($model['createat']),
@@ -138,11 +146,11 @@ $Config = new Config();
 		],
 		[
 			'label' => 'ปริมาณขยะ',
-			'value' => ($model['recivetype'] == 1) ? "ไม่เกิน ".$model['garbageweight']." กิโลกรัมต่อครั้ง" : "-",
+			'value' => ($model['recivetype'] == 1) ? "ไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง" : "-",
 		],
 		[
 			'label' => 'มัดจำล่วงหน้า (เดือน)',
-			'value' => ($model['deposit'] != "") ? $model['deposit']." เดือน" : "-",
+			'value' => ($model['deposit'] != "") ? $model['deposit'] . " เดือน" : "-",
 
 		],
 
@@ -189,38 +197,67 @@ $Config = new Config();
 </div>
 </div>
 <div class="col-md-4 col-lg-4">
-    <div class="box">
-        <?php if ($model['recivetype'] == 1) {
+	<!-- Custom tabs (Charts with tabs)-->
+          <div class="nav-tabs-custom">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs pull-right">
+              <li><a href="#revenue-chart" data-toggle="tab"> รอบเก็บขยะ</a></li>
+              <li class="active"><a href="#sales-chart" data-toggle="tab"> รอบเก็บเงิน</a></li>
+              <li class="pull-left header"><i class="fa fa-inbox"></i> รอบเก็บ</li>
+            </ul>
+            <div class="tab-content padding">
+              <!-- Morris chart - Sales -->
+              <div class="chart tab-pane" id="revenue-chart">
+              	<div class="box-unit">
+              		<?php
+if ($roundgarbage) {
+	foreach ($roundgarbage as $rss) {
+		echo "<pre>";
+		echo " รอบที่ " . $rss['round'];
+		echo " วันที่ " . $Config->thaidate($rss['datekeep']);
+		echo "</pre>";
+	}
+} else {
 	?>
-<div class="box-header" style=" padding-bottom: 0px;">
-    <?php $month = ($model['yearunit'] * 12);?>
-    จำนวนที่ต้องชำระ <?php echo $month ?> เดือน ชำระเดือนละ <?php echo number_format($model['rate'], 2) ?>
+<center>ยังไม่ได้กำหนดวันเข้าเก็บ</center>
+<?php }?>
+              	</div>
+              </div>
 
-</div>
-            <div class="box-body" id="box-unit">
-    <?php
+              <div class="chart tab-pane active" id="sales-chart">
+
+					        <?php if ($model['recivetype'] == 1) {
+	?>
+
+					    <?php $month = ($model['yearunit'] * 12);?>
+					    จำนวนที่ต้องชำระ <?php echo $month ?> เดือน ชำระเดือนละ <?php echo number_format($model['rate'], 2) ?>
+
+					            <div class="box-unit">
+					    <?php
 
 	foreach ($roundmoney as $rs) {
-
 		echo "<pre>";
 		echo " งวดที่ " . $rs['round'];
 		echo " กำหนดชำระ ";
 		echo $Config->thaidate($rs['datekeep']);
-
 		echo "</pre>";
 	}
 	?>
-</div>
-<?php } else {?>
-    <div class="box-body">
-        <h4 style="text-align: center;">สัญญารายปี</h4>
-        <hr/>
-        <h4 style="text-align: center;">
-            <?php echo $model['checkmoney'] == 0 ? "ยังไม่ได้ชำระ" : "ชำระแล้ว"; ?>
-        </h4>
-    </div>
-    <?php }?>
-</div>
+					</div>
+					<?php } else {?>
+					        <h4 style="text-align: center;">สัญญารายปี</h4>
+					        <hr/>
+					        <h4 style="text-align: center;">
+					            <?php echo $model['checkmoney'] == 0 ? "ยังไม่ได้ชำระ" : "ชำระแล้ว"; ?>
+					        </h4>
+					    <?php }?>
+
+              </div>
+            </div>
+          </div>
+          <!-- /.nav-tabs-custom -->
+
+
 </div>
 </div>
 </div>
@@ -228,7 +265,7 @@ $Config = new Config();
 <?php
 $this->registerJs('
         var boxdetail = $("#box-detail").height();
-        $("#box-unit").css({"height": boxdetail-30,"overflow": "auto"});
+        $(".box-unit").css({"height": boxdetail-80,"overflow": "auto"});
         ');
 ?>
 

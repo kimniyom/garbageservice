@@ -11,10 +11,9 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="promise-update">
 
 
-
     <?=$this->render('_form', [
 	'model' => $model,
 	'customer' => $customer,
+	'error' => $error,
 ])?>
-
 </div>
