@@ -4,6 +4,8 @@ use app\models\Config;
 use app\models\Maspackage;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 
@@ -14,6 +16,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $Config = new Config();
 ?>
+
+<?php
+	Modal::begin([
+		'header'=>'<h4>ระบุเหตุผลยกเลิกสัญญา</h4>',
+		'id'=>'modal',
+		'size'=>'modal-lg'
+	]);
+	echo  "<div id='modalContent'></div>";
+	Modal::End();
+?>
 <div class="promise-view">
 <div class="row">
     <div class="col-md-8 col-lg-8">
@@ -21,24 +33,17 @@ $Config = new Config();
             <div class="box-header" style=" padding-bottom: 0px;">รายละเอียดสัญญา</div>
             <div class="box-body">
     <p>
-        <?php if ($model['status'] == "1") {
-	?>
+        <?php if ($model['status'] == "1") {?>
 				<?=Html::a('Update', ['update', 'id' => $model['id']], ['class' => 'btn btn-primary'])?>
 
 				<?=Html::a('Delete', ['delete', 'id' => $model['id'], 'customerid' => $model['customerid']], [
-		'class' => 'btn btn-danger',
-		'data' => [
-			'confirm' => 'Are you sure you want to delete this item?',
-			'method' => 'post',
-		],
-	])?>
-				<?=Html::a('Cancel', ['cancelpromise', 'id' => $model['id'], 'status' => '4'], [
-		'class' => 'btn btn-warning',
-		'data' => [
-			'confirm' => 'Are you sure you want to cancel this item?',
-			'method' => 'post',
-		],
-	])?>
+					'class' => 'btn btn-danger',
+					'data' => [
+						'confirm' => 'Are you sure you want to delete this item?',
+						'method' => 'post',
+					],
+				])?>
+				<?=Html::button('Cancel', ['value'=>Url::to(Yii::$app->urlManager->createUrl(['promise/promise/cancelpromise','id' => $model['id'], 'status' => '4'])), 'class' => 'btn btn-warning', 'id'=>'modalButton'])?>
 		<?php }?>
 
 		<?php

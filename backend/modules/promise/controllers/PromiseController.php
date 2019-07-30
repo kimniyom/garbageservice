@@ -31,7 +31,7 @@ class PromiseController extends Controller {
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['POST'],
-					'cancelpromise' => ['POST'],
+					//'cancelpromise' => ['POST'],
 				],
 			],
 		];
@@ -242,9 +242,13 @@ class PromiseController extends Controller {
 		$model->status = $status;
 		$model->active = '0';
 
-		if ($model->save()) {
+		if ($model->load(Yii::$app->request->post())  && $model->save(false)) {
 			return $this->redirect(['index']);
 		}
+
+		return $this->renderAjax('_modalcancel', [
+			'model' => $model,
+		]);
 	}
 
 	public function actionGetdoc($id, $customerid) {

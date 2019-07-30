@@ -96,6 +96,9 @@ class Promise extends \yii\db\ActiveRecord {
                     return $('#promise-recivetype').val() == 1;
                 }",
 			],
+			['etc', 'required', 'when' => function($model) {
+				return $model->status == '4';
+			}],
 			[['promisenumber'], 'string'],
 			[['customerid', 'rate', 'levy', 'payperyear', 'dayinweek',
 				'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment'], 'integer'],
