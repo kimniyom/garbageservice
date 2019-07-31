@@ -18,34 +18,34 @@ use yii\widgets\ActiveForm;
 
     <?php
 
-        $promise = Promise::find()->where(['status' => '2', 'active' => '1'])->All();
-        echo $form->field($model, 'promiseid')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map($promise, "id", "promisenumber"),
-            'language' => 'th',
-            'options' => [
-                'placeholder' => 'Select a promise ...',
-            ],
-            'pluginOptions' => [
-                'allowClear' => true,
-            ],
-        ]);
-    ?>
+$promise = Promise::find()->where(['status' => '2', 'active' => '1'])->All();
+echo $form->field($model, 'promiseid')->widget(Select2::classname(), [
+	'data' => ArrayHelper::map($promise, "id", "promisenumber"),
+	'language' => 'th',
+	'options' => [
+		'placeholder' => 'Select a promise ...',
+	],
+	'pluginOptions' => [
+		'allowClear' => true,
+	],
+]);
+?>
 
-    <?=$form->field($model, 'datekeep')->widget(DatePicker::classname(), 
-        ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
-            ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']
-        ]);
-    ?>
+    <?=$form->field($model, 'datekeep')->widget(DatePicker::classname(),
+	['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
+		'autoclose' => true,
+		'format' => 'yyyy-mm-dd',
+	], 'options' => ['class' => 'form-control', 'autocomplete' => 'off'],
+	]);
+?>
 
 
 
-    <?//=$form->field($model, 'amount')->textInput()?>
+    <?php /*$form->field($model, 'amount')->textInput()*/?>
 
-    <?//=$form->field($model, 'keepby')->textInput(['maxlength' => true])?>
+    <?php /*$form->field($model, 'keepby')->textInput(['maxlength' => true])*/?>
 
-    <?=$form->field($model, 'status')->dropDownList([0 => 'ยังไม่ได้จัดเก็บ',1 => 'จัดเก็บแล้ว'])?>
+    <?=$form->field($model, 'status')->dropDownList([0 => 'ยังไม่ได้จัดเก็บ', 1 => 'จัดเก็บแล้ว'])?>
 
     <div class="form-group">
         <?=Html::submitButton('Save', ['class' => 'btn btn-success'])?>
