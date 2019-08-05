@@ -70,6 +70,8 @@ class Customers extends \yii\db\ActiveRecord {
 			'approve' => 'การยืนยัน Y = Yes N = No',
 			'user_id' => 'user_id',
 			'type' => 'ประเภทลูกค้า',
+			'timeworkbegin' => 'เวลาทำการ',
+            'timeworkend' => '-',
 		];
 	}
 

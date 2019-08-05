@@ -24,6 +24,8 @@ use Yii;
  * @property string $approve การยืนยัน Y = Yes N = No
  * @property int $user_id user ใช้เข้าดูข้อมูลของสถานประกอบการนั้น ๆ
  * @property int $type ประเภทลูกค้า
+ * @property time $timeworkbegin เวลาทำการเริ่มต้น
+ * @property time $timeworkend เวลาเลิกงาน
  */
 class Customers extends \yii\db\ActiveRecord
 {
@@ -75,6 +77,8 @@ class Customers extends \yii\db\ActiveRecord
             'approve' => 'การยืนยัน Y = Yes N = No',
             'user_id' => 'user ใช้เข้าดูข้อมูลของสถานประกอบการนั้น ๆ',
             'type' => 'ประเภทลูกค้า',
+            'timeworkbegin' => 'เวลาทำการ',
+            'timeworkend' => '-',
         ];
     }
 }
