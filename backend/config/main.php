@@ -46,6 +46,9 @@ return [
 		'gridview' => [
 			'class' => '\kartik\grid\Module',
 		],
+		'service' => [
+			'class' => 'app\modules\service\Module',
+		],
 	],
 	'components' => [
 		'view' => [

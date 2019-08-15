@@ -98,7 +98,7 @@ $urlMap = new Config();
             <div class="col-md-4">
             <div class="row" style="margin-bottom:15px;">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <a href="">
+                    <a href="<?php echo Yii::$app->urlManager->createUrl(['service']) ?>">
                         <button class="btn btn-primary btn btn-block btn-lg"><i class="fa fa-save"></i> บันทึกรายการจัดเก็บ</button></a>
                 </div>
             </div>
@@ -176,7 +176,7 @@ $urlMap = new Config();
               center: {lat: 13.847860, lng: 100.604274},
               zoom: 5,
             }
-                
+
             var maps = new google.maps.Map(document.getElementById("map"),mapOptions);
 
             var marker, info;
