@@ -18,7 +18,7 @@ use Yii;
  * @property int $payperyear ค่าจ้างรวมทิ้งสิ้นต่อปี
  * @property string $payperyeartext ค่าจ้างรวมทิ้งสิ้นต่อปี (ตัวอักษร)
  * @property string $createat วันที่ทำสัญญา
- *  @property string $active การใช้งาน 1=ใช้งาน 0=ไม่ใช้
+ * @property string $active การใช้งาน 1=ใช้งาน 0=ไม่ใช้
  * @property double $garbageweight ปริมาณขยะ (กิโลกรัม)
  * @property string $status สถานะสัญญา 0=หมดสัญญา, 1=รอยืนยัน, 2=กำลังใช้งาน, 3=กำลังต่อสัญญา
  * @property string $checkmoney สถานะการชำระเงิน 0=ยังไม่ได้ชำระ, 1=ชำระเงินแล้ว
@@ -96,7 +96,7 @@ class Promise extends \yii\db\ActiveRecord {
                     return $('#promise-recivetype').val() == 1;
                 }",
 			],
-			['etc', 'required', 'when' => function($model) {
+			['etc', 'required', 'when' => function ($model) {
 				return $model->status == '4';
 			}],
 			[['promisenumber'], 'string'],
