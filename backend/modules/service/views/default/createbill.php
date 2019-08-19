@@ -15,18 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12 col-lg-12 col-sm-12">
         <label>เลือกเลขที่สัญญา</label>
         <?php
-$listPromise = ArrayHelper::map($promise, 'id', 'promisenumber');
-echo Select2::widget([
-	'name' => 'promise',
-	'value' => '',
-	'data' => $listPromise,
-	'options' => [
-		'multiple' => false,
-		'placeholder' => 'Select Promise ...',
-		'onchange' => 'getRound(this.value)',
-	],
-]);
-?>
+        $listPromise = ArrayHelper::map($promise, 'id', 'promisenumber');
+        echo Select2::widget([
+            'name' => 'promise',
+            'value' => '',
+            'data' => $listPromise,
+            'options' => [
+                'multiple' => false,
+                'placeholder' => 'Select Promise ...',
+                'onchange' => 'getRound(this.value)',
+            ],
+        ]);
+        ?>
         </div>
     </div>
 

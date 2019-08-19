@@ -2,7 +2,7 @@
     <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
 <div style="width:50%; float: left;">
     <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
-    โทรสัพท์ 02-1010325<br/>
+    โทรศัพท์ 02-1010325<br/>
     ชื่อลูกค้า <?php echo $customer['company'] ?>
     </div>
     <div style="width:30%; float: right; text-align: right;">
@@ -12,7 +12,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th colspan="5">
+            <th colspan="6">
                 ประจำงวดที่ <?php echo $rounddate ?>
             </th>
         </tr>
@@ -20,30 +20,31 @@
             <th>#</th>
             <th>รายการ</th>
             <th>ปริมาณขยะ</th>
+            <th>ราคาต่อหน่วย</th>
             <th>ขยะเกิน</th>
             <th>ค่าใช้จ่าย</th>
         </tr>
     </thead>
     <tbody>
     <?php $i = 0;foreach ($billdetail as $rs): $i++;?>
-										        <tr>
-										            <td><?php echo $i ?></td>
-										            <td>ค่ากำจัดขยะติดเชื้อ รอบที่ <?php echo $rs['round'] ?></td>
-										            <td><?php echo $rs['amount'] ?></td>
-										            <td><?php echo $rs['garbageover'] ?></td>
-										            <td></td>
-										        </tr>
-										    <?php endforeach;?>
+	    <tr>
+            <td><?php echo $i ?></td>
+            <td>ค่ากำจัดขยะติดเชื้อ รอบที่ <?php echo $rs['round'] ?></td>
+            <td><?php echo $rs['amount'] ?></td>
+            <td><?php echo $rs['amount'] ?></td>
+            <td><?php echo $rs['garbageover'] ?></td>
+            <td></td>
+        </tr>
+    <?php endforeach;?>
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3">
+            <td colspan="4">
                 (อักษร)
             </td>
             <td>ยอดเงินสุทธิ</td>
             <td></td>
         </tr>
-
     </tfoot>
 </table>
 </div>
