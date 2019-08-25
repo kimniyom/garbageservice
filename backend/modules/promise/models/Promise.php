@@ -147,4 +147,40 @@ class Promise extends \yii\db\ActiveRecord {
 			'payment' => 'การชำระเงิน',
 		];
 	}
+
+	public function Countnearexpire()
+	{
+		$sql = "select count(*) as total from promise where DATEDIFF(promisedateend, NOW()) < 30";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		return $rs['total'];
+	}
+
+	public function Countwaitapprove()
+	{
+		$sql = "select count(*) as total from promise where `status`= '1'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		return $rs['total'];
+	}
+
+	public function Countpromiseall()
+	{
+		$sql = "select count(*) as total from promise where `status`in ('0','2','4')";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		return $rs['total'];
+	}
+	
+	public function Countpromiseusing()
+	{
+		$sql = "select count(*) as total from promise where `status`= '2'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		return $rs['total'];
+	}
+
+	public function Countpromisepay()
+	{
+		$sql = "select count(*) as total from promise where `checkmoney`= '1'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		return $rs['total'];
+	}
+	
 }

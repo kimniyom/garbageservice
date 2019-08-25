@@ -736,4 +736,58 @@ class PromiseController extends Controller {
 		// echo "Start Date-->".$from."End Date -->".$to;
 	}
 
+	public function actionPromisenearexpire()
+	{
+		$sql = "SELECT
+					promise.id ,
+					promise.promisenumber,
+					promise.promisedateend,
+					customers.company,
+					customers.manager,
+					customers.tel,
+					customers.telephone
+				FROM promise
+				INNER JOIN customers ON promise.customerid = customers.id
+				WHERE DATEDIFF(promisedateend, NOW()) < 30";
+		$rs = Yii::$app->db->createCommand($sql)->queryAll();
+		$data['promise'] = $rs;
+		return $this->render('promisenearexpire', $data);
+	}
+
+	public function actionPromisewaitapprove()
+	{
+		$sql = "SELECT
+					promise.id ,
+					promise.promisenumber,
+					promise.promisedateend,
+					customers.company,
+					customers.manager,
+					customers.tel,
+					customers.telephone
+				FROM promise
+				INNER JOIN customers ON promise.customerid = customers.id
+				WHERE promise.status = '1'";
+		$rs = Yii::$app->db->createCommand($sql)->queryAll();
+		$data['promise'] = $rs;
+		return $this->render('promisewaitapprove', $data);
+	}
+
+	public function actionPromisepay()
+	{
+		$sql = "SELECT
+					promise.id ,
+					promise.promisenumber,
+					promise.promisedateend,
+					customers.company,
+					customers.manager,
+					customers.tel,
+					customers.telephone
+				FROM promise
+				INNER JOIN customers ON promise.customerid = customers.id
+				WHERE promise.checkmoney = '1'";
+		$rs = Yii::$app->db->createCommand($sql)->queryAll();
+		$data['promise'] = $rs;
+		return $this->render('promisepay', $data);
+	}
+
 }

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\LoginForm;
 use app\modules\customer\models\Customers;
+use app\modules\Promise\models\Promise;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -61,7 +62,14 @@ class SiteController extends Controller {
 	 */
 	public function actionIndex() {
 		$customerModel = new Customers();
-		$data['customernonapprove'] = $customerModel->Countnonactive();
+		$promiseModel = new Promise();
+		$data['customernonapprove']     =  $customerModel->Countnonactive();
+		$data['promisenearexpire']      =  $promiseModel->Countnearexpire();
+		$data['promisewaitapprove']     =  $promiseModel->Countwaitapprove();
+		$data['customerbetweenpromise'] =  $customerModel->Countbetweenpromise();
+		$data['promiseall'] 			=  $promiseModel->Countpromiseall();
+		$data['promiseusing'] 			=  $promiseModel->Countpromiseusing();
+		$data['promisepay'] 			=  $promiseModel->Countpromisepay();
 		return $this->render('index',$data);
 	}
 

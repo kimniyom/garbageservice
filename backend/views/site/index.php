@@ -30,8 +30,8 @@ $urlMap = new Config();
                     <div class="info-box-content">
                         <span class="info-box-text" style="text-align:center">แจ้งชำระเงิน(ผ่านระบบ)</span><br/>
                         <div style="text-align:center">
-                        <a href="#">
-                            <button style="text-align:center;" class="btn btn-danger">0</button></a>
+                        <a href="<?php echo Yii::$app->urlManager->createUrl(['promise/promise/promisepay']) ?>">
+                            <button style="text-align:center;" class="btn btn-danger"><?php echo $promisepay;?></button></a>
                         </div>
                     </div>
                 <!-- /.info-box-content -->
@@ -44,8 +44,8 @@ $urlMap = new Config();
                     <div class="info-box-content">
                         <span class="info-box-text" style="text-align:center">สัญญาใกล้หมด</span><br/>
                         <div style="text-align:center">
-                        <a href="#">
-                            <button style="text-align:center;" class="btn btn-danger">0</button></a>
+                        <a href="<?php echo Yii::$app->urlManager->createUrl(['promise/promise/promisenearexpire']) ?>">
+                            <button style="text-align:center;" class="btn btn-danger"><?php echo $promisenearexpire;?></button></a>
                         </div>
                     </div>
                 <!-- /.info-box-content -->
@@ -59,8 +59,8 @@ $urlMap = new Config();
                     <div class="info-box-content">
                         <span class="info-box-text" style="text-align:center">สัญญารอการยืนยัน</span><br/>
                         <div style="text-align:center">
-                        <a href="#">
-                            <button style="text-align:center;" class="btn btn-danger">0</button></a>
+                        <a href="<?php echo Yii::$app->urlManager->createUrl(['promise/promise/promisewaitapprove']) ?>">
+                            <button style="text-align:center;" class="btn btn-danger"><?php echo $promisewaitapprove?></button></a>
                         </div>
                     </div>
                 <!-- /.info-box-content -->
@@ -108,7 +108,7 @@ $urlMap = new Config();
             <span class="info-box-icon"><i class="fa fa-users"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">จำนวนลูกค้า</span>
-              <span class="info-box-number">5,200</span>
+              <span class="info-box-number"><?php echo $customerbetweenpromise;?></span>
               <div class="progress">
                 <div class="progress-bar" style="width: 100%"></div>
               </div>
@@ -123,7 +123,7 @@ $urlMap = new Config();
             <span class="info-box-icon"><i class="fa fa-file-o"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">จำนวนสัญญา(ทั้งหมด)</span>
-              <span class="info-box-number">92,050</span>
+              <span class="info-box-number"><?php echo $promiseall;?></span>
               <div class="progress">
                 <div class="progress-bar" style="width: 100%"></div>
               </div>
@@ -138,7 +138,7 @@ $urlMap = new Config();
             <span class="info-box-icon"><i class="fa fa-file-pdf-o"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">จำนวนสัญญา(ที่ใช้งาน)</span>
-              <span class="info-box-number">114,381</span>
+              <span class="info-box-number"><?php echo $promiseusing;?></span>
               <div class="progress">
                 <div class="progress-bar" style="width: 100%"></div>
               </div>

@@ -97,4 +97,13 @@ class Customers extends \yii\db\ActiveRecord {
 		$sql = "select * from typecustomer";
 		return Yii::$app->db->createCommand($sql)->queryAll();
 	}
+
+	public function Countbetweenpromise(){
+		$sql = "SELECT COUNT(*) AS total 
+				FROM customers 
+				INNER JOIN promise ON customers.id = promise.customerid 
+				WHERE DATEDIFF(promise.promisedateend,NOW())> 0";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+		return $rs['total'];
+	}
 }
