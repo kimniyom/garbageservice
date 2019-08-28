@@ -463,20 +463,29 @@ class PromiseController extends Controller {
 			$promisefile->promiseid = $id;
 			$promisefile->uploadby = Yii::$app->user->id;
 			$promisefile->dateupload = date('Y-m-d H:i');
-
-			if ($promisefile->filename && $promisefile->validate()) {
+			
+			if ($promisefile->filename && $promisefile->validate() && ($promise->promisenumber === str_replace(".pdf","",$promisefile->filename))) {
 				$path = '../uploads/promise/pdf/' . $promise->promisenumber . '.' . $promisefile->filename->extension;
 				$promisefile->promiseid = $id;
 				$promisefile->filename->name = $promise->promisenumber . '.' . $promisefile->filename->extension;
 
 				if ($promisefile->save() && $promisefile->filename->saveAs($path)) {
 					$promise->status = '2';
-					$promise->save();
+					
+					$promise->save(false);
+					
 					return $this->redirect(['view',
 						'id' => $id,
 						'customerid' => $customerid,
 					]);
+					
 				}
+			}
+			else{
+				Yii::$app->getSession()->setFlash('alert',[
+					'body'=>'กรุณาตรวจสอบชื่อไฟล์ให้ถูกต้อง',
+					'options'=>['class'=>'alert-warning']
+				]);
 			}
 
 		}
