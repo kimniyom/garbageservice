@@ -96,6 +96,11 @@ class Config {
 			$ret .= "ถ้วน";
 		}
 
+		if($ret == "ถ้วน")
+		{
+			$ret = "ศูนย์บาทถ้วน";
+		}
+
 		return $ret;
 	}
 

@@ -547,7 +547,7 @@ class PromiseController extends Controller {
 			// set mPDF properties on the fly
 			'options' => ['title' => 'Krajee Report Title'],
 
-			'filename' => 'สัญญาเลขที่ ' . $promisenumber,
+			'filename' => $promisenumber.".pdf",
 			// call mPDF methods on the fly
 			'methods' => [
 				//'SetHeader'=>['Krajee Report Header'],
