@@ -1,15 +1,19 @@
 <?php
+use yii\helpers\Url;
 use app\models\Config;
 $Config = new Config();
 ?>
-<div style="background:#ffffff; padding:10px;">
+<div style="background:#ffffff; padding:10px;" id="invoice">
 <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
 <div style="width:50%; float: left;">
+    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" /><br/><br/>
     <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
     โทรศัพท์ 02-1010325<br/>
-    ชื่อลูกค้า <?php echo $customer['company'] ?>
+    ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
+    ที่อยู่ <?php echo 'ตำบล / แขวง '.$customer['tambon_name'].' อำเภอ '.$customer['ampur_name'].' จังหวัด '.$customer['changwat_name'].' '.$customer['zipcode'] ?>
     </div>
     <div style="width:30%; float: right; text-align: right;">
+        เลขที่ <?php echo $invnumber ?><br/>
         อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
         วันที่ <?php echo date("d/m/Y") ?>
     </div>
@@ -30,37 +34,180 @@ $Config = new Config();
         </tr>
     </thead>
     <tbody>
-    <?php 
-    $sum = 0;
-    $i = 0;foreach ($billdetail as $rs): $i++;
-    
-    $fineprice = ($promise['fine'] * $rs['garbageover']);
-    $totalRow = ($promise['unitprice'] + $fineprice);
-    $sum = $sum + $totalRow;
-    ?>
-						    <tr>
-					            <td><?php echo $i ?></td>
-					            <td>ค่ากำจัดขยะติดเชื้อ รอบที่ <?php echo $rs['round'] ?></td>
-					            <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
-					            <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
-					            <td style="text-align:right;">
-                                <?php 
-                                    echo $promise['fine'].' x '.$rs['garbageover'];
-                                    echo ' = '.number_format($fineprice);
-                                    ?>
-                                </td>
-					            <td style="text-align:right;"><?php echo $totalRow ?></td>
-					        </tr>
-					    <?php endforeach;?>
+    <?php
+$sum = 0;
+$i = 0;foreach ($billdetail as $rs): $i++;
+	$fineprice = ($promise['fine'] * $rs['garbageover']);
+	$totalRow = ($promise['unitprice'] + $fineprice);
+	$sum = $sum + $totalRow;
+	?>
+														    <tr>
+													            <td><?php echo $i ?></td>
+													            <td>ค่ากำจัดขยะติดเชื้อ รอบที่ <?php echo $rs['round'] ?></td>
+													            <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
+													            <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
+													            <td style="text-align:right;">
+								                                <?php
+	echo ($rs['garbageover'] > 0) ? $promise['fine'] . ' x ' . $rs['garbageover'] . " = " : "";
+	echo number_format($fineprice);
+	?>
+								                                </td>
+													            <td style="text-align:right;"><?php echo $totalRow ?></td>
+													        </tr>
+													    <?php endforeach;?>
     </tbody>
     <tfoot>
         <tr>
             <th colspan="4" style="text-align:center;">
                 <?php echo $Config->Convert($sum) ?>
-            </th style="text-align:center;">
+            </th>
             <th style="text-align:center;">ยอดเงินสุทธิ</th>
             <th style="text-align:right;"><?php echo number_format($sum) ?></th>
+        </tr>
+
+        <tr>
+            <th colspan="3">
+                <b>การชำระเงิน</b>
+                <ul>
+                    <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
+                    <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
+                </ul>
+            </th>
+            <th colspan="3"></th>
+        </tr>
+
+        <?php if($status <= 0) { ?>
+        <tr>
+            <th colspan="6">
+                <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+            </th>
+        </tr>
+        <?php } ?>
+        
+    </tfoot>
+</table>
+</div>
+<input type="hidden" id="id" name="id" class="form-control" value="<?php echo $id ?>"/>
+
+
+
+<!-- Bill -->
+<div style="background:#ffffff; padding:10px;" id="bill">
+<h4 style="text-align: center;">บิล / ใบเสร็จรับเงิน</h4>
+<div style="width:50%; float: left;">
+    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" /><br/><br/>
+    <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+    โทรศัพท์ 02-1010325<br/>
+    ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
+    ที่อยู่ <?php echo 'ตำบล / แขวง '.$customer['tambon_name'].' อำเภอ '.$customer['ampur_name'].' จังหวัด '.$customer['changwat_name'].' '.$customer['zipcode'] ?>
+    </div>
+    <div style="width:30%; float: right; text-align: right;">
+        เลขที่ <?php echo $invnumber ?><br/>
+        อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
+        วันที่ <?php echo date("d/m/Y") ?>
+    </div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="6">
+                ประจำงวดที่ <?php echo $rounddate ?>
+            </th>
+        </tr>
+        <tr>
+            <th>#</th>
+            <th>รายการ</th>
+            <th style="text-align:right;">ปริมาณขยะ</th>
+            <th style="text-align:right;">ราคาต่อหน่วย</th>
+            <th style="text-align:right;">ขยะเกิน</th>
+            <th style="text-align:right;">ค่าใช้จ่าย</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+$sum = 0;
+$i = 0;foreach ($billdetail as $rs): $i++;
+	$fineprice = ($promise['fine'] * $rs['garbageover']);
+	$totalRow = ($promise['unitprice'] + $fineprice);
+	$sum = $sum + $totalRow;
+	?>
+														    <tr>
+													            <td><?php echo $i ?></td>
+													            <td>ค่ากำจัดขยะติดเชื้อ รอบที่ <?php echo $rs['round'] ?></td>
+													            <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
+													            <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
+													            <td style="text-align:right;">
+								                                <?php
+	echo ($rs['garbageover'] > 0) ? $promise['fine'] . ' x ' . $rs['garbageover'] . " = " : "";
+	echo number_format($fineprice);
+	?>
+								                                </td>
+													            <td style="text-align:right;"><?php echo $totalRow ?></td>
+													        </tr>
+													    <?php endforeach;?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" style="text-align:center;">
+                <?php echo $Config->Convert($sum) ?>
+            </th>
+            <th style="text-align:center;">ยอดเงินสุทธิ</th>
+            <th style="text-align:right;"><?php echo number_format($sum) ?></th>
+        </tr>
+        <tr>
+            <th colspan="3">
+                <b>การชำระเงิน</b>
+                <ul>
+                    <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
+                    <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
+                </ul>
+            </th>
+            <th colspan="3">
+            <br/>
+            ลงชื่อ
+            <hr style="margin-top:0px;"/>
+                <div style="text-align:center;">ผู้รับเงิน</div>
+            </th>
         </tr>
     </tfoot>
 </table>
 </div>
+
+<script type="text/javascript">
+    function saveInvoice(){
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/addinvoice']) ?>";
+        var invoiceNumber = "<?php echo $invnumber ?>";
+        var promiseId = "<?php echo $promise['id'] ?>";
+        var total = "<?php echo $sum ?>";
+        var roundId = "<?php echo $id ?>";
+
+        var data = {
+            invoiceNumber: invoiceNumber,
+            promiseId: promiseId,
+            total: total,
+            roundId: roundId
+        }
+        //console.log(data);
+        
+        $.post(url,data,function(datas){
+            getInvoice();
+        });
+        
+    }
+
+    function getInvoice(){
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getinvoice']) ?>";
+        var promiseid = "<?php echo $promise['id'] ?>";
+		var dateround = "<?php echo $rounddate ?>";
+		var id = "<?php echo $id ?>";
+		var invoice = "<?php echo $invnumber ?>";
+        var data = {
+            id: id,
+            promiseid: promiseid,
+            dateround: dateround,
+            invoice: invoice
+            };
+        $.post(url,data,function(datas){
+            $("#createbill").html(datas);
+        });
+    }
+</script>

@@ -5,6 +5,7 @@ use app\modules\customer\models\Customers;
 use app\modules\promise\models\Promise;
 use app\modules\roundgarbage\models\Roundgarbage;
 use app\modules\roundmoney\models\Roundmoney;
+use app\models\Invoice;
 use Yii;
 use yii\web\Controller;
 
@@ -97,7 +98,9 @@ class DefaultController extends Controller {
 			if ($rs['status'] == 0) {
 				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
 				$dateMonth = '"'.$rs['datekeep'].'"';
-				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>"."<br/>";
+				$round = $rs['round'];
+				$id = $rs['id'];
+				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>"."<br/>";
 			} else {
 				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <i class='fa fa-check'></i>" . "<br/>";
 			}
@@ -112,14 +115,106 @@ class DefaultController extends Controller {
 	public function actionCreatebillpopup() {
 		$promiseId = Yii::$app->request->post('promiseid');
 		$dateround = Yii::$app->request->post('dateround');
+		$round = Yii::$app->request->post('round');
+		$id = Yii::$app->request->post('id');
+		
 		$Promise = Promise::find()->where(['id' => $promiseId])->One();
-		$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+		$Customer = $this->actionGetcustomer($Promise['customerid']);
 		$YearMonth = substr($dateround, 0, 7);
 		$sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth'";
 		$data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
 		$data['customer'] = $Customer;
 		$data['promise'] = $Promise;
 		$data['rounddate'] = $YearMonth;
+		$data['round'] = $round;
+		$data['id'] = $id;
+		
+		$sqlCheckInvoice = "select * from roundmoney where id = '$id' and receiptnumber != ''";
+		$Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
+		
+		if(!$Invoice['receiptnumber']){
+			$data['invnumber'] = $this->getNextId();
+			$data['status'] = 0;
+		} else {
+			$data['invnumber'] = $Invoice['receiptnumber'];
+			$data['status'] = 1;
+		}
+		return $this->renderPartial('createbillpopup', $data);
+	}
+
+	public function actionGetcustomer($customerid){
+		$sql = "SELECT c.company,ch.changwat_name,a.ampur_name,t.tambon_name,c.zipcode,c.tel,c.telephone
+				FROM customers c INNER JOIN changwat ch ON c.changwat = ch.changwat_id
+				INNER JOIN ampur a ON c.ampur = a.ampur_id
+				INNER JOIN tambon t ON c.tambon = t.tambon_id 
+				WHERE c.id = '$customerid'";
+		return Yii::$app->db->createCommand($sql)->queryOne();
+	}
+
+	//บันทึกรายการใบแจ้งหนี้
+	public function actionAddinvoice(){
+		$invoiceNumber = Yii::$app->request->post('invoiceNumber');
+        $promiseId = Yii::$app->request->post('promiseId');
+    	$total = Yii::$app->request->post('total');
+		$roundId = Yii::$app->request->post('roundId');
+		$columns = array(
+			"invoicenumber" => $invoiceNumber,
+			"promise" => $promiseId,
+			"round" => $roundId,
+			"total" => $total,
+			"status" => "0"
+		);
+
+		Yii::$app->db->createCommand()
+			->insert("invoice",$columns)
+			->execute();
+
+		$columnsUpdate = array(
+			"receiptnumber" => $invoiceNumber
+		);
+		Yii::$app->db->createCommand()
+			->update("roundmoney",$columnsUpdate,"id = '$roundId'")
+			->execute();
+	}
+
+	public function getNextId() {
+		//ตัวอย่างหากต้องการ SN59-00001
+		$lastRecord = Invoice::find()->where(['like', 'invoicenumber', 'INV'])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
+		if ($lastRecord) {
+			$digit = explode('INV', $lastRecord->invoicenumber);
+
+			$lastDigit = ((int) $digit[1]); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+			$lastDigit++; //เพิ่ม 1
+			$lastDigit = str_pad($lastDigit, 5, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
+		} else {
+			$lastDigit = '00001';
+		}
+
+		return 'INV' . $lastDigit;
+
+	}
+
+
+	public function actionGetinvoice() {
+		$promiseId = Yii::$app->request->post('promiseid');
+		$dateround = Yii::$app->request->post('dateround');
+		$id = Yii::$app->request->post('id');
+		$invoice = Yii::$app->request->post('invoice');
+		
+		$Promise = Promise::find()->where(['id' => $promiseId])->One();
+		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+		$Customer = $this->actionGetcustomer($Promise['customerid']);
+		$YearMonth = substr($dateround, 0, 7);
+		$sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth'";
+		$data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
+		$data['customer'] = $Customer;
+		$data['promise'] = $Promise;
+		$data['rounddate'] = $YearMonth;
+		$data['id'] = $id;
+		$data['invnumber'] = $invoice;
+		$Status = Invoice::find()->where(['invoicenumber' => $invoice])->One();
+		$data['status'] = count($Status);
 		return $this->renderPartial('createbillpopup', $data);
 	}
 

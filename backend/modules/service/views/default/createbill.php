@@ -15,18 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12 col-lg-12 col-sm-12">
         <label>เลือกเลขที่สัญญา</label>
         <?php
-        $listPromise = ArrayHelper::map($promise, 'id', 'promisenumber');
-        echo Select2::widget([
-            'name' => 'promise',
-            'value' => '',
-            'data' => $listPromise,
-            'options' => [
-                'multiple' => false,
-                'placeholder' => 'Select Promise ...',
-                'onchange' => 'getRound(this.value)',
-            ],
-        ]);
-        ?>
+$listPromise = ArrayHelper::map($promise, 'id', 'promisenumber');
+echo Select2::widget([
+	'name' => 'promise',
+	'value' => '',
+	'data' => $listPromise,
+	'options' => [
+		'multiple' => false,
+		'placeholder' => 'Select Promise ...',
+		'onchange' => 'getRound(this.value)',
+	],
+]);
+?>
         </div>
     </div>
 
@@ -54,9 +54,14 @@ $this->params['breadcrumbs'][] = $this->title;
         });
     }
 
-    function popupFormbill(promiseid,months){
+    function popupFormbill(promiseid,months,round,id){
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopup']) ?>";
-        var data = {promiseid: promiseid,dateround: months};
+        var data = {
+            id: id,
+            promiseid: promiseid,
+            dateround: months,
+            round: round
+            };
         $.post(url,data,function(datas){
             $("#createbill").html(datas);
         });
