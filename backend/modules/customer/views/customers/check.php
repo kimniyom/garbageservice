@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-4 col-md-4">
             เลขที่ใบอนุญาติ<br/>
-            <input type="search" required="required" class="form-control" id="taxnumber" placeholder="กรอกข้อมูล..." maxlength="13">
+            <input type="search" required="required" class="form-control" id="taxnumber" placeholder="กรอกข้อมูล..." maxlength="13" onkeypress="return bannedKey()">
         </div>
     </div>
     <br/>
@@ -77,6 +77,21 @@ $this->params['breadcrumbs'][] = $this->title;
         var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/create']) ?>" + "&taxnumber=" + taxnumber;
         window.location=url;
         //alert(url);
+    }
+
+    function bannedKey(evt)
+    {
+        var allowedEng = false; //อนุญาตให้คีย์อังกฤษ
+        var allowedThai = false; //อนุญาตให้คีย์ไทย
+        var allowedNum = true; //อนุญาตให้คีย์ตัวเลข
+        var k = event.keyCode;/* เช็คตัวเลข 0-9 */
+        if (k>=48 && k<=57) { return allowedNum; }
+
+        /* เช็คคีย์อังกฤษ a-z, A-Z */
+        if ((k>=65 && k<=90) || (k>=97 && k<=122)) { return allowedEng; }
+
+        /* เช็คคีย์ไทย ทั้งแบบ non-unicode และ unicode */
+        if ((k>=161 && k<=255) || (k>=3585 && k<=3675)) { return allowedThai; }
     }
 </script>
 
