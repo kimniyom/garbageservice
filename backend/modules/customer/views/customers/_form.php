@@ -21,19 +21,19 @@ use kartik\widgets\TimePicker;
     <div class="row">
     <div class="col-md-3 col-lg-3">
         <?php
-$type = Typecustomer::find()->all();
-echo $form->field($model, 'type')->widget(Select2::classname(), [
-	'data' => ArrayHelper::map($type, "id", "typename"),
-	'language' => 'th',
-	'options' => [
-		'placeholder' => 'Select a state ...',
-	],
-	'pluginOptions' => [
-		'allowClear' => true,
-	],
-]);
-?>
-</div>
+            $type = Typecustomer::find()->all();
+            echo $form->field($model, 'type')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map($type, "id", "typename"),
+                'language' => 'th',
+                'options' => [
+                    'placeholder' => 'Select a state ...',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ]);
+            ?>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-3 col-lg-3">

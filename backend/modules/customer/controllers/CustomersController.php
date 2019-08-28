@@ -81,10 +81,11 @@ class CustomersController extends Controller {
 			]);
 		}
 	*/
-	public function actionCreate($taxnumber) {
+	public function actionCreate($taxnumber,$user) {
 		$model = new Customers();
 		if ($model->load(Yii::$app->request->post())) {
-			$model->user_id = \Yii::$app->user->identity->id;
+			//$model->user_id = \Yii::$app->user->identity->id;
+			$model->user_id = $user;
 			$model->customercode = $this->getNextId();
 			$model->create_date = date("Y-m-d H:i:s");
 			$model->update_date = date("Y-m-d H:i:s");
@@ -241,7 +242,11 @@ class CustomersController extends Controller {
 	public function actionCheck() {
 		$model = new Customers();
 		//$data['type'] = $model->TypeCustomer();
-		return $this->render("check");
+		$sql = "SELECT * FROM `user` u 
+				WHERE u.id NOT IN(SELECT user_id FROM customers)
+				AND u.`status` != 'A'";
+		$data['user'] = Yii::$app->db->createCommand($sql)->queryAll();
+		return $this->render("check",$data);
 	}
 
 	public function actionChecking() {
