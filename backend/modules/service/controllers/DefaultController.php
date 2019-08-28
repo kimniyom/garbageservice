@@ -95,14 +95,18 @@ class DefaultController extends Controller {
 		$str = "";
 		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
 		foreach ($RoundMoney as $rs):
-			if ($rs['status'] == 0) {
+			if (!$rs['receiptnumber']) {
 				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
 				$dateMonth = '"'.$rs['datekeep'].'"';
 				$round = $rs['round'];
 				$id = $rs['id'];
 				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>"."<br/>";
 			} else {
-				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <i class='fa fa-check'></i>" . "<br/>";
+				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
+				$dateMonth = '"'.$rs['datekeep'].'"';
+				$round = $rs['round'];
+				$id = $rs['id'];
+				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>"."<br/>";
 			}
 		endforeach;
 		if ($RoundMoney) {

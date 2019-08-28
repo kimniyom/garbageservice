@@ -3,6 +3,10 @@ use yii\helpers\Url;
 use app\models\Config;
 $Config = new Config();
 ?>
+
+<?php if($status > 0) { ?>
+    <button type="button" onclick="printDiv('invoice')"><i class="fa fa-print"></i> พิมพ์ใบแจ้งหนี้</button>
+<?php } ?>
 <div style="background:#ffffff; padding:10px;" id="invoice">
 <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
 <div style="width:50%; float: left;">
@@ -75,11 +79,14 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             </th>
             <th colspan="3"></th>
         </tr>
-
         <?php if($status <= 0) { ?>
         <tr>
             <th colspan="6">
+            <?php if($i == $promise['levy']) { ?>
                 <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+            <?php } else { ?>
+                <button class="btn btn-warning disabled" type="button"><i class="fa fa-info"></i> บันทึกข้อมูลการจัดเก็บในรอบเดือนไม่ครบ</button>
+            <?php } ?>
             </th>
         </tr>
         <?php } ?>
@@ -89,9 +96,11 @@ $i = 0;foreach ($billdetail as $rs): $i++;
 </div>
 <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $id ?>"/>
 
-
-
-<!-- Bill -->
+<!-- /////////////////////// Bill ///////////////////////////-->
+<br/>
+<?php if($status > 0) { ?>
+    <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
+<?php } ?>
 <div style="background:#ffffff; padding:10px;" id="bill">
 <h4 style="text-align: center;">บิล / ใบเสร็จรับเงิน</h4>
 <div style="width:50%; float: left;">
@@ -164,10 +173,11 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             <th colspan="3">
             <br/>
             ลงชื่อ
-            <hr style="margin-top:0px;"/>
+            <hr style="margin-top:0px; color:#999999;"/>
                 <div style="text-align:center;">ผู้รับเงิน</div>
             </th>
         </tr>
+        
     </tfoot>
 </table>
 </div>
@@ -209,5 +219,16 @@ $i = 0;foreach ($billdetail as $rs): $i++;
         $.post(url,data,function(datas){
             $("#createbill").html(datas);
         });
+    }
+
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
     }
 </script>
