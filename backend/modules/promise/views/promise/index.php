@@ -75,6 +75,34 @@ $this->params['breadcrumbs'][] = $this->title;
 				
 			},
 		],
+		[
+			'attribute' => 'status',
+			'format' => 'text',
+			'label' => 'สถานะสัญญา',
+			'value' => function ($model) {
+				if($model->status == "0")
+				{
+					return "หมดสัญญา";
+				}
+				else if($model->status == "1")
+				{
+					return "รอยืนยัน";
+				}
+				else if($model->status == "2")
+				{
+					return "กำลังใช้งาน";
+				}
+				else if($model->status == "3")
+				{
+					return "กำลังต่อสัญญา";
+				}
+				else if($model->status == "4")
+				{
+					return "ยกเลิกสัญา";
+				}
+				
+			},
+		],
 
 		[
 			'class' => 'yii\grid\ActionColumn',

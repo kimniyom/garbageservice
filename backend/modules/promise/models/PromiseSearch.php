@@ -15,7 +15,7 @@ class PromiseSearch extends Promise {
 	 */
 	public function rules() {
 		return [
-			[['promisenumber', 'promisedatebegin', 'promisedateend', 'recivetype', 'ratetext', 'payperyeartext', 'createat'], 'safe'],
+			[['promisenumber', 'promisedatebegin', 'promisedateend', 'recivetype', 'ratetext', 'payperyeartext', 'createat', 'status'], 'safe'],
 			[['customerid', 'rate', 'levy', 'payperyear', 'deposit', 'yearunit'], 'integer'],
 		];
 	}
@@ -65,6 +65,7 @@ class PromiseSearch extends Promise {
 
 		$query->andFilterWhere(['like', 'promisenumber', $this->promisenumber])
 			->andFilterWhere(['like', 'recivetype', $this->recivetype])
+			->andFilterWhere(['like', 'status', $this->status])
 			->andFilterWhere(['like', 'ratetext', $this->ratetext])
 			->andFilterWhere(['like', 'payperyeartext', $this->payperyeartext]);
 
