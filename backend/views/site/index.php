@@ -102,7 +102,12 @@ $urlMap = new Config();
                         <button class="btn btn-primary btn btn-block btn-lg"><i class="fa fa-save"></i> บันทึกรายการจัดเก็บ</button></a>
                 </div>
             </div>
-
+            <div class="row" style="margin-bottom:15px;">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/confirmorder']) ?>">
+                        <button class="btn btn-primary btn btn-block btn-lg"><i class="fa fa-check"></i> ตรวจสอบการชำระเงิน</button></a>
+                </div>
+            </div>
           <!-- Info Boxes Style 2 -->
           <div class="info-box bg-yellow">
             <span class="info-box-icon"><i class="fa fa-users"></i></span>

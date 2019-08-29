@@ -106,7 +106,7 @@ class PromiseController extends Controller {
 					$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
 				} else {
 					$model->save();
-					$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->createat, $model->rate);
+					$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
 					return $this->redirect(['view', 'id' => $model->id]);
 				}
 
@@ -203,7 +203,7 @@ class PromiseController extends Controller {
 							->delete("roundmoney", "promiseid = '$id'")
 							->execute();
 
-						$this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->createat, $model->rate);
+						$this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
 					}
 
 					$model->save();

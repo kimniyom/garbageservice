@@ -142,7 +142,9 @@ $sum = 0;
 $i = 0;foreach ($billdetail as $rs): $i++;
 	$fineprice = ($promise['fine'] * $rs['garbageover']);
 	$totalRow = ($promise['unitprice'] + $fineprice);
-	$sum = $sum + $totalRow;
+    $sum = $sum + $totalRow;
+    //เช็คการเก็บขยะ
+    if($rs['status'] == 1){
 	?>
 														    <tr>
 													            <td><?php echo $i ?></td>
@@ -157,6 +159,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
 								                                </td>
 													            <td style="text-align:right;"><?php echo $totalRow ?></td>
 													        </tr>
+    <?php } ?>
 													    <?php endforeach;?>
     </tbody>
     <tfoot>
@@ -202,12 +205,13 @@ $i = 0;foreach ($billdetail as $rs): $i++;
         var promiseId = "<?php echo $promise['id'] ?>";
         var total = "<?php echo $sum ?>";
         var roundId = "<?php echo $id ?>";
-
+        var monthyear = "<?php echo $rounddate ?>";
         var data = {
             invoiceNumber: invoiceNumber,
             promiseId: promiseId,
             total: total,
-            roundId: roundId
+            roundId: roundId,
+            monthyear: monthyear
         }
         //console.log(data);
         

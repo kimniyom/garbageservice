@@ -82,7 +82,8 @@ class DefaultController extends Controller {
 	}
 
 	public function actionCreatebill($type) {
-		$data['promise'] = Promise::find()->where(['status' => '2'])->all();
+		//ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
+		$data['promise'] = Promise::find()->where(['status' => '2','payment' => '0'])->all();
 		$data['type'] = $type;
 		return $this->render('createbill', $data);
 	}
@@ -93,7 +94,9 @@ class DefaultController extends Controller {
 		$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
 		$RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
 		$str = "";
-		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
+		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
+		$linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+		$str .= "<em><a href='".$linkPromise."' target='_back'>ข้อมูลสัญญา</a></em><br/>";
 		foreach ($RoundMoney as $rs):
 			if (!$rs['receiptnumber']) {
 				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
@@ -126,7 +129,7 @@ class DefaultController extends Controller {
 		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
 		$Customer = $this->actionGetcustomer($Promise['customerid']);
 		$YearMonth = substr($dateround, 0, 7);
-		$sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth'";
+		$sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth' and status='1'";
 		$data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
 		$data['customer'] = $Customer;
 		$data['promise'] = $Promise;
@@ -162,12 +165,18 @@ class DefaultController extends Controller {
         $promiseId = Yii::$app->request->post('promiseId');
     	$total = Yii::$app->request->post('total');
 		$roundId = Yii::$app->request->post('roundId');
+		$monthyear = Yii::$app->request->post('monthyear');
+		$year = substr($monthyear,0,4);
+		$month = substr($monthyear,5,2);
 		$columns = array(
 			"invoicenumber" => $invoiceNumber,
 			"promise" => $promiseId,
 			"round" => $roundId,
 			"total" => $total,
-			"status" => "0"
+			"status" => "0",
+			"year" => $year,
+			"month" => $month,
+			"d_update" => date("Y-m-d H:i:s")
 		);
 
 		Yii::$app->db->createCommand()
@@ -210,7 +219,7 @@ class DefaultController extends Controller {
 		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
 		$Customer = $this->actionGetcustomer($Promise['customerid']);
 		$YearMonth = substr($dateround, 0, 7);
-		$sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth'";
+		$sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth' and status='1'";
 		$data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
 		$data['customer'] = $Customer;
 		$data['promise'] = $Promise;
@@ -221,5 +230,35 @@ class DefaultController extends Controller {
 		$data['status'] = count($Status);
 		return $this->renderPartial('createbillpopup', $data);
 	}
+
+	public function actionConfirmorder(){
+		$sql = "SELECT i.*,CONCAT('(Invoice #',i.invoicenumber,')',' บริษัท/สถานประกอบการ ',c.company,' จำนวน ',i.total,' .-') as orders,
+					p.promisenumber,c.company,r.round as roundmoney
+					FROM invoice i INNER JOIN promise p ON i.promise = p.id
+					INNER JOIN customers c ON p.customerid = c.id
+					INNER JOIN roundmoney r ON i.round = r.id
+					WHERE i.`status` = '0'";
+		$data['order'] = Yii::$app->db->createCommand($sql)->queryAll();
+		return $this->render('order', $data);
+	}
+
+	public function actionSaveconfirmorder(){
+		$id = Yii::$app->request->post('id');
+        $dateservice = Yii::$app->request->post('dateservice');
+		$timeservice = Yii::$app->request->post('timeservice');
+		$comment = Yii::$app->request->post('comment');
+		$columns = array(
+			"dateservice" => $dateservice,
+			"timeservice" => $timeservice,
+			"comment" => $comment,
+			"status" => 1,
+			"d_update" => date("Y-m-d H:i:s")
+		);
+
+		Yii::$app->db->createCommand()
+			->update("invoice",$columns,"id = '$id'")
+			->execute();
+	}
+
 
 }
