@@ -77,7 +77,12 @@ $i = 0;foreach ($billdetail as $rs): $i++;
                     <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
                 </ul>
             </th>
-            <th colspan="3"></th>
+            <th colspan="3">
+            <br/>
+            ลงชื่อ
+            <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                <div style="text-align:center;">ผู้มีอำนาจลงนาม</div>
+            </th>
         </tr>
         <?php if($status <= 0) { ?>
         <tr>
@@ -163,18 +168,26 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             <th style="text-align:right;"><?php echo number_format($sum) ?></th>
         </tr>
         <tr>
-            <th colspan="3">
-                <b>การชำระเงิน</b>
+            <th colspan="6">
+                <b>ชำระเงินโดย</b>
                 <ul>
                     <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
                     <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
                 </ul>
             </th>
+        </tr>
+        <tr>
             <th colspan="3">
             <br/>
             ลงชื่อ
-            <hr style="margin-top:0px; color:#999999;"/>
-                <div style="text-align:center;">ผู้รับเงิน</div>
+            <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+            <div style="text-align:center;">ผู้รับเงิน</div>
+            </th>
+            <th colspan="3">
+            <br/>
+            ลงชื่อ
+            <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                <div style="text-align:center;">ผู้มีอำนาจลงนาม</div>
             </th>
         </tr>
         
