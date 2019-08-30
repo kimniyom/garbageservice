@@ -183,7 +183,7 @@ if ($model['vat'] == 1) {
 				} else if ($model['status'] == 1) {
 					return "รอยืนยัน";
 				} else if ($model['status'] == 2) {
-					return "กำัลังใช้งาน";
+					return "กำลังใช้งาน";
 				} else if ($model['status'] == 3) {
 					return "กำลังต่อสัญญา";
 				}

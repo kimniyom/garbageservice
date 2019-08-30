@@ -45,59 +45,58 @@ for ($i = 1; $i <= 36; $i++) {
         <div class="col-md-6 col-lg-4">
             <div class="box box-success">
                 <div class="box-header">ข้อมูลลูกค้า</div>
-    <div class="box-body">
-        <div class="list-group">
-            <div class="list-group-item">
-                        รหัสลูกค้า <span class="badge"><?php echo $customer['taxnumber'] ?></span>
-                    </div>
-                    <div class="list-group-item">
-                        ชื่อบริษัท <span class="badge"><?php echo $customer['company'] ?></span>
-                    </div>
-                    <div class="list-group-item">
-                        เลขเสียภาษี <span class="badge"><?php echo $customer['taxnumber'] ?></span>
-                    </div>
-                    <div class="list-group-item">
-                        เบอร์โทรศัพท์ <span class="badge"><?php echo $customer['tel'] ?>,<?php echo $customer['telephone'] ?></span>
-                    </div>
-                    <div class="list-group-item">
-                        ผู้ติดต่อ <span class="badge"><?php echo $customer['manager'] ?></span>
-                    </div>
-                    <div class="list-group-item">
-                        วันที่ลงทะเบียน <span class="badge"><?php echo $customer['create_date'] ?></span>
-                    </div>
-                    <hr/>
-                    <div class="list-group-item">
-                        User ผู้รับผิดชอบ <span class="badge"><?php echo $customer['username'] ?></span>
+                    <div class="box-body">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                        รหัสลูกค้า <span class="badge"><?php echo $customer['taxnumber'] ?></span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        ชื่อบริษัท <span class="badge"><?php echo $customer['company'] ?></span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        เลขเสียภาษี <span class="badge"><?php echo $customer['taxnumber'] ?></span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        เบอร์โทรศัพท์ <span class="badge"><?php echo $customer['tel'] ?>,<?php echo $customer['telephone'] ?></span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        ผู้ติดต่อ <span class="badge"><?php echo $customer['manager'] ?></span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        วันที่ลงทะเบียน <span class="badge"><?php echo $customer['create_date'] ?></span>
+                                    </div>
+                                    <hr/>
+                                    <div class="list-group-item">
+                                        User ผู้รับผิดชอบ <span class="badge"><?php echo $customer['username'] ?></span>
+                                    </div>
+                                </div>
+                                <div class="well text-danger">
+                                    *สัญญาจะมีผลก็ต่อเมื่อมีการอัพโหลดไฟล์สัญญาที่มีลายมือชื่อทั้ง 2 ฝ่ายเข้าสู่ระบบแล้วเท่านั้น
+                                </div>
                     </div>
                 </div>
-                <div class="well text-danger">
-                    *สัญญาจะมีผลก็ต่อเมื่อมีการอัพโหลดไฟล์สัญญาที่มีลายมือชื่อทั้ง 2 ฝ่ายเข้าสู่ระบบแล้วเท่านั้น
-                </div>
-    </div>
-</div>
         </div>
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
                 <div class="box-header">ข้อมูลสัญญา</div>
     <div class="box-body">
-     <div class="well">
-    <?php
-//$form = ActiveForm::begin();
-$form = ActiveForm::begin([
-	'type' => ActiveForm::TYPE_VERTICAL,
-]);
-?>
-
-<!--
-    <div class="row">
-        <div class="col-md-12 col-lg-4">
-            <?php //$form->field($model, 'promisenumber')->textInput(['maxlength' => true])?>
-        </div>
-        <div class="col-md-12 col-lg-6">
-            <?php //$form->field($model, 'active')->dropDownList([1 => 'ใช้งาน', 0 => 'ไม่ใช้งาน'], [], ['options' => ['onchange' => 'getrecivetype()']])?>
-        </div>
-    </div>
--->
+        <div class="well">
+            <?php
+                //$form = ActiveForm::begin();
+                $form = ActiveForm::begin([
+                    'type' => ActiveForm::TYPE_VERTICAL,
+                ]);
+            ?>
+            <!--
+                <div class="row">
+                    <div class="col-md-12 col-lg-4">
+                        <?php //$form->field($model, 'promisenumber')->textInput(['maxlength' => true])?>
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+                        <?php //$form->field($model, 'active')->dropDownList([1 => 'ใช้งาน', 0 => 'ไม่ใช้งาน'], [], ['options' => ['onchange' => 'getrecivetype()']])?>
+                    </div>
+                </div>
+            -->
     <div class="row">
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedatebegin')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
