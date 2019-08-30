@@ -23,7 +23,7 @@
 
 <div class="row">
     <div class="col-md-4 col-lg-4">
-    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill','type' => 2]) ?>">
+    <a href="javascript:alert('กำลังดำเนินการ...')">
         <button type="button" class="btn btn-info btn-block btn-lg">
             ออกใบวางบิลค่ามัดจำ
         </button></a>
@@ -32,9 +32,13 @@
 
 <div class="row">
     <div class="col-md-4 col-lg-4">
-    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill','type' => 3]) ?>">
+    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear','type' => 3]) ?>">
         <button type="button" class="btn btn-success btn-block btn-lg">
             ออกใบวางบิลเหมาจ่ายรายปี
         </button></a>
     </div>
+</div>
+<hr/>
+<div class="alert alert-default">
+    เมื่อท่านบันทึกใบวางบิล / ใบแจ้งหนี้ ข้อมูลจะแสดงในส่วนของ user นั้นด้วย...
 </div>

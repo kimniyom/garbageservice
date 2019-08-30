@@ -1,3 +1,8 @@
+<style type="text/css">
+	.bg-red{
+		background:red;
+	}
+</style>
 <?php
 
 use yii\grid\GridView;
@@ -22,6 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=GridView::widget([
 	'dataProvider' => $dataProvider,
 	//'filterModel' => $searchModel,
+	'rowOptions'=>function($model){
+		if($model->status == 0){
+			return ['class' => 'danger'];
+		} else {
+			return ['class' => 'success'];
+		}
+},
 	'columns' => [
 		['class' => 'yii\grid\SerialColumn'],
 		[
@@ -48,7 +60,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		[
 			'class' => 'yii\grid\ActionColumn',
-			'template' => '{update} {delete}',
+			'template' => '{update} {view}',
+			'buttons'=>[ 
+				'update' => function($url,$model,$key){
+					return ($model->status == 0) ? Html::a('<i class="glyphicon glyphicon-pencil"></i>',Yii::$app->urlManager->createUrl(['roundgarbage/roundgarbage/update','id' => $model->id])) : "";
+				  }
+			]
 		],
 		
 	],

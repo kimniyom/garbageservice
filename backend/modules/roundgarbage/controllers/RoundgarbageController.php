@@ -67,7 +67,7 @@ class RoundgarbageController extends Controller {
 				->orderBy(['round' => SORT_DESC])->one();
 			$model->round = $number === null ? 1 : $number->round + 1;
 			if ($model->save()) {
-				return $this->redirect(['view', 'id' => $model->id]);
+				return $this->redirect(['index']);
 			}
 		}
 

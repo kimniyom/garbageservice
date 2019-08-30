@@ -165,6 +165,7 @@ class DefaultController extends Controller {
         $promiseId = Yii::$app->request->post('promiseId');
     	$total = Yii::$app->request->post('total');
 		$roundId = Yii::$app->request->post('roundId');
+		$type = Yii::$app->request->post('type');
 		$monthyear = Yii::$app->request->post('monthyear');
 		$year = substr($monthyear,0,4);
 		$month = substr($monthyear,5,2);
@@ -176,6 +177,7 @@ class DefaultController extends Controller {
 			"status" => "0",
 			"year" => $year,
 			"month" => $month,
+			"type" => $type,
 			"d_update" => date("Y-m-d H:i:s")
 		);
 
@@ -232,11 +234,11 @@ class DefaultController extends Controller {
 	}
 
 	public function actionConfirmorder(){
-		$sql = "SELECT i.*,CONCAT('(Invoice #',i.invoicenumber,')',' บริษัท/สถานประกอบการ ',c.company,' จำนวน ',i.total,' .-') as orders,
+		$sql = "SELECT i.*,CONCAT('(Invoice #',i.invoicenumber,') ',c.company,' (จำนวน ',i.total,' .-)') as orders,
 					p.promisenumber,c.company,r.round as roundmoney
 					FROM invoice i INNER JOIN promise p ON i.promise = p.id
 					INNER JOIN customers c ON p.customerid = c.id
-					INNER JOIN roundmoney r ON i.round = r.id
+					LEFT JOIN roundmoney r ON i.round = r.id
 					WHERE i.`status` = '0'";
 		$data['order'] = Yii::$app->db->createCommand($sql)->queryAll();
 		return $this->render('order', $data);
@@ -260,7 +262,47 @@ class DefaultController extends Controller {
 			->execute();
 	}
 
-	public function actionCreatebillyear(){
-		
+	public function actionCreateinvoiceyear($type){
+		//ออกบิลสำหรับสัญญาที่เหมาจ่ายแบบรายปี
+		$data['promise'] = Promise::find()->where(['status' => '2','payment' => '1'])->all();
+		$data['type'] = $type;
+		return $this->render('createinvoiceyear', $data);
 	}
+
+	public function actionGetroundpromiseyear() {
+		$promiseId = Yii::$app->request->post('promiseid');
+		$Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
+		$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+		$RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
+		$str = "";
+		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
+		$linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+		$str .= "<em><a href='".$linkPromise."' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
+		$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>"."<br/>";
+		return $str;
+	}
+
+	public function actionCreatebillpopupyear() {
+		$promiseId = Yii::$app->request->post('promiseid');
+		
+		$Promise = Promise::find()->where(['id' => $promiseId])->One();
+		$Customer = $this->actionGetcustomer($Promise['customerid']);
+		$RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
+		$data['billdetail'] = $RoundMoney;
+		$data['customer'] = $Customer;
+		$data['promise'] = $Promise;
+		
+		$sqlCheckInvoice = "select * from invoice where promise = '$promiseId' and invoicenumber != ''";
+		$Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
+		
+		if(!$Invoice['invoicenumber']){
+			$data['invnumber'] = $this->getNextId();
+			$data['status'] = 0;
+		} else {
+			$data['invnumber'] = $Invoice['invoicenumber'];
+			$data['status'] = 1;
+		}
+		return $this->renderPartial('createbillpopupyear', $data);
+	}
+
 }
