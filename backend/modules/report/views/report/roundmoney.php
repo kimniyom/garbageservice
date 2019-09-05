@@ -5,7 +5,7 @@ use app\models\Config;
 use yii\helpers\Url;
 
 $this->title = 'รานงานสรุปค่าบริการประจำเดือน';
-$this->params['breadcrumbs'][] = ['label' => 'รายงาน', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'รายงาน', 'url' => ['/report/report/monthservicefee']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -18,46 +18,45 @@ $this->params['breadcrumbs'][] = $this->title;
             'company',
             'promisenumber',
             [
-                'attribute' => 'promisedatebegin',
+                'attribute' => 'datekeep',
                 'value' => function ($model) {
                     $config = new Config();
-                    return $config->thaidate($model['promisedatebegin']);
+                    return $config->thaidate($model['datekeep']);
                 },
-                'label' => 'วันเริ่มสัญญา',
+                'label' => 'วันเก็บ',
             ],
             [
-                'attribute' => 'promisedateend',
+                'attribute' => 'round',
                 'value' => function ($model) {
                     $config = new Config();
-                    return $config->thaidate($model['promisedateend']);
+                    return number_format($model['round']);
                 },
-                'label' => 'วันเริ่มสัญญา',
+                'label' => 'รอบที่',
             ],
             [
-                'attribute' => 'nopay',
+                'attribute' => 'amount',
                 'value' => function ($model) {
                     $config = new Config();
-                    return number_format($model['nopay']);
+                    return number_format($model['amount']);
                 },
-                'label' => 'รอบที่ค้างจ่าย',
+                'label' => 'จำนวนเงิน',
             ],
+            'keepby',
             [
-                'attribute' => 'payed',
+                'attribute' => 'status',
+                'format' => 'html',
                 'value' => function ($model) {
                     $config = new Config();
-                    return number_format($model['payed']);
+                    if($model['status'] == "" || $model['status'] == 0)
+                    {
+                        return "<span class=\"glyphicon glyphicon glyphicon-remove\" aria-hidden=\"true\"></span>";
+                    }
+                    else{
+                        return "<span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span>";
+                    }
                 },
-                'label' => 'รอบที่จ่ายแล้ว',
+                'label' => 'สถานะ',
             ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}',
-                'urlCreator'=>function($action, $model, $key, $index)
-                {
-                    return Url::toRoute(['/report/report/roundmoney','promiseid'=>$model['id']]);
-                }
-            ],
-           
         ],
         'pjax' => true,
         'bordered' => true,

@@ -45,7 +45,7 @@
 			['label' => 'รอบเก็บ', 'icon' => 'download', 'url' => ['/gii'],
 				'items' => [
 					['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage']],
-					['label' => 'รอบการเก็บเงิน', 'icon' => '', 'url' => ['/roundmoney/roundmoney']],
+					//['label' => 'รอบการเก็บเงิน', 'icon' => '', 'url' => ['/roundmoney/roundmoney']],
 				],
 			],
 			['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file', 'url' => ['/service/default/mainbill']],

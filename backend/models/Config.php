@@ -26,6 +26,24 @@ class Config {
 		return $thai_month;
 	}
 
+	function month_shot() {
+		$thai_month = Array(
+			"01" => "ม.ค.",
+			"02" => "ก.พ.",
+			"03" => "มี.ค.",
+			"04" => "เม.ย.",
+			"05" => "พ.ค.",
+			"06" => "มิ.ย.",
+			"07" => "ก.ค.",
+			"08" => "ส.ค.",
+			"09" => "ก.ย.",
+			"10" => "ต.ค.",
+			"11" => "พ.ย.",
+			"12" => "ธ.ค.",
+		);
+		return $thai_month;
+	}
+
 	function getNextId($table, $field, $number) {
 		$sql = "select $field from $table order by id desc  limit 1";
 		$rs = Yii::$app->db->createCommand($sql)->queryOne();
@@ -96,8 +114,7 @@ class Config {
 			$ret .= "ถ้วน";
 		}
 
-		if($ret == "ถ้วน")
-		{
+		if ($ret == "ถ้วน") {
 			$ret = "ศูนย์บาทถ้วน";
 		}
 
