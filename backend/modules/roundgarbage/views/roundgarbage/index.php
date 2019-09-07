@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?=GridView::widget([
 	'dataProvider' => $dataProvider,
-	//'filterModel' => $searchModel,
+	'filterModel' => $searchModel,
 	'rowOptions'=>function($model){
 		if($model->status == 0){
 			return ['class' => 'danger'];
@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		[
 			'label' => 'ชื่อบริษัท',
 			'format' => 'html',
+			'attribute'=>'company',
 			'value' => function ($model, $key, $index, $column) {
 				$customerid = Promise::find()->where(['id' => $model->promiseid])->one()['customerid'];
 				return Customers::find()->where(['id' => $customerid])->one()['company'];
