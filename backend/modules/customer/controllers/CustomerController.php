@@ -4,6 +4,7 @@ namespace app\modules\customer\controllers;
 
 use app\modules\customer\models\Customers;
 use app\modules\customer\models\CustomersSearch;
+use app\models\Location;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
@@ -65,7 +66,8 @@ class CustomerController extends Controller {
 	 */
 	public function actionCreate() {
 		$model = new Customers();
-
+		$location = new Location();
+		echo 123;die;
 		if ($model->load(Yii::$app->request->post())) {
 			$model->create_date = date("Y-m-d H:i:s");
 			$model->update_date = date("Y-m-d H:i:s");
@@ -76,6 +78,7 @@ class CustomerController extends Controller {
 
 		return $this->render('create', [
 			'model' => $model,
+			'location'=> $location,
 		]);
 	}
 

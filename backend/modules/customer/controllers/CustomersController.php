@@ -4,6 +4,7 @@ namespace app\modules\customer\controllers;
 
 use app\modules\customer\models\Customers;
 use app\modules\customer\models\CustomersSearch;
+use app\models\Location;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
@@ -83,19 +84,28 @@ class CustomersController extends Controller {
 	*/
 	public function actionCreate($taxnumber,$user) {
 		$model = new Customers();
-		if ($model->load(Yii::$app->request->post())) {
+		$location = new Location();
+		if ($model->load(Yii::$app->request->post()) && $location->load(Yii::$app->request->post())) {
+			
 			//$model->user_id = \Yii::$app->user->identity->id;
 			$model->user_id = $user;
 			$model->customercode = $this->getNextId();
 			$model->create_date = date("Y-m-d H:i:s");
 			$model->update_date = date("Y-m-d H:i:s");
 			$model->save();
+
+			$location->customer_id = $model->id;
+			$location->name = $model->company;
+			$location->zoom = 13;
+			$location->save();
+
 			return $this->redirect(['view', 'id' => $model->id]);
 		}
 
 		return $this->render('create', [
 			'model' => $model,
 			'taxnumber' => $taxnumber,
+			'location'=> $location,
 		]);
 	}
 
@@ -126,13 +136,18 @@ class CustomersController extends Controller {
 	 */
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
+		$location = Location::findOne(['customer_id'=>$id]);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+		if ($model->load(Yii::$app->request->post()) && $model->save() 
+			&& $location->load(Yii::$app->request->post()) 
+			&& $location->save()) 
+		{
 			return $this->redirect(['view', 'id' => $model->id]);
 		}
 
 		return $this->render('update', [
 			'model' => $model,
+			'location' => $location,
 		]);
 	}
 

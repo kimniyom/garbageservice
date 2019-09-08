@@ -136,7 +136,7 @@ $form->field($model, 'tambon')->widget(DepDrop::classname(), [
     </div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
         <div class="col-md-3 col-lg-3">
 		<?=$form->field($model, 'timeworkbegin')->widget(TimePicker::classname(), [
                 'pluginOptions' => [
@@ -157,6 +157,17 @@ $form->field($model, 'tambon')->widget(DepDrop::classname(), [
                 ]
             ]);?>
         </div>
+</div> -->
+
+<div class="row">
+    <div class="col-md-3 col-lg-3">
+        <?=$form->field($location, 'lat')->textInput()?>
+        
+    </div>
+    <div class="col-md-3 col-lg-3">
+        
+        <?=$form->field($location, 'long')->textInput()?>
+    </div>
 </div>
 
 <div class="row">
