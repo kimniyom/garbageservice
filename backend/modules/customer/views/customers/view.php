@@ -92,6 +92,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
 		],
 		'zipcode',
 		'manager',
+		'timework',
 		'tel',
 		'telephone',
 		'create_date',

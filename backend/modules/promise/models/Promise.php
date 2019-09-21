@@ -26,6 +26,12 @@ use Yii;
  * @property int $yearunit จำนวนปี
  * @property int $deposit มัดจำล่วงหน้า
  * @property int $vattype
+ * @property string $employer1 ผู้ว่าจ้างคนที่ 1
+ * @property string $employer2 ผู้ว่าจ้างคนที่ 2
+ * @property string $witness1 พยานคนที่ 1
+ * @property string #witness2 พยานคนที่ 2
+ * @property string #datestartystem วันที่เริ่มต้นสัญญาจริง
+ * @property string #dateendsystem วันที่สิ้นสุดสัญญาจริง
  **/
 class Promise extends \yii\db\ActiveRecord {
 	/**
@@ -40,7 +46,7 @@ class Promise extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'unitprice', 'payment'], 'required'],
+			[['customerid', 'promisedatebegin', 'promisedateend', 'datestartystem', 'dateendsystem', 'vat', 'unitprice', 'payment'], 'required'],
 			['rate', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {
@@ -99,7 +105,7 @@ class Promise extends \yii\db\ActiveRecord {
 			['etc', 'required', 'when' => function ($model) {
 				return $model->status == '4';
 			}],
-			[['promisenumber'], 'string'],
+			[['promisenumber', 'employer1', 'employer2', 'witness1', 'witness2'], 'string'],
 			[['customerid', 'rate', 'levy', 'payperyear', 'dayinweek',
 				'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment'], 'integer'],
 			[['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
@@ -145,6 +151,12 @@ class Promise extends \yii\db\ActiveRecord {
 			'dayinweek' => 'วันที่เข้าจัดเก็บ',
 			'weekinmonth' => 'สัปดาห์เข้าจัดเก็บ',
 			'payment' => 'การชำระเงิน',
+			'employer1'=>'ผู้ว่าจ้างคนที่ 1',
+			'employer2'=>'ผู้ว่าจ้างคนที่ 2',
+			'witness1'=>'พยานคนที่ 1',
+			'witness2'=>'พยานคนที่ 2',
+			'datestartystem'=>'วันที่เริ่มต้นสัญญาจริง',
+			'dateendsystem'=>'วันที่สิ้นสุดสัญญาจริง'
 		];
 	}
 

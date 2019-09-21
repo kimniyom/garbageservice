@@ -401,8 +401,7 @@ class PromiseController extends Controller {
                     customers.company,
                     customers.taxnumber,
 					customers.address,
-					customers.timeworkbegin,
-					customers.timeworkend,
+					customers.timework,
                     changwat.changwat_name as changwat,
                     ampur.ampur_name as ampur,
                     tambon.tambon_name as tambon,
@@ -414,7 +413,13 @@ class PromiseController extends Controller {
                     location.lat,
                     location.long,
                     promise.dayinweek,
-                    promise.weekinmonth
+					promise.weekinmonth,
+					promise.employer1,
+					promise.employer2,
+					promise.witness1,
+					promise.witness2,
+					promise.datestartystem,
+					promise.dateendsystem
                 FROM
                     promise
                 INNER JOIN customers ON promise.customerid = customers.id

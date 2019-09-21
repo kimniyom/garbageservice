@@ -144,28 +144,14 @@ $form->field($model, 'tambon')->widget(DepDrop::classname(), [
     </div>
 </div>
 
-<!-- <div class="row">
-        <div class="col-md-3 col-lg-3">
-		<?=$form->field($model, 'timeworkbegin')->widget(TimePicker::classname(), [
-                'pluginOptions' => [
-                    'showSeconds' => false,
-                    'showMeridian' => false,
-                    'minuteStep' => 1,
-                    'secondStep' => 5,
-                ]
-            ]);?>
-        </div>
-		<div class="col-md-3 col-lg-3">
-            <?=$form->field($model, 'timeworkend')->widget(TimePicker::classname(), [
-                'pluginOptions' => [
-                    'showSeconds' => false,
-                    'showMeridian' => false,
-                    'minuteStep' => 1,
-                    'secondStep' => 5,
-                ]
-            ]);?>
-        </div>
-</div> -->
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <?=$form->field($model, 'timework')->textArea(['rows' => 1])?>
+
+    </div>
+</div>
+
+
 
 <div class="row">
     <div class="col-md-3 col-lg-3">

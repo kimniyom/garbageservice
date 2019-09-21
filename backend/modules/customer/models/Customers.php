@@ -24,8 +24,7 @@ use Yii;
  * @property string $approve การยืนยัน Y = Yes N = No
  * @property double $latitude ละติจูด
  * @property double $longitude ลองจิจูด
- * @property string $timeworkbegin เวลาทำการเริ่มต้น
- * @property string $timeworkend เวลาเลิกงาน
+ * @property string $timework เวลาทำการ
  */
 class Customers extends \yii\db\ActiveRecord {
 	/**
@@ -42,7 +41,7 @@ class Customers extends \yii\db\ActiveRecord {
 		return [
 			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve','type','typeregister'], 'required'],
 			[['flag', 'approve'], 'string'],
-			[['create_date', 'update_date','timeworkbegin', 'timeworkend'], 'safe'],
+			[['create_date', 'update_date','timework'], 'safe'],
 			//[['latitude', 'longitude'], 'number'],
 			[['company', 'address','remark'], 'string', 'max' => 255],
 			[['taxnumber', 'tel','customercode'], 'string', 'max' => 20],
@@ -82,8 +81,7 @@ class Customers extends \yii\db\ActiveRecord {
 			'remark' => 'หมายเหตุ',
 			//'latitude' => 'ละติจูด',
 			//'longitude' => 'ลองจิจูด',
-			'timeworkbegin' => 'เวลาเริ่มต้นทำงาน',
-            'timeworkend' => 'เวลาเลิกงาน',
+			'timework' => 'เวลาทำการ',
 		];
 	}
 

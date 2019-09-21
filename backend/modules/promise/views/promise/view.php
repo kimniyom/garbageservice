@@ -91,6 +91,15 @@ if ($model['vat'] == 1) {
 
 		],
 		[
+			'label' => 'วันที่เริ่มต้นสัญญาจริง',
+			'value' => $Config->thaidate($model['datestartystem']),
+
+		],
+		[
+			'label' => 'วันที่สิ้นสุดสัญญาจริง',
+			'value' => $Config->thaidate($model['dateendsystem']),
+		],
+		[
 			'label' => 'วันเริ่มสัญญา',
 			'value' => $Config->thaidate($model['promisedatebegin']),
 
@@ -191,6 +200,27 @@ if ($model['vat'] == 1) {
 			},
 
 		],
+		[
+			'label' => 'ผู้ว่าจ้างคนที่ 1',
+			'value' => $model['employer1'] ,
+
+		],
+		[
+			'label' => 'ผู้ว่าจ้างคนที่ 2',
+			'value' => $model['employer2'],
+
+		],
+		[
+			'label' => 'พยานคนที่ 1',
+			'value' => $model['witness1'] ,
+
+		],
+		[
+			'label' => 'พยานคนที่ 2',
+			'value' => $model['witness2'],
+
+		],
+		
 		[
 			'label' => 'สถานะการใช้งาน',
 			'value' => $model['active'] == 1 ? "ใช้งาน" : "ไม่ใช้งาน",

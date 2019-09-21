@@ -97,24 +97,40 @@ for ($i = 1; $i <= 36; $i++) {
                     </div>
                 </div>
             -->
+            <div class="row">
+        <div class="col-md-6 col-lg-5">
+            <?=$form->field($model, 'datestartystem')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                ],
+                    'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
+                ?>
+        </div>
+        <div class="col-md-6 col-lg-5">
+            <?=$form->field($model, 'dateendsystem')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedatebegin')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-	'autoclose' => true,
-	'format' => 'yyyy-mm-dd',
-	'todayHighlight' => true,
-	'startDate' => "0d",
-],
-	'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
-?>
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                ],
+                    'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
+                ?>
         </div>
         <div class="col-md-6 col-lg-5">
             <?=$form->field($model, 'promisedateend')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-	'autoclose' => true,
-	'format' => 'yyyy-mm-dd',
-	'todayHighlight' => true,
-	'startDate' => "0d",
-], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                    'todayHighlight' => true,
+                ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
         </div>
     </div>
 
@@ -231,27 +247,47 @@ $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package');
     </div>
 
     <div id="dateservice">
-    <h4>วันที่จัดเก็บ</h4>
-<hr style="margin-top:0px;"/>
-        <div class="row">
-        <div class="col-md-6 col-lg-6">
-            <?=$form->field($model, 'dayinweek')->dropDownList($dayInweek);?>
-        </div>
+            <h4>วันที่จัดเก็บ</h4>
+            <hr style="margin-top:0px;"/>
+                    <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <?=$form->field($model, 'dayinweek')->dropDownList($dayInweek);?>
+                    </div>
 
-        <div class="col-md-6 col-lg-6">
-            <?php
-echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
-	'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
-	'options' => ['placeholder' => 'Select a week ...'],
-	'pluginOptions' => [
-		'allowClear' => true,
-		'multiple' => true,
-	],
-]);
-?>
+                    <div class="col-md-6 col-lg-6">
+                        <?php
+            echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
+                'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
+                'options' => ['placeholder' => 'Select a week ...'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'multiple' => true,
+                ],
+            ]);
+            ?>
         </div>
     </div>
-</div>
+
+    <div id="manager">
+        <h4>ผู้ว่าจ้าง และพยาน</h4>
+        <hr style="margin-top:0px;"/>
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <?=$form->field($model, 'employer1')->textInput()?>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <?=$form->field($model, 'employer2')->textInput()?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <?=$form->field($model, 'witness1')->textInput()?>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <?=$form->field($model, 'witness2')->textInput()?>
+            </div>
+        </div>
+    </div>
 
     <!-- <div class="row">
         <div class="col-md-12 col-lg-6">
