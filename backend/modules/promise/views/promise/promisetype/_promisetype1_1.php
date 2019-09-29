@@ -42,21 +42,31 @@ $Config = new Config();
     <?php
         $employer = "";
         $witness = "";
-        if($model['employer1'] != "" && $model['employer2'])
+        
+        if($model['employer1'] != "" && $model['employer2'] != "")
         {
             $employer =  $model['employer1'].", ".$model['employer2'];
         }
-        else{
+        else if($model['employer1'] != "" || $model['employer2'] != "")
+        {
             $employer = $model['employer1'].$model['employer2'];
         }
+        else{
+            $employer = ".................................................";
+        }
+        
 
-        if($model['witness1'] != "" && $model['witness2'])
+        if($model['witness1'] != "" && $model['witness2'] != "")
         {
             $witness =  $model['witness1'].", ".$model['witness2'];
         }
-        else{
+        else if($model['witness1'] != "" || $model['witness2'] !=""){
             $witness = $model['witness1'].$model['witness2'];
         }
+        else{
+            $witness = ".................................................";
+        }
+       
 
     ?>
     <div class="row">
