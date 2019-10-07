@@ -1,5 +1,5 @@
 <?php
-
+use kartik\date\DatePicker;
 $this->title = $customer['company'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -8,8 +8,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
             <h4>บันทึรายการเก็บขยะ (ลูกค้า <?php echo $customer['company'] ?>)</h4>
-            <h4>เลขที่สัญญา (<?php echo $promise['promisenumber'] ?>) รอบที่ <?php echo $round ?></h4>
-            <h4>ปริมาณขยะต่อรอบ (<?php echo ($promise['recivetype'] == 1) ? $promise['garbageweight'] : "-"?>)</h4>
+            <h4>เลขที่สัญญา (<?php echo $promise['promisenumber'] ?>) <!--รอบที่ <?php //echo $round ?>--></h4>
+            <h4>ปริมาณขยะต่อรอบ (<?php echo ($promise['recivetype'] == 1) ? $promise['garbageweight'] : "-" ?>)</h4>
             <hr/>
         </div>
     </div>
@@ -25,7 +25,24 @@ $this->params['breadcrumbs'][] = $this->title;
         <input type="text" id="garbageover" class="form-control input-lg" onkeypress="return bannedKey()" placeholder="กรอกเฉพาะตัวเลข..."/>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-6 col-lg-5">
+        <label>วันที่</label>
+        <?php 
+                    echo DatePicker::widget([
+                        'name' => 'datekeep', 
+                        'value' => date('Y-m-d'),
+                        'language' => 'th',
+                        'id' => 'datekeep',
+                        'options' => ['placeholder' => 'Select issue date ...'],
+                        'pluginOptions' => [
+                            'format' => 'yyyy-mm-dd',
+                            'todayHighlight' => true
+                        ]
+                    ]);
+                ?>
+        </div>
+        </div>
     <br/>
     <div class="row">
         <div class="col-md-6 col-lg-6 col-sm-12">
@@ -34,25 +51,37 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
+<div id="result"></div>
+
+<?php
+    $this->registerJs('
+    getRound();
+    ');
+?>
 <script type="text/javascript">
+
     function Save(){
         var amount = $("#amount").val();
         var garbageover = $("#garbageover").val();
-        var id = "<?php echo $id ?>";
+        //var id = "<?php //echo $id ?>";
+        var datekeep = $("#datekeep").val();
         var promiseid = "<?php echo $promise['id'] ?>";
-        if(amount == ""){
-            $("#amount").focus();
+        if(amount == "" || datekeep == ""){
+            alert("กรอกข้อมูลไม่ครบ...!");
             return false;
         }
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/save']) ?>";
         var data = {
             amount: amount,
             garbageover: garbageover,
-            id: id,
+            //id: id,
+            datekeep: datekeep,
             promiseid: promiseid
             };
         $.post(url,data,function(datas){
-            window.location="<?php echo Yii::$app->urlManager->createUrl(['service']) ?>";
+            //window.location="<?php //echo Yii::$app->urlManager->createUrl(['service']) ?>";
+            //window.location.reload();
+            getRound();
         });
     }
 
@@ -70,4 +99,17 @@ $this->params['breadcrumbs'][] = $this->title;
         /* เช็คคีย์ไทย ทั้งแบบ non-unicode และ unicode */
         if ((k>=161 && k<=255) || (k>=3585 && k<=3675)) { return allowedThai; }
     }
+
+    function getRound(){
+        var promiseid = "<?php echo $promise['id'] ?>";
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getroundlist']) ?>";
+        var data = {promiseid: promiseid};
+        $.post(url,data,function(datas){
+            $("#result").html(datas);
+            $("#amount").val("");
+            $("#garbageover").val("");
+        });
+    }
 </script>
+
+

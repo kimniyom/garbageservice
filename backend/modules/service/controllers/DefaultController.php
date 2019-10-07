@@ -1,11 +1,11 @@
 <?php
 
 namespace app\modules\service\controllers;
+use app\models\Invoice;
 use app\modules\customer\models\Customers;
 use app\modules\promise\models\Promise;
-use app\modules\roundgarbage\models\Roundgarbage;
 use app\modules\roundmoney\models\Roundmoney;
-use app\models\Invoice;
+use app\modules\roundgarbage\models\Roundgarbage;
 use Yii;
 use yii\web\Controller;
 
@@ -18,49 +18,66 @@ class DefaultController extends Controller {
 	 * @return string
 	 */
 	public function actionIndex() {
-		$data['promise'] = Promise::find()->where(['status' => '2'])->all();
+		//$data['promise'] = Promise::find()->where(['status' => '2'])->all();
+		$data['customer'] = Customers::find()->all();
 		return $this->render('index', $data);
 	}
 
 	public function actionGetround() {
-		$promiseId = Yii::$app->request->post('promiseid');
-		$Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
-		$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
-		$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
+		$customerId = Yii::$app->request->post('customer_id');
+		$Promise = Promise::find()->where(['customerid' => $customerId, 'status' => '2'])->One();
+		$Customer = Customers::find()->where(['id' => $customerId])->One();
+		//$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
 		$str = "";
 		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
-		foreach ($RoundGarbage as $rs):
-			if ($rs['status'] == 0) {
-				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
-				$str .= "รอบที่ => " . $rs['round'] . " วันที่จัดเก็บ => " . $rs['datekeep'] . "  <a href='" . $link . "'><i class='fa fa-save'></i> บันทึกรายการ</a> " . "<br/>";
-			} else {
-				$str .= "รอบที่ => " . $rs['round'] . " วันที่จัดเก็บ => " . $rs['datekeep'] . " <i class='fa fa-check'></i>" . "<br/>";
-			}
-		endforeach;
-		if ($RoundGarbage) {
+		$str .= "<b>เลขที่สัญญา " . $Promise['promisenumber'] . "</b><br/>";
+		$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'promise' => $Promise['id']]);
+		$str .= "  <a href='" . $link . "' class='btn btn-success'><i class='fa fa-save'></i> บันทึกรายการ</a> " . "<br/>";
+		/*
+			foreach ($RoundGarbage as $rs):
+				if ($rs['status'] == 0) {
+					$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
+					$str .= "รอบที่ => " . $rs['round'] . " วันที่จัดเก็บ => " . $rs['datekeep'] . "  <a href='" . $link . "'><i class='fa fa-save'></i> บันทึกรายการ</a> " . "<br/>";
+				} else {
+					$str .= "รอบที่ => " . $rs['round'] . " วันที่จัดเก็บ => " . $rs['datekeep'] . " <i class='fa fa-check'></i>" . "<br/>";
+				}
+			endforeach;
+		*/
+		if ($Promise) {
 			return $str;
 		} else {
-			return "ไม่มีรอบจัดเก็บ";
+			return "ไม่มีการทำสัญญา";
 		}
 
 	}
 
-	public function actionFormsaveround($id, $promise, $round) {
+	public function actionFormsaveround($promise) {
 		$Promise = Promise::find()->where(['id' => $promise, 'status' => '2'])->One();
 		$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
 		$data['promise'] = $Promise;
 		$data['customer'] = $Customer;
 		$data['promiseid'] = $promise;
-		$data['round'] = $round;
-		$data['id'] = $id;
 		return $this->render('formsaveround', $data);
 	}
 
+/*
+public function actionFormsaveround($id, $promise, $round) {
+$Promise = Promise::find()->where(['id' => $promise, 'status' => '2'])->One();
+$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+$data['promise'] = $Promise;
+$data['customer'] = $Customer;
+$data['promiseid'] = $promise;
+$data['round'] = $round;
+$data['id'] = $id;
+return $this->render('formsaveround', $data);
+}
+ */
 	public function actionSave() {
-		$id = Yii::$app->request->post('id');
+		//$id = Yii::$app->request->post('id');
 		$garbageover = Yii::$app->request->post('garbageover');
 		$promiseid = Yii::$app->request->post('promiseid');
 		$amount = Yii::$app->request->post('amount');
+		$datekeep = Yii::$app->request->post('datekeep');
 
 		//$Promise = Promise::find()->where(['id' => $promise,'status' => '2'])->One();
 
@@ -69,12 +86,19 @@ class DefaultController extends Controller {
 			"keepby" => Yii::$app->user->id,
 			"amount" => $amount,
 			"status" => 1,
+			"datekeep" => $datekeep,
+			"promiseid" => $promiseid,
 			"d_update" => date("Y-m-d H:i:s"),
 		);
 
 		Yii::$app->db->createCommand()
-			->update("roundgarbage", $columns, "id = '$id'")
+			->insert("roundgarbage", $columns)
 			->execute();
+		/*
+			Yii::$app->db->createCommand()
+				->update("roundgarbage", $columns, "id = '$id'")
+				->execute();
+		*/
 	}
 
 	public function actionMainbill() {
@@ -83,7 +107,7 @@ class DefaultController extends Controller {
 
 	public function actionCreatebill($type) {
 		//ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
-		$data['promise'] = Promise::find()->where(['status' => '2','payment' => '0'])->all();
+		$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
 		$data['type'] = $type;
 		return $this->render('createbill', $data);
 	}
@@ -96,20 +120,20 @@ class DefaultController extends Controller {
 		$str = "";
 		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
 		$linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
-		$str .= "<em><a href='".$linkPromise."' target='_back'>ข้อมูลสัญญา</a></em><br/>";
+		$str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/>";
 		foreach ($RoundMoney as $rs):
 			if (!$rs['receiptnumber']) {
 				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
-				$dateMonth = '"'.$rs['datekeep'].'"';
+				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>"."<br/>";
+				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
 			} else {
 				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
-				$dateMonth = '"'.$rs['datekeep'].'"';
+				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>"."<br/>";
+				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
 			}
 		endforeach;
 		if ($RoundMoney) {
@@ -124,7 +148,7 @@ class DefaultController extends Controller {
 		$dateround = Yii::$app->request->post('dateround');
 		$round = Yii::$app->request->post('round');
 		$id = Yii::$app->request->post('id');
-		
+
 		$Promise = Promise::find()->where(['id' => $promiseId])->One();
 		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
 		$Customer = $this->actionGetcustomer($Promise['customerid']);
@@ -136,11 +160,11 @@ class DefaultController extends Controller {
 		$data['rounddate'] = $YearMonth;
 		$data['round'] = $round;
 		$data['id'] = $id;
-		
+
 		$sqlCheckInvoice = "select * from roundmoney where id = '$id' and receiptnumber != ''";
 		$Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
-		
-		if(!$Invoice['receiptnumber']){
+
+		if (!$Invoice['receiptnumber']) {
 			$data['invnumber'] = $this->getNextId();
 			$data['status'] = 0;
 		} else {
@@ -150,25 +174,25 @@ class DefaultController extends Controller {
 		return $this->renderPartial('createbillpopup', $data);
 	}
 
-	public function actionGetcustomer($customerid){
+	public function actionGetcustomer($customerid) {
 		$sql = "SELECT c.company,ch.changwat_name,a.ampur_name,t.tambon_name,c.zipcode,c.tel,c.telephone
 				FROM customers c INNER JOIN changwat ch ON c.changwat = ch.changwat_id
 				INNER JOIN ampur a ON c.ampur = a.ampur_id
-				INNER JOIN tambon t ON c.tambon = t.tambon_id 
+				INNER JOIN tambon t ON c.tambon = t.tambon_id
 				WHERE c.id = '$customerid'";
 		return Yii::$app->db->createCommand($sql)->queryOne();
 	}
 
 	//บันทึกรายการใบแจ้งหนี้
-	public function actionAddinvoice(){
+	public function actionAddinvoice() {
 		$invoiceNumber = Yii::$app->request->post('invoiceNumber');
-        $promiseId = Yii::$app->request->post('promiseId');
-    	$total = Yii::$app->request->post('total');
+		$promiseId = Yii::$app->request->post('promiseId');
+		$total = Yii::$app->request->post('total');
 		$roundId = Yii::$app->request->post('roundId');
 		$type = Yii::$app->request->post('type');
 		$monthyear = Yii::$app->request->post('monthyear');
-		$year = substr($monthyear,0,4);
-		$month = substr($monthyear,5,2);
+		$year = substr($monthyear, 0, 4);
+		$month = substr($monthyear, 5, 2);
 		$columns = array(
 			"invoicenumber" => $invoiceNumber,
 			"promise" => $promiseId,
@@ -178,18 +202,18 @@ class DefaultController extends Controller {
 			"year" => $year,
 			"month" => $month,
 			"type" => $type,
-			"d_update" => date("Y-m-d H:i:s")
+			"d_update" => date("Y-m-d H:i:s"),
 		);
 
 		Yii::$app->db->createCommand()
-			->insert("invoice",$columns)
+			->insert("invoice", $columns)
 			->execute();
 
 		$columnsUpdate = array(
-			"receiptnumber" => $invoiceNumber
+			"receiptnumber" => $invoiceNumber,
 		);
 		Yii::$app->db->createCommand()
-			->update("roundmoney",$columnsUpdate,"id = '$roundId'")
+			->update("roundmoney", $columnsUpdate, "id = '$roundId'")
 			->execute();
 	}
 
@@ -210,13 +234,12 @@ class DefaultController extends Controller {
 
 	}
 
-
 	public function actionGetinvoice() {
 		$promiseId = Yii::$app->request->post('promiseid');
 		$dateround = Yii::$app->request->post('dateround');
 		$id = Yii::$app->request->post('id');
 		$invoice = Yii::$app->request->post('invoice');
-		
+
 		$Promise = Promise::find()->where(['id' => $promiseId])->One();
 		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
 		$Customer = $this->actionGetcustomer($Promise['customerid']);
@@ -233,7 +256,7 @@ class DefaultController extends Controller {
 		return $this->renderPartial('createbillpopup', $data);
 	}
 
-	public function actionConfirmorder(){
+	public function actionConfirmorder() {
 		$sql = "SELECT i.*,CONCAT('(Invoice #',i.invoicenumber,') ',c.company,' (จำนวน ',i.total,' .-)') as orders,
 					p.promisenumber,c.company,r.round as roundmoney
 					FROM invoice i INNER JOIN promise p ON i.promise = p.id
@@ -244,9 +267,9 @@ class DefaultController extends Controller {
 		return $this->render('order', $data);
 	}
 
-	public function actionSaveconfirmorder(){
+	public function actionSaveconfirmorder() {
 		$id = Yii::$app->request->post('id');
-        $dateservice = Yii::$app->request->post('dateservice');
+		$dateservice = Yii::$app->request->post('dateservice');
 		$timeservice = Yii::$app->request->post('timeservice');
 		$comment = Yii::$app->request->post('comment');
 		$columns = array(
@@ -254,17 +277,17 @@ class DefaultController extends Controller {
 			"timeservice" => $timeservice,
 			"comment" => $comment,
 			"status" => 1,
-			"d_update" => date("Y-m-d H:i:s")
+			"d_update" => date("Y-m-d H:i:s"),
 		);
 
 		Yii::$app->db->createCommand()
-			->update("invoice",$columns,"id = '$id'")
+			->update("invoice", $columns, "id = '$id'")
 			->execute();
 	}
 
-	public function actionCreateinvoiceyear($type){
+	public function actionCreateinvoiceyear($type) {
 		//ออกบิลสำหรับสัญญาที่เหมาจ่ายแบบรายปี
-		$data['promise'] = Promise::find()->where(['status' => '2','payment' => '1'])->all();
+		$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '1'])->all();
 		$data['type'] = $type;
 		return $this->render('createinvoiceyear', $data);
 	}
@@ -277,25 +300,25 @@ class DefaultController extends Controller {
 		$str = "";
 		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
 		$linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
-		$str .= "<em><a href='".$linkPromise."' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
-		$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>"."<br/>";
+		$str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
+		$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
 		return $str;
 	}
 
 	public function actionCreatebillpopupyear() {
 		$promiseId = Yii::$app->request->post('promiseid');
-		
+
 		$Promise = Promise::find()->where(['id' => $promiseId])->One();
 		$Customer = $this->actionGetcustomer($Promise['customerid']);
 		$RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
 		$data['billdetail'] = $RoundMoney;
 		$data['customer'] = $Customer;
 		$data['promise'] = $Promise;
-		
+
 		$sqlCheckInvoice = "select * from invoice where promise = '$promiseId' and invoicenumber != ''";
 		$Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
-		
-		if(!$Invoice['invoicenumber']){
+
+		if (!$Invoice['invoicenumber']) {
 			$data['invnumber'] = $this->getNextId();
 			$data['status'] = 0;
 		} else {
@@ -303,6 +326,30 @@ class DefaultController extends Controller {
 			$data['status'] = 1;
 		}
 		return $this->renderPartial('createbillpopupyear', $data);
+	}
+
+	public function actionGetroundlist() {
+		$promiseId = Yii::$app->request->post('promiseid');
+		$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
+		$i=0;
+		$str = "";
+		$str .="<br/>ประวัติการจัดเก็บ<br/><table class='table table-bordered'><thead><tr><th>#</th><th>วันที่</th><th>ปริมาณ</th><th>ขยะเกิน</th><th>ผู้บันทึก</th>";
+			$str .= "</tr></thead>";
+			$str .= "<tbody>";
+		foreach($RoundGarbage as $rs){
+			$i++;
+			$str .= "<tr>";
+			$str .= "<td>".$i."</td>";
+			$str .= "<td>".$rs['datekeep']."</td>";
+			$str .= "<td>".$rs['amount']."</td>";
+			$str .= "<td>".$rs['garbageover']."</td>";
+			$str .= "<td>".$rs['keepby']."</td>";
+			$str .= "</tr>";
+		}
+
+		$str .= "</tbody></table>";
+
+		return $str;
 	}
 
 }
