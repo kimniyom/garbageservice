@@ -91,13 +91,9 @@ if ($model['vat'] == 1) {
 
 		],
 		[
-			'label' => 'วันที่เริ่มต้นสัญญาจริง',
-			'value' => $Config->thaidate($model['datestartystem']),
+			'label' => 'วันทำสัญญา',
+			'value' => $Config->thaidate($model['createat']),
 
-		],
-		[
-			'label' => 'วันที่สิ้นสุดสัญญาจริง',
-			'value' => $Config->thaidate($model['dateendsystem']),
 		],
 		[
 			'label' => 'วันเริ่มสัญญา',

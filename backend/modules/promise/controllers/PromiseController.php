@@ -378,7 +378,8 @@ class PromiseController extends Controller {
                     promise.promisenumber,
                     promise.customerid,
                     promise.promisedatebegin,
-                    promise.promisedateend,
+					promise.promisedateend,
+					promise.createat,
                     promise.recivetype,
                     promise.rate,
                     promise.ratetext,
@@ -417,9 +418,7 @@ class PromiseController extends Controller {
 					promise.employer1,
 					promise.employer2,
 					promise.witness1,
-					promise.witness2,
-					promise.datestartystem,
-					promise.dateendsystem
+					promise.witness2
                 FROM
                     promise
                 INNER JOIN customers ON promise.customerid = customers.id
@@ -560,7 +559,7 @@ class PromiseController extends Controller {
 			'cssInline' => '.kv-heading-1{font-size:18px}',
 			// set mPDF properties on the fly
 			'options' => ['title' => 'Krajee Report Title'],
-
+			//'filename' => $promisenumber,
 			'filename' => $promisenumber.".pdf",
 			// call mPDF methods on the fly
 			'methods' => [
