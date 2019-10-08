@@ -2,6 +2,7 @@
 
 namespace app\modules\service\controllers;
 use app\models\Invoice;
+use app\models\Config;
 use app\modules\customer\models\Customers;
 use app\modules\promise\models\Promise;
 use app\modules\roundmoney\models\Roundmoney;
@@ -329,21 +330,34 @@ return $this->render('formsaveround', $data);
 	}
 
 	public function actionGetroundlist() {
+		$Config = new Config();
 		$promiseId = Yii::$app->request->post('promiseid');
-		$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
+		//$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
+		$sql = "select r.*,p.name
+				from roundgarbage r inner join profile p on r.keepby = p.user_id 
+				where r.promiseid = '$promiseId'";
+		$RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
 		$i=0;
 		$str = "";
-		$str .="<br/>ประวัติการจัดเก็บ<br/><table class='table table-bordered'><thead><tr><th>#</th><th>วันที่</th><th>ปริมาณ</th><th>ขยะเกิน</th><th>ผู้บันทึก</th>";
+		$str .="<br/>ประวัติการจัดเก็บ<br/>
+			<table class='table table-bordered'>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>วันที่</th>
+						<th style='text-align:right;'>ปริมาณ</th>
+						<th style='text-align:right;'>ขยะเกิน</th>
+						<th style='text-align:center;'>ผู้บันทึก</th>";
 			$str .= "</tr></thead>";
 			$str .= "<tbody>";
 		foreach($RoundGarbage as $rs){
 			$i++;
 			$str .= "<tr>";
 			$str .= "<td>".$i."</td>";
-			$str .= "<td>".$rs['datekeep']."</td>";
-			$str .= "<td>".$rs['amount']."</td>";
-			$str .= "<td>".$rs['garbageover']."</td>";
-			$str .= "<td>".$rs['keepby']."</td>";
+			$str .= "<td>".$Config->thaidate($rs['datekeep'])."</td>";
+			$str .= "<td style='text-align:right;'>".$rs['amount']." กิโลกรัม</td>";
+			$str .= "<td style='text-align:right;'>".$rs['garbageover']." กิโลกรัม</td>";
+			$str .= "<td style='text-align:center;'>".$rs['name']."</td>";
 			$str .= "</tr>";
 		}
 
