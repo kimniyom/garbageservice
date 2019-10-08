@@ -3,6 +3,7 @@
 use app\models\Ampur;
 use app\models\Changwat;
 use app\models\Tambon;
+use app\models\Vattype;
 use app\models\Typecustomer;
 use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
@@ -49,6 +50,25 @@ echo $form->field($model, 'type')->widget(Select2::classname(), [
          <?=$form->field($model, 'type')->hiddenInput(['maxlength' => true])->label(false)?>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-3 col-lg-3">
+        <?php
+$vattype = Vattype::find()->all();
+echo $form->field($model, 'typeregister')->widget(Select2::classname(), [
+	'data' => ArrayHelper::map($vattype, "id", "vattype"),
+	'language' => 'th',
+	'options' => [
+		'placeholder' => 'Select a state ...',
+	],
+	'pluginOptions' => [
+		'allowClear' => true,
+	],
+]);
+?>
+</div>
+</div>
+
 <div class="row">
     <div class="col-md-10 col-lg-10">
          <?=$form->field($model, 'address')->textInput(['maxlength' => true])?>

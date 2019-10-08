@@ -108,33 +108,48 @@ return $this->render('formsaveround', $data);
 
 	public function actionCreatebill($type) {
 		//ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
-		$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
+		//$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
+		$sql = "select c.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+		from customers c 
+		inner join changwat p on c.changwat = p.changwat_id 
+		inner join ampur a on c.ampur = a.ampur_id 
+		inner join tambon t on c.tambon = t.tambon_id";
+		$result = Yii::$app->db->createCommand($sql)->queryAll();
+		$data['customer'] = $result;
 		$data['type'] = $type;
 		return $this->render('createbill', $data);
 	}
 
+	
 	public function actionGetroundpromise() {
-		$promiseId = Yii::$app->request->post('promiseid');
-		$Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
-		$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
-		$RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
+		$customerId = Yii::$app->request->post('customer_id');
+		$Promise = Promise::find()->where(['customerid' => $customerId, 'status' => '2'])->One();
+		$Customer = Customers::find()->where(['id' => $customerId])->One();
+		$RoundMoney = Roundmoney::find()->where(['promiseid' => $Promise['id']])->all();
+
+		$sql = "select * from vattype where id = '".$Customer['typeregister']."'";
+		$rs = Yii::$app->db->createCommand($sql)->queryOne();
+
+		$promiseId = $Promise['id'];
 		$str = "";
 		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
+		$str .= "<b>สัญญา ".$rs['vattype']."</b>";
 		$linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
-		$str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/>";
+		$str .= "<br/><em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><hr/>";
+		$typeCustomrt = $Customer['typeregister'];
 		foreach ($RoundMoney as $rs):
 			if (!$rs['receiptnumber']) {
 				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
 				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
 			} else {
-				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
+				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $promiseId, 'round' => $rs['round']]);
 				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
+				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
 			}
 		endforeach;
 		if ($RoundMoney) {
@@ -149,6 +164,7 @@ return $this->render('formsaveround', $data);
 		$dateround = Yii::$app->request->post('dateround');
 		$round = Yii::$app->request->post('round');
 		$id = Yii::$app->request->post('id');
+		$data['type'] = Yii::$app->request->post('type');
 
 		$Promise = Promise::find()->where(['id' => $promiseId])->One();
 		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
@@ -339,7 +355,7 @@ return $this->render('formsaveround', $data);
 		$RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
 		$i=0;
 		$str = "";
-		$str .="<br/>ประวัติการจัดเก็บ<br/>
+		$str .="<br/><b>ประวัติการจัดเก็บ</b><br/>
 			<table class='table table-bordered'>
 				<thead>
 					<tr>
@@ -347,7 +363,8 @@ return $this->render('formsaveround', $data);
 						<th>วันที่</th>
 						<th style='text-align:right;'>ปริมาณ</th>
 						<th style='text-align:right;'>ขยะเกิน</th>
-						<th style='text-align:center;'>ผู้บันทึก</th>";
+						<th style='text-align:center;'>ผู้บันทึก</th>
+						<th style='text-align:center;'></th>";
 			$str .= "</tr></thead>";
 			$str .= "<tbody>";
 		foreach($RoundGarbage as $rs){
@@ -358,6 +375,11 @@ return $this->render('formsaveround', $data);
 			$str .= "<td style='text-align:right;'>".$rs['amount']." กิโลกรัม</td>";
 			$str .= "<td style='text-align:right;'>".$rs['garbageover']." กิโลกรัม</td>";
 			$str .= "<td style='text-align:center;'>".$rs['name']."</td>";
+			if(Yii::$app->user->id == $rs['keepby']){
+			$str .= "<td style='text-align:center;'><i class='fa fa-pencil'></i></td>";
+			} else {
+				$str .= "<td style='text-align:center;'></td>";
+			}
 			$str .= "</tr>";
 		}
 

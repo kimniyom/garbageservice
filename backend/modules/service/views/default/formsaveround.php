@@ -16,13 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-6 col-lg-6 col-sm-12">
         <label>ปริมาณขยะ / กก.</label>
-        <input type="text" id="amount" class="form-control input-lg" onkeypress="return bannedKey()" placeholder="กรอกเฉพาะตัวเลข..." />
+        <input type="text" id="amount" class="form-control" onkeypress="return bannedKey()" placeholder="กรอกเฉพาะตัวเลข..." />
         </div>
-    </div>
-    <div class="row">
+   
         <div class="col-md-6 col-lg-6 col-sm-12">
         <label>ปริมาณขยะเกิน / กก.</label>
-        <input type="text" id="garbageover" class="form-control input-lg" onkeypress="return bannedKey()" placeholder="กรอกเฉพาะตัวเลข..."/>
+        <input type="text" id="garbageover" class="form-control" onkeypress="return bannedKey()" placeholder="กรอกเฉพาะตัวเลข..."/>
         </div>
     </div>
     <div class="row">
@@ -42,11 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]);
                 ?>
         </div>
-        </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-6 col-lg-6 col-sm-12">
-            <button class="btn btn-success btn-flat btn-block btn-lg" type="button" onclick="Save()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+
+        <div class="col-md-6 col-lg-7 col-sm-12">
+            <button class="btn btn-success btn-flat" type="button" onclick="Save()" style="margin-top:25px;"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
         </div>
     </div>
 </div>

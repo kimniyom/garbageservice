@@ -8,21 +8,37 @@ $Config = new Config();
     <button type="button" onclick="printDiv('invoice')"><i class="fa fa-print"></i> พิมพ์ใบแจ้งหนี้</button>
 <?php } ?>
 <div style="background:#ffffff; padding:10px;" id="invoice">
-<h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
-<div style="width:50%; float: left;">
+
+<div style="width:50%; left:20px;  position:absolute;">
     <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" /><br/><br/>
-    <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
-    โทรศัพท์ 02-1010325<br/>
-    ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
-    ที่อยู่ <?php echo 'ตำบล / แขวง '.$customer['tambon_name'].' อำเภอ '.$customer['ampur_name'].' จังหวัด '.$customer['changwat_name'].' '.$customer['zipcode'] ?>
-    </div>
-    <div style="width:30%; float: right; text-align: right;">
+</div>
+
+    <div style="width:30%; right:20px; text-align: right;position:absolute;">
         เลขที่ <?php echo $invnumber ?><br/>
         อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
         วันที่ <?php echo date("d/m/Y") ?>
     </div>
+
+    <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
+<div style="text-align:center;">
+<?php if($type == 1) { ?>
+    <b></b>ไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+    IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+    เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+    50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+    โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Email : icqualitysystem2019@gmail.com<br/><br/>
+<?php } ?>
+</div>
+
 <table class="table table-bordered">
     <thead>
+    <tr>
+        <th colspan="6">
+        ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
+    ที่อยู่ <?php echo 'ตำบล / แขวง '.$customer['tambon_name'].' อำเภอ '.$customer['ampur_name'].' จังหวัด '.$customer['changwat_name'].' '.$customer['zipcode'] ?>
+    
+        </th>
+    </tr>
         <tr>
             <th colspan="6">
                 ประจำงวดที่ <?php echo $rounddate ?>
@@ -107,19 +123,26 @@ $i = 0;foreach ($billdetail as $rs): $i++;
     <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
 <?php } ?>
 <div style="background:#ffffff; padding:10px;" id="bill">
-<h4 style="text-align: center;">บิล / ใบเสร็จรับเงิน</h4>
-<div style="width:50%; float: left;">
+<div style="width:50%; left:20px;  position:absolute;">
     <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" /><br/><br/>
-    <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
-    โทรศัพท์ 02-1010325<br/>
-    ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
-    ที่อยู่ <?php echo 'ตำบล / แขวง '.$customer['tambon_name'].' อำเภอ '.$customer['ampur_name'].' จังหวัด '.$customer['changwat_name'].' '.$customer['zipcode'] ?>
-    </div>
-    <div style="width:30%; float: right; text-align: right;">
+</div>
+
+    <div style="width:30%; right:20px; text-align: right;position:absolute;">
         เลขที่ <?php echo $invnumber ?><br/>
         อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
         วันที่ <?php echo date("d/m/Y") ?>
     </div>
+
+    <h4 style="text-align: center;">บิล / ใบเสร็จรับเงิน</h4>
+<div style="text-align:center;">
+<?php if($type == 1) { ?>
+    <b></b>ไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+    IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+    เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+    50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+    โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Email : icqualitysystem2019@gmail.com<br/><br/>
+<?php } ?>
+</div>
 <table class="table table-bordered">
     <thead>
         <tr>

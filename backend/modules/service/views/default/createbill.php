@@ -13,16 +13,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-lg-4 col-md-4">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
-        <label>เลือกเลขที่สัญญา</label>
+        <label>เลือกลูกค้า</label>
         <?php
-$listPromise = ArrayHelper::map($promise, 'id', 'promisenumber');
+$listCustomer = ArrayHelper::map($customer, 'id', 'address');
 echo Select2::widget([
-	'name' => 'promise',
+	'name' => 'customer',
 	'value' => '',
-	'data' => $listPromise,
+	'data' => $listCustomer,
 	'options' => [
 		'multiple' => false,
-		'placeholder' => 'Select Promise ...',
+		'placeholder' => 'Select Customer ...',
 		'onchange' => 'getRound(this.value)',
 	],
 ]);
@@ -32,7 +32,6 @@ echo Select2::widget([
 
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
-        <label>ระยะสัญญา</label>
         <div id="round"></div>
         </div>
     </div>
@@ -46,21 +45,22 @@ echo Select2::widget([
     </div>
 </div>
 <script type="text/javascript">
-    function getRound(promise){
+    function getRound(customer){
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise']) ?>";
-        var data = {promiseid: promise};
+        var data = {customer_id: customer};
         $.post(url,data,function(datas){
             $("#round").html(datas);
         });
     }
 
-    function popupFormbill(promiseid,months,round,id){
+    function popupFormbill(promiseid,months,round,id,type){
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopup']) ?>";
         var data = {
             id: id,
             promiseid: promiseid,
             dateround: months,
-            round: round
+            round: round,
+            type: type
             };
         $.post(url,data,function(datas){
             $("#createbill").html(datas);
