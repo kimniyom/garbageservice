@@ -44,10 +44,10 @@ echo Select2::widget([
         <label>วันที่ออกใบแจ้งหนี้</label>
         <?php 
                     echo DatePicker::widget([
-                        'name' => 'dateinvoie', 
+                        'name' => 'dateinvoice', 
                         'value' => date('Y-m-d'),
                         'language' => 'th',
-                        'id' => 'dateinvoie',
+                        'id' => 'dateinvoice',
                         'options' => ['placeholder' => 'วันที่ออกใบแจ้งหนี้ ...'],
                         'pluginOptions' => [
                             'format' => 'yyyy-mm-dd',
