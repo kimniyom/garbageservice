@@ -122,6 +122,7 @@ return $this->render('formsaveround', $data);
 
 	
 	public function actionGetroundpromise() {
+		$Config = new Config();
 		$customerId = Yii::$app->request->post('customer_id');
 		$Promise = Promise::find()->where(['customerid' => $customerId, 'status' => '2'])->One();
 		$Customer = Customers::find()->where(['id' => $customerId])->One();
@@ -143,13 +144,13 @@ return $this->render('formsaveround', $data);
 				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
 			} else {
 				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $promiseId, 'round' => $rs['round']]);
 				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบที่ => " . $rs['round'] . " เดือน => " . $rs['datekeep'] . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
+				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " .  $Config->thaidatemonth($rs['datekeep']) . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
 			}
 		endforeach;
 		if ($RoundMoney) {
@@ -208,6 +209,8 @@ return $this->render('formsaveround', $data);
 		$roundId = Yii::$app->request->post('roundId');
 		$type = Yii::$app->request->post('type');
 		$monthyear = Yii::$app->request->post('monthyear');
+		$dateinvoice = Yii::$app->request->post('dateinvoice');
+		$datebill = Yii::$app->request->post('datebill');
 		$year = substr($monthyear, 0, 4);
 		$month = substr($monthyear, 5, 2);
 		$columns = array(
@@ -219,6 +222,8 @@ return $this->render('formsaveround', $data);
 			"year" => $year,
 			"month" => $month,
 			"type" => $type,
+			"dateinvoice" => $dateinvoice,
+			"datebill" => $datebill,
 			"d_update" => date("Y-m-d H:i:s"),
 		);
 

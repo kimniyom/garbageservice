@@ -21,6 +21,19 @@ class Config {
 		}
 	}
 
+	function thaidatemonth($dateformat = "") {
+		$year = substr($dateformat, 0, 4);
+		$month = substr($dateformat, 5, 2);
+		//$day = substr($dateformat, 8, 2);
+		$thai = Array("", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+
+		if (strlen($dateformat) <= 10) {
+			return $thaidate = $thai[(int) $month] . " " . ($year + 543);
+		} else {
+			return $thaidate = $thai[(int) $month] . " " . ($year + 543) . " " . substr($dateformat, 10);
+		}
+	}
+
 	function month_full() {
 		$thai_month = array("มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
 		return $thai_month;

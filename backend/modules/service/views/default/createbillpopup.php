@@ -10,7 +10,7 @@ $Config = new Config();
 <div style="background:#ffffff; padding:10px;" id="invoice">
 
 <div style="width:50%; left:20px;  position:absolute;">
-    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" /><br/><br/>
+    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
 </div>
 
     <div style="width:30%; right:20px; text-align: right;position:absolute;">
@@ -20,15 +20,21 @@ $Config = new Config();
     </div>
 
     <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
-<div style="text-align:center;">
-<?php if($type == 1) { ?>
-    <b></b>ไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
-    IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
-    เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
-    50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
-    โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Email : icqualitysystem2019@gmail.com<br/><br/>
-<?php } ?>
-</div>
+    <div style="text-align:center;">
+        <?php if($type == 1) { ?>
+            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+            เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+            50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+            โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Eขmail : icqualitysystem2019@gmail.com<br/><br/>
+        <?php } else { ?>
+            <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564 E-mail : iccqualitysystem2019@gmail.com<br/><br/>
+        <?php } ?>
+    </div>
 
 <table class="table table-bordered">
     <thead>
@@ -41,7 +47,7 @@ $Config = new Config();
     </tr>
         <tr>
             <th colspan="6">
-                ประจำงวดที่ <?php echo $rounddate ?>
+                ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
             </th>
         </tr>
         <tr>
@@ -63,7 +69,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
 	?>
 														    <tr>
 													            <td><?php echo $i ?></td>
-													            <td>ค่ากำจัดขยะติดเชื้อ รอบที่ <?php echo $rs['round'] ?></td>
+													            <td>ค่ากำจัดขยะติดเชื้อ วันที่ <?php echo $Config->thaidate($rs['datekeep']) ?></td>
 													            <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
 													            <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
 													            <td style="text-align:right;">
@@ -103,10 +109,11 @@ $i = 0;foreach ($billdetail as $rs): $i++;
         <?php if($status <= 0) { ?>
         <tr>
             <th colspan="6">
-            <?php if($i == $promise['levy']) { ?>
+            <!--if($i == $promise['levy'])-->
+            <?php if($i > 0) { ?>
                 <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
             <?php } else { ?>
-                <button class="btn btn-warning disabled" type="button"><i class="fa fa-info"></i> บันทึกข้อมูลการจัดเก็บในรอบเดือนไม่ครบ</button>
+                <button class="btn btn-warning disabled" type="button"><i class="fa fa-info"></i> ยังไม่มีการจัดเก็บในรอบเดือน</button>
             <?php } ?>
             </th>
         </tr>
@@ -122,9 +129,10 @@ $i = 0;foreach ($billdetail as $rs): $i++;
 <?php if($status > 0) { ?>
     <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
 <?php } ?>
+
 <div style="background:#ffffff; padding:10px;" id="bill">
 <div style="width:50%; left:20px;  position:absolute;">
-    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" /><br/><br/>
+    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
 </div>
 
     <div style="width:30%; right:20px; text-align: right;position:absolute;">
@@ -141,6 +149,12 @@ $i = 0;foreach ($billdetail as $rs): $i++;
     เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
     50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
     โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Email : icqualitysystem2019@gmail.com<br/><br/>
+<?php } else { ?>
+    <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564 E-mail : iccqualitysystem2019@gmail.com<br/><br/>
 <?php } ?>
 </div>
 <table class="table table-bordered">
@@ -229,12 +243,16 @@ $i = 0;foreach ($billdetail as $rs): $i++;
         var total = "<?php echo $sum ?>";
         var roundId = "<?php echo $id ?>";
         var monthyear = "<?php echo $rounddate ?>";
+        var dateinvoice = $("#dateinvoice").val();
+        var datebill = $("#datebill").val();
         var data = {
             invoiceNumber: invoiceNumber,
             promiseId: promiseId,
             total: total,
             roundId: roundId,
-            monthyear: monthyear
+            monthyear: monthyear,
+            dateinvoice: dateinvoice,
+            datebill: datebill
         }
         //console.log(data);
         
