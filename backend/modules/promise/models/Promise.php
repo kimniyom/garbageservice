@@ -46,7 +46,7 @@ class Promise extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['customerid', 'promisedatebegin', 'promisedateend', 'datestartystem', 'dateendsystem', 'vat', 'unitprice', 'payment'], 'required'],
+			[['customerid', 'promisedatebegin', 'promisedateend',  'vat', 'unitprice', 'payment','createat'], 'required'],
 			['rate', 'required', 'when' => function ($model) {
 				return $model->recivetype == 1;
 			}, 'whenClient' => "function (attribute, value) {

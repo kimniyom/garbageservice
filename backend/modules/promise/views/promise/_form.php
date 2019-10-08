@@ -99,7 +99,7 @@ for ($i = 1; $i <= 36; $i++) {
             -->
             <div class="row">
         <div class="col-md-6 col-lg-5">
-            <?=$form->field($model, 'datestartystem')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
+            <?=$form->field($model, 'createat')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
                     'autoclose' => true,
                     'format' => 'yyyy-mm-dd',
                     'todayHighlight' => true,
@@ -107,13 +107,7 @@ for ($i = 1; $i <= 36; $i++) {
                     'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
                 ?>
         </div>
-        <div class="col-md-6 col-lg-5">
-            <?=$form->field($model, 'dateendsystem')->widget(DatePicker::classname(), ['language' => 'th', 'type' => DatePicker::TYPE_INPUT, 'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd',
-                    'todayHighlight' => true,
-                ], 'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);?>
-        </div>
+       
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-5">

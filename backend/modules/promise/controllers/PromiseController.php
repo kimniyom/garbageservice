@@ -93,7 +93,7 @@ class PromiseController extends Controller {
 		$conFig = new Config();
 		$model = new Promise();
 		$model->customerid = $customerid;
-		$model->createat = date('Y-m-d');
+		//$model->createat = date('Y-m-d');
 		$model->promisenumber = $this->getNextId("promise", "promisenumber", 5);
 		$error = "";
 		if ($model->load(Yii::$app->request->post())) {
