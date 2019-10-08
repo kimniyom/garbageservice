@@ -30,8 +30,6 @@ use Yii;
  * @property string $employer2 ผู้ว่าจ้างคนที่ 2
  * @property string $witness1 พยานคนที่ 1
  * @property string #witness2 พยานคนที่ 2
- * @property string #datestartystem วันที่เริ่มต้นสัญญาจริง
- * @property string #dateendsystem วันที่สิ้นสุดสัญญาจริง
  **/
 class Promise extends \yii\db\ActiveRecord {
 	/**
@@ -155,8 +153,6 @@ class Promise extends \yii\db\ActiveRecord {
 			'employer2'=>'ผู้ว่าจ้างคนที่ 2',
 			'witness1'=>'พยานคนที่ 1',
 			'witness2'=>'พยานคนที่ 2',
-			'datestartystem'=>'วันที่เริ่มต้นสัญญาจริง',
-			'dateendsystem'=>'วันที่สิ้นสุดสัญญาจริง'
 		];
 	}
 

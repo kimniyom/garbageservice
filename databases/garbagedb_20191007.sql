@@ -1555,8 +1555,6 @@ CREATE TABLE `promise` (
   `employer2` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ผู้ว่าจ้างคนที่ 2',
   `witness1` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'พยานคนที่ 1',
   `witness2` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'พยานคนที่ 2',
-  `datestartystem` date DEFAULT NULL COMMENT 'วันที่เริ่มต้นสัญญาในระบบ',
-  `dateendsystem` date DEFAULT NULL COMMENT 'วันที่สิ้นสุดสัญญาในระบบ',
   PRIMARY KEY (`id`),
   KEY `customerid` (`customerid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ตารางสัญญาจ้าง';
