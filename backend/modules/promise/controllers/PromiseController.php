@@ -106,15 +106,21 @@ class PromiseController extends Controller {
 				//if ($model->levy != $countWeek) {
 					//$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
 				//} else {
-					$model->save();
-					$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
-					return $this->redirect(['view', 'id' => $model->id]);
+					if($model->save())
+					{
+						$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+						return $this->redirect(['view', 'id' => $model->id]);
+					}
+					
 				//}
 
 			} else {
-					$model->save();
-					$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
-					return $this->redirect(['view', 'id' => $model->id]);
+					if($model->save())
+					{
+						$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+						return $this->redirect(['view', 'id' => $model->id]);
+					}
+					
 				/*
 				$model->save();
 				return $this->redirect(['view', 'id' => $model->id]);
@@ -191,7 +197,7 @@ class PromiseController extends Controller {
 	 */
 	public function actionUpdate($id) {
 		$model = $this->findModel($id);
-		$model->weekinmonth = explode(",", $model->weekinmonth);
+		//$model->weekinmonth = explode(",", $model->weekinmonth);
 		$error = "";
 		if ($model->load(Yii::$app->request->post())) {
 			//$week = $model->weekinmonth;
@@ -521,32 +527,32 @@ class PromiseController extends Controller {
 		$model = $this->getPromise($id);
 		//promise form มี 3 แบบ นิติบุคคลรวม vat, นิติบุคคลรวม ไม่รวม vat, บุคคลธรรมดา
 		// นิติบุคคล รายครั้ง ไม่รวม vat
-		if ($model['recivetype'] == 1 && $model['vat'] == '0') {
+		if ($model['typeregister'] == 1 && $model['vat'] == '0') {
 			$content = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
 		}
 		// นิติบุคคล รายครั้ง รวม vat
-		else if ($model['recivetype'] == 1 && $model['vat'] == '1') {
+		else if ($model['typeregister'] == 1 && $model['vat'] == '1') {
 			$content = $this->renderPartial('promisetype/_promisetype1_2', ['model' => $model]);
 		}
 		// นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่รวม vat
-		else if ($model['recivetype'] == 2 && $model['vat'] == '0') {
+		else if ($model['typeregister'] == 1 && $model['vat'] == '0') {
 			$content = $this->renderPartial('promisetype/_promisetype2_1', ['model' => $model]);
 		}
 		// นิติบุคคลรวม คิดตามน้ำหนักจริง รวม vat
-		else if ($model['recivetype'] == 2 && $model['vat'] == '1') {
+		else if ($model['typeregister'] == 1 && $model['vat'] == '1') {
 			$content = $this->renderPartial('promisetype/_promisetype2_2', ['model' => $model]);
 		}
-		// บุคคลธรรมดา ไม่คิด vat
-		//if ($model['recivetype'] == 3) {
-		//	$content = $this->renderPartial('promisetype/_promisetype3', ['model' => $model]);
-		//}
+		//บุคคลธรรมดา ไม่คิด vat
+		if ($model['typeregister'] == 3) {
+			$content = $this->renderPartial('promisetype/_promisetype3', ['model' => $model]);
+		}
 
 		// นิติบุคคล รายเดือน ไม่รวม vat
-		else if ($model['recivetype'] == 3 && $model['vat'] == '0') {
+		else if ($model['typeregister'] == 1 && $model['vat'] == '0') {
 			$content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
 		}
 		// นิติบุคคล รายเดือน รวม vat
-		else if ($model['recivetype'] == 3 && $model['vat'] == '1') {
+		else if ($model['typeregister'] == 1 && $model['vat'] == '1') {
 			$content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
 		}
 		$pdf = new Pdf([

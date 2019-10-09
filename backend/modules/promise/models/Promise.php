@@ -30,6 +30,7 @@ use Yii;
  * @property string $employer2 ผู้ว่าจ้างคนที่ 2
  * @property string $witness1 พยานคนที่ 1
  * @property string #witness2 พยานคนที่ 2
+ * @property string #vattype 
  **/
 class Promise extends \yii\db\ActiveRecord {
 	/**
@@ -94,12 +95,12 @@ class Promise extends \yii\db\ActiveRecord {
                     return $('#promise-recivetype').val() == 1;
                 }",
 			],
-			['weekinmonth', 'required', 'when' => function ($model) {
-				return $model->recivetype == 1 || $model->recivetype == 3;
-			}, 'whenClient' => "function (attribute, value) {
-                    return $('#promise-recivetype').val() == 1;
-                }",
-			],
+			// ['weekinmonth', 'required', 'when' => function ($model) {
+			// 	return $model->recivetype == 1 || $model->recivetype == 3;
+			// }, 'whenClient' => "function (attribute, value) {
+            //         return $('#promise-recivetype').val() == 1;
+            //     }",
+			// ],
 			['etc', 'required', 'when' => function ($model) {
 				return $model->status == '4';
 			}],
@@ -147,7 +148,7 @@ class Promise extends \yii\db\ActiveRecord {
 			'fine' => 'ค่าปรับขยะเกิน(กิโลกรัมละ)',
 			'etc' => 'สาเหตุที่ยกเลิกสัญญา',
 			'dayinweek' => 'วันที่เข้าจัดเก็บ',
-			'weekinmonth' => 'สัปดาห์เข้าจัดเก็บ',
+			//'weekinmonth' => 'สัปดาห์เข้าจัดเก็บ',
 			'payment' => 'การชำระเงิน',
 			'employer1'=>'ผู้ว่าจ้างคนที่ 1',
 			'employer2'=>'ผู้ว่าจ้างคนที่ 2',

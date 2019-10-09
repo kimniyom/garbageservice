@@ -130,34 +130,45 @@ for ($i = 1; $i <= 36; $i++) {
 
     <div class="row">
         <div class="col-md-4 col-lg-5">
-        <?php
-$listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package');
-?>
-        <?=$form->field($model, 'recivetype')->dropDownList($listPackage,
-	[
-		'onchange' => 'getrecivetype(this.value)',
-	]
-);
-?>
+        <?php $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package');?>
+            <?=$form->field($model, 'recivetype')->dropDownList($listPackage,
+                [
+                    'onchange' => 'getrecivetype(this.value)',
+                ]
+            );
+            ?>
         </div>
 
-        <?php $model->vat = 0;?>
-        <div class="col-md-4 col-lg-5">
+        
+        <div class="col-md-4 col-lg-3">
             <?=$form->field($model, 'vat')->dropDownList([
-	1 => 'มี vat', 0 => 'ไม่มี vat',
-], [
-	'onchange' => 'calculation()',
-])?>
+                    0 => 'ไม่มี vat',1 => 'มี vat', 
+                ], 
+                [
+                    'onchange' => 'calculation()',
+                ])
+            ?>
+        </div>
+        <div class="col-md-4 col-lg-4" id="divvattype" style="display: none;">
+            <?=$form->field($model, 'vattype')->dropDownList(
+                    [
+                        0 =>'ปกติ',
+                        1 => 'vat-', 
+                        2 => 'vat+'
+                    ]
+                   
+                )
+            ?>
         </div>
 
     </div>
  <div class="row">
             <div class="col-md-4 col-lg-5">
             <?=$form->field($model, 'payment')->dropDownList([
-	0 => 'แบ่งจ่ายรายเดือน / รายครั้ง', 1 => 'เหมาจ่าย',
-], [
-	'onchange' => 'calculation()',
-])?>
+                0 => 'แบ่งจ่ายรายเดือน / รายครั้ง', 1 => 'เหมาจ่าย',
+            ], [
+                'onchange' => 'calculation()',
+            ])?>
         </div>
     </div>
 
@@ -248,18 +259,18 @@ $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package');
                             <?=$form->field($model, 'dayinweek')->dropDownList($dayInweek);?>
                         </div>
 
-                        <div class="col-md-6 col-lg-6">
+                        <!-- <div class="col-md-6 col-lg-6">
                             <?php
-                                echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
-                                    'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
-                                    'options' => ['placeholder' => 'Select a week ...'],
-                                    'pluginOptions' => [
-                                        'allowClear' => true,
-                                        'multiple' => true,
-                                    ],
-                                ]);
+                                // echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
+                                //     'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
+                                //     'options' => ['placeholder' => 'Select a week ...'],
+                                //     'pluginOptions' => [
+                                //         'allowClear' => true,
+                                //         'multiple' => true,
+                                //     ],
+                                // ]);
                             ?>
-                        </div>
+                        </div> -->
                     </div>
     </div>
 
@@ -313,10 +324,24 @@ $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package');
 if ($model->id == "") {
 	$this->registerJs("getrecivetype(1);");
 } else {
-	$this->registerJs("getrecivetype(" . $model->recivetype . ");");
+    $this->registerJs("getrecivetype(" . $model->recivetype . ");");
+    $this->registerJs("getvattype()");
 }
 ?>
 <script>
+function getvattype()
+{
+    //enable vattype
+    var vat = $("#promise-vat").val();
+    if(vat == 0)
+    {
+        $("#divvattype").hide();
+    }
+    else if(vat == 1)
+    {
+        $("#divvattype").show();
+    }
+}
 
 function getrecivetype(type){
     if(type==1){
@@ -346,6 +371,7 @@ function getrecivetype(type){
 }
 
 function calculation(){
+
     var total = "";
     var totalSum= "";
     var vat = $("#promise-vat").val();
@@ -354,7 +380,11 @@ function calculation(){
     var garbageweight = parseInt($("#promise-garbageweight").val());
     var levy = parseInt($("#promise-levy").val());
 
-    if(type == 1){
+    //enable vattype
+    getvattype();
+
+    if(type == 1)
+    {
         total = (unit * levy);
         totalyear = (total * 12);
         let vatBath = (totalyear * 7) / 100;
@@ -365,7 +395,7 @@ function calculation(){
         }
 
         $("#promise-rate").val(total);
-        $("#promise-payperyear").val(totalSum);
+        $("#promise-payperyear").val(parseInt(totalSum));
         $("#promise-total").val(totalSum);
         $("#promise-distcountpercent").val("");
         $("#promise-distcountbath").val("");
