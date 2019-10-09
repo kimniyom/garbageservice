@@ -258,7 +258,7 @@ if ($roundgarbage) {
 
               <div class="chart tab-pane active" id="sales-chart">
 
-					        <?php if ($model['recivetype'] == 1) {
+					        <?php if ($model['recivetype'] == 1 || $model['recivetype'] == 2 || $model['recivetype'] == 3) {
 	?>
 
 					    <?php $month = ($model['yearunit'] * 12);?>

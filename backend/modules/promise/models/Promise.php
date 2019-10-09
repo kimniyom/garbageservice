@@ -105,7 +105,7 @@ class Promise extends \yii\db\ActiveRecord {
 			}],
 			[['promisenumber', 'employer1', 'employer2', 'witness1', 'witness2'], 'string'],
 			[['customerid', 'rate', 'levy', 'payperyear', 'dayinweek',
-				'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment'], 'integer'],
+				'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment','vattype'], 'integer'],
 			[['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
 			[['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
 			[['garbageweight', 'deposit', 'vat'], 'number'],
@@ -153,6 +153,7 @@ class Promise extends \yii\db\ActiveRecord {
 			'employer2'=>'ผู้ว่าจ้างคนที่ 2',
 			'witness1'=>'พยานคนที่ 1',
 			'witness2'=>'พยานคนที่ 2',
+			'vattype' => 'ประเภท vat'
 		];
 	}
 

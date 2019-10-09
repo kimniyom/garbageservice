@@ -97,21 +97,28 @@ class PromiseController extends Controller {
 		$model->promisenumber = $this->getNextId("promise", "promisenumber", 5);
 		$error = "";
 		if ($model->load(Yii::$app->request->post())) {
-			if ($model->recivetype == 1 || $model->recivetype == 3) {
-				$week = $model->weekinmonth;
-				$weekround = implode(",", $week);
-				$model->weekinmonth = $weekround;
-				$countWeek = count($week);
-				if ($model->levy != $countWeek) {
-					$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
-				} else {
+			if ($model->recivetype == 1 || $model->recivetype == 3 || $model->recivetype == 2) {
+				//$week = $model->weekinmonth;
+				//$weekround = implode(",", $week);
+				//$model->weekinmonth = $weekround;
+
+				//$countWeek = count($week);
+				//if ($model->levy != $countWeek) {
+					//$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
+				//} else {
 					$model->save();
 					$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
 					return $this->redirect(['view', 'id' => $model->id]);
-				}
+				//}
 
 			} else {
+					$model->save();
+					$this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+					return $this->redirect(['view', 'id' => $model->id]);
+				/*
+				$model->save();
 				return $this->redirect(['view', 'id' => $model->id]);
+				*/
 			}
 
 		}
@@ -187,15 +194,15 @@ class PromiseController extends Controller {
 		$model->weekinmonth = explode(",", $model->weekinmonth);
 		$error = "";
 		if ($model->load(Yii::$app->request->post())) {
-			$week = $model->weekinmonth;
-			$weekround = implode(",", $week);
-			$model->weekinmonth = $weekround;
+			//$week = $model->weekinmonth;
+			//$weekround = implode(",", $week);
+			//$model->weekinmonth = $weekround;
 
-			if ($model->recivetype == 1 || $model->recivetype == 3) {
-				$countWeek = count($week);
-				if ($model->levy != $countWeek) {
-					$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
-				} else {
+			if ($model->recivetype == 1 || $model->recivetype == 3 || $model->recivetype == 2) {
+				//$countWeek = count($week);
+				//if ($model->levy != $countWeek) {
+					//$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
+				//} else {
 					//ถ้าแบ่งจ่ายรายเดือนจะคำนวณหาวันที่ต้องชำระเงินในแต่ละเดือน
 					if ($model->payment == 0) {
 						$id = $model->id;
@@ -208,7 +215,7 @@ class PromiseController extends Controller {
 
 					$model->save();
 					return $this->redirect(['view', 'id' => $model->id]);
-				}
+				//}
 			} else {
 				$model->save();
 				return $this->redirect(['view', 'id' => $model->id]);
