@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
 
@@ -8,10 +7,12 @@ $this->params['breadcrumbs'][] = ['label' => 'สัญญา', 'url' => ['index
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="promise-create">
-    <?=$this->render('_form', [
-	'model' => $model,
-	'customer' => $customer,
-	'error' => $error,
-])?>
+    <?=
+    $this->render('_form', [
+        'model' => $model,
+        'customer' => $customer,
+        'error' => $error,
+    ])
+    ?>
 
 </div>
