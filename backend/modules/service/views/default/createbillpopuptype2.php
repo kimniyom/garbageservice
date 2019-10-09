@@ -43,14 +43,14 @@ $Config = new Config();
 <table class="table table-bordered">
     <thead>
     <tr>
-        <th colspan="6">
+        <th colspan="5">
         ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
     ที่อยู่ <?php echo 'ตำบล / แขวง '.$customer['tambon_name'].' อำเภอ '.$customer['ampur_name'].' จังหวัด '.$customer['changwat_name'].' '.$customer['zipcode'] ?>
     
         </th>
     </tr>
         <tr>
-            <th colspan="6">
+            <th colspan="5">
                 ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
             </th>
         </tr>
@@ -59,7 +59,6 @@ $Config = new Config();
             <th>รายการ</th>
             <th style="text-align:right;">ปริมาณขยะ กก.</th>
             <th style="text-align:right;">ราคาต่อหน่วย / บาท</th>
-            <th style="text-align:right;">ขยะเกิน</th>
             <th style="text-align:right;">ค่าใช้จ่าย</th>
         </tr>
     </thead>
@@ -67,8 +66,8 @@ $Config = new Config();
     <?php
 $sum = 0;
 $i = 0;foreach ($billdetail as $rs): $i++;
-	$fineprice = ($promise['fine'] * $rs['garbageover']);
-	$totalRow = ($promise['unitprice'] + $fineprice);
+	//$fineprice = ($promise['fine'] * $rs['garbageover']);
+	$totalRow = ($promise['unitprice'] * $rs['amount']);
 	$sum = $sum + $totalRow;
 	?>
 														    <tr>
@@ -76,12 +75,6 @@ $i = 0;foreach ($billdetail as $rs): $i++;
 													            <td>ค่ากำจัดขยะติดเชื้อ วันที่ <?php echo $Config->thaidate($rs['datekeep']) ?></td>
 													            <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
 													            <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
-													            <td style="text-align:right;">
-								                                <?php
-	echo ($rs['garbageover'] > 0) ? $promise['fine'] . ' x ' . $rs['garbageover'] . " = " : "";
-	echo number_format($fineprice);
-	?>
-								                                </td>
 													            <td style="text-align:right;"><?php echo $totalRow ?></td>
 													        </tr>
 													    <?php endforeach;?>
@@ -89,7 +82,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
     <tfoot>
     <?php if($vat == 1){ ?>
     <tr>
-            <th colspan="4" style="text-align:center;">
+            <th colspan="3" style="text-align:center;">
                
             </th>
             <th style="text-align:center;">รวม</th>
@@ -100,9 +93,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             </th>
         </tr>
     <tr>
-            <th colspan="4" style="text-align:center;">
-               
-            </th>
+            <th colspan="3" style="text-align:center;"></th>
             <th style="text-align:center;">vat 7 %</th>
             <th style="text-align:right;">
             <?php 
@@ -114,7 +105,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
         </tr>
         <?php } ?>
         <tr>
-            <th colspan="4" style="text-align:center;">
+            <th colspan="3" style="text-align:center;">
                 <?php 
                 if($vattype == 1){//vat ลบ
                     $sumVat = ($sum - $vatbath);
@@ -138,7 +129,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
                     <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
                 </ul>
             </th>
-            <th colspan="3">
+            <th colspan="2">
             <br/>
             ลงชื่อ
             <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
@@ -147,7 +138,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
         </tr>
         <?php if($status <= 0) { ?>
         <tr>
-            <th colspan="6">
+            <th colspan="5">
             <!--if($i == $promise['levy'])-->
             <?php if($i > 0) { ?>
                 <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
@@ -203,7 +194,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th colspan="6">
+            <th colspan="5">
                 ประจำงวดที่ <?php echo $rounddate ?>
             </th>
         </tr>
@@ -212,7 +203,6 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             <th>รายการ</th>
             <th style="text-align:right;">ปริมาณขยะ กก.</th>
             <th style="text-align:right;">ราคาต่อหน่วย / บาท</th>
-            <th style="text-align:right;">ขยะเกิน</th>
             <th style="text-align:right;">ค่าใช้จ่าย</th>
         </tr>
     </thead>
@@ -220,8 +210,8 @@ $i = 0;foreach ($billdetail as $rs): $i++;
     <?php
 $sum = 0;
 $i = 0;foreach ($billdetail as $rs): $i++;
-	$fineprice = ($promise['fine'] * $rs['garbageover']);
-	$totalRow = ($promise['unitprice'] + $fineprice);
+	//$fineprice = ($promise['fine'] * $rs['garbageover']);
+	$totalRow = ($promise['unitprice'] * $rs['amount']);
     $sum = $sum + $totalRow;
     //เช็คการเก็บขยะ
     if($rs['status'] == 1){
@@ -231,12 +221,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
 													            <td>ค่ากำจัดขยะติดเชื้อ วันที่ <?php echo $Config->thaidate($rs['datekeep']) ?></td>
 													            <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
 													            <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
-													            <td style="text-align:right;">
-								                                <?php
-	echo ($rs['garbageover'] > 0) ? $promise['fine'] . ' x ' . $rs['garbageover'] . " = " : "";
-	echo number_format($fineprice);
-	?>
-								                                </td>
+													        
 													            <td style="text-align:right;"><?php echo $totalRow ?></td>
 													        </tr>
     <?php } ?>
@@ -245,7 +230,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
     <tfoot>
     <?php if($vat == 1){ ?>
     <tr>
-            <th colspan="4" style="text-align:center;">
+            <th colspan="3" style="text-align:center;">
                
             </th>
             <th style="text-align:center;">รวม</th>
@@ -256,7 +241,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             </th>
         </tr>
     <tr>
-            <th colspan="4" style="text-align:center;">
+            <th colspan="3" style="text-align:center;">
                
             </th>
             <th style="text-align:center;">vat 7 %</th>
@@ -270,7 +255,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
         </tr>
         <?php } ?>
         <tr>
-            <th colspan="4" style="text-align:center;">
+            <th colspan="3" style="text-align:center;">
                 <?php 
                 if($vattype == 1){//vat ลบ
                     $sumVat = ($sum - $vatbath);
@@ -286,7 +271,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             <th style="text-align:right;"><?php echo number_format($sumVat,2) ?></th>
         </tr>
         <tr>
-            <th colspan="6">
+            <th colspan="5">
                 <b>ชำระเงินโดย</b>
                 <ul>
                     <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
@@ -301,7 +286,7 @@ $i = 0;foreach ($billdetail as $rs): $i++;
             <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
             <div style="text-align:center;">ผู้รับเงิน</div>
             </th>
-            <th colspan="3">
+            <th colspan="2">
             <br/>
             ลงชื่อ
             <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>

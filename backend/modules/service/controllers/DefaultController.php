@@ -106,7 +106,7 @@ return $this->render('formsaveround', $data);
 		return $this->render('mainbill');
 	}
 
-	public function actionCreatebill($type) {
+	public function actionCreatebill($type,$customerId = "") {
 		//ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
 		//$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
 		$sql = "select c.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
@@ -117,13 +117,15 @@ return $this->render('formsaveround', $data);
 		$result = Yii::$app->db->createCommand($sql)->queryAll();
 		$data['customer'] = $result;
 		$data['type'] = $type;
+		$data['round'] = $this->actionGetroundpromise($customerId);
+		$data['customerId'] = $customerId;
 		return $this->render('createbill', $data);
 	}
 
 	
-	public function actionGetroundpromise() {
+	public function actionGetroundpromise($customerId) {
 		$Config = new Config();
-		$customerId = Yii::$app->request->post('customer_id');
+		//$customerId = Yii::$app->request->post('customer_id');
 		$Promise = Promise::find()->where(['customerid' => $customerId, 'status' => '2'])->One();
 		$Customer = Customers::find()->where(['id' => $customerId])->One();
 		$RoundMoney = Roundmoney::find()->where(['promiseid' => $Promise['id']])->all();
@@ -132,25 +134,32 @@ return $this->render('formsaveround', $data);
 		$rs = Yii::$app->db->createCommand($sql)->queryOne();
 
 		$promiseId = $Promise['id'];
+		$typePromise = $Promise['recivetype'];//ประเภทการจ้าง
+		$data['vat'] = $Promise['vat'];//เช็คเอา vat  ไม่เอา vat
+		$data['typevat'] = $Promise['vattype'];//เช็คเอา vat- +
+		$vatBill = $Promise['vat'];
+		$typevatBill = $Promise['vattype'];
+		if($Promise['vat'] == 1) { $vateBill = "เอา vat"; } else { $vateBill = "ไม่เอา vat"; }
 		$str = "";
 		$str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
 		$str .= "<b>สัญญา ".$rs['vattype']."</b>";
+		$str .= " <b>".$vateBill."</b>";
 		$linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
 		$str .= "<br/><em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><hr/>";
 		$typeCustomrt = $Customer['typeregister'];
 		foreach ($RoundMoney as $rs):
 			if (!$rs['receiptnumber']) {
-				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round']]);
+				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round'],'vat' => $Promise['vat'],'typevat' => $Promise['vattype']]);
 				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
 			} else {
-				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $promiseId, 'round' => $rs['round']]);
+				$link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $promiseId, 'round' => $rs['round'],'vat' => $Promise['vat'],'typevat' => $Promise['vattype']]);
 				$dateMonth = '"' . $rs['datekeep'] . '"';
 				$round = $rs['round'];
 				$id = $rs['id'];
-				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " .  $Config->thaidatemonth($rs['datekeep']) . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
+				$str .= "รอบบิล => " . $rs['round'] . " เดือน => " .  $Config->thaidatemonth($rs['datekeep']) . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
 			}
 		endforeach;
 		if ($RoundMoney) {
@@ -165,7 +174,10 @@ return $this->render('formsaveround', $data);
 		$dateround = Yii::$app->request->post('dateround');
 		$round = Yii::$app->request->post('round');
 		$id = Yii::$app->request->post('id');
+		$data['vat'] = Yii::$app->request->post('vat');
+		$data['vattype'] = Yii::$app->request->post('vattype');
 		$data['type'] = Yii::$app->request->post('type');
+		$typepromise = Yii::$app->request->post('typepromise');
 
 		$Promise = Promise::find()->where(['id' => $promiseId])->One();
 		//$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
@@ -181,19 +193,30 @@ return $this->render('formsaveround', $data);
 
 		$sqlCheckInvoice = "select * from roundmoney where id = '$id' and receiptnumber != ''";
 		$Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
-
 		if (!$Invoice['receiptnumber']) {
 			$data['invnumber'] = $this->getNextId();
 			$data['status'] = 0;
+			$sqlInvoice = "select * from invoice where invoicenumber = '".$Invoice['receiptnumber']."'";
+			$data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
 		} else {
 			$data['invnumber'] = $Invoice['receiptnumber'];
 			$data['status'] = 1;
+			$sqlInvoice = "select * from invoice where invoicenumber = '".$Invoice['receiptnumber']."'";
+			$data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
 		}
-		return $this->renderPartial('createbillpopup', $data);
+		if($typepromise == 1){
+			$page = "createbillpopup";
+		} else if($typepromise == 2){
+			$page = "createbillpopuptype2";
+		} else {
+			$page = "createbillpopuptype3";
+		}
+		
+		return $this->renderPartial($page, $data);
 	}
 
 	public function actionGetcustomer($customerid) {
-		$sql = "SELECT c.company,ch.changwat_name,a.ampur_name,t.tambon_name,c.zipcode,c.tel,c.telephone
+		$sql = "SELECT c.company,ch.changwat_name,a.ampur_name,t.tambon_name,c.zipcode,c.tel,c.telephone,c.typeregister
 				FROM customers c INNER JOIN changwat ch ON c.changwat = ch.changwat_id
 				INNER JOIN ampur a ON c.ampur = a.ampur_id
 				INNER JOIN tambon t ON c.tambon = t.tambon_id
@@ -269,12 +292,15 @@ return $this->render('formsaveround', $data);
 		$sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth' and status='1'";
 		$data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
 		$data['customer'] = $Customer;
+		$data['type'] = $Customer['typeregister'];
 		$data['promise'] = $Promise;
 		$data['rounddate'] = $YearMonth;
 		$data['id'] = $id;
 		$data['invnumber'] = $invoice;
 		$Status = Invoice::find()->where(['invoicenumber' => $invoice])->One();
 		$data['status'] = count($Status);
+		$sqlInvoice = "select * from invoice where invoicenumber = '$invoice'";
+	    $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
 		return $this->renderPartial('createbillpopup', $data);
 	}
 

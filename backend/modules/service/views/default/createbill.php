@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $listCustomer = ArrayHelper::map($customer, 'id', 'address');
 echo Select2::widget([
 	'name' => 'customer',
-	'value' => '',
+	'value' => $customerId,
 	'data' => $listCustomer,
 	'options' => [
 		'multiple' => false,
@@ -34,7 +34,7 @@ echo Select2::widget([
 
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
-        <div id="round"></div>
+        <div id="round"><?php echo $round ?></div>
         </div>
     </div>
 </div>
@@ -76,28 +76,38 @@ echo Select2::widget([
 
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
-            <div id="createbill"></div>
+        
+            <div id="createbill">
+            
+            </div>
         </div>
     </div>
     </div>
 </div>
 <script type="text/javascript">
     function getRound(customer){
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise']) ?>";
+        //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise']) ?>" + "&type=1&customer=" + customer;
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill']) ?>" + "&type=1&customerId=" + customer;
+        window.location=url;
+        /*
         var data = {customer_id: customer};
         $.post(url,data,function(datas){
             $("#round").html(datas);
         });
+        */
     }
 
-    function popupFormbill(promiseid,months,round,id,type){
+    function popupFormbill(promiseid,months,round,id,type,vat,vattype,typepromise){
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopup']) ?>";
         var data = {
             id: id,
             promiseid: promiseid,
             dateround: months,
             round: round,
-            type: type
+            type: type,
+            vat: vat,
+            vattype: vattype,
+            typepromise: typepromise
             };
         $.post(url,data,function(datas){
             $("#createbill").html(datas);
