@@ -64,7 +64,7 @@ for ($i = 1; $i <= 36; $i++) {
                             เบอร์โทรศัพท์ <span class="badge"><?php echo $customer['tel'] ?>,<?php echo $customer['telephone'] ?></span>
                         </div>
                         <div class="list-group-item">
-                            ชื่อผู้ประสานงาน (ผู้ติดต่อได้) <span class="badge"><?php echo $customer['manager'] ?></span>
+                            ชื่อผู้ประสานงาน <span class="badge"><?php echo $customer['manager'] ?></span>
                         </div>
                         <div class="list-group-item">
                             วันที่ลงทะเบียน <span class="badge"><?php echo $Config->thaidate($customer['create_date']) ?></span>
