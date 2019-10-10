@@ -335,7 +335,14 @@ return $this->render('formsaveround', $data);
 
 	public function actionCreateinvoiceyear($type) {
 		//ออกบิลสำหรับสัญญาที่เหมาจ่ายแบบรายปี
-		$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '1'])->all();
+		//$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '1'])->all();
+		$sql = "select p.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',ch.changwat_name) as address
+				from customers c inner join promise p on c.id = p.customerid 
+				inner join changwat ch on c.changwat = ch.changwat_id
+				inner join ampur a on c.ampur = a.ampur_id
+				inner join tambon t on c.tambon = t.tambon_id
+				where p.status = '2' and p.payment = '1'";
+		$data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
 		$data['type'] = $type;
 		return $this->render('createinvoiceyear', $data);
 	}
@@ -362,7 +369,9 @@ return $this->render('formsaveround', $data);
 		$data['billdetail'] = $RoundMoney;
 		$data['customer'] = $Customer;
 		$data['promise'] = $Promise;
-
+		$data['type'] = $Customer['typeregister'];
+		$data['vat'] = $Promise['vat'];
+		$data['vattype'] = $Promise['vattype'];
 		$sqlCheckInvoice = "select * from invoice where promise = '$promiseId' and invoicenumber != ''";
 		$Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
 

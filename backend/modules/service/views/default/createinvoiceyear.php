@@ -6,6 +6,7 @@
 <?php
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use kartik\date\DatePicker;
 $this->title = "ใบวางบิล / ใบแจ้งยอด";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,16 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-lg-4 col-md-4">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
-        <label>เลือกเลขที่สัญญา</label>
+        <label>เลือกลูกค้า</label>
         <?php
-$listPromise = ArrayHelper::map($promise, 'id', 'promisenumber');
+$listCustomer = ArrayHelper::map($customer, 'id', 'address');
 echo Select2::widget([
 	'name' => 'promise',
 	'value' => '',
-	'data' => $listPromise,
+	'data' => $listCustomer,
 	'options' => [
 		'multiple' => false,
-		'placeholder' => 'Select Promise ...',
+		'placeholder' => 'Select Customer ...',
 		'onchange' => 'getRound(this.value)',
 	],
 ]);
@@ -40,6 +41,41 @@ echo Select2::widget([
     </div>
 </div>
 <div class="col-lg-8 col-md-8">
+<div class="row">
+<div class="col-md-6 col-lg-6">
+        <label>วันที่ออกใบแจ้งหนี้</label>
+        <?php 
+                    echo DatePicker::widget([
+                        'name' => 'dateinvoice', 
+                        'value' => date('Y-m-d'),
+                        'language' => 'th',
+                        'id' => 'dateinvoice',
+                        'options' => ['placeholder' => 'วันที่ออกใบแจ้งหนี้ ...'],
+                        'pluginOptions' => [
+                            'format' => 'yyyy-mm-dd',
+                            'todayHighlight' => true
+                        ]
+                    ]);
+                ?>
+        </div>
+        <div class="col-md-6 col-lg-6">
+        <label>วันที่ออกใบเสร็จ</label>
+        <?php 
+                    echo DatePicker::widget([
+                        'name' => 'datebill', 
+                        'value' => date('Y-m-d'),
+                        'language' => 'th',
+                        'id' => 'datebill',
+                        'options' => ['placeholder' => 'วันที่ออกใบเสร็จ ...'],
+                        'pluginOptions' => [
+                            'format' => 'yyyy-mm-dd',
+                            'todayHighlight' => true
+                        ]
+                    ]);
+                ?>
+        </div>
+</div>
+
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div id="createbill"></div>
