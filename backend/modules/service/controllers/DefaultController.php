@@ -375,12 +375,15 @@ return $this->render('formsaveround', $data);
 		$sqlCheckInvoice = "select * from invoice where promise = '$promiseId' and invoicenumber != ''";
 		$Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
 
+		$sqlInvoice = "select * from invoice where invoicenumber = '".$Invoice['invoicenumber']."'";
 		if (!$Invoice['invoicenumber']) {
 			$data['invnumber'] = $this->getNextId();
 			$data['status'] = 0;
+			$data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
 		} else {
 			$data['invnumber'] = $Invoice['invoicenumber'];
 			$data['status'] = 1;
+			$data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
 		}
 		return $this->renderPartial('createbillpopupyear', $data);
 	}

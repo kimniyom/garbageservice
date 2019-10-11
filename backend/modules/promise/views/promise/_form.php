@@ -161,9 +161,9 @@ for ($i = 1; $i <= 36; $i++) {
                                 <?=
                                 $form->field($model, 'vattype')->dropDownList(
                                         [
-                                            0 => 'ปกติ',
-                                            1 => 'vat-',
-                                            2 => 'vat+'
+                                            //0 => 'ปกติ',
+                                            1 => 'รวมvat',
+                                            2 => 'ไม่รวมvat'
                                         ]
                                 )
                                 ?>
