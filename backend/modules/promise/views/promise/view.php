@@ -1,3 +1,10 @@
+<style type="text/css">
+    .t-right{
+        float: right;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+</style>
 <?php
 
 use app\models\Config;
@@ -6,6 +13,7 @@ use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
+use app\modules\promise\models\Promise;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
@@ -16,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
 $Config = new Config();
+$promiseModel = new Promise();
 ?>
 
 <?php
@@ -228,8 +237,11 @@ Modal::End();
                             <div class="box-unit">
                                 <?php
                                 foreach ($roundmoney as $rs) {
+                                    $yearMonth = $Config->thaidatemonth($rs['datekeep']);
+                                    $countRoundgarbage = $promiseModel->GetststusGarbage($yearMonth);
                                     echo "<pre>";
-                                    echo $Config->thaidatemonth($rs['datekeep']);
+                                    echo $yearMonth;
+                                    echo ($yearMonth > 0) ? "<p class='t-right'><i class='fa fa-check text-success'></i> มีการจัดเก็บ</p>" : "<p class='t-right'><i class='fa fa-remove text-danger'></i> ยังไม่มีการจัดเก็บ</p>";
                                     echo "</pre>";
                                 }
                                 ?>
