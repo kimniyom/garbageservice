@@ -46,11 +46,29 @@ class Promise extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-                [['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'unitprice', 'payment', 'createat'], 'required'],
+                [['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'payment', 'createat'], 'required'],
+                ['unitprice', 'required', 'when' => function ($model) {
+                    return $model->recivetype == 1;
+                }, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 1;
+                }",
+            ],
+                ['unitprice', 'required', 'when' => function ($model) {
+                    return $model->recivetype == 2;
+                }, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 2;
+                }",
+            ],
                 ['rate', 'required', 'when' => function ($model) {
                     return $model->recivetype == 1;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
+                }",
+            ],
+                ['rate', 'required', 'when' => function ($model) {
+                    return $model->recivetype == 3;
+                }, 'whenClient' => "function (attribute, value) {
+                    return $('#promise-recivetype').val() == 3;
                 }",
             ],
                 ['garbageweight', 'required', 'when' => function ($model) {

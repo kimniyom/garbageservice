@@ -303,10 +303,12 @@ class DefaultController extends Controller {
         $data['rounddate'] = $YearMonth;
         $data['id'] = $id;
         $data['invnumber'] = $invoice;
-        $Status = Invoice::find()->where(['invoicenumber' => $invoice])->One();
-        $data['status'] = count($Status);
+        $Status = Invoice::find()->where(['invoicenumber' => $invoice])->count();
+        $data['status'] = $Status;
         $sqlInvoice = "select * from invoice where invoicenumber = '$invoice'";
         $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
+        $data['vat'] = $Promise['vat'];
+        $data['vattype'] = $Promise['vattype'];
         return $this->renderPartial('createbillpopup', $data);
     }
 

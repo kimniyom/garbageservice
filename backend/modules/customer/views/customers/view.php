@@ -17,14 +17,7 @@ $changwat = \app\models\Changwat::find()->where(['changwat_id' => $model->changw
 $ampur = \app\models\Ampur::find()->where(['ampur_id' => $model->ampur])->one()['ampur_name'];
 $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->one()['tambon_name'];
 ?>
-<style>
-    /* Always set the map height explicitly to define the size of the div
-     * element that contains the map. */
-    #map {
-        height: 420px;
-        width: 100%;
-    }
-</style>
+
 <script src="<?php echo $urlMap->Urlmap() ?>"></script>
 <script>
     function initMap() {
@@ -53,7 +46,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
 <div class="customer-view">
     <div class="row">
         <div class="col col-md-6 col-lg-6">
-            <div class="box">
+            <div class="box" id="box-detail">
                 <div class="box-header" style=" padding-bottom: 0px;">
                     <?php if ($model->approve == 'N') { ?>
                         <label class="alert alert-warning" style="width: 100%;">
@@ -117,7 +110,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
             </div>
         </div>
         <div class="col col-md-6 col-lg-6">
-            <div class="box">
+            <div class="box" id="box-map">
                 <div class="box-header" style=" padding-bottom: 0px;">
                     <i class="fa fa-map"></i> แผนที่ลูกค้า
                 </div>
@@ -146,10 +139,17 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
         }
     }
 
+    function setBox() {
+        var boxmap = $("#box-detail").innerHeight();
+        $("#box-map").css({'height': boxmap});
+        $("#map").css({'height': boxmap - 60, 'widht': '100%'});
+    }
+
 </script>
 
 <?php
 $this->registerJs('
+        setBox();
         initMap();
         ');
 ?>

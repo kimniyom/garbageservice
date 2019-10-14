@@ -515,7 +515,7 @@ class PromiseController extends Controller {
 
     public function actionPdfpreview($id, $promisenumber) {
         $model = $this->getPromise($id);
-        
+
         //promise form มี 3 แบบ นิติบุคคลรวม vat, นิติบุคคลรวม ไม่รวม vat, บุคคลธรรมดา
         // นิติบุคคล  ไม่รวม vat
         if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 1) {
