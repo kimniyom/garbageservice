@@ -72,7 +72,7 @@ Modal::End();
                         }
                         if ($model['status'] == '2') {
                             //save pdf
-                            echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'ดาวโหลดสัญญา']);
+                            echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-success', 'title' => 'ดาวโหลดสัญญา']);
                         }
                         ?>
                     </p>
@@ -267,7 +267,7 @@ Modal::End();
 <?php
 $this->registerJs('
         var boxdetail = $("#box-detail").height();
-        $(".box-unit").css({"height": boxdetail-80,"overflow": "auto"});
+        $(".box-unit").css({"height": boxdetail-60,"overflow": "auto"});
         ');
 ?>
 

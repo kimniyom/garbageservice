@@ -154,21 +154,27 @@ class DefaultController extends Controller {
         $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
         $str .= "<br/><em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><hr/>";
         $typeCustomrt = $Customer['typeregister'];
+        $str .= "<div class='list-group'>";
         foreach ($RoundMoney as $rs):
             if (!$rs['receiptnumber']) {
                 $link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round'], 'vat' => $Promise['vat'], 'typevat' => $Promise['vattype']]);
                 $dateMonth = '"' . $rs['datekeep'] . '"';
                 $round = $rs['round'];
                 $id = $rs['id'];
-                $str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+                $str .= "<div class='list-group-item'>";
+                $str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-save'></i> สร้างใบวางบิล</a></span>" . "<br/>";
+                $str .= "</div>";
             } else {
                 $link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $promiseId, 'round' => $rs['round'], 'vat' => $Promise['vat'], 'typevat' => $Promise['vattype']]);
                 $dateMonth = '"' . $rs['datekeep'] . '"';
                 $round = $rs['round'];
                 $id = $rs['id'];
-                $str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . " <a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a>" . "<br/>";
+                $str .= "<div class='list-group-item'>";
+                $str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . " <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a></span>" . "<br/>";
+                $str .= "</div>";
             }
         endforeach;
+          $str .= "</div>";
         if ($RoundMoney) {
             return $str;
         } else {
@@ -310,6 +316,33 @@ class DefaultController extends Controller {
         $data['vat'] = $Promise['vat'];
         $data['vattype'] = $Promise['vattype'];
         return $this->renderPartial('createbillpopup', $data);
+    }
+
+    public function actionGetinvoicetype3() {
+        $promiseId = Yii::$app->request->post('promiseid');
+        $dateround = Yii::$app->request->post('dateround');
+        $id = Yii::$app->request->post('id');
+        $invoice = Yii::$app->request->post('invoice');
+
+        $Promise = Promise::find()->where(['id' => $promiseId])->One();
+        //$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+        $Customer = $this->actionGetcustomer($Promise['customerid']);
+        $YearMonth = substr($dateround, 0, 7);
+        $sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth' and status='1'";
+        $data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['customer'] = $Customer;
+        $data['type'] = $Customer['typeregister'];
+        $data['promise'] = $Promise;
+        $data['rounddate'] = $YearMonth;
+        $data['id'] = $id;
+        $data['invnumber'] = $invoice;
+        $Status = Invoice::find()->where(['invoicenumber' => $invoice])->count();
+        $data['status'] = $Status;
+        $sqlInvoice = "select * from invoice where invoicenumber = '$invoice'";
+        $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
+        $data['vat'] = $Promise['vat'];
+        $data['vattype'] = $Promise['vattype'];
+        return $this->renderPartial('createbillpopuptype3', $data);
     }
 
     public function actionConfirmorder() {

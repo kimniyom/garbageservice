@@ -3,7 +3,7 @@
         margin-bottom: 10px;
     }
 </style>
-<?php 
+<?php
     use kartik\select2\Select2;
     use yii\helpers\ArrayHelper;
     use yii\helpers\Html;
@@ -35,6 +35,15 @@
     <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear','type' => 3]) ?>">
         <button type="button" class="btn btn-success btn-block btn-lg">
             ออกใบวางบิลเหมาจ่ายรายปี
+        </button></a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 col-lg-4">
+    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear','type' => 3]) ?>">
+        <button type="button" class="btn btn-primary btn-block btn-lg">
+            ออกใบวางบิลขยะส่วนเกิน<em>(กรณีลูกค้าเลือกชำระแบบรายปี)</em>
         </button></a>
     </div>
 </div>

@@ -1,3 +1,7 @@
+<?php
+  use yii\helpers\Html;
+  use yii\helpers\Url;
+?>
 <aside class="main-sidebar">
 
     <section class="sidebar">
@@ -5,7 +9,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                <img src="<?php echo Url::to('@web/web/images/System-settings-icon.png')?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <p><?php
@@ -54,17 +58,20 @@
                         //['label' => 'รอบการเก็บเงิน', 'icon' => '', 'url' => ['/roundmoney/roundmoney']],
                         //],
                         //],
+
+                        ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save', 'url' => ['/service/default/index']],
                         ['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file', 'url' => ['/service/default/mainbill']],
-                            ['label' => 'ภาชนะใส่ขยะ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
-                            ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],
-                            ['label' => 'เมนูเว็บไซต์', 'icon' => 'bars', 'url' => ['/navbar/navbar/index']],
-                            ['label' => 'รายงาน', 'icon' => 'wpforms', 'url' => ['/gii'],
-                            'items' => [
-                                    ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
-                                    ['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => ['/report/report/accruedservicefee']],
-                                    ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
-                            ],
+                        ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check', 'url' => ['/service/default/confirmorder']],
+                        ['label' => 'ภาชนะใส่ขยะ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
+                        ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],
+                        ['label' => 'เมนูเว็บไซต์', 'icon' => 'bars', 'url' => ['/navbar/navbar/index']],
+                        ['label' => 'รายงาน', 'icon' => 'wpforms', 'url' => ['/gii'],
+                        'items' => [
+                          ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
+                          ['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => ['/report/report/accruedservicefee']],
+                          ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
                         ],
+                    ],
                     /*
                       ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                       ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

@@ -33,14 +33,27 @@ $this->params['breadcrumbs'][] = $this->title;
 		[
 			'attribute' => 'customerid',
 			'format' => 'text',
-			'label' => 'รหัสลูกค้า',
+			'label' => 'ลูกค้า',
 			'value' => function($model){
 				$Customer = new Customers();
 				return $Customer->findOne(['id' => $model->customerid])['company'];
 			}
 		],
+    [
+			//'attribute' => '',
+			'format' => 'text',
+			'label' => 'ผู้ประสานงาน',
+			'value' => function($model){
+				$Customer = new Customers();
+        $Cs = $Customer->findOne(['id' => $model->customerid]);
+        $tel = $Cs['tel'];
+        $phone = ($Cs['telephone']) ? ",".$Cs['telephone'] : "";
+        $val = $Cs['manager'].' (โทร.'.$Cs['tel'].$phone.')';
+				return $val;
+			}
+		],
 		[
-			'attribute' => 'promisedatebegin',
+			//'attribute' => 'promisedatebegin',
 			'value' => function ($model) {
 				$config = new Config();
 				return $config->thaidate($model->promisedatebegin);
@@ -48,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'label' => 'วันเริ่มสัญญา',
 		],
 		[
-			'attribute' => 'promisedateend',
+			//'attribute' => 'promisedateend',
 			'value' => function ($model) {
 				$config = new Config();
 				return $config->thaidate($model->promisedateend);
@@ -56,13 +69,13 @@ $this->params['breadcrumbs'][] = $this->title;
 			'label' => 'วันสิ้นสุดสัญญา',
 		],
 		[
-			'attribute' => 'recivetype',
+			//'attribute' => 'recivetype',
 			'format' => 'text',
 			'label' => 'ประเภทการจ้าง',
 			'value' => function ($model) {
 				if($model->recivetype == "1")
 				{
-					return "รายครั้ง";
+					return "รายครั้ง/ต่อเดือน";
 				}
 				else if($model->recivetype == "2")
 				{
@@ -72,12 +85,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				{
 					return "เหมาจ่ายรายเดือน";
 				}
-				
+
 			},
 		],
 		[
-			'attribute' => 'status',
-			'format' => 'text',
+			//'attribute' => 'status',
+			'format' => 'html',
 			'label' => 'สถานะสัญญา',
 			'value' => function ($model) {
 				if($model->status == "0")
@@ -86,11 +99,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				}
 				else if($model->status == "1")
 				{
-					return "รอยืนยัน";
+					return "<i class='fa fa-info text-warning'></i> รอยืนยัน";
 				}
 				else if($model->status == "2")
 				{
-					return "กำลังใช้งาน";
+					return "<i class='fa fa-check text-success'><i/>กำลังใช้งาน";
 				}
 				else if($model->status == "3")
 				{
@@ -100,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				{
 					return "ยกเลิกสัญา";
 				}
-				
+
 			},
 		],
 

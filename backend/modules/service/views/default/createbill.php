@@ -2,6 +2,10 @@
     .row{
         margin-bottom: 10px;
     }
+
+    #text-list{
+      background: #ffffff;
+    }
 </style>
 <?php
 use kartik\select2\Select2;
@@ -42,9 +46,9 @@ echo Select2::widget([
 <div class="row">
 <div class="col-md-6 col-lg-6">
         <label>วันที่ออกใบแจ้งหนี้</label>
-        <?php 
+        <?php
                     echo DatePicker::widget([
-                        'name' => 'dateinvoice', 
+                        'name' => 'dateinvoice',
                         'value' => date('Y-m-d'),
                         'language' => 'th',
                         'id' => 'dateinvoice',
@@ -58,9 +62,9 @@ echo Select2::widget([
         </div>
         <div class="col-md-6 col-lg-6">
         <label>วันที่ออกใบเสร็จ</label>
-        <?php 
+        <?php
                     echo DatePicker::widget([
-                        'name' => 'datebill', 
+                        'name' => 'datebill',
                         'value' => date('Y-m-d'),
                         'language' => 'th',
                         'id' => 'datebill',
@@ -76,9 +80,9 @@ echo Select2::widget([
 
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
-        
+
             <div id="createbill">
-            
+
             </div>
         </div>
     </div>
