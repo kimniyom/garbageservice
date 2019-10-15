@@ -758,13 +758,15 @@ class PromiseController extends Controller {
 
     public function actionPromisenearexpire() {
         $sql = "SELECT
-					promise.id ,
+					promise.id,
 					promise.promisenumber,
 					promise.promisedateend,
 					customers.company,
 					customers.manager,
 					customers.tel,
-					customers.telephone
+					customers.telephone,
+                    promise.promisedatebegin,
+                    promise.createat
 				FROM promise
 				INNER JOIN customers ON promise.customerid = customers.id
 				WHERE DATEDIFF(promisedateend, NOW()) < 30";
@@ -781,7 +783,9 @@ class PromiseController extends Controller {
 					customers.company,
 					customers.manager,
 					customers.tel,
-					customers.telephone
+					customers.telephone,
+                    promise.promisedatebegin,
+                    promise.createat
 				FROM promise
 				INNER JOIN customers ON promise.customerid = customers.id
 				WHERE promise.status = '1'";
