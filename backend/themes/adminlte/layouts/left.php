@@ -1,6 +1,18 @@
+<style>
+  #text-header-side{
+    color: rgb(116, 200, 255);
+    font-weight: bold;;
+  }
+</style>
 <?php
   use yii\helpers\Html;
   use yii\helpers\Url;
+  use app\modules\customer\models\Customers;
+  use app\modules\promise\models\Promise;
+
+  $customerModel = new Customers();
+  $promiseModel = new Promise();
+  $promiseall = $promiseModel->Countpromiseall();
 ?>
 <aside class="main-sidebar">
 
@@ -41,8 +53,9 @@
                 [
                     'options' => ['class' => 'sidebar-menu tree', 'data-widget' => 'tree'],
                     'items' => [
-                            ['label' => 'Menu Backend', 'options' => ['class' => 'header']],
-                            ['label' => 'ข้อมูลลูกค้า', 'icon' => 'user', 'url' => ['/'],
+                            ['label' => 'Menu', 'options' => ['class' => 'header','id' => 'text-header-side']],
+                            ['label' => 'Dashboard','icon' => 'dashboard text-danger','url' => ['/site/index']],
+                            ['label' => 'ข้อมูลลูกค้า', 'icon' => 'user text-info', 'url' => ['/'],
                             'items' => [
                                     ['label' => 'ทั้งหมด', 'icon' => 'users', 'url' => ['/customer/customers/index']],
                                     ['label' => 'เพิ่ม', 'icon' => 'plus', 'url' => ['/customer/customers/check']],
@@ -50,8 +63,12 @@
                             //['label' => 'รายปี', 'icon' => '', 'url' => '#'],
                             ],
                         ],
-                            ['label' => 'สัญญา', 'icon' => 'fa fa-address-card-o', 'url' => ['/promise/promise']],
-                            ['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],
+                            [
+                              'label' => 'สัญญา',
+                            'icon' => 'fa fa-address-card-o',
+                            'url' => ['/promise/promise'],
+                            'template'=>'<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">'.$promiseall.'</small></span></a>'
+                          ],
                         //['label' => 'รอบเก็บ', 'icon' => 'download', 'url' => ['/gii'],
                         //'items' => [
                         // ['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage']],
@@ -59,19 +76,26 @@
                         //],
                         //],
 
-                        ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save', 'url' => ['/service/default/index']],
-                        ['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file', 'url' => ['/service/default/mainbill']],
-                        ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check', 'url' => ['/service/default/confirmorder']],
+                        ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save text-success', 'url' => ['/service/default/index']],
+                        ['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
+                        ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
+                        ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
+                          'items' => [
+                            ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
+                            ['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => ['/report/report/accruedservicefee']],
+                            ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
+                          ],
+                        ],
+
+                        ['label' => 'ตั้งค่าระบบ','options' => ['class' => 'header','id' => 'text-header-side']],
+                        ['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],
+                        ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],
+
+                        ['label' => 'จัดการหน้าเว็บ', 'options' => ['class' => 'header','id' => 'text-header-side']],
                         ['label' => 'ภาชนะใส่ขยะ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
                         ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],
                         ['label' => 'เมนูเว็บไซต์', 'icon' => 'bars', 'url' => ['/navbar/navbar/index']],
-                        ['label' => 'รายงาน', 'icon' => 'wpforms', 'url' => ['/gii'],
-                        'items' => [
-                          ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
-                          ['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => ['/report/report/accruedservicefee']],
-                          ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
-                        ],
-                    ],
+
                     /*
                       ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                       ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],

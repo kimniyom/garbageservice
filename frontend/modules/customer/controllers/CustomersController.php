@@ -29,7 +29,14 @@ class CustomersController extends Controller {
                         ->orWhere(['status' => '1', 'status' => '2'])->one();
         $data['customer'] = $customer;
         $data['countinvoice'] = $this->countInvoice($data['promise']['id']);
+
         return $this->render('index', $data);
+    }
+
+    public function getBookbank(){
+      $sql = "SELECT b.id,CONCAT(k.bankname,' เลขบัญชี ' ,b.bookbanknumber) AS bname
+              FROM bookbank b INNER JOIN bank k On b.bank = k.id ";
+      return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     public function countInvoice($promiseID) {
@@ -58,6 +65,7 @@ class CustomersController extends Controller {
                     FROM invoice i
                     WHERE i.id = '$id'";
         $data['order'] = Yii::$app->db->createCommand($sql)->queryOne();
+        $data['bank'] = $this->getBookbank();
         return $this->render('payment', $data);
     }
 
