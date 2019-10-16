@@ -33,7 +33,7 @@ use yii\web\NotFoundHttpException;
  */
 class SettingsController extends Controller {
 
-  //  public $layout = '@app/views/layouts/template';
+    public $layout = '@app/views/layouts/template';
 
     use AjaxValidationTrait;
     use EventTrait;
@@ -149,7 +149,7 @@ class SettingsController extends Controller {
      * @return string|\yii\web\Response
      */
     public function actionProfile() {
-        //$this->layout = '@app/views/layouts/template';
+        $this->layout = '@app/views/layouts/template';
         $model = $this->finder->findProfileById(\Yii::$app->user->identity->getId());
 
         if ($model == null) {
