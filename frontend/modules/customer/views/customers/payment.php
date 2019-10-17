@@ -11,7 +11,10 @@ use kartik\date\DatePicker;
 use kartik\widgets\TimePicker;
 use kartik\datetime\DateTimePicker;
 use backend\model\Bookbank;
+
 $this->title = "แจ้งชำระเงิน";
+$this->params['breadcrumbs'][] = ['label' => 'จัดการข้อมูล', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'รายการที่ต้องชำระ', 'url' => ['invoice']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h4>
@@ -21,18 +24,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <hr/>
 
 <label>ธนาคารที่ท่านชำระ</label>
-  <div class="row">
-      <div class="col-md-6 col-lg-6">
-      <?php
-      echo Select2::widget([
-        'name' => 'bank',
-        'value' => '',
-        'data' => ArrayHelper::map($bank, "id", "bname"),
-        'options' => ['multiple' => false, 'placeholder' => 'Select Bank ...']
-      ]);
-      ?>
-      </div>
-  </div>
+<div class="row">
+    <div class="col-md-6 col-lg-6">
+        <?php
+        echo Select2::widget([
+            'name' => 'bank',
+            'value' => '',
+            'data' => ArrayHelper::map($bank, "id", "bname"),
+            'options' => ['multiple' => false, 'placeholder' => 'Select Bank ...']
+        ]);
+        ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-4 col-lg-4">

@@ -33,10 +33,10 @@ class CustomersController extends Controller {
         return $this->render('index', $data);
     }
 
-    public function getBookbank(){
-      $sql = "SELECT b.id,CONCAT(k.bankname,' เลขบัญชี ' ,b.bookbanknumber) AS bname
+    public function getBookbank() {
+        $sql = "SELECT b.*,CONCAT(k.bankname,' เลขบัญชี ' ,b.bookbanknumber) AS bname,k.bankname,k.bank_img
               FROM bookbank b INNER JOIN bank k On b.bank = k.id ";
-      return Yii::$app->db->createCommand($sql)->queryAll();
+        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     public function countInvoice($promiseID) {
@@ -57,6 +57,7 @@ class CustomersController extends Controller {
                     FROM invoice i
                     WHERE i.status = '0' AND i.promise = '$promiseId'";
         $data['invoicelist'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['bank'] = $this->getBookbank();
         return $this->render('invoice', $data);
     }
 
