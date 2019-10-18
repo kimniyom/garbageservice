@@ -390,9 +390,9 @@ if ($model->id == "") {
             $("#dateservice").hide();
             $("#unit").show();
         } else if (type == 3) {
-            $("#garbageweight").hide();
+            $("#garbageweight").show();
             $(".distcount").show();
-            $(".fine").hide();
+            $(".fine").show();
             $(".distcount").show();
             $("#dateservice").show();
             $("#unit").hide();
