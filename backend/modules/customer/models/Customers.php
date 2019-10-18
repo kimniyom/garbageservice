@@ -97,11 +97,21 @@ class Customers extends \yii\db\ActiveRecord {
 	}
 
 	public function Countbetweenpromise(){
-		$sql = "SELECT COUNT(*) AS total 
-				FROM customers 
-				INNER JOIN promise ON customers.id = promise.customerid 
+		$sql = "SELECT COUNT(*) AS total
+				FROM customers
+				INNER JOIN promise ON customers.id = promise.customerid
 				WHERE DATEDIFF(promise.promisedateend,NOW())> 0";
 		$rs = Yii::$app->db->createCommand($sql)->queryOne();
 		return $rs['total'];
+	}
+
+	public function getAddress($id = ""){
+		$sql = "SELECT c.*,p.changwat_name,a.ampur_name,t.tambon_name
+					FROM customers c INNER JOIN changwat p ON c.changwat = p.changwat_id
+					INNER JOIN ampur a ON c.ampur = a.ampur_id
+					INNER JOIN tambon t ON c.tambon = t.tambon_id
+					WHERE c.id = '$id' ";
+	$rs = Yii::$app->db->createCommand($sql)->queryOne();
+	return $rs;
 	}
 }
