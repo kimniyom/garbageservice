@@ -253,8 +253,7 @@ class CustomersController extends Controller {
         $model = new Customers();
         //$data['type'] = $model->TypeCustomer();
         $sql = "SELECT * FROM `user` u
-				WHERE u.id NOT IN(SELECT user_id FROM customers)
-				AND u.`status` != 'A'";
+				WHERE  u.`status` != 'A'";
         $data['user'] = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->render("check", $data);
     }
