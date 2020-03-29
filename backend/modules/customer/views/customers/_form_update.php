@@ -1,5 +1,6 @@
 <?php
 
+use app\models\User;
 use app\models\Ampur;
 use app\models\Changwat;
 use app\models\Tambon;
@@ -20,23 +21,42 @@ use kartik\widgets\TimePicker;
 <div class="customer-form">
 
     <?php $form = ActiveForm::begin();?>
-        <div class="row">
-    <div class="col-md-3 col-lg-3">
-        <?php
-$type = Typecustomer::find()->all();
-echo $form->field($model, 'type')->widget(Select2::classname(), [
-	'data' => ArrayHelper::map($type, "id", "typename"),
-	'language' => 'th',
-	'options' => [
-		'placeholder' => 'Select a state ...',
-	],
-	'pluginOptions' => [
-		'allowClear' => true,
-	],
-]);
-?>
-</div>
-</div>
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            <?php
+                $user = User::find()->where(['status'=>'U'])->all();
+                echo $form->field($model, 'user_id')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map($user, "id", "username"),
+                    'language' => 'th',
+                    'options' => [
+                        'placeholder' => 'Select a state ...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]);
+            ?>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            <?php
+                $type = Typecustomer::find()->all();
+                echo $form->field($model, 'type')->widget(Select2::classname(), [
+                    'data' => ArrayHelper::map($type, "id", "typename"),
+                    'language' => 'th',
+                    'options' => [
+                        'placeholder' => 'Select a state ...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]);
+            ?>
+        </div>
+    </div>
 
 <div class="row">
     <div class="col-md-12 col-lg-12">

@@ -137,6 +137,7 @@ class CustomersController extends Controller {
         $location = Location::findOne(['customer_id' => $id]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save() && $location->load(Yii::$app->request->post()) && $location->save()) {
+            
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
