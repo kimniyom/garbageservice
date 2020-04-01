@@ -45,8 +45,8 @@ class Location extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'lat' => 'Lat',
-            'long' => 'Long',
+            'lat' => 'ละจิจูด',
+            'long' => 'ลองจิจูด',
             'customer_id' => 'รหัสลูกค้า',
             'zoom' => 'Zoom',
             'name' => 'ชื่อสถานที่',
