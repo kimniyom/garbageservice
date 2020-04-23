@@ -259,7 +259,7 @@ foreach ($menu as $menus):
                                 <h2 class="banner_text">IC QUALITY SYSTEM Co., Ltd.</h2>
                                 <div class="banner_product_name" style="margin-top: 30px;">
                                     &nbsp; &nbsp; &nbsp; &nbsp;เราเป็นผู้ให้บริการขนส่งและกำจัดขยะมูลฝอยติดเชื้อ
-                                    โดยยึดหลักธรรมาภิบาลเพื่อความปลอดของประชาชน
+                                    โดยยึดหลักธรรมาภิบาลเพื่อความปลอดภัยของประชาชน
                                     และเป็นมิตรกับสิ่งแวดล้อม ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน
                                 </div>
                                 <div class="button banner_button"><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">ลงทะเบียนขอใช้บริการ</a></div>
