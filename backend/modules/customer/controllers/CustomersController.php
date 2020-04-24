@@ -234,9 +234,14 @@ class CustomersController extends Controller {
     }
 
     public function actionCustomernonapprove() {
+        $customer = "";
+        if(Yii::$app->request->post() && ($customer=Yii::$app->request->post('customer')) != "")
+        {
+            $customer = " AND c.company LIKE '%{$customer}%' ";
+        }
         $sql = "select c.*,t.typename
 				from customers c inner join typecustomer t on c.type = t.id
-				where c.approve = 'N'";
+				where c.approve = 'N' {$customer}";
         $rs = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customer'] = $rs;
         return $this->render('customernonapprove', $data);

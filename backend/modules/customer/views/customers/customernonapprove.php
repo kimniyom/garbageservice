@@ -2,11 +2,28 @@
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\customer\models\Customer */
+use yii\widgets\ActiveForm;
 
 $this->title = 'ลูกค้ารอการตรวจสอบข้อมูล';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-nonapprove">
+
+    
+<?php $form = ActiveForm::begin(['options' => ['class' => 'form-inline'],]); ?>
+    <div class="row">
+        <div class="col-md-12">
+            <input type="text" class="form-control " name="customer" placeholder="ค้นหาชื่อลูกค้า" />
+           
+            <button type="submit" class="btn btn-primary" >
+                <i class="fa fa-search"></i> ค้นหา
+            </button>
+        </div>
+    </div>
+
+<?php ActiveForm::end(); ?>
+   
+
 <div class="box">
     <!-- /.box-header -->
     <div class="box-body">
