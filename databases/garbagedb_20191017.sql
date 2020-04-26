@@ -1069,8 +1069,8 @@ CREATE TABLE `bookbank` (
 -- Records of bookbank
 -- ----------------------------
 INSERT INTO `bookbank` VALUES ('1', '1234567890', 'IC', 'ปทุมธานี', '1');
-INSERT INTO `bookbank` VALUES ('2', '0856563210', 'ไอซี ควอลิตี้ ซิสเท็ม จำกัด', 'บางบอน', '4');
-INSERT INTO `bookbank` VALUES ('3', '6535210000', 'ไอซี ควอลิตี้ ซิสเท็ม จำกัด', 'บางแค', '3');
+INSERT INTO `bookbank` VALUES ('2', '0856563210', 'บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด', 'บางบอน', '4');
+INSERT INTO `bookbank` VALUES ('3', '6535210000', 'บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด', 'บางแค', '3');
 
 -- ----------------------------
 -- Table structure for `changwat`

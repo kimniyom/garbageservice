@@ -34,7 +34,7 @@ $Config = new Config();
             50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
             โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Eขmail : icqualitysystem2019@gmail.com<br/><br/>
         <?php } else { ?>
-            <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+            <b></b>บริษัทไอซีควอลิตี้ ซิสเท็ม<br/>
             IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
             เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
             12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
@@ -200,13 +200,13 @@ $Config = new Config();
     <h4 style="text-align: center;">ใบเสร็จรับเงิน</h4>
     <div style="text-align:center;">
         <?php if ($type == 1) { ?>
-            <b></b>ไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
             IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
             เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
             50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
             โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Email : icqualitysystem2019@gmail.com<br/><br/>
         <?php } else { ?>
-            <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม<br/>
             IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
             เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
             12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>

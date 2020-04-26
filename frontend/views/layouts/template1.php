@@ -287,7 +287,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                         <div class="banner_product_image"><img src="<?php echo Url::to('@web/web/theme/images/banner_product_ic.png') ?>" alt=""></div>
                         <div class="col-lg-5 offset-lg-12 fill_height">
                             <div class="banner_content">
-                                <h2 class="banner_text">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</h2>
+                                <h2 class="banner_text">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</h2>
                                 <h2 class="banner_text">IC QUALITY SYSTEM Co., Ltd.</h2>
                                 <div class="banner_product_name" style="margin-top: 30px;">
                                     &nbsp; &nbsp; &nbsp; &nbsp;เราเป็นผู้ให้บริการขนส่งและกำจัดขยะมูลฝอยติดเชื้อ
@@ -458,7 +458,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="logo_container">
                                         <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
                                     </div>
-                                    <div class="footer_title">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                    <div class="footer_title">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
                                     <div class="footer_contact_text">
                                         <p>50/19 หมู่ 6 ต.บางหลวง</p>
                                         <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>

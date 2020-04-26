@@ -128,7 +128,7 @@ $this->registerJs('
                                     <a href="#"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" id="img-logo"/></a>
                                 </div>
                                 <div class="top_bar_contact_item" style="margin-right: 10px;">
-                                    <p class="text-info" style="margin-bottom: 0px; margin-top:10px;">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
+                                    <p class="text-info" style="margin-bottom: 0px; margin-top:10px;">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
                                     <p class="text-info" style="margin-bottom: 0px;">IC QUALITY SYSTEM Co., Ltd.</p>
                                 </div>
                                 <div class="top_bar_content ml-auto">
@@ -255,7 +255,7 @@ foreach ($menu as $menus):
                         <div class="banner_product_image"><img src="<?php echo Url::to('@web/web/theme/images/banner_product_ic.png') ?>" alt=""></div>
                         <div class="col-lg-5 offset-lg-12 fill_height">
                             <div class="banner_content">
-                                <h2 class="banner_text">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</h2>
+                                <h2 class="banner_text">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</h2>
                                 <h2 class="banner_text">IC QUALITY SYSTEM Co., Ltd.</h2>
                                 <div class="banner_product_name" style="margin-top: 30px;">
                                     &nbsp; &nbsp; &nbsp; &nbsp;เราเป็นผู้ให้บริการขนส่งและกำจัดขยะมูลฝอยติดเชื้อ
@@ -424,13 +424,14 @@ Breadcrumbs::widget([
                                     <div class="logo_container">
                                         <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
                                     </div>
-                                    <div class="footer_title text-white">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                    <div class="footer_title text-white">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
                                     <div class="footer_contact_text text-white">
                                         <p>50/19 หมู่ 6 ต.บางหลวง</p>
                                         <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
                                     </div>
                                     <div class="footer_phone">โทร : (02) 1010325</div>
-                                    <div class="footer_phone">Fax : (02) 581-1245</div>
+                                    <div class="footer_phone">Facebook : ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                    <div class="footer_phone">id line : @icqualitysystem</div>
 
                                 </div>
                             </div>

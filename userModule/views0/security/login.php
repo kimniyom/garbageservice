@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
     </div>
-    <p style="text-align:center;color: #ab8f52; margin-top:10px;">ไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
+    <p style="text-align:center;color: #ab8f52; margin-top:10px;">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
     </div>
     <div class="col col-lg-2">
 
