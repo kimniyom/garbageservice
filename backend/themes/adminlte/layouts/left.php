@@ -92,7 +92,7 @@
                         ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],
 
                         ['label' => 'จัดการหน้าเว็บ', 'options' => ['class' => 'header','id' => 'text-header-side']],
-                        ['label' => 'ภาชนะใส่ขยะ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
+                        ['label' => 'แนะนำสินค้าอื่นๆ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
                         ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],
                         ['label' => 'เมนูเว็บไซต์', 'icon' => 'bars', 'url' => ['/navbar/navbar/index']],
 

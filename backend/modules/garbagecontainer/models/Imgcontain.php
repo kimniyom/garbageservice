@@ -40,7 +40,7 @@ class Imgcontain extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'image' => 'รูปภาชนะ',
+            'image' => 'รูปภาพสินค้า',
             'garbagecontainer_id' => 'Garbagecontainer ID',
         ];
     }

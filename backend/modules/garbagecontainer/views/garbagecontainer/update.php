@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\garbagecontainer\models\Garbagecontainer */
 
-$this->title = 'Update Garbagecontainer: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Garbagecontainers', 'url' => ['index']];
+$this->title = 'แก้ไขสินค้าแนะนำ: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'สินค้าแนะนำ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

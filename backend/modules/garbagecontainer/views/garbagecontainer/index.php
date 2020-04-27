@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\modules\garbagecontainer\models\GarbagecontainerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'ภาชนะใส่ขยะ';
+$this->title = 'สินค้าแนะนำ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="garbagecontainer-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- <h1><?= Html::encode($this->title) ?></h1> -->
 
     <p>
-        <?= Html::a('Create Garbagecontainer', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('เพิ่มสินค้าแนะนำ', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\garbagecontainer\models\Garbagecontainer */
 
 $this->title = $model->garbagecontainer;
-$this->params['breadcrumbs'][] = ['label' => 'Garbagecontainers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'สินค้าแนะนำ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
