@@ -91,6 +91,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
                             'timework',
                             'tel',
                             'telephone',
+                            'lineid',
                                 [
                                 'label' => 'พิกัด',
                                 'value' => "N." . $location['lat'] . "," . "E." . $location['long'],

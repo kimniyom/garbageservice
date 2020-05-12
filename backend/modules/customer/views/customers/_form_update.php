@@ -19,7 +19,6 @@ use kartik\widgets\TimePicker;
 ?>
 
 <div class="customer-form">
-
     <?php $form = ActiveForm::begin();?>
     <div class="row">
         <div class="col-md-3 col-lg-3">
@@ -191,12 +190,15 @@ $form->field($model, 'tambon')->widget(DepDrop::classname(), [
         
     </div>
     <div class="col-md-3 col-lg-3">
-        
         <?=$form->field($location, 'long')->textInput()?>
+    </div>
+    <div class="col-md-3 col-lg-3">
+            <?= $form->field($model, 'lineid')->textInput() ?>
     </div>
 </div>
 
 <div class="row">
+    
     <div class="col-md-3 col-lg-3">
         <?=$form->field($model, 'approve')->radioList(['Y' => 'ยืนยัน', 'N' => 'ไม่ยืนยัน'])?>
     </div>

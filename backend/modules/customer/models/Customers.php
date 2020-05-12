@@ -25,6 +25,8 @@ use Yii;
  * @property double $latitude ละติจูด
  * @property double $longitude ลองจิจูด
  * @property string $timework เวลาทำการ
+ * @property string $lineid Line id
+ 
  */
 class Customers extends \yii\db\ActiveRecord {
 	/**
@@ -49,6 +51,7 @@ class Customers extends \yii\db\ActiveRecord {
 			[['changwat', 'ampur', 'tambon'], 'string', 'max' => 10],
 			[['zipcode'], 'string', 'max' => 5],
 			[['manager'], 'string', 'max' => 100],
+			[['lineid'], 'string', 'max' => 128],
 			[['user_id','type'], 'number'],
 			[['typeregister'],'number']
 		];
@@ -82,6 +85,7 @@ class Customers extends \yii\db\ActiveRecord {
 			//'latitude' => 'ละติจูด',
 			//'longitude' => 'ลองจิจูด',
 			'timework' => 'เวลาทำการ',
+			'lineid' => 'Line id',
 		];
 	}
 

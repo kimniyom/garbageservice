@@ -5,6 +5,8 @@ use app\models\Changwat;
 use app\models\Tambon;
 use app\models\Typecustomer;
 use app\models\Vattype;
+use app\models\Businesstype;
+use app\models\Grouptypecustomer;
 use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -149,7 +151,6 @@ use kartik\widgets\TimePicker;
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <?= $form->field($model, 'timework')->textArea(['rows' => 1]) ?>
-
         </div>
     </div>
 
@@ -158,11 +159,12 @@ use kartik\widgets\TimePicker;
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <?= $form->field($location, 'lat')->textInput() ?>
-
         </div>
         <div class="col-md-3 col-lg-3">
-
             <?= $form->field($location, 'long')->textInput() ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <?= $form->field($model, 'lineid')->textInput() ?>
         </div>
     </div>
 
@@ -170,6 +172,41 @@ use kartik\widgets\TimePicker;
     <!-- <div class="row">
         <div class="col-md-4 col-lg-4">
             <?//=$form->field($model, 'STATUS')->radioList([1 => 'ใช้งาน', 0 => 'ไม่ใช้งาน'])?>
+        </div>
+    </div> -->
+
+    <!-- <div class="row">
+        <div class="col-md-3 col-lg-3">
+            <?php
+            // $grouptype = Grouptypecustomer::find()->all();
+            // echo $form->field($model, 'grouptype')->widget(Select2::classname(), [
+            //     'data' => ArrayHelper::map($grouptype, "id", "groupname"),
+            //     'language' => 'th',
+            //     'options' => [
+            //         'placeholder' => 'ประเภทกลุ่มลูกค้า ',
+            //         'id' => 'grouptype',
+            //     ],
+            //     'pluginOptions' => [
+            //         'allowClear' => true,
+            //     ],
+            // ]);
+            ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <?php
+            // $businesstype = Businesstype::find()->all();
+            // echo $form->field($model, 'businesstype')->widget(Select2::classname(), [
+            //     'data' => ArrayHelper::map($businesstype, "id", "businesstype"),
+            //     'language' => 'th',
+            //     'options' => [
+            //         'placeholder' => 'ประเภทธุรกิจ ',
+            //         'id' => 'businesstype',
+            //     ],
+            //     'pluginOptions' => [
+            //         'allowClear' => true,
+            //     ],
+            // ]);
+            ?>
         </div>
     </div> -->
 
