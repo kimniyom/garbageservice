@@ -59,7 +59,7 @@
                             'items' => [
                                     ['label' => 'ทั้งหมด', 'icon' => 'users', 'url' => ['/customer/customers/index']],
                                     ['label' => 'เพิ่ม', 'icon' => 'plus', 'url' => ['/customer/customers/check']],
-                                    ['label' => 'ประเภทธุรกิจลูกค้า', 'icon' => 'plus', 'url' => ['/typecustomer/typecustomer/']],
+                                    //['label' => 'ประเภทธุรกิจลูกค้า', 'icon' => 'plus', 'url' => ['/typecustomer/typecustomer/']],
                             //['label' => 'รายเดือน', 'icon' => '', 'url' => '#'],
                             //['label' => 'รายปี', 'icon' => '', 'url' => '#'],
                             ],

@@ -6,6 +6,7 @@ use app\models\Changwat;
 use app\models\Tambon;
 use app\models\Vattype;
 use app\models\Typecustomer;
+use app\models\Groupcustomer;
 use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -53,6 +54,21 @@ use kartik\widgets\TimePicker;
                         'allowClear' => true,
                     ],
                 ]);
+            ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <?php
+            $groupcustomer = Groupcustomer::find()->all();
+            echo $form->field($model, 'grouptype')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map($groupcustomer, "id", "groupcustomer"),
+                'language' => 'th',
+                'options' => [
+                    'placeholder' => 'Select a state ...',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ]);
             ?>
         </div>
     </div>

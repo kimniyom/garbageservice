@@ -26,6 +26,7 @@ use Yii;
  * @property double $longitude ลองจิจูด
  * @property string $timework เวลาทำการ
  * @property string $lineid Line id
+ * @property string $grouptype ประเภทกลุ่มลูกค้า
  
  */
 class Customers extends \yii\db\ActiveRecord {
@@ -41,7 +42,7 @@ class Customers extends \yii\db\ActiveRecord {
 	 */
 	public function rules() {
 		return [
-			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve','type','typeregister'], 'required'],
+			[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve','type','typeregister','grouptype'], 'required'],
 			[['flag', 'approve'], 'string'],
 			[['create_date', 'update_date','timework'], 'safe'],
 			//[['latitude', 'longitude'], 'number'],
@@ -86,6 +87,7 @@ class Customers extends \yii\db\ActiveRecord {
 			//'longitude' => 'ลองจิจูด',
 			'timework' => 'เวลาทำการ',
 			'lineid' => 'Line id',
+			'grouptype'=> 'ประเภทกลุ่มลูกค้า'
 		];
 	}
 
