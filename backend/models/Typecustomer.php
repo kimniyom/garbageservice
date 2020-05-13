@@ -41,7 +41,7 @@ class Typecustomer extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'typename' => 'ประเภทลูกค้า',
+            'typename' => 'ประเภทธุรกิจลูกค้า',
             'typename_en' => 'Typename En',
             'codenumber' => 'จำนวนความกว้างในการลงข้อมูล',
             'description' => 'คำอธิบาย',

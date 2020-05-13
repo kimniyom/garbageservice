@@ -49,11 +49,8 @@ return [
         'service' => [
             'class' => 'app\modules\service\Module',
         ],
-        'businesstype' => [
-            'class' => 'app\modules\businesstype\Module',
-        ],
-        'grouptype' => [
-            'class' => 'app\modules\grouptype\Module',
+        'typecustomer' => [
+            'class' => 'app\modules\typecustomer\Module',
         ],
     ],
     'components' => [

@@ -80,7 +80,7 @@ class Customers extends \yii\db\ActiveRecord {
 			'update_date' => 'แก้ไขข้อมูลล่าสุด',
 			'approve' => 'การยืนยัน',
 			'user_id' => 'user',
-			'type' => 'ประเภทสถานประกอบการ',
+			'type' => 'ประเภทธุรกิจลูกค้า',
 			'remark' => 'หมายเหตุ',
 			//'latitude' => 'ละติจูด',
 			//'longitude' => 'ลองจิจูด',
