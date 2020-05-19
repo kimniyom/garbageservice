@@ -65,7 +65,7 @@ class Customers extends \yii\db\ActiveRecord {
 		return [
 			'id' => 'ID',
 			'company' => 'ชื่อบริษัท/สถานประกอบการ',
-			'customercode' => 'เลขที่ใบอนุญาติ',
+			'customercode' => 'เลขที่ใบอนุญาต',
 			'taxnumber' => 'เลขที่ใบอนุญาติ',
 			'typeregister' => 'ประเภทการจดทะเบียน',
 			'address' => 'ที่อยู่',
