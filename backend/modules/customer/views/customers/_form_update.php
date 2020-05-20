@@ -37,6 +37,9 @@ use kartik\widgets\TimePicker;
                 ]);
             ?>
         </div>
+        <div class="col-md-3 col-lg-3">
+                <?= $form->field($img, 'filename')->fileInput()?>
+        </div>
     </div>
 
 

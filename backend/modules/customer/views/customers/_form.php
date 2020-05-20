@@ -20,7 +20,7 @@ use kartik\widgets\TimePicker;
 ?>
 
 <div class="customer-form">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <?php
@@ -36,6 +36,9 @@ use kartik\widgets\TimePicker;
                 ],
             ]);
             ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+                <?= $form->field($img, 'filename')->fileInput()?>
         </div>
     </div>
     <div class="row">

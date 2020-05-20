@@ -3,6 +3,7 @@
 namespace app\modules\customer\controllers;
 
 use app\modules\customer\models\Customers;
+use app\modules\customer\models\CustomersImg;
 use app\modules\customer\models\CustomersSearch;
 use app\models\Location;
 use Yii;
@@ -10,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * CustomerController implements the CRUD actions for Customer model.
@@ -53,9 +55,11 @@ class CustomersController extends Controller {
     public function actionView($id) {
         $sql = "select * from location where customer_id = '" . $id . "'";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
+
         return $this->render('view', [
                     'model' => $this->findModel($id),
                     'location' => $rs,
+                    'img'=> CustomersImg::findOne(['customerid'=>$id])
         ]);
     }
 
@@ -84,6 +88,7 @@ class CustomersController extends Controller {
     public function actionCreate($taxnumber, $user) {
         $model = new Customers();
         $location = new Location();
+        $img = new CustomersImg();
         if ($model->load(Yii::$app->request->post()) && $location->load(Yii::$app->request->post())) {
 
             //$model->user_id = \Yii::$app->user->identity->id;
@@ -98,6 +103,18 @@ class CustomersController extends Controller {
             $location->zoom = 13;
             $location->save();
 
+            $img->filename = UploadedFile::getInstance($img, 'filename');
+            if($img->filename )
+            {
+                $img->customerid = $model->id;
+                $img->filename->name = $model->id.".".$img->filename ->extension;
+                $img->dateupload = date("Y-m-d H:i:s");
+                $img->uploadby = Yii::$app->user->id;
+                $img->save();
+                $path = '../uploads/customers/gallerry/' . $img->filename->name;
+                $img->filename->saveAs($path);
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -105,6 +122,7 @@ class CustomersController extends Controller {
                     'model' => $model,
                     'taxnumber' => $taxnumber,
                     'location' => $location,
+                    'img'=>$img,
         ]);
     }
 
@@ -135,15 +153,29 @@ class CustomersController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
         $location = Location::findOne(['customer_id' => $id]);
+        $img =  CustomersImg::findOne(['customerid' => $id]) ? CustomersImg::findOne(['customerid' => $id]) :  new CustomersImg();;
 
         if ($model->load(Yii::$app->request->post()) && $model->save() && $location->load(Yii::$app->request->post()) && $location->save()) {
             
+            $img->filename = UploadedFile::getInstance($img, 'filename');
+            if($img->filename )
+            {
+                $img->customerid = $model->id;
+                $img->filename->name = $model->id.".".$img->filename ->extension;
+                $img->dateupload = date("Y-m-d H:i:s");
+                $img->uploadby = Yii::$app->user->id;
+                $img->save();
+                $path = '../uploads/customers/gallerry/' . $img->filename->name;
+                $img->filename->saveAs($path);
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
                     'model' => $model,
                     'location' => $location,
+                    'img'=>$img,
         ]);
     }
 
@@ -214,7 +246,10 @@ class CustomersController extends Controller {
      */
     public function actionDelete($id) {
         $this->findModel($id)->delete();
-
+        $img = CustomersImg::findOne(['customerid' => $id]);
+        unlink('../uploads/customers/gallerry/' . $img->filename);
+        $img->delete();
+        Location::findOne(['customer_id' => $id])->delete();
         return $this->redirect(['index']);
     }
 

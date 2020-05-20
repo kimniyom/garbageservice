@@ -125,6 +125,20 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
             </div>
         </div>
     </div>
+    <div class="row">
+    <?php if($img):?>
+        <div class="col col-md-6 col-lg-6">
+            <div class="box" id="box-map">
+                    <div class="box-header" style=" padding-bottom: 0px;">
+                        <i class="fa fa-map"></i> รูปภาพลูกค้า
+                    </div>
+                    <div class="box-body">
+                        <img src="../uploads/customers/gallerry/<?php echo $img->filename;?>" class="img-fluid" width="100%"/>          
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif;?>
 </div>
 
 <script type="text/javascript">
