@@ -47,7 +47,7 @@ for ($i = 1; $i <= 36; $i++) {
 <div class="promise-form">
     <div class="row">
         <div class="col-md-6 col-lg-4">
-            <div class="box box-success">
+            <div class="box box-success" id="box-left">
                 <div class="box-header">ข้อมูลลูกค้า</div>
                 <div class="box-body">
                     <div class="list-group">
@@ -83,7 +83,7 @@ for ($i = 1; $i <= 36; $i++) {
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
                 <div class="box-header">ข้อมูลสัญญา</div>
-                <div class="box-body">
+                <div class="box-body"  id="box-right" style=" position: relative; overflow: auto;">
                     <div class="well">
                         <?php
                         //$form = ActiveForm::begin();
@@ -174,9 +174,11 @@ for ($i = 1; $i <= 36; $i++) {
                             <div class="col-md-4 col-lg-5">
                                 <?=
                                 $form->field($model, 'payment')->dropDownList([
-                                    0 => 'แบ่งจ่ายรายเดือน / รายครั้ง', 1 => 'เหมาจ่าย',
+                                    "" => "== กรุณาเลือก ==",
+                                    0 => 'แบ่งจ่ายรายเดือน / รายครั้ง',
+                                    1 => 'เหมาจ่าย',
                                         ], [
-                                    'onchange' => 'calculation()',
+                                    'onchange' => 'setDistcount()',
                                 ])
                                 ?>
                             </div>
@@ -231,7 +233,7 @@ for ($i = 1; $i <= 36; $i++) {
                                 ?>
                             </div>
                             <div class="col-md-5 col-lg-5">
-<?= $form->field($model, 'deposit')->dropDownList($deposit, ['prompt' => 'ไม่มีมัดจำ']) ?>
+                                <?= $form->field($model, 'deposit')->dropDownList($deposit, ['prompt' => 'ไม่มีมัดจำ']) ?>
                             </div>
                         </div>
                         <div class="fine">
@@ -239,7 +241,7 @@ for ($i = 1; $i <= 36; $i++) {
                             <hr style="margin-top:0px;"/>
                             <div class="row">
                                 <div class="col-md-4 col-lg-4">
-<?= $form->field($model, 'fine')->textInput() ?>
+                                    <?= $form->field($model, 'fine')->textInput() ?>
                                 </div>
                             </div>
                         </div>
@@ -252,6 +254,7 @@ for ($i = 1; $i <= 36; $i++) {
                                     <?=
                                     $form->field($model, 'distcountpercent')->textInput(
                                             [
+                                                'value' => 0,
                                                 'onkeyup' => 'calculationPercent()',
                                             ]
                                     )
@@ -261,6 +264,7 @@ for ($i = 1; $i <= 36; $i++) {
                                     <?=
                                     $form->field($model, 'distcountbath')->textInput(
                                             [
+                                                'value' => 0,
                                                 'onkeyup' => 'calculationBath()',
                                             ]
                                     )
@@ -274,7 +278,7 @@ for ($i = 1; $i <= 36; $i++) {
                                 <?= $form->field($model, 'payperyear')->textInput(['readonly' => 'readonly']) ?>
                             </div>
                             <div class="col-md-3 col-lg-5">
-<?= $form->field($model, 'total')->textInput(['readonly' => 'readonly']) ?>
+                                <?= $form->field($model, 'total')->textInput(['readonly' => 'readonly']) ?>
                             </div>
                         </div>
 
@@ -283,20 +287,20 @@ for ($i = 1; $i <= 36; $i++) {
                             <hr style="margin-top:0px;"/>
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
-                                <?= $form->field($model, 'dayinweek')->dropDownList($dayInweek); ?>
+                        <?= $form->field($model, 'dayinweek')->dropDownList($dayInweek); ?>
                                 </div>
 
                                 <div class="col-md-6 col-lg-6">
-                                <?php
-                                // echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
-                                //     'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
-                                //     'options' => ['placeholder' => 'Select a week ...'],
-                                //     'pluginOptions' => [
-                                //         'allowClear' => true,
-                                //         'multiple' => true,
-                                //     ],
-                                // ]);
-                                ?>
+                        <?php
+                        // echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
+                        //     'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
+                        //     'options' => ['placeholder' => 'Select a week ...'],
+                        //     'pluginOptions' => [
+                        //         'allowClear' => true,
+                        //         'multiple' => true,
+                        //     ],
+                        // ]);
+                        ?>
                                 </div>
                             </div>
                         </div> -->
@@ -309,7 +313,7 @@ for ($i = 1; $i <= 36; $i++) {
                                     <?= $form->field($model, 'employer1')->textInput() ?>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
-<?= $form->field($model, 'employer2')->textInput() ?>
+                                    <?= $form->field($model, 'employer2')->textInput() ?>
                                 </div>
                             </div>
                             <div class="row">
@@ -317,7 +321,7 @@ for ($i = 1; $i <= 36; $i++) {
                                     <?= $form->field($model, 'witness1')->textInput() ?>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
-<?= $form->field($model, 'witness2')->textInput() ?>
+                                    <?= $form->field($model, 'witness2')->textInput() ?>
                                 </div>
                             </div>
                         </div>
@@ -327,49 +331,72 @@ for ($i = 1; $i <= 36; $i++) {
                         <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])    ?>
                             </div>
                             <div class="col-md-12 col-lg-6">
-<?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])    ?>
+                        <?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])    ?>
                             </div>
                         </div> -->
-                        <hr/>
-                        <div class="form-group">
-<?= Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success']) ?>
-                        </div>
-
-
-                        <?php ActiveForm::end(); ?>
                         <?php if ($error) { ?>
                             <div class="alert alert-danger"><?php echo $error ?></div>
-<?php } ?>
+                        <?php } ?>
                     </div>
                 </div>
+                <div class="box-footer">
+                    <div class="form-group">
+                        <?= Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success']) ?>
+                    </div>
+                </div>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>
 </div>
 
 <?php
+$this->registerJs("setScreen();");
 if ($model->id == "") {
     $this->registerJs("getrecivetype(1);");
+    $this->registerJs("setDistcount()");
 } else {
     $this->registerJs("getrecivetype(" . $model->recivetype . ");");
     $this->registerJs("getvattype()");
+    $this->registerJs("setDistcount()");
 }
 ?>
 <script>
+
+    function setDistcount() {
+        var payment = $("#promise-payment").val();
+        //alert("ประเภท " + type + " การชำระ " + payment);
+        var type = parseInt($("#promise-recivetype").val());
+        if (type != 2) {
+            if (payment == 0) {
+                $(".distcount").hide();
+            } else {
+                $(".distcount").show();
+            }
+        } else {
+            $(".distcount").hide();
+        }
+    }
+
     function getvattype()
     {
         //enable vattype
         var vat = $("#promise-vat").val();
-        if (vat == 0)
-        {
+        if (vat == 0) {
             $("#divvattype").hide();
-        } else if (vat == 1)
-        {
+        } else if (vat == 1) {
             $("#divvattype").show();
         }
     }
 
     function getrecivetype(type) {
+        $("#promise-payment").val("");
+        var payment = $("#promise-payment").val();
+        if (payment == 0) {
+            $(".distcount").hide();
+        } else {
+            $(".distcount").show();
+        }
         if (type == 1) {
             $("#garbageweight").show();
             $(".fine").show();
@@ -390,17 +417,15 @@ if ($model->id == "") {
             $("#dateservice").hide();
             $("#unit").show();
         } else if (type == 3) {
-            $("#garbageweight").show();
+            $("#garbageweight").hide();
             $(".distcount").show();
-            $(".fine").show();
-            $(".distcount").show();
+            $(".fine").hide();
             $("#dateservice").show();
             $("#unit").hide();
         }
     }
 
     function calculation() {
-
         var total = "";
         var totalSum = "";
         var vat = $("#promise-vat").val();
@@ -408,12 +433,11 @@ if ($model->id == "") {
         var unit = parseInt($("#promise-unitprice").val());
         var garbageweight = parseInt($("#promise-garbageweight").val());
         var levy = parseInt($("#promise-levy").val());
-
+        //var payment = parseInt($("#promise-payment").val());
         //enable vattype
         getvattype();
 
-        if (type == 1)
-        {
+        if (type == 1) {
             total = (unit * levy);
             totalyear = (total * 12);
             let vatBath = (totalyear * 7) / 100;
@@ -426,8 +450,8 @@ if ($model->id == "") {
             $("#promise-rate").val(total);
             $("#promise-payperyear").val(parseInt(totalSum));
             $("#promise-total").val(totalSum);
-            $("#promise-distcountpercent").val("");
-            $("#promise-distcountbath").val("");
+            $("#promise-distcountpercent").val(0);
+            $("#promise-distcountbath").val(0);
         } else if (type == 3) {
             total = (unit * levy);
             totalyear = (total * 12);
@@ -440,8 +464,8 @@ if ($model->id == "") {
             $("#promise-rate").val(total);
             $("#promise-payperyear").val(parseInt(totalSum));
             $("#promise-total").val(parseInt(totalSum));
-            $("#promise-distcountpercent").val("");
-            $("#promise-distcountbath").val("");
+            $("#promise-distcountpercent").val(0);
+            $("#promise-distcountbath").val(0);
         }
     }
 
@@ -460,8 +484,8 @@ if ($model->id == "") {
             totalSum = totalyear;
             $("#promise-payperyear").val(parseInt(totalSum));
             $("#promise-total").val(totalSum);
-            $("#promise-distcountpercent").val("");
-            $("#promise-distcountbath").val("");
+            $("#promise-distcountpercent").val(0);
+            $("#promise-distcountbath").val(0);
         }
     }
 
@@ -481,5 +505,11 @@ if ($model->id == "") {
         var totalAll = (totalYear - distCount);
         //$("#promise-distcountbath").val(distCount);
         $("#promise-total").val(parseInt(totalAll));
+    }
+
+    function setScreen() {
+        var h = window.innerHeight;
+        $("#box-left").css({"height": h - 141});
+        $("#box-right").css({"height": h - 255});
     }
 </script>

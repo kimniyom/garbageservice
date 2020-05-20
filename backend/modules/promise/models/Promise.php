@@ -46,68 +46,68 @@ class Promise extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-                [['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'payment', 'createat'], 'required'],
-                ['unitprice', 'required', 'when' => function ($model) {
+            [['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'payment', 'createat'], 'required'],
+            ['unitprice', 'required', 'when' => function ($model) {
                     return $model->recivetype == 1;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
                 }",
             ],
-                ['unitprice', 'required', 'when' => function ($model) {
+            ['unitprice', 'required', 'when' => function ($model) {
                     return $model->recivetype == 2;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 2;
                 }",
             ],
-                ['rate', 'required', 'when' => function ($model) {
+            ['rate', 'required', 'when' => function ($model) {
                     return $model->recivetype == 1;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
                 }",
             ],
-                ['rate', 'required', 'when' => function ($model) {
+            ['rate', 'required', 'when' => function ($model) {
                     return $model->recivetype == 3;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 3;
                 }",
             ],
-                ['garbageweight', 'required', 'when' => function ($model) {
+            ['garbageweight', 'required', 'when' => function ($model) {
                     return $model->recivetype == 1;
                 }, 'whenClient' => "function (attribute, value) {
 										return $('#promise-recivetype').val() == 1;
 								}",
             ],
-                ['payperyear', 'required', 'when' => function ($model) {
+            ['payperyear', 'required', 'when' => function ($model) {
                     return $model->recivetype == 0;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 0;
                 }",
             ],
-                ['fine', 'required', 'when' => function ($model) {
+            ['fine', 'required', 'when' => function ($model) {
                     return $model->recivetype == 1;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
                 }",
             ],
-                ['distcountbath', 'required', 'when' => function ($model) {
+            ['distcountbath', 'required', 'when' => function ($model) {
                     return $model->recivetype == 1;
                 }, 'whenClient' => "function (attribute, value) {
 				return $('#promise-recivetype').val() == 1;
 			}",
             ],
-                ['distcountbath', 'required', 'when' => function ($model) {
+            ['distcountbath', 'required', 'when' => function ($model) {
                     return $model->recivetype == 3;
                 }, 'whenClient' => "function (attribute, value) {
 				return $('#promise-recivetype').val() == 3;
 			}",
             ],
-                ['rate', 'integer', 'when' => function ($model) {
+            ['rate', 'integer', 'when' => function ($model) {
                     return $model->recivetype == 1 || $model->recivetype == 3;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
                 }",
             ],
-                ['payperyear', 'integer', 'when' => function ($model) {
+            ['payperyear', 'integer', 'when' => function ($model) {
                     return $model->recivetype == 1 || $model->recivetype == 3;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
@@ -122,15 +122,15 @@ class Promise extends \yii\db\ActiveRecord {
             ['etc', 'required', 'when' => function ($model) {
                     return $model->status == '4';
                 }],
-                [['promisenumber', 'employer1', 'employer2', 'witness1', 'witness2'], 'string'],
-                [['customerid', 'rate', 'levy', 'payperyear', 'dayinweek',
+            [['promisenumber', 'employer1', 'employer2', 'witness1', 'witness2'], 'string'],
+            [['customerid', 'rate', 'levy', 'payperyear', 'dayinweek',
             'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment', 'vattype'], 'integer'],
-                [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
-                [['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
-                [['garbageweight', 'deposit', 'vat'], 'number'],
-                [['ratetext', 'payperyeartext'], 'string', 'max' => 64],
-                ['ratetext', 'string'],
-                [['distcountbath', 'total'], 'safe'],
+            [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
+            [['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
+            [['garbageweight', 'deposit', 'vat'], 'number'],
+            [['ratetext', 'payperyeartext'], 'string', 'max' => 64],
+            ['ratetext', 'string'],
+            [['distcountbath', 'total'], 'safe'],
         ];
     }
 

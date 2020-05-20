@@ -45,10 +45,11 @@ class PromiseController extends Controller {
     public function actionIndex() {
         $searchModel = new PromiseSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $promise = Promise::find()->all();
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
+                    'promise' => $promise
         ]);
     }
 
@@ -535,7 +536,7 @@ class PromiseController extends Controller {
             $content = $this->renderPartial('promisetype/_promisetype2_1', ['model' => $model]);
         }
         // นิติบุคคลรวม คิดตามน้ำหนักจริง รวม vat
-        else if ($model['typeregister'] == 1  && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 2) {
+        else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 2) {
             $content = $this->renderPartial('promisetype/_promisetype2_2', ['model' => $model]);
         }
         // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่มี vat
@@ -543,30 +544,29 @@ class PromiseController extends Controller {
             $content = $this->renderPartial('promisetype/_promisetype2_3', ['model' => $model]);
         }
         //------------------------------------------------------------------------------------------
-       
         //นิติบุคคล เหมาจ่ายรายเดือน ไม่รวม vat
         else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 3) {
-           $content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
+            $content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
         }
         //นิติบุคคล เหมาจ่ายรายเดือน รวม vat
         else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 3) {
-           $content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
+            $content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
         }
         // นิติบุคคล เหมาจ่ายรายเดือน ไม่มี vat
         else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 3) {
-           $content = $this->renderPartial('promisetype/_promisetype3_3', ['model' => $model] );
+            $content = $this->renderPartial('promisetype/_promisetype3_3', ['model' => $model]);
         }
         //------------------------------------------------------------------------------------
-         //บุคคลธรรมดา รายครั้ง
-         else if ($model['typeregister'] == 3 && $model['recivetype'] == 1) {
+        //บุคคลธรรมดา รายครั้ง
+        else if ($model['typeregister'] == 3 && $model['recivetype'] == 1) {
             $content = $this->renderPartial('promisetype/_promisetype4_1', ['model' => $model]);
         }
-         //บุคคลธรรมดา คิดตามน้ำหนักจริง
-         else if ($model['typeregister'] == 3 && $model['recivetype'] == 2) {
+        //บุคคลธรรมดา คิดตามน้ำหนักจริง
+        else if ($model['typeregister'] == 3 && $model['recivetype'] == 2) {
             $content = $this->renderPartial('promisetype/_promisetype4_2', ['model' => $model]);
         }
-         //บุคคลธรรมดา เหมาจ่ายรายเดือน
-         else if ($model['typeregister'] == 3 && $model['recivetype'] == 3) {
+        //บุคคลธรรมดา เหมาจ่ายรายเดือน
+        else if ($model['typeregister'] == 3 && $model['recivetype'] == 3) {
             $content = $this->renderPartial('promisetype/_promisetype4_3', ['model' => $model]);
         }
         //------------------------------------------------------------------------------------------
