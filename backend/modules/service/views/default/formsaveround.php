@@ -107,6 +107,14 @@ $this->params['breadcrumbs'][] = $this->title;
             $("#garbageover").val("");
         });
     }
+
+    function deleteRound(id){
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/deleteround']) ?>";
+        var data = {id: id};
+        $.post(url,data,function(datas){
+            getRound();
+        });
+    }
 </script>
 
 

@@ -461,8 +461,8 @@ class DefaultController extends Controller {
 				where r.promiseid = '$promiseId'";
         $RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
         $i = 0;
-        $str = "";
-        $str .= "<br/><b>ประวัติการจัดเก็บ</b><br/>
+        $str = "<br/><p class=\"text-danger\">*กรณีที่ลงข้อมูลผิดให้ลบแล้วลงใหม่(ลบได้เฉพาะคนที่บันทึกเท่านั้น)</p>";
+        $str .= "<b>ประวัติการจัดเก็บ</b><br/>
 			<table class='table table-bordered'>
 				<thead>
 					<tr>
@@ -483,7 +483,7 @@ class DefaultController extends Controller {
             $str .= "<td style='text-align:right;'>" . $rs['garbageover'] . " กิโลกรัม</td>";
             $str .= "<td style='text-align:center;'>" . $rs['name'] . "</td>";
             if (Yii::$app->user->id == $rs['keepby']) {
-                $str .= "<td style='text-align:center;'><i class='fa fa-pencil'></i></td>";
+                $str .= "<td style='text-align:center;'><i class='fa fa-trash' onclick='deleteRound(".$rs['id'].")'></i></td>";
             } else {
                 $str .= "<td style='text-align:center;'></td>";
             }
@@ -493,6 +493,13 @@ class DefaultController extends Controller {
         $str .= "</tbody></table>";
 
         return $str;
+    }
+
+    public function actionDeleteround(){
+        $id = Yii::$app->request->post('id');
+        Yii::$app->db->createCommand()
+                ->delete("roundgarbage","id = '$id'")
+                ->execute();
     }
 
 }
