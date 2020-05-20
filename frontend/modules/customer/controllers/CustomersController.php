@@ -55,7 +55,7 @@ class CustomersController extends Controller {
         $promiseId = $promise['id'];
         $sql = "SELECT *
                     FROM invoice i
-                    WHERE i.status = '0' AND i.promise = '$promiseId'";
+                    WHERE i.status IN('0','2') AND i.promise = '$promiseId'";
         $data['invoicelist'] = Yii::$app->db->createCommand($sql)->queryAll();
         $data['bank'] = $this->getBookbank();
         return $this->render('invoice', $data);
@@ -65,6 +65,7 @@ class CustomersController extends Controller {
         $sql = "SELECT *
                     FROM invoice i
                     WHERE i.id = '$id'";
+        $data['id'] = $id;
         $data['order'] = Yii::$app->db->createCommand($sql)->queryOne();
         $data['bank'] = $this->getBookbank();
         return $this->render('payment', $data);
@@ -263,6 +264,23 @@ class CustomersController extends Controller {
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         $data['promise'] = $rs;
         return $this->render('promise', $data);
+    }
+
+    public function actionSaveconfirmorder(){
+        $id = Yii::$app->request->post('id');
+        $dateservice = Yii::$app->request->post('dateservice');
+        $timeservice = Yii::$app->request->post('timeservice');
+        $comment = Yii::$app->request->post('comment');
+
+        $columns = array(
+            "dateservice" => $dateservice,
+            "timeservice" => $timeservice,
+            "comment" => $comment,
+            "status" => 2
+        );
+        Yii::$app->db->createCommand()
+            ->update("invoice",$columns,"id = '$id'")
+            ->execute();
     }
 
 }

@@ -15,9 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr/>
     <div class="list-group">
         <?php foreach ($invoicelist as $rs): ?>
+        <?php if($rs['status'] == "0"){ ?>
             <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/payment', 'id' => $rs['id']]) ?>" class="list-group-item">
                 Invoice #(<?php echo $rs['invoicenumber'] ?>) <?php echo ($rs['typeinvoice'] == 0) ? "ค่ากำจัดขยะติดเชื้อ" : "ค่าเรียกเก็บขยะส่วนเกิน"; ?> จำนวน (<?php echo number_format($rs['total'], 2) ?> .-)
             </a>
+        <?php } else if($rs['status'] == "2") { ?>
+            <em class='text-warning'>(อยู่ระหว่างการตรวจสอบ)Invoice #(<?php echo $rs['invoicenumber'] ?>) <?php echo ($rs['typeinvoice'] == 0) ? "ค่ากำจัดขยะติดเชื้อ" : "ค่าเรียกเก็บขยะส่วนเกิน"; ?> จำนวน (<?php echo number_format($rs['total'], 2) ?> .-)</em>
+           
+        <?php } ?>
         <?php endforeach; ?>
     </div>
     <br/>

@@ -94,19 +94,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-12 col-lg-12">
-        <button class="btn btn-success" onclick="confirmOrder()">บันทึกข้อมูล</button>
+        <button class="btn btn-success" onclick="confirmOrders()">บันทึกข้อมูล</button>
     </div>
 </div>
 
 
 <script type="text/javascript">
-    function confirmOrder() {
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/saveconfirmorder']) ?>";
-        var id = $("#orders").val();
+    function confirmOrders() {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/saveconfirmorder']) ?>";
+        var id = <?php echo $id ?>;
         var dateservice = $("#dateservice").val();
         var timeservice = $("#timeservice").val();
         var comment = $("#comment").val();
-        if (id == "" || dateservice == "" || timeservice == "") {
+        if (dateservice == "" || timeservice == "") {
             alert("กรอกข้อมูลไม่ครบ...");
             return false;
         }
@@ -116,11 +116,11 @@ $this->params['breadcrumbs'][] = $this->title;
             timeservice: timeservice,
             comment: comment
         };
-        //console.log(data);
+        console.log(data);
 
         $.post(url, data, function(datas) {
             alert("ยืนยันรายการสำเร็จ...");
-            window.location.reload();
+            window.location="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/2Finvoice']) ?>";
         });
     }
 
