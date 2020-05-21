@@ -13,6 +13,7 @@ use Mpdf\Config\FontVariables;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Yii;
+use yii\helpers\Json;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -827,6 +828,37 @@ class PromiseController extends Controller {
         $rs = Yii::$app->db->createCommand($sql)->queryAll();
         $data['promise'] = $rs;
         return $this->render('promisepay', $data);
+    }
+
+    public function actionPromisetype(){
+        //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $packege_id = $parents[0];
+                $datas = \app\models\Packagepayment::find()->where(['packege' => $packege_id])->all();
+                $out = $this->MapData($datas, 'id', 'payment');
+                return Json::encode(['output' => $out, 'selected' => '']);
+                //return ob_get_clean();
+            }
+        }
+
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    protected function MapData($datas, $fieldId, $fieldName) {
+        $obj = [];
+        foreach ($datas as $key => $value) {
+            array_push($obj, ['id' => $value->{$fieldId}, 'name' => $value->{$fieldName}]);
+        }
+        return $obj;
+    }
+
+    public function actionGetpayment(){
+        $id = Yii::$app->request->post('id');
+        $data = \app\models\Packagepayment::find()->where(['id' => $id])->One();
+        return $data['distcount'];
     }
 
 }

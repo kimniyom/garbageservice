@@ -66,4 +66,6 @@ if (Yii::$app->controller->action->id === 'login') {
 <?php } ?>
 
 <script type="text/javascript" src="<?php echo Url::to('@web/web/uploadifive/jquery.uploadifive.min.js') ?>"></script>
+<script type="text/javascript" src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
 

@@ -159,7 +159,7 @@ Modal::End();
                              */
                                 [
                                 'label' => 'ปริมาณขยะ',
-                                'value' => ($model['recivetype'] == 1) ? "ไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง" : "-",
+                                'value' => ($model['recivetype'] != 2) ? "ไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง" : "-",
                             ],
                                 [
                                 'label' => 'มัดจำล่วงหน้า (เดือน)',

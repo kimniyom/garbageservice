@@ -4,10 +4,12 @@
 use app\models\Maspackage;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
+use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use app\models\Config;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\promise\models\Promise */
@@ -139,11 +141,28 @@ for ($i = 1; $i <= 36; $i++) {
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
                                 <?php $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package'); ?>
-                                <?=
-                                $form->field($model, 'recivetype')->dropDownList($listPackage, [
+                                <?php
+                                    echo $form->field($model, 'recivetype')->widget(Select2::classname(), [
+                                        'data' => $listPackage,
+                                        'language' => 'th',
+                                        'options' => [
+                                            'placeholder' => '... ประเภทการจ้าง ...',
+                                            'id' => 'RECIVETYPE',
+                                            'onchange' => 'getrecivetype(this.value)',
+                                        ],
+                                        'pluginOptions' => [
+                                            'allowClear' => true,
+                                        ],
+                                        //'onchange' => 'getrecivetype(this.value)',
+                                    ]);
+                                ?>
+                                <?php
+                                /*
+                                echo $form->field($model, 'recivetype')->dropDownList($listPackage, [
                                     'onchange' => 'getrecivetype(this.value)',
                                         ]
                                 );
+                                */
                                 ?>
                             </div>
 
@@ -173,13 +192,34 @@ for ($i = 1; $i <= 36; $i++) {
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
                                 <?=
-                                $form->field($model, 'payment')->dropDownList([
+                                $form->field($model, 'payment')->widget(DepDrop::classname(), [
+                                    'data' => ArrayHelper::map(app\models\Packagepayment::find()->where(['packege' => $model->recivetype])->all(), 'id', 'payment'),
+                                    'type' => DepDrop::TYPE_SELECT2,
+                                    'options' => [
+                                        'id' => 'PAYMENT',
+                                        'onchange' => 'setdistCount(this.value)',
+                                        'placeholder' => '... เลือกการชำระเงิน ...',
+                                    ],
+                                    //'data' => [$model->truck1],
+                                    'pluginOptions' => [
+                                        'required' => 'required',
+                                        'depends' => ['RECIVETYPE'],
+                                        
+                                        'url' => Url::to(['promise/promisetype']),
+                                    ],
+                                ]);
+                                ?>
+
+                                <?php
+                                /*
+                                echo $form->field($model, 'payment')->dropDownList([
                                     "" => "== กรุณาเลือก ==",
                                     0 => 'แบ่งจ่ายรายเดือน / รายครั้ง',
                                     1 => 'เหมาจ่าย',
                                         ], [
                                     'onchange' => 'setDistcount()',
                                 ])
+                                */
                                 ?>
                             </div>
                         </div>
@@ -350,22 +390,55 @@ for ($i = 1; $i <= 36; $i++) {
     </div>
 </div>
 
+
+<div class="modal fade" tabindex="-1" role="dialog" id="popupsetYear" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="totalYear" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="setTypePromise()">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <?php
 $this->registerJs("setScreen();");
 if ($model->id == "") {
     $this->registerJs("getrecivetype(1);");
-    $this->registerJs("setDistcount()");
+    //$this->registerJs("setDistcount()");
 } else {
     $this->registerJs("getrecivetype(" . $model->recivetype . ");");
     $this->registerJs("getvattype()");
-    $this->registerJs("setDistcount()");
+    /*
+    $this->registerJs("
+    setDistcount();
+    ");
+    */
 }
 ?>
 <script>
-
-    function setDistcount() {
+    function setdistCount(val) {
+        var paymentId = val;
+        var url = "<?php echo Url::to(['promise/getpayment']) ?>";
+        var data = {id: paymentId};
+        $.post(url,data,function(res){
+            //alert(res);
+            if(res == 1){
+                $(".distcount").show();
+            } else {
+                $(".distcount").hide();
+            }
+        });
+        /*
         var payment = $("#promise-payment").val();
-        //alert("ประเภท " + type + " การชำระ " + payment);
         var type = parseInt($("#promise-recivetype").val());
         if (type != 2) {
             if (payment == 0) {
@@ -376,11 +449,10 @@ if ($model->id == "") {
         } else {
             $(".distcount").hide();
         }
+        */
     }
 
-    function getvattype()
-    {
-        //enable vattype
+    function getvattype(){
         var vat = $("#promise-vat").val();
         if (vat == 0) {
             $("#divvattype").hide();
@@ -391,25 +463,25 @@ if ($model->id == "") {
 
     function getrecivetype(type) {
         $("#promise-payment").val("");
-        var payment = $("#promise-payment").val();
-        if (payment == 0) {
-            $(".distcount").hide();
-        } else {
-            $(".distcount").show();
-        }
+        //var payment = $("#promise-payment").val();
+        //if (payment == 0) {
+            //$(".distcount").hide();
+        //} else {
+            //$(".distcount").show();
+        //}
         if (type == 1) {
             $("#garbageweight").show();
             $(".fine").show();
             $("#divmonth").show();
             $("#divyear").show();
-            $(".distcount").show();
+            //$(".distcount").show();
             $("#dateservice").show();
             $("#unit").show();
             //calculation();
         } else if (type == 2) {
             $(".fine").hide();
             $("#divmonth").hide();
-            $(".distcount").hide();
+            //$(".distcount").hide();
             $("#garbageweight").hide();
             $("#divyear").hide();
             $("#promise-rate").val(0);
@@ -417,11 +489,15 @@ if ($model->id == "") {
             $("#dateservice").hide();
             $("#unit").show();
         } else if (type == 3) {
-            $("#garbageweight").hide();
-            $(".distcount").show();
-            $(".fine").hide();
+            $("#garbageweight").show();
+            //$(".distcount").show();
+            $(".fine").show();
             $("#dateservice").show();
             $("#unit").hide();
+            $("#divyear").show();
+            $("#popupsetYear").modal();
+            //$("#promise-payperyear").removeAttr("readonly");
+            //$("#promise-payperyear").focus();
         }
     }
 
@@ -511,5 +587,11 @@ if ($model->id == "") {
         var h = window.innerHeight;
         $("#box-left").css({"height": h - 141});
         $("#box-right").css({"height": h - 255});
+    }
+
+    function setTypePromise(){
+        var total = $("#totalYear").val();
+        $("#promise-payperyear").val(total);
+        $("#popupsetYear").modal("hide");
     }
 </script>
