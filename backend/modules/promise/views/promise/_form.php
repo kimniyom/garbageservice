@@ -142,27 +142,27 @@ for ($i = 1; $i <= 36; $i++) {
                             <div class="col-md-4 col-lg-5">
                                 <?php $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package'); ?>
                                 <?php
-                                    echo $form->field($model, 'recivetype')->widget(Select2::classname(), [
-                                        'data' => $listPackage,
-                                        'language' => 'th',
-                                        'options' => [
-                                            'placeholder' => '... ประเภทการจ้าง ...',
-                                            'id' => 'RECIVETYPE',
-                                            'onchange' => 'getrecivetype(this.value)',
-                                        ],
-                                        'pluginOptions' => [
-                                            'allowClear' => true,
-                                        ],
+                                echo $form->field($model, 'recivetype')->widget(Select2::classname(), [
+                                    'data' => $listPackage,
+                                    'language' => 'th',
+                                    'options' => [
+                                        'placeholder' => '... ประเภทการจ้าง ...',
+                                        'id' => 'RECIVETYPE',
+                                        'onchange' => 'getrecivetype(this.value)',
+                                    ],
+                                    'pluginOptions' => [
+                                        'allowClear' => true,
+                                    ],
                                         //'onchange' => 'getrecivetype(this.value)',
-                                    ]);
+                                ]);
                                 ?>
                                 <?php
                                 /*
-                                echo $form->field($model, 'recivetype')->dropDownList($listPackage, [
-                                    'onchange' => 'getrecivetype(this.value)',
-                                        ]
-                                );
-                                */
+                                  echo $form->field($model, 'recivetype')->dropDownList($listPackage, [
+                                  'onchange' => 'getrecivetype(this.value)',
+                                  ]
+                                  );
+                                 */
                                 ?>
                             </div>
 
@@ -204,7 +204,6 @@ for ($i = 1; $i <= 36; $i++) {
                                     'pluginOptions' => [
                                         'required' => 'required',
                                         'depends' => ['RECIVETYPE'],
-                                        
                                         'url' => Url::to(['promise/promisetype']),
                                     ],
                                 ]);
@@ -212,14 +211,14 @@ for ($i = 1; $i <= 36; $i++) {
 
                                 <?php
                                 /*
-                                echo $form->field($model, 'payment')->dropDownList([
-                                    "" => "== กรุณาเลือก ==",
-                                    0 => 'แบ่งจ่ายรายเดือน / รายครั้ง',
-                                    1 => 'เหมาจ่าย',
-                                        ], [
-                                    'onchange' => 'setDistcount()',
-                                ])
-                                */
+                                  echo $form->field($model, 'payment')->dropDownList([
+                                  "" => "== กรุณาเลือก ==",
+                                  0 => 'แบ่งจ่ายรายเดือน / รายครั้ง',
+                                  1 => 'เหมาจ่าย',
+                                  ], [
+                                  'onchange' => 'setDistcount()',
+                                  ])
+                                 */
                                 ?>
                             </div>
                         </div>
@@ -368,10 +367,10 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <!-- <div class="row">
                             <div class="col-md-12 col-lg-6">
-                        <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])    ?>
+                        <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])     ?>
                             </div>
                             <div class="col-md-12 col-lg-6">
-                        <?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])    ?>
+                        <?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])     ?>
                             </div>
                         </div> -->
                         <?php if ($error) { ?>
@@ -392,21 +391,25 @@ for ($i = 1; $i <= 36; $i++) {
 
 
 <div class="modal fade" tabindex="-1" role="dialog" id="popupsetYear" data-backdrop="static">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control" id="totalYear" />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="setTypePromise()">Save changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                -->
+                <h4 class="modal-title">ค่าจ้างต่อปี</h4>
+            </div>
+            <div class="modal-body">
+                ค่าจ้างปีละ
+                <input type="text" class="form-control" id="totalYear" onKeyUp="if (this.value * 1 != this.value)
+                            this.value = '';"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="javascript:window.location.reload();">Close</button>
+                <button type="button" class="btn btn-primary" onclick="setTypePromise()">Save</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <?php
@@ -418,10 +421,10 @@ if ($model->id == "") {
     $this->registerJs("getrecivetype(" . $model->recivetype . ");");
     $this->registerJs("getvattype()");
     /*
-    $this->registerJs("
-    setDistcount();
-    ");
-    */
+      $this->registerJs("
+      setDistcount();
+      ");
+     */
 }
 ?>
 <script>
@@ -429,30 +432,30 @@ if ($model->id == "") {
         var paymentId = val;
         var url = "<?php echo Url::to(['promise/getpayment']) ?>";
         var data = {id: paymentId};
-        $.post(url,data,function(res){
+        $.post(url, data, function(res) {
             //alert(res);
-            if(res == 1){
+            if (res == 1) {
                 $(".distcount").show();
             } else {
                 $(".distcount").hide();
             }
         });
         /*
-        var payment = $("#promise-payment").val();
-        var type = parseInt($("#promise-recivetype").val());
-        if (type != 2) {
-            if (payment == 0) {
-                $(".distcount").hide();
-            } else {
-                $(".distcount").show();
-            }
-        } else {
-            $(".distcount").hide();
-        }
-        */
+         var payment = $("#promise-payment").val();
+         var type = parseInt($("#promise-recivetype").val());
+         if (type != 2) {
+         if (payment == 0) {
+         $(".distcount").hide();
+         } else {
+         $(".distcount").show();
+         }
+         } else {
+         $(".distcount").hide();
+         }
+         */
     }
 
-    function getvattype(){
+    function getvattype() {
         var vat = $("#promise-vat").val();
         if (vat == 0) {
             $("#divvattype").hide();
@@ -465,9 +468,9 @@ if ($model->id == "") {
         $("#promise-payment").val("");
         //var payment = $("#promise-payment").val();
         //if (payment == 0) {
-            //$(".distcount").hide();
+        //$(".distcount").hide();
         //} else {
-            //$(".distcount").show();
+        //$(".distcount").show();
         //}
         if (type == 1) {
             $("#garbageweight").show();
@@ -489,6 +492,7 @@ if ($model->id == "") {
             $("#dateservice").hide();
             $("#unit").show();
         } else if (type == 3) {
+            $("#divmonth").show();
             $("#garbageweight").show();
             //$(".distcount").show();
             $(".fine").show();
@@ -589,9 +593,16 @@ if ($model->id == "") {
         $("#box-right").css({"height": h - 255});
     }
 
-    function setTypePromise(){
-        var total = $("#totalYear").val();
+    function setTypePromise() {
+        var total = parseInt($("#totalYear").val());
+        if (total == "") {
+            alert("กรุณากรอกจำนวน...");
+            $("#totalYear").focus();
+            return false;
+        }
+        var totamonth = (total / 12);
         $("#promise-payperyear").val(total);
+        $("#promise-rate").val(totamonth.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
         $("#popupsetYear").modal("hide");
     }
 </script>
