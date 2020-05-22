@@ -365,6 +365,9 @@ for ($i = 1; $i <= 36; $i++) {
                             </div>
                         </div>
 
+                        <input type="checkbox" id="accept"/> *ให้แน่ใจว่าข้อมูลที่จะบันทึกถูกต้องครบถ้วนแล้ว 
+                        เมื่อท่านบันทึกข้อมูลจะไม่สมารถแก้ไขข้อมูลได้ในภายหลัง ต้องลบและสร้างใหม่เท่านั้น
+
                         <!-- <div class="row">
                             <div class="col-md-12 col-lg-6">
                         <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])     ?>
@@ -380,7 +383,13 @@ for ($i = 1; $i <= 36; $i++) {
                 </div>
                 <div class="box-footer">
                     <div class="form-group">
+                    <div id="btn-save" style="display:none;">
                         <?= Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success']) ?>
+                    </div>
+                    <div id="btn-save-hide">
+                        <div class="btn btn-default disabled">บันทึกข้อมูลสัญญา</div>
+                    </div>
+                       
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>
@@ -406,7 +415,6 @@ for ($i = 1; $i <= 36; $i++) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="javascript:window.location.reload();">Close</button>
-                <button type="button" class="btn btn-primary" onclick="setTypePromise()">Save</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -416,6 +424,28 @@ for ($i = 1; $i <= 36; $i++) {
 $this->registerJs("setScreen();");
 if ($model->id == "") {
     $this->registerJs("getrecivetype(1);");
+
+
+    $this->registerJs("$(document).ready(function() {
+        if ($('#accept').is(':checked')) {
+            $('#btn-save').show();
+            $('#btn-save-hide').hide();
+        } else {
+            $('#btn-save-hide').show();
+            $('#btn-save').hide();
+        }
+
+        $('#accept').click(function() {
+            if ($(this).is(':checked')) {
+                $('#btn-save').show();
+                $('#btn-save-hide').hide();
+            } else {
+                $('#btn-save-hide').show();
+                $('#btn-save').hide();
+            }
+        });
+    })
+    ");
     //$this->registerJs("setDistcount()");
 } else {
     $this->registerJs("getrecivetype(" . $model->recivetype . ");");
@@ -465,6 +495,7 @@ if ($model->id == "") {
     }
 
     function getrecivetype(type) {
+        resetForm();
         $("#promise-payment").val("");
         //var payment = $("#promise-payment").val();
         //if (payment == 0) {
@@ -604,5 +635,22 @@ if ($model->id == "") {
         $("#promise-payperyear").val(total);
         $("#promise-rate").val(totamonth.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
         $("#popupsetYear").modal("hide");
+    }
+
+    function resetForm(){
+        $("#promise-vat").val("");
+        $("#promise-yearunit").val("");
+        $("#promise-vattype").val("");
+        $("#promise-unitprice").val("");
+        $("#promise-payment").val("");
+        $("#promise-rate").val("");
+        $("#promise-payperyear").val(0);
+        $("#promise-total").val(0);
+        $("#promise-distcountpercent").val(0);
+        $("#promise-distcountbath").val(0);
+        $("#promise-garbageweight").val("");
+        $("#promise-levy").val("");
+        $("#promise-deposit").val("");
+        $("#promise-totalYear").val("");
     }
 </script>
