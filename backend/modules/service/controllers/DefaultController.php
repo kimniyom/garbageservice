@@ -112,12 +112,13 @@ class DefaultController extends Controller {
         //ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
         //$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
         $sql = "select c.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
-		from customers c
+                    from customers c
 		inner join changwat p on c.changwat = p.changwat_id
 		inner join ampur a on c.ampur = a.ampur_id
 		inner join tambon t on c.tambon = t.tambon_id
-                                inner join promise pro on c.id = pro.customerid
-                                where pro.`status` = '2' and pro.payment = '0'";
+                                   inner join promise pro on c.id = pro.customerid
+                                   INNER JOIN packagepayment pm ON pro.payment = pm.id
+                    where pro.`status` = '2' and pm.typepayment = 'M'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customer'] = $result;
         $data['type'] = $type;
@@ -382,8 +383,8 @@ class DefaultController extends Controller {
 				inner join changwat ch on c.changwat = ch.changwat_id
 				inner join ampur a on c.ampur = a.ampur_id
 				inner join tambon t on c.tambon = t.tambon_id
-                                                                       inner join packagepayment pm ON p.payment = pm.id
-				where p.status = '$type' and p.payment = '1' ";
+				inner join packagepayment pm ON p.payment = pm.id
+				where p.recivetype = '$type' AND pm.typepayment = 'Y'";
         $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
         $data['type'] = $type;
         return $this->render('createinvoiceyear', $data);
