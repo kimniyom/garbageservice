@@ -87,65 +87,67 @@ Modal::End();
                     DetailView::widget([
                         'model' => $model,
                         'attributes' => [
-                                [
+                            [
                                 'label' => 'เลขที่สัญญา',
                                 'attribute' => 'promisenumber',
                             ],
-                                [
+                            [
                                 'label' => 'ลูกค้า',
                                 'attribute' => 'company',
+                                'format' => 'raw', // I want something like this
+                                'value' => yii\bootstrap\Html::a($model['company'], Yii::$app->urlManager->createUrl(['customer/customers/view', 'id' => $model['id']])),
                             ],
-                                [
+                            [
                                 'label' => 'ทำสัญญา ณ ',
                                 'value' => $model['address'] . ' ' . $model['tambon'] . ' ' . $model['ampur'] . ' ' . $model['changwat'],
                             ],
-                                [
+                            [
                                 'label' => 'วันทำสัญญา',
                                 'value' => $Config->thaidate($model['createat']),
                             ],
-                                [
+                            [
                                 'label' => 'วันเริ่มสัญญา',
                                 'value' => $Config->thaidate($model['promisedatebegin']),
                             ],
-                                [
+                            [
                                 'label' => 'วันสิ้นสุดสัญญา',
                                 'value' => $Config->thaidate($model['promisedateend']),
                             ],
-                                [
+                            [
                                 'label' => 'ประเภทการจ้าง',
                                 'value' => Maspackage::findOne(['id' => $model['recivetype']])['package'],
                             ],
-                                [
+                            [
                                 'label' => 'ราคาต่อหน่วย',
-                                'value' => $model['unitprice'],
+                                'value' => ($model['unitprice']) ? $model['unitprice'] : "-",
                             ],
-                                [
+                            [
                                 'label' => 'จำนวนครั้งที่จัดเก็บต่อเดือน',
                                 'attribute' => 'levy',
                             ],
-                                [
+                            [
                                 'label' => 'ค่าบริการรายเดือน',
                                 'attribute' => 'rate',
                             ],
-                                [
+                            [
                                 'label' => ($model['recivetype'] == 2) ? "-" : "ค่าจ้างต่อปี(ปกติ) ",
                                 'format' => 'html',
                                 'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['payperyear'], 2)) . " <em>" . $vat . "</em>",
                             ],
-                                [
+                            [
                                 'label' => ($model['distcountpercent'] != "") ? "ส่วนลด " . $model['distcountpercent'] . " %" : "ส่วนลด",
                                 'value' => ($model['distcountbath'] != "") ? number_format($model['distcountbath'], 2) : "-",
                             ],
-                                [
+                            [
                                 'label' => $model['recivetype'] == 2 ? "-" : "ค่าจ้างต่อปี(หักส่วนลด)",
                                 'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['total'], 2)),
                             ],
-                                [
+                            [
                                 'label' => "ค่าปรับกิโลที่เกิน",
                                 'format' => 'html',
                                 'value' => ($model['fine'] != "") ? "กิโลกรัมละ " . $model['fine'] . " บาท" : "-",
                             ],
-                                [
+                            [
                                 'label' => 'ระยะสัญญา',
                                 'attribute' => 'yearunit',
                                 'value' => $model['yearunit'] . " ปี",
@@ -157,27 +159,27 @@ Modal::End();
                               'value' => "ทุกวัน " . $Config->dayInweek($model['dayinweek']) . " ของสัปดาห์ที่ " . $model['weekinmonth'],
                               ],
                              */
-                                [
+                            [
                                 'label' => 'ปริมาณขยะ',
                                 'value' => ($model['recivetype'] != 2) ? "ไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง" : "-",
                             ],
-                                [
+                            [
                                 'label' => 'มัดจำล่วงหน้า (เดือน)',
                                 'value' => ($model['deposit'] != "") ? $model['deposit'] . " เดือน" : "-",
                             ],
-                                [
+                            [
                                 'label' => 'ชื่อผู้ติดต่อได้สะดวก',
                                 'value' => $model['manager'],
                             ],
-                                [
+                            [
                                 'label' => 'เบอร์โทร',
-                                'value' => $model['tel'],
+                                'value' => ($model['tel']) ? $model['tel'] : "" . "  " . ($model['telephone']) ? $model['telephone'] : "",
                             ],
-                                [
+                            [
                                 'label' => 'สถานะการชำระเงิน',
                                 'value' => $model['checkmoney'] == 0 ? "ยังไม่ได้ชำระ" : "ชำระแล้ว",
                             ],
-                                [
+                            [
                                 'label' => 'สถานะสัญญา',
                                 'value' => function ($model) {
                                     if ($model['status'] == 0) {
@@ -188,26 +190,28 @@ Modal::End();
                                         return "กำลังใช้งาน";
                                     } else if ($model['status'] == 3) {
                                         return "กำลังต่อสัญญา";
+                                    } else {
+                                        return "ยกเลิกสัญญา";
                                     }
                                 },
                             ],
-                                [
+                            [
                                 'label' => 'ผู้ว่าจ้างคนที่ 1',
                                 'value' => $model['employer1'],
                             ],
-                                [
+                            [
                                 'label' => 'ผู้ว่าจ้างคนที่ 2',
                                 'value' => $model['employer2'],
                             ],
-                                [
+                            [
                                 'label' => 'พยานคนที่ 1',
                                 'value' => $model['witness1'],
                             ],
-                                [
+                            [
                                 'label' => 'พยานคนที่ 2',
                                 'value' => $model['witness2'],
                             ],
-                                [
+                            [
                                 'label' => 'สถานะการใช้งาน',
                                 'value' => $model['active'] == 1 ? "ใช้งาน" : "ไม่ใช้งาน",
                             ],
@@ -241,7 +245,11 @@ Modal::End();
                                     $countRoundgarbage = $promiseModel->GetststusGarbage($yearMonth);
                                     echo "<pre>";
                                     echo $yearMonth;
-                                    echo ($yearMonth > 0) ? "<p class='t-right'><i class='fa fa-check text-success'></i> มีการจัดเก็บ</p>" : "<p class='t-right'><i class='fa fa-remove text-danger'></i> ยังไม่มีการจัดเก็บ</p>";
+                                    if ($rs['status'] == 3) {
+                                        echo "<p class='t-right'><i class='fa fa-remove text-danger'></i> ยกเลิกสัญญา</p>";
+                                    } else {
+                                        echo ($yearMonth > 0) ? "<p class='t-right'><i class='fa fa-check text-success'></i> มีการจัดเก็บ</p>" : "<p class='t-right'><i class='fa fa-info text-warning'></i> ยังไม่มีการจัดเก็บ</p>";
+                                    }
                                     echo "</pre>";
                                 }
                                 ?>
@@ -253,13 +261,10 @@ Modal::End();
                                 <?php echo $model['checkmoney'] == 0 ? "ยังไม่ได้ชำระ" : "ชำระแล้ว"; ?>
                             </h4>
                         <?php } ?>
-
                     </div>
                 </div>
             </div>
             <!-- /.nav-tabs-custom -->
-
-
         </div>
     </div>
 </div>
@@ -282,6 +287,6 @@ $this->registerJs('
             } else {
                 alert("ไม่สามารถแก้ไขสถานะสัญญาได้");
             }
-        })
+        });
     }
 </script>

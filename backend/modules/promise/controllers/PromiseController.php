@@ -138,9 +138,7 @@ class PromiseController extends Controller {
         //ตัวอย่างหากต้องการ SN59-00001
         $lastRecord = Promise::find()->where(['like', 'promisenumber', 'IC'])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
         if ($lastRecord) {
-
             $digit = explode('IC', $lastRecord->promisenumber);
-
             $lastDigit = ((int) $digit[1]); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
             $lastDigit++; //เพิ่ม 1
             $lastDigit = str_pad($lastDigit, 5, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
@@ -152,7 +150,10 @@ class PromiseController extends Controller {
     }
 
     public function actionSetmonth($promiseID, $customerID, $promiesYear, $dateStart, $priceMonth) {
-        $month = ($promiesYear * 12);
+        if ($promiesYear == "") {
+            $promiesYear = 1;
+        }
+        $month = ((int) $promiesYear * 12);
         $total_month = $month + 1; //เอามาบวก 1 เพื่อให้ต้วแปร i เริ่มต้นที่ 1 เพราะปกติตัวแปรอาเรย์จะเริ่มต้นที่ 0
         $pay = $priceMonth;
         $j = 0;
@@ -207,14 +208,14 @@ class PromiseController extends Controller {
                 //$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
                 //} else {
                 //ถ้าแบ่งจ่ายรายเดือนจะคำนวณหาวันที่ต้องชำระเงินในแต่ละเดือน
-                if ($model->payment == 0) {
-                    $id = $model->id;
-                    Yii::$app->db->createCommand()
-                            ->delete("roundmoney", "promiseid = '$id'")
-                            ->execute();
+                //if ($model->payment == 0) {
+                $id = $model->id;
+                Yii::$app->db->createCommand()
+                        ->delete("roundmoney", "promiseid = '$id'")
+                        ->execute();
 
-                    $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
-                }
+                $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                //}
 
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -242,7 +243,6 @@ class PromiseController extends Controller {
      */
     public function actionDelete($id) {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -252,12 +252,26 @@ class PromiseController extends Controller {
         $model->active = '0';
 
         if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
+            $this->setCancelPromise($id);
             return $this->redirect(['index']);
         }
 
         return $this->renderAjax('_modalcancel', [
                     'model' => $model,
         ]);
+    }
+
+    function setCancelPromise($promiseId) {
+        if ($promiseId) {
+            //อัพเดทรอบจัดเก็บให้เป็นสถานะยกเลิกสัญญาด้วย
+            $columns = array(
+                "status" => 3,
+                "datekeep" => date("Y-m-d")
+            );
+            Yii::$app->db->createCommand()
+                    ->update("roundmoney", $columns, "promiseid='$promiseId' and status = '0'")
+                    ->execute();
+        }
     }
 
     public function actionGetdoc($id, $customerid) {
@@ -439,9 +453,7 @@ class PromiseController extends Controller {
                 WHERE
                     customers.flag = 1
                     AND customers.approve = 'Y'
-                    AND promise.id = '{$id}'
-
-        ";
+                    AND promise.id = '{$id}'";
 
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
@@ -830,7 +842,7 @@ class PromiseController extends Controller {
         return $this->render('promisepay', $data);
     }
 
-    public function actionPromisetype(){
+    public function actionPromisetype() {
         //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
         if (isset($_POST['depdrop_parents'])) {
@@ -855,7 +867,7 @@ class PromiseController extends Controller {
         return $obj;
     }
 
-    public function actionGetpayment(){
+    public function actionGetpayment() {
         $id = Yii::$app->request->post('id');
         $data = \app\models\Packagepayment::find()->where(['id' => $id])->One();
         return $data['distcount'];

@@ -1,6 +1,5 @@
 <style>
     .bs-wizard {margin-top: 0px;}
-
     /*Form Wizard*/
     .bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;}
     .bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
@@ -45,42 +44,53 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <ul class="list-group">
-        <?php foreach ($promise as $rs): ?>
-            <li class="list-group-item" style=" font-weight: bold;">
-                <?php
-                $Customer = new Customers();
-                echo "(" . $rs['promisenumber'] . ")";
-                echo $Customer->findOne(['id' => $rs['customerid']])['company'];
+        <?php if ($promise) { ?>
+            <?php foreach ($promise as $rs): ?>
+                <li class="list-group-item" style=" font-weight: bold;">
+                    <?php
+                    $Customer = new Customers();
+                    echo "(" . $rs['promisenumber'] . ")";
+                    echo $Customer->findOne(['id' => $rs['customerid']])['company'];
 
-                $sql = "select * from promisefile where promiseid = '" . $rs['id'] . "'";
-                $checkfile = Yii::$app->db->createCommand($sql)->queryScalar();
-                ?>
-            </li>
-            <li class="list-group-item">
-                <div class="row bs-wizard" style="border-bottom:0;">
-                    <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] >= 1) ? "complete" : "disabled"; ?>">
-                        <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] >= 1) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
-                        <div class="progress"><div class="progress-bar"></div></div>
-                        <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
-                        <div class="bs-wizard-info text-center"></div>
-                    </div>
+                    $sql = "select * from promisefile where promiseid = '" . $rs['id'] . "'";
+                    $checkfile = Yii::$app->db->createCommand($sql)->queryScalar();
+                    ?>
+                </li>
+                <?php if ($rs['status'] != '4') { ?>
+                    <li class="list-group-item">
+                        <div class="row bs-wizard" style="border-bottom:0;">
+                            <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] >= 1) ? "complete" : "disabled"; ?>">
+                                <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] >= 1) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
+                                <div class="progress"><div class="progress-bar"></div></div>
+                                <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <div class="bs-wizard-info text-center"></div>
+                            </div>
 
-                    <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "complete" : "disabled"; ?>"><!-- complete -->
-                        <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ตรวจสอบบ / อัพโหลดสัญญา</div>
-                        <div class="progress"><div class="progress-bar"></div></div>
-                        <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
-                        <div class="bs-wizard-info text-center"></div>
-                    </div>
+                            <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "complete" : "disabled"; ?>"><!-- complete -->
+                                <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ตรวจสอบบ / อัพโหลดสัญญา</div>
+                                <div class="progress"><div class="progress-bar"></div></div>
+                                <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <div class="bs-wizard-info text-center"></div>
+                            </div>
 
-                    <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "active" : "disabled"; ?>"><!-- complete -->
-                        <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ทำสัญญาสำเร็จ</div>
-                        <div class="progress"><div class="progress-bar"></div></div>
-                        <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
-                        <div class="bs-wizard-info text-center"></div>
-                    </div>
-                </div>
-            </li>
-        <?php endforeach; ?>
+                            <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "active" : "disabled"; ?>"><!-- complete -->
+                                <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ทำสัญญาสำเร็จ</div>
+                                <div class="progress"><div class="progress-bar"></div></div>
+                                <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <div class="bs-wizard-info text-center"></div>
+                            </div>
+                        </div>
+                    </li>
+                <?php } else { ?>
+                    <li class="list-group-item text-danger">
+                        <i class="fa fa-remove"></i> ยกเลิกสัญญา<br/>
+                        เหตุผลการยกเลิก <?php echo $rs['etc'] ?>
+                    </li>
+                <?php } ?>
+            <?php endforeach; ?>
+        <?php } else { ?>
+            <li class="list-group-item" style=" text-align: center;">ยังไม่มีรายการ</li>
+            <?php } ?>
     </ul>
     <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
 

@@ -174,7 +174,7 @@ class DefaultController extends Controller {
                 $str .= "</div>";
             }
         endforeach;
-          $str .= "</div>";
+        $str .= "</div>";
         if ($RoundMoney) {
             return $str;
         } else {
@@ -382,7 +382,8 @@ class DefaultController extends Controller {
 				inner join changwat ch on c.changwat = ch.changwat_id
 				inner join ampur a on c.ampur = a.ampur_id
 				inner join tambon t on c.tambon = t.tambon_id
-				where p.status = '2' and p.payment = '1'";
+                                                                       inner join packagepayment pm ON p.payment = pm.id
+				where p.status = '$type' and p.payment = '1' ";
         $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
         $data['type'] = $type;
         return $this->render('createinvoiceyear', $data);
@@ -483,7 +484,7 @@ class DefaultController extends Controller {
             $str .= "<td style='text-align:right;'>" . $rs['garbageover'] . " กิโลกรัม</td>";
             $str .= "<td style='text-align:center;'>" . $rs['name'] . "</td>";
             if (Yii::$app->user->id == $rs['keepby']) {
-                $str .= "<td style='text-align:center;'><i class='fa fa-trash' onclick='deleteRound(".$rs['id'].")'></i></td>";
+                $str .= "<td style='text-align:center;'><i class='fa fa-trash' onclick='deleteRound(" . $rs['id'] . ")'></i></td>";
             } else {
                 $str .= "<td style='text-align:center;'></td>";
             }
@@ -495,10 +496,10 @@ class DefaultController extends Controller {
         return $str;
     }
 
-    public function actionDeleteround(){
+    public function actionDeleteround() {
         $id = Yii::$app->request->post('id');
         Yii::$app->db->createCommand()
-                ->delete("roundgarbage","id = '$id'")
+                ->delete("roundgarbage", "id = '$id'")
                 ->execute();
     }
 

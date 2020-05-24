@@ -63,7 +63,10 @@ for ($i = 1; $i <= 36; $i++) {
                             ชื่อลูกค้า <span class="badge"><?php echo $customer['company'] ?></span>
                         </div>
                         <div class="list-group-item">
-                            เบอร์โทรศัพท์ <span class="badge"><?php echo $customer['tel'] ?>,<?php echo $customer['telephone'] ?></span>
+                            เบอร์โทรศัพท์ <span class="badge">
+                                <?php echo ($customer['tel']) ? $customer['tel'] : "" ?>
+                                &nbsp;<?php echo ($customer['telephone']) ? $customer['telephone'] : "" ?>
+                            </span>
                         </div>
                         <div class="list-group-item">
                             ชื่อผู้ประสานงาน <span class="badge"><?php echo $customer['manager'] ?></span>
@@ -293,7 +296,7 @@ for ($i = 1; $i <= 36; $i++) {
                                     <?=
                                     $form->field($model, 'distcountpercent')->textInput(
                                             [
-                                                'value' => 0,
+                                                //'value' => 0,
                                                 'onkeyup' => 'calculationPercent()',
                                             ]
                                     )
@@ -303,7 +306,7 @@ for ($i = 1; $i <= 36; $i++) {
                                     <?=
                                     $form->field($model, 'distcountbath')->textInput(
                                             [
-                                                'value' => 0,
+                                                //'value' => 0,
                                                 'onkeyup' => 'calculationBath()',
                                             ]
                                     )
@@ -365,7 +368,7 @@ for ($i = 1; $i <= 36; $i++) {
                             </div>
                         </div>
 
-                        <input type="checkbox" id="accept"/> *ให้แน่ใจว่าข้อมูลที่จะบันทึกถูกต้องครบถ้วนแล้ว 
+                        <input type="checkbox" id="accept"/> *ให้แน่ใจว่าข้อมูลที่จะบันทึกถูกต้องครบถ้วนแล้ว
                         เมื่อท่านบันทึกข้อมูลจะไม่สมารถแก้ไขข้อมูลได้ในภายหลัง ต้องลบและสร้างใหม่เท่านั้น
 
                         <!-- <div class="row">
@@ -383,13 +386,13 @@ for ($i = 1; $i <= 36; $i++) {
                 </div>
                 <div class="box-footer">
                     <div class="form-group">
-                    <div id="btn-save" style="display:none;">
-                        <?= Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success']) ?>
-                    </div>
-                    <div id="btn-save-hide">
-                        <div class="btn btn-default disabled">บันทึกข้อมูลสัญญา</div>
-                    </div>
-                       
+                        <div id="btn-save" style="display:none;">
+                            <?= Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success']) ?>
+                        </div>
+                        <div id="btn-save-hide">
+                            <div class="btn btn-default disabled">บันทึกข้อมูลสัญญา</div>
+                        </div>
+
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>
@@ -415,18 +418,14 @@ for ($i = 1; $i <= 36; $i++) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="javascript:window.location.reload();">Close</button>
+                <button type="button" class="btn btn-primary" onclick="setTypePromise();">Save</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <?php
-$this->registerJs("setScreen();");
-if ($model->id == "") {
-    $this->registerJs("getrecivetype(1);");
-
-
-    $this->registerJs("$(document).ready(function() {
+$this->registerJs("$(document).ready(function() {
         if ($('#accept').is(':checked')) {
             $('#btn-save').show();
             $('#btn-save-hide').hide();
@@ -446,9 +445,12 @@ if ($model->id == "") {
         });
     })
     ");
+$this->registerJs("setScreen();");
+if ($model->id == "") {
+    $this->registerJs("getrecivetype();");
     //$this->registerJs("setDistcount()");
 } else {
-    $this->registerJs("getrecivetype(" . $model->recivetype . ");");
+    $this->registerJs("getrecivetypeEdit(" . $model->recivetype . ");");
     $this->registerJs("getvattype()");
     /*
       $this->registerJs("
@@ -459,6 +461,7 @@ if ($model->id == "") {
 ?>
 <script>
     function setdistCount(val) {
+        //Set Default Distcount
         var paymentId = val;
         var url = "<?php echo Url::to(['promise/getpayment']) ?>";
         var data = {id: paymentId};
@@ -467,6 +470,8 @@ if ($model->id == "") {
             if (res == 1) {
                 $(".distcount").show();
             } else {
+                var price = $("#promise-payperyear").val();
+                $("#promise-total").val(price);
                 $(".distcount").hide();
             }
         });
@@ -536,56 +541,95 @@ if ($model->id == "") {
         }
     }
 
+    function getrecivetypeEdit(type) {
+        //resetForm();
+        $("#promise-payment").val("");
+        if (type == 1) {
+            $("#garbageweight").show();
+            $(".fine").show();
+            $("#divmonth").show();
+            $("#divyear").show();
+            //$(".distcount").show();
+            $("#dateservice").show();
+            $("#unit").show();
+            //calculation();
+        } else if (type == 2) {
+            $(".fine").hide();
+            $("#divmonth").hide();
+            //$(".distcount").hide();
+            $("#garbageweight").hide();
+            $("#divyear").hide();
+            $("#promise-rate").val(0);
+            $("#promise-payperyear").val(0);
+            $("#dateservice").hide();
+            $("#unit").show();
+        } else if (type == 3) {
+            $("#divmonth").show();
+            $("#garbageweight").show();
+            //$(".distcount").show();
+            $(".fine").show();
+            $("#dateservice").show();
+            $("#unit").hide();
+            $("#divyear").show();
+            //$("#popupsetYear").modal();
+            //$("#promise-payperyear").removeAttr("readonly");
+            //$("#promise-payperyear").focus();
+        }
+    }
+
     function calculation() {
         var total = "";
         var totalSum = "";
         var vat = $("#promise-vat").val();
-        var type = parseInt($("#promise-recivetype").val());
+        var types = parseInt($("#RECIVETYPE").val());
         var unit = parseInt($("#promise-unitprice").val());
         var garbageweight = parseInt($("#promise-garbageweight").val());
         var levy = parseInt($("#promise-levy").val());
         //var payment = parseInt($("#promise-payment").val());
         //enable vattype
         getvattype();
+        var totalyear;
+        if (types == 1) {
 
-        if (type == 1) {
             total = (unit * levy);
             totalyear = (total * 12);
             let vatBath = (totalyear * 7) / 100;
-            if (vat == 1) {
-                totalSum = (totalyear - vatBath);
-            } else {
-                totalSum = totalyear;
-            }
-
+            /*
+             if (vat == 1) {
+             totalSum = (totalyear - vatBath);
+             } else {
+             totalSum = totalyear;
+             }
+             */
             $("#promise-rate").val(total);
-            $("#promise-payperyear").val(parseInt(totalSum));
-            $("#promise-total").val(totalSum);
+            $("#promise-payperyear").val(parseInt(totalyear));
+            $("#promise-total").val(totalyear);
             $("#promise-distcountpercent").val(0);
             $("#promise-distcountbath").val(0);
-        } else if (type == 3) {
-            total = (unit * levy);
-            totalyear = (total * 12);
-            let vatBath = (totalyear * 7) / 100;
-            if (vat == 1) {
-                totalSum = (totalyear - vatBath);
-            } else {
-                totalSum = totalyear;
-            }
-            $("#promise-rate").val(total);
-            $("#promise-payperyear").val(parseInt(totalSum));
-            $("#promise-total").val(parseInt(totalSum));
-            $("#promise-distcountpercent").val(0);
-            $("#promise-distcountbath").val(0);
+        } else if (types == 3) {
+            /*
+             total = (unit * levy);
+             totalyear = (total * 12);
+             let vatBath = (totalyear * 7) / 100;
+             if (vat == 1) {
+             totalSum = (totalyear - vatBath);
+             } else {
+             totalSum = totalyear;
+             }
+             $("#promise-rate").val(total);
+             $("#promise-payperyear").val(parseInt(totalSum));
+             $("#promise-total").val(parseInt(totalSum));
+             $("#promise-distcountpercent").val(0);
+             $("#promise-distcountbath").val(0);
+             */
         }
     }
 
     function calculationtype3() {
-
-
         var type = parseInt($("#promise-recivetype").val());
         var rate = parseInt($("#promise-rate").val());
-
+        var totalyear;
+        var totalSum;
         //enable vattype
         getvattype();
 
@@ -633,11 +677,12 @@ if ($model->id == "") {
         }
         var totamonth = (total / 12);
         $("#promise-payperyear").val(total);
+        $("#promise-total").val(total);
         $("#promise-rate").val(totamonth.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
         $("#popupsetYear").modal("hide");
     }
 
-    function resetForm(){
+    function resetForm() {
         $("#promise-vat").val("");
         $("#promise-yearunit").val("");
         $("#promise-vattype").val("");
@@ -652,5 +697,6 @@ if ($model->id == "") {
         $("#promise-levy").val("");
         $("#promise-deposit").val("");
         $("#promise-totalYear").val("");
+        $("#promise-fine").val("");
     }
 </script>
