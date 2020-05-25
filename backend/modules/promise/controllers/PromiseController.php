@@ -454,7 +454,7 @@ class PromiseController extends Controller {
                     customers.flag = 1
                     AND customers.approve = 'Y'
                     AND promise.id = '{$id}'";
-
+        
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
 
@@ -530,7 +530,7 @@ class PromiseController extends Controller {
     public function actionPdfpreview($id, $promisenumber) {
         $model = $this->getPromise($id);
 
-        //promise form มี 3 แบบ นิติบุคคลรวม vat, นิติบุคคลรวม ไม่รวม vat, บุคคลธรรมดา
+        //promise form มี 3 แบบ รายครั้ง , ตามขนาดจริง, เหมาจ่าย
         // นิติบุคคล  ไม่รวม vat รายครั้ง
         if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 1) {
             $content = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
