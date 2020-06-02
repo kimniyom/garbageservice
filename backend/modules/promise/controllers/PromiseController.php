@@ -442,7 +442,9 @@ class PromiseController extends Controller {
 					promise.employer1,
 					promise.employer2,
 					promise.witness1,
-					promise.witness2
+                    promise.witness2,
+                    packagepayment.payment,
+					maspackage.package
                 FROM
                     promise
                 INNER JOIN customers ON promise.customerid = customers.id
@@ -450,11 +452,13 @@ class PromiseController extends Controller {
                 INNER JOIN ampur ON customers.ampur = ampur.ampur_id
                 INNER JOIN tambon ON customers.tambon = tambon.tambon_id
                 LEFT JOIN location ON promise.customerid = location.customer_id
+                LEFT JOIN maspackage ON promise.recivetype = maspackage.package
+				LEFT JOIN packagepayment ON promise.payment = packagepayment.id
                 WHERE
                     customers.flag = 1
                     AND customers.approve = 'Y'
                     AND promise.id = '{$id}'";
-        
+       
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
 

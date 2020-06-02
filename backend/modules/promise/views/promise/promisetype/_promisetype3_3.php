@@ -9,7 +9,7 @@ $Config = new Config();
     <div style="text-align:center"><strong>สัญญาตกลงการจ้างเหมาบริการ</strong></div>   
     <div style="text-align: justify;">
     <?php 
-                $discount = $model['distcountbath'] > 0 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   number_format($model['distcountbath'])." บาท (". $Config->Convert(number_format($model['distcountbath'])).")" : "";
+               $discount = $model['payment'] == 6 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   number_format($model['distcountbath'])." บาท (". $Config->Convert(number_format($model['distcountbath'])).")" : "";
             ?>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญาตกลงการจ้างฉบับนี้ทำขึ้น ณ <?php echo $model['company'];?> เลขที่ใบอนุญาต  <?php echo $model['taxnumber'];?>  ตั้งอยู่เลขที่ <?php echo $model['address'];?>  
         ถนน <?php echo "";?> ซอย <?php echo "";?> ตำบล/แขวง <?php echo $model['tambon'];?> อำเภอ/เขต <?php echo $model['ampur'];?> จังหวัด <?php echo $model['changwat'];?> รหัสไปรษณีย์ <?php echo $model['zipcode'];?> เบอร์โทรสถานประกอบการ <?php echo $model['tel'];?> เมื่อวันที่ <?php echo $Config->thaidate($model['createat']);?> ระหว่าง <?php echo $model['company'];?>  โดย <?php echo $model['manager'];?>  ตำแหน่งเจ้าของสถานประกอบการ   ซึ่งต่อไปนี้เรียกว่า   “ผู้ว่าจ้าง”   ฝ่ายหนึ่ง  กับ บริษัท ไอซี ควอลิตี้ซิสเท็ม จำกัด  โดย นายนิติพัฒน์   วงศ์ศิริธร  ผู้รับมอบอำนาจ  สำนักงานตั้งอยู่เลขที่  50/19  หมู่ที่ 6  ตำบลบางหลวง  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000 โทรศัพท์   02 - 1010325 ซึ่งต่อไปนี้ในสัญญาเรียกว่า  “ผู้รับจ้าง”  อีกฝ่ายหนึ่ง  คู่สัญญาทั้งสองฝ่ายได้ตกลงกันโดยมีสาระสำคัญ ดังต่อไปนี้

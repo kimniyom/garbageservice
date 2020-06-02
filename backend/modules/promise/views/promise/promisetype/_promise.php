@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use app\models\Config;
 $Config = new Config();
+$diff=date_diff($model['promisedatebegin'],$model['promisedateend']);
 ?>
 
 <div style="font-family:sarabun;font-size:18px;">
@@ -13,7 +14,7 @@ $Config = new Config();
     </p>
         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 1 </strong>“ผู้ว่าจ้าง”  ตกลงว่าจ้าง และ “ผู้รับจ้าง” ตกลงรับจ้างเหมาทำการเก็บขนย้ายและกำจัดขยะมูลฝอยติดเชื้อ  ให้กับ   “ผู้ว่าจ้าง” เพื่อให้การทำลายขยะดังกล่าวเป็นไปตามกฎกระทรวงสาธารณสุขว่าด้วยการกำจัดขยะมูลฝอยติดเชื้อ พ.ศ. 2545 และกฎหมายอื่นๆที่เกี่ยวข้อง   ตามรายละเอียดแนบท้ายบันทึกที่แนบมาพร้อมนี้  โดยมีข้อกำหนดและเงื่อนไขแห่งบันทึกนี้ รวมทั้งเอกสารแนบท้ายบันทึกนี้
         
-        <p align ="justify">  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 2 </strong>“ผู้รับจ้าง” ตามข้อ 1 สัญญาว่าจะเริ่มนับตั้งแต่  วันที่ <?php echo $Config->thaidate($model['promisedatebegin']);?> ถึงวันที่ <?php echo $Config->thaidate($model['promisedateend']);?> รวมระยะเวลา 12 เดือน  ถ้าผู้รับจ้างมิได้ลงมือทำงานภายในกำหนดเวลา  หรือมีเหตุให้เชื่อได้ว่าผู้รับจ้าง ไม่สามารถทำงานให้แล้วเสร็จภายในกำหนดเวลา  หรือล่าช้าเกินกว่ากำหนดเวลา   หรือผู้รับจ้างทำผิดข้อตกลงข้อใดข้อหนึ่ง  ผู้ว่าจ้างมีสิทธิที่จะบอกเลิกจ้างตามบันทึกนี้ได้ </p>
+        <p align ="justify">  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 2 </strong>“ผู้รับจ้าง” ตามข้อ 1 สัญญาว่าจะเริ่มนับตั้งแต่  วันที่ <?php echo $Config->thaidate($model['promisedatebegin']);?> ถึงวันที่ <?php echo $Config->thaidate($model['promisedateend']);?> รวมระยะเวลา <?php echo $diff->format('%m');?> เดือน  ถ้าผู้รับจ้างมิได้ลงมือทำงานภายในกำหนดเวลา  หรือมีเหตุให้เชื่อได้ว่าผู้รับจ้าง ไม่สามารถทำงานให้แล้วเสร็จภายในกำหนดเวลา  หรือล่าช้าเกินกว่ากำหนดเวลา   หรือผู้รับจ้างทำผิดข้อตกลงข้อใดข้อหนึ่ง  ผู้ว่าจ้างมีสิทธิที่จะบอกเลิกจ้างตามบันทึกนี้ได้ </p>
         <p align ="justify"> 
             <?php 
                $discount = $model['payment'] == 6 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   number_format($model['distcountbath'])." บาท (". $Config->Convert(number_format($model['distcountbath'])).")" : "";
