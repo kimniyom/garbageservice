@@ -390,6 +390,22 @@ class DefaultController extends Controller {
         return $this->render('createinvoiceyear', $data);
     }
 
+    public function actionCreateinvoicesixmonth() {
+        //ออกบิลสำหรับสัญญาที่เหมาจ่ายราย 6 เดือน
+        $sql = "select pro.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+                    from customers c
+                        inner join changwat p on c.changwat = p.changwat_id
+                        inner join ampur a on c.ampur = a.ampur_id
+                        inner join tambon t on c.tambon = t.tambon_id
+                        inner join promise pro on c.id = pro.customerid
+                        INNER JOIN packagepayment pm ON pro.payment = pm.id
+                where pro.`status` = '2' and pm.typepayment = 'P'";
+        $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
+        //$data['type'] = $type;
+        return $this->render('createinvoicesixmonth', $data);
+    }
+
+
     public function actionGetroundpromiseyear() {
         $promiseId = Yii::$app->request->post('promiseid');
         $Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
@@ -502,6 +518,37 @@ class DefaultController extends Controller {
         Yii::$app->db->createCommand()
                 ->delete("roundgarbage", "id = '$id'")
                 ->execute();
+    }
+
+    public function actionGetroundpromisesixmonth(){
+        $promiseId = Yii::$app->request->post('promiseid');
+        $Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
+        $Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+        $RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
+        $str = "";
+        $str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
+        $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+        $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
+        $str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+        $str .= "<ul class='list-gorup'>";
+        $str .= "<li class='list-group-item active'>6 เดือนแรก</li>";
+        $i = 0;
+        foreach($RoundMoney as $rs):
+            $i++;
+            if($i <= 6){
+                $str .= "<li class='list-group-item'>".$rs['datekeep']."=>".$rs['round']."</li>";
+            } 
+        endforeach;
+        $str .= "<li class='list-group-item active'>6 เดือนหลัง</li>";
+        $b = 0;
+        foreach($RoundMoney as $rs):
+            $b++;
+            if($b > 6){
+                $str .= "<li class='list-group-item'>".$rs['datekeep']."=>".$rs['round']."</li>";
+            } 
+        endforeach;
+        $str .= "</ul>";
+        return $str;
     }
 
 }
