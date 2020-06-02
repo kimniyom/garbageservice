@@ -54,8 +54,8 @@ $Config = new Config();
             <tr>
                 <th>#</th>
                 <th style="text-align:center;">รายการ</th>
-                <th style="text-align:right;">ราคาต่อหน่วย</th>
-                <th style="text-align:center;">จำนวน</th>
+                <th style="text-align:right;">ราคาต่อหน่วย(เดือนะ)</th>
+                <th style="text-align:center;">จำนวน(ครั้ง)</th>
                 <th style="text-align:right;">ค่าใช้จ่าย</th>
             </tr>
         </thead>
@@ -64,7 +64,8 @@ $Config = new Config();
             $sum = 0;
             $i = 0;
             foreach ($billdetail as $rs): $i++;
-                $totalRow = ($promise['unitprice'] * $promise['levy']);
+                //$totalRow = ($promise['unitprice'] * $promise['levy']);
+                $totalRow = $promise['rate'];
                 $sum = $sum + $totalRow;
                 $month = substr($rs['datekeep'], 5, 2);
                 $year = substr($rs['datekeep'], 0, 4);
@@ -72,10 +73,9 @@ $Config = new Config();
                 <tr>
                     <td><?php echo $i ?></td>
                     <td>ค่ากำจัดขยะติดเชื้อ ประจำเดือน (<?php echo $Config->month_shot()[$month] . " " . ($year + 543) ?>)</td>
-                    <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
+                    <td style="text-align:right;"><?php echo number_format($promise['rate'], 2) ?></td>
                     <td style="text-align:center;"><?php echo $promise['levy'] ?></td>
-
-                    <td style="text-align:right;"><?php echo number_format($totalRow, 2) ?></td>
+                    <td style="text-align:right;"><?php echo number_format($promise['rate'], 2) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -233,7 +233,8 @@ $Config = new Config();
         $sum = 0;
         $i = 0;
         foreach ($billdetail as $rs): $i++;
-            $totalRow = ($promise['unitprice'] * $promise['levy']);
+            //$totalRow = ($promise['unitprice'] * $promise['levy']);
+            $totalRow = $promise['rate'];
             $sum = $sum + $totalRow;
             $month = substr($rs['datekeep'], 5, 2);
             $year = substr($rs['datekeep'], 0, 4);
@@ -241,7 +242,7 @@ $Config = new Config();
             <tr>
                 <td><?php echo $i ?></td>
                 <td>ค่ากำจัดขยะติดเชื้อ ประจำเดือน (<?php echo $Config->month_shot()[$month] . " " . ($year + 543) ?>)</td>
-                <td style="text-align:right;"><?php echo $promise['unitprice'] ?></td>
+                <td style="text-align:right;"><?php echo $promise['rate'] ?></td>
                 <td style="text-align:center;"><?php echo $promise['levy'] ?></td>
 
                 <td style="text-align:right;"><?php echo number_format($totalRow, 2) ?></td>
