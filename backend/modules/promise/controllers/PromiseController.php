@@ -443,7 +443,7 @@ class PromiseController extends Controller {
 					promise.employer2,
 					promise.witness1,
                     promise.witness2,
-                    packagepayment.payment,
+                    packagepayment.payment as textpayment,
 					maspackage.package
                 FROM
                     promise
