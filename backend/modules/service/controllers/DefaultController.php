@@ -352,7 +352,7 @@ class DefaultController extends Controller {
 					FROM invoice i INNER JOIN promise p ON i.promise = p.id
 					INNER JOIN customers c ON p.customerid = c.id
 					LEFT JOIN roundmoney r ON i.round = r.id
-					WHERE i.`status` = '0'";
+					WHERE i.`status` = '2'";
         $data['order'] = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->render('order', $data);
     }
@@ -404,7 +404,6 @@ class DefaultController extends Controller {
         //$data['type'] = $type;
         return $this->render('createinvoicesixmonth', $data);
     }
-
 
     public function actionGetroundpromiseyear() {
         $promiseId = Yii::$app->request->post('promiseid');
@@ -474,12 +473,14 @@ class DefaultController extends Controller {
         $Config = new Config();
         $promiseId = Yii::$app->request->post('promiseid');
         //$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
-        $sql = "select r.*,p.name
-				from roundgarbage r inner join profile p on r.keepby = p.user_id
-				where r.promiseid = '$promiseId'";
+        $sql = "SELECT r.*,p.username,f.`name`
+FROM roundgarbage r INNER JOIN `user` p ON r.keepby = p.id
+LEFT JOIN `profile` f ON p.id = f.user_id
+WHERE r.promiseid = '$promiseId'";
         $RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
         $i = 0;
-        $str = "<br/><p class=\"text-danger\">*กรณีที่ลงข้อมูลผิดให้ลบแล้วลงใหม่(ลบได้เฉพาะคนที่บันทึกเท่านั้น)</p>";
+        $str = "";
+        $str .= "<br/><p class=\"text-danger\">*กรณีที่ลงข้อมูลผิดให้ลบแล้วลงใหม่(ลบได้เฉพาะคนที่บันทึกเท่านั้น)</p>";
         $str .= "<b>ประวัติการจัดเก็บ</b><br/>
 			<table class='table table-bordered'>
 				<thead>
@@ -520,7 +521,7 @@ class DefaultController extends Controller {
                 ->execute();
     }
 
-    public function actionGetroundpromisesixmonth(){
+    public function actionGetroundpromisesixmonth() {
         $promiseId = Yii::$app->request->post('promiseid');
         $Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
         $Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
@@ -533,19 +534,19 @@ class DefaultController extends Controller {
         $str .= "<ul class='list-gorup'>";
         $str .= "<li class='list-group-item active'>6 เดือนแรก</li>";
         $i = 0;
-        foreach($RoundMoney as $rs):
+        foreach ($RoundMoney as $rs):
             $i++;
-            if($i <= 6){
-                $str .= "<li class='list-group-item'>".$rs['datekeep']."=>".$rs['round']."</li>";
-            } 
+            if ($i <= 6) {
+                $str .= "<li class='list-group-item'>" . $rs['datekeep'] . "=>" . $rs['round'] . "</li>";
+            }
         endforeach;
         $str .= "<li class='list-group-item active'>6 เดือนหลัง</li>";
         $b = 0;
-        foreach($RoundMoney as $rs):
+        foreach ($RoundMoney as $rs):
             $b++;
-            if($b > 6){
-                $str .= "<li class='list-group-item'>".$rs['datekeep']."=>".$rs['round']."</li>";
-            } 
+            if ($b > 6) {
+                $str .= "<li class='list-group-item'>" . $rs['datekeep'] . "=>" . $rs['round'] . "</li>";
+            }
         endforeach;
         $str .= "</ul>";
         return $str;

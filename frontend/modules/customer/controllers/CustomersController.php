@@ -26,10 +26,10 @@ class CustomersController extends Controller {
         $userid = \Yii::$app->user->identity->id;
         $customer = \app\modules\customer\models\Customers::findOne(['user_id' => $userid]);
         $data['promise'] = \app\modules\customer\models\Promise::find()->where(['customerid' => $customer['id']])
-                        ->orWhere(['status' => '1', 'status' => '2'])->one();
+                        ->andWhere(['in', 'status', ['1', '2']])->one();
+
         $data['customer'] = $customer;
         $data['countinvoice'] = $this->countInvoice($data['promise']['id']);
-
         return $this->render('index', $data);
     }
 
@@ -51,7 +51,7 @@ class CustomersController extends Controller {
         $userid = \Yii::$app->user->identity->id;
         $customer = \app\modules\customer\models\Customers::findOne(['user_id' => $userid]);
         $promise = \app\modules\customer\models\Promise::find()->where(['customerid' => $customer['id']])
-                        ->orWhere(['status' => '1', 'status' => '2'])->one();
+                        ->andWhere(['in', 'status', ['1', '2']])->one();
         $promiseId = $promise['id'];
         $sql = "SELECT *
                     FROM invoice i
@@ -266,7 +266,7 @@ class CustomersController extends Controller {
         return $this->render('promise', $data);
     }
 
-    public function actionSaveconfirmorder(){
+    public function actionSaveconfirmorder() {
         $id = Yii::$app->request->post('id');
         $dateservice = Yii::$app->request->post('dateservice');
         $timeservice = Yii::$app->request->post('timeservice');
@@ -279,8 +279,8 @@ class CustomersController extends Controller {
             "status" => 2
         );
         Yii::$app->db->createCommand()
-            ->update("invoice",$columns,"id = '$id'")
-            ->execute();
+                ->update("invoice", $columns, "id = '$id'")
+                ->execute();
     }
 
 }
