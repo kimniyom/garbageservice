@@ -433,6 +433,7 @@ class PromiseController extends Controller {
 					customers.remark,
 					customers.typeregister,
                     changwat.changwat_name as changwat,
+                    changwat.changwat_code as changwat_code,
                     ampur.ampur_name as ampur,
                     tambon.tambon_name as tambon,
                     location.lat,
@@ -533,59 +534,59 @@ class PromiseController extends Controller {
 
     public function actionPdfpreview($id, $promisenumber) {
         $model = $this->getPromise($id);
-
+        $content = $this->renderPartial('promisetype/_promise', ['model' => $model]);
         //promise form มี 3 แบบ รายครั้ง , ตามขนาดจริง, เหมาจ่าย
         // นิติบุคคล  ไม่รวม vat รายครั้ง
-        if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 1) {
-            $content = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
-        }
-        // นิติบุคคล  รวม vat รายครั้ง
-        else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 1) {
-            $content = $this->renderPartial('promisetype/_promisetype1_2', ['model' => $model]);
-        }
-        // นิติบุคคล  ไม่คิด vat รายครั้ง
-        else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 1) {
-            $content = $this->renderPartial('promisetype/_promisetype1_3', ['model' => $model]);
-        }
-        //------------------------------------------------------------------------------------
-        // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่รวม vat
-        else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 2) {
-            $content = $this->renderPartial('promisetype/_promisetype2_1', ['model' => $model]);
-        }
-        // นิติบุคคลรวม คิดตามน้ำหนักจริง รวม vat
-        else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 2) {
-            $content = $this->renderPartial('promisetype/_promisetype2_2', ['model' => $model]);
-        }
-        // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่มี vat
-        else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 2) {
-            $content = $this->renderPartial('promisetype/_promisetype2_3', ['model' => $model]);
-        }
-        //------------------------------------------------------------------------------------------
-        //นิติบุคคล เหมาจ่ายรายเดือน ไม่รวม vat
-        else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 3) {
-            $content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
-        }
-        //นิติบุคคล เหมาจ่ายรายเดือน รวม vat
-        else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 3) {
-            $content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
-        }
-        // นิติบุคคล เหมาจ่ายรายเดือน ไม่มี vat
-        else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 3) {
-            $content = $this->renderPartial('promisetype/_promisetype3_3', ['model' => $model]);
-        }
-        //------------------------------------------------------------------------------------
-        //บุคคลธรรมดา รายครั้ง
-        else if ($model['typeregister'] == 3 && $model['recivetype'] == 1) {
-            $content = $this->renderPartial('promisetype/_promisetype4_1', ['model' => $model]);
-        }
-        //บุคคลธรรมดา คิดตามน้ำหนักจริง
-        else if ($model['typeregister'] == 3 && $model['recivetype'] == 2) {
-            $content = $this->renderPartial('promisetype/_promisetype4_2', ['model' => $model]);
-        }
-        //บุคคลธรรมดา เหมาจ่ายรายเดือน
-        else if ($model['typeregister'] == 3 && $model['recivetype'] == 3) {
-            $content = $this->renderPartial('promisetype/_promisetype4_3', ['model' => $model]);
-        }
+        // if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 1) {
+        //     $content = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
+        // }
+        // // นิติบุคคล  รวม vat รายครั้ง
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 1) {
+        //     $content = $this->renderPartial('promisetype/_promisetype1_2', ['model' => $model]);
+        // }
+        // // นิติบุคคล  ไม่คิด vat รายครั้ง
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 1) {
+        //     $content = $this->renderPartial('promisetype/_promisetype1_3', ['model' => $model]);
+        // }
+        // //------------------------------------------------------------------------------------
+        // // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่รวม vat
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 2) {
+        //     $content = $this->renderPartial('promisetype/_promisetype2_1', ['model' => $model]);
+        // }
+        // // นิติบุคคลรวม คิดตามน้ำหนักจริง รวม vat
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 2) {
+        //     $content = $this->renderPartial('promisetype/_promisetype2_2', ['model' => $model]);
+        // }
+        // // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่มี vat
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 2) {
+        //     $content = $this->renderPartial('promisetype/_promisetype2_3', ['model' => $model]);
+        // }
+        // //------------------------------------------------------------------------------------------
+        // //นิติบุคคล เหมาจ่ายรายเดือน ไม่รวม vat
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 3) {
+        //     $content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
+        // }
+        // //นิติบุคคล เหมาจ่ายรายเดือน รวม vat
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 3) {
+        //     $content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
+        // }
+        // // นิติบุคคล เหมาจ่ายรายเดือน ไม่มี vat
+        // else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 3) {
+        //     $content = $this->renderPartial('promisetype/_promisetype3_3', ['model' => $model]);
+        // }
+        // //------------------------------------------------------------------------------------
+        // //บุคคลธรรมดา รายครั้ง
+        // else if ($model['typeregister'] == 3 && $model['recivetype'] == 1) {
+        //     $content = $this->renderPartial('promisetype/_promisetype4_1', ['model' => $model]);
+        // }
+        // //บุคคลธรรมดา คิดตามน้ำหนักจริง
+        // else if ($model['typeregister'] == 3 && $model['recivetype'] == 2) {
+        //     $content = $this->renderPartial('promisetype/_promisetype4_2', ['model' => $model]);
+        // }
+        // //บุคคลธรรมดา เหมาจ่ายรายเดือน
+        // else if ($model['typeregister'] == 3 && $model['recivetype'] == 3) {
+        //     $content = $this->renderPartial('promisetype/_promisetype4_3', ['model' => $model]);
+        // }
         //------------------------------------------------------------------------------------------
         $pdf = new Pdf([
             // set to use core fonts only
