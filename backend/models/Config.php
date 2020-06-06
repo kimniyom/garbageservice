@@ -164,4 +164,15 @@ class Config {
         return $ret;
     }
 
+    function getDiscount($payment)
+    {
+        $sql = "select distcount from packagepayment  where id = {$payment}";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($rs) {
+            
+            return $rs['distcount'];
+        }
+        return "";
+    }
+
 }

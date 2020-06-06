@@ -3,28 +3,49 @@ use yii\helpers\Html;
 use app\models\Config;
 $Config = new Config();
 
+$address = $model['changwat_id'] != 1 ? " ตำบล  ".$model['tambon']." อำเภอ ". $model['ampur']." จังหวัด ".  $model['changwat'] : "  ".$model['tambon']."  ". $model['ampur']." ".  $model['changwat'] ;
 $date1=date_create($model['promisedatebegin']);
 $date2=date_create($model['promisedateend']);
 $diff=date_diff($date1,$date2);
+$month = number_format($diff->format('%a')/30);
+$discount = $Config->getDiscount($model['payment']) == 1 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   number_format($model['distcountbath'])." บาท (". $Config->Convert(number_format($model['distcountbath'])).")" : "";
+
+$vatText = "";
+if($model['vat']==1 && $model['vattype']==1)
+{
+    $vatText = " ราคานี้ยังไม่รวมภาษีมูลค่าเพิ่ม ";
+}
+else if($model['vat']==1 && $model['vattype']==2)
+{
+    $vatText = " ราคานี้รวมภาษีมูลค่าเพิ่ม ";
+}
+
+$recivetype = "";
+if($model['recivetype'] == 1 || $model['recivetype'] == 3)
+{
+    $recivetype = "โดยกำหนดค่าจ้างตามน้ำหนักไม่เกิน ". $model['garbageweight']." กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  ". $model['garbageweight']." กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ ". number_format($model['fine'])." บาท (". $Config->Convert($model['fine']).") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้ายไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมาในอัตราเดือนละ ".number_format($model['rate'])." บาท (". $Config->Convert($model['rate']).")  จัดเก็บ ". $model['levy']." ครั้งต่อเดือน ".$discount." คิดเป็นค่าจ้างรวมทั้งปี ". number_format($model['total'])." บาท (". $Config->Convert($model['total']).")" .$vatText;
+}
+else if($model['recivetype'] == 2)
+{
+    $recivetype = "โดยกำหนดค่าจ้างตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ ". number_format($model['unitprice'])." บาท (". $Config->Convert($model['unitprice']).") ".$vatText." \"ผู้รับจ้าง\" จะทำการเก็บขนย้ายไปทำลายในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ สัปดาห์ละ ". $model['levy']." ครั้ง (ทุกวันอังคาร) ";
+}
 ?>
 
 <div style="font-family:sarabun;font-size:18px;">
     <div style="text-align:right">เลขที่ <?php echo $model['promisenumber']?></div>	 
     <div style="text-align:center"><strong>สัญญาตกลงการจ้างเหมาบริการ</strong></div>   
     <p align ="justify">
-        <?php $address = $model['changwat_code'] == 10 ? " ตำบล  ".$model['tambon']." อำเภอ ". $model['ampur']." จังหวัด ".  $model['changwat'] : "  ".$model['tambon']."  ". $model['ampur']." ".  $model['changwat'] ;?>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญาตกลงการจ้างฉบับนี้ทำขึ้น ณ <?php echo $model['company'];?> เลขที่ใบอนุญาต  <?php echo $model['taxnumber'];?>  ตั้งอยู่เลขที่ <?php echo $address;?>  
-        ถนน <?php echo "";?> ซอย <?php echo "";?> <?php echo $address;?> รหัสไปรษณีย์ <?php echo $model['zipcode'];?> เบอร์โทรสถานประกอบการ <?php echo $model['tel'];?> เมื่อวันที่ <?php echo $Config->thaidate($model['createat']);?> ระหว่าง <?php echo $model['company'];?>  โดย <?php echo $model['manager'];?>  ตำแหน่งเจ้าของสถานประกอบการ   ซึ่งต่อไปนี้เรียกว่า   “ผู้ว่าจ้าง”   ฝ่ายหนึ่ง  กับ บริษัท ไอซี ควอลิตี้ซิสเท็ม จำกัด  โดย นายนิติพัฒน์   วงศ์ศิริธร  ผู้รับมอบอำนาจ  สำนักงานตั้งอยู่เลขที่  50/19  หมู่ที่ 6  ตำบลบางหลวง  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000 โทรศัพท์   02 - 1010325 ซึ่งต่อไปนี้ในสัญญาเรียกว่า  “ผู้รับจ้าง”  อีกฝ่ายหนึ่ง  คู่สัญญาทั้งสองฝ่ายได้ตกลงกันโดยมีสาระสำคัญ ดังต่อไปนี้
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญาตกลงการจ้างฉบับนี้ทำขึ้น ณ <?php echo $model['company'];?> เลขที่ใบอนุญาต  <?php echo $model['taxnumber'];?>  ตั้งอยู่เลขที่ <?php echo $model['address'];?>  
+        <?php echo $address;?> รหัสไปรษณีย์ <?php echo $model['zipcode'];?> เบอร์โทรสถานประกอบการ <?php echo $model['tel'];?> เมื่อวันที่ <?php echo $Config->thaidate($model['createat']);?> ระหว่าง <?php echo $model['company'];?>  โดย <?php echo $model['manager'];?>  ตำแหน่งเจ้าของสถานประกอบการ   ซึ่งต่อไปนี้เรียกว่า   “ผู้ว่าจ้าง”   ฝ่ายหนึ่ง  กับ บริษัท ไอซี ควอลิตี้ซิสเท็ม จำกัด  โดย นายนิติพัฒน์   วงศ์ศิริธร  ผู้รับมอบอำนาจ  สำนักงานตั้งอยู่เลขที่  50/19  หมู่ที่ 6  ตำบลบางหลวง  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000 โทรศัพท์   02 - 1010325 ซึ่งต่อไปนี้ในสัญญาเรียกว่า  “ผู้รับจ้าง”  อีกฝ่ายหนึ่ง  คู่สัญญาทั้งสองฝ่ายได้ตกลงกันโดยมีสาระสำคัญ ดังต่อไปนี้
     </p>
         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 1 </strong>“ผู้ว่าจ้าง”  ตกลงว่าจ้าง และ “ผู้รับจ้าง” ตกลงรับจ้างเหมาทำการเก็บขนย้ายและกำจัดขยะมูลฝอยติดเชื้อ  ให้กับ   “ผู้ว่าจ้าง” เพื่อให้การทำลายขยะดังกล่าวเป็นไปตามกฎกระทรวงสาธารณสุขว่าด้วยการกำจัดขยะมูลฝอยติดเชื้อ พ.ศ. 2545 และกฎหมายอื่นๆที่เกี่ยวข้อง   ตามรายละเอียดแนบท้ายบันทึกที่แนบมาพร้อมนี้  โดยมีข้อกำหนดและเงื่อนไขแห่งบันทึกนี้ รวมทั้งเอกสารแนบท้ายบันทึกนี้
         
-        <p align ="justify">  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 2 </strong>“ผู้รับจ้าง” ตามข้อ 1 สัญญาว่าจะเริ่มนับตั้งแต่  วันที่ <?php echo $Config->thaidate($model['promisedatebegin']);?> ถึงวันที่ <?php echo $Config->thaidate($model['promisedateend']);?> รวมระยะเวลา <?php echo $diff->format('%m');?> เดือน  ถ้าผู้รับจ้างมิได้ลงมือทำงานภายในกำหนดเวลา  หรือมีเหตุให้เชื่อได้ว่าผู้รับจ้าง ไม่สามารถทำงานให้แล้วเสร็จภายในกำหนดเวลา  หรือล่าช้าเกินกว่ากำหนดเวลา   หรือผู้รับจ้างทำผิดข้อตกลงข้อใดข้อหนึ่ง  ผู้ว่าจ้างมีสิทธิที่จะบอกเลิกจ้างตามบันทึกนี้ได้ </p>
+        <p align ="justify">  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 2 </strong>“ผู้รับจ้าง” ตามข้อ 1 สัญญาว่าจะเริ่มนับตั้งแต่  วันที่ <?php echo $Config->thaidate($model['promisedatebegin']);?> ถึงวันที่ <?php echo $Config->thaidate($model['promisedateend']);?> รวมระยะเวลา <?php echo $month;?> เดือน  ถ้าผู้รับจ้างมิได้ลงมือทำงานภายในกำหนดเวลา  หรือมีเหตุให้เชื่อได้ว่าผู้รับจ้าง ไม่สามารถทำงานให้แล้วเสร็จภายในกำหนดเวลา  หรือล่าช้าเกินกว่ากำหนดเวลา   หรือผู้รับจ้างทำผิดข้อตกลงข้อใดข้อหนึ่ง  ผู้ว่าจ้างมีสิทธิที่จะบอกเลิกจ้างตามบันทึกนี้ได้ </p>
         <p align ="justify"> 
-            <?php 
-               $discount = $model['payment'] == 6 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   number_format($model['distcountbath'])." บาท (". $Config->Convert(number_format($model['distcountbath'])).")" : "";
-            ?>
+  
            
-            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3 </strong> “ผู้ว่าจ้าง”  ตกลงจ่าย  และผู้รับจ้างตกลงรับเงินค่าจ้างเป็น<?php echo $model['payment'];?>  รวม  <?php echo $diff->format('%m');?>  เดือน โดยกำหนดค่าจ้างตามน้ำหนักไม่เกิน <?php echo $model['garbageweight']?> กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  <?php echo $model['garbageweight']?> กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ <?php echo number_format($model['fine'])?> บาท (<?php echo $Config->Convert($model['fine'])?>) ขยะที่“ผู้รับจ้าง” เก็บขนย้ายไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมาในอัตราครั้งละ <?php echo number_format($model['rate']);?> บาท (<?php echo $Config->Convert($model['rate'])?>)  จัดเก็บ <?php echo $model['levy'];?> ครั้งต่อ เดือน เป็นค่าจ้างรวมทั้งสิ้นต่อปี <?php echo number_format($model['total']);?> บาท (<?php echo $Config->Convert($model['total'])?>)  ราคานี้ยังไม่รวมภาษีมูลค่าเพิ่ม  7 %  โดยกำหนดจ่ายภายใน  30 วัน นับตั้งแต่วันที่ “ผู้ว่าจ้าง” หรือตัวแทนของ “ผู้ว่าจ้าง” ได้ทำการตรวจรับถูกต้องเรียบร้อยแล้ว
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3 </strong> “ผู้ว่าจ้าง”  ตกลงจ่าย  และผู้รับจ้างตกลงรับเงินค่าจ้างเป็น<?php echo $model['textpayment'];?>  รวมระยะเวลา  <?php echo $month;?>  เดือน <?php echo $recivetype;?>   โดยกำหนดจ่ายภายใน  30 วัน นับตั้งแต่วันที่ “ผู้ว่าจ้าง” หรือตัวแทนของ “ผู้ว่าจ้าง” ได้ทำการตรวจรับถูกต้องเรียบร้อยแล้ว
           
         </p>
         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 4 หน้าที่รับผิดชอบของ “ผู้รับจ้าง”</strong>

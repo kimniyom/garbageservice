@@ -433,7 +433,7 @@ class PromiseController extends Controller {
 					customers.remark,
 					customers.typeregister,
                     changwat.changwat_name as changwat,
-                    changwat.changwat_code as changwat_code,
+                    customers.changwat as changwat_id,
                     ampur.ampur_name as ampur,
                     tambon.tambon_name as tambon,
                     location.lat,
