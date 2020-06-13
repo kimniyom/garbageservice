@@ -8,8 +8,10 @@ use Yii;
  * This is the model class for table "packagepayment".
  *
  * @property int $id
- * @property int|null $packege ประเภทสัญญา
- * @property string|null $payment
+ * @property int $packege ประเภทสัญญา
+ * @property string $payment รูปแบบการชำระเงิน
+ * @property int $distcount 0 = มีส่วนลด 1 = ไม่มีส่วนลด
+ * @property int $keepmont เก็บตามน้ำหนักจริง
  */
 class Packagepayment extends \yii\db\ActiveRecord
 {
@@ -27,7 +29,7 @@ class Packagepayment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['packege'], 'integer'],
+            [['packege', 'distcount', 'keepmont'], 'integer'],
             [['payment'], 'string', 'max' => 255],
         ];
     }
@@ -41,6 +43,8 @@ class Packagepayment extends \yii\db\ActiveRecord
             'id' => 'ID',
             'packege' => 'Packege',
             'payment' => 'Payment',
+            'distcount' => 'Distcount',
+            'keepmont' => 'Keepmont',
         ];
     }
 }
