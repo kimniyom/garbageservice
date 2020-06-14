@@ -12,28 +12,46 @@ $month = number_format($diff->format('%a')/30);
 $discount = $Config->getDiscount($model['payment']) == 1 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   number_format($model['distcountbath'])." บาท (". $Config->Convert(number_format($model['distcountbath'])).")" : "";
 
 $vatText = "";
-if($model['vat']==1 && $model['vattype']==1)
+if($model['vat']==1 && $model['vattype']==2)
 {
     $vatText = " ราคานี้ ยังไม่รวมภาษีมูลค่าเพิ่ม 7% ";
 }
-else if($model['vat']==1 && $model['vattype']==2)
+else if($model['vat']==1 && $model['vattype']==1)
 {
     $vatText = " ราคานี้ รวมภาษีมูลค่าเพิ่ม 7% ";
 }
 
+$promiseType = "";
+$paymentType = "";
+if($model['payment'] == 1 || $model['payment'] == 7)
+{
+    $promiseType = " รายครั้ง ";
+    $paymentType = " ครั้งละ ";
+}
+else if($model['payment'] == 2)
+{
+    $promiseType = " รายเดือน ";
+    $paymentType = "";
+}
+else if($model['payment'] == 5)
+{
+    $promiseType = " รายครึ่งปี ";
+    $paymentType = " ครั้งละ ";
+}
+else if($model['payment'] == 6 || $model['payment'] == 3)
+{
+    $promiseType = " รายเดือน ";
+    $paymentType = " เดือนละ ";
+}
+
+
 $recivetype = "";
-$text1 = " โดยกำหนดค่าจ้าง ตามน้ำหนักไม่เกิน ". $model['garbageweight']." กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  ". $model['garbageweight']." กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ ". number_format($model['fine'])." บาท (". $Config->Convert($model['fine']).") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตราเดือนละ ".number_format($model['rate'])." บาท (". $Config->Convert($model['rate']).")  จัดเก็บ ". $model['levy']." ครั้งต่อเดือน ".$discount." คิดเป็นค่าจ้างรวมทั้งปี ". number_format($model['total'])." บาท (". $Config->Convert($model['total']).")" .$vatText;
+$text1 = " โดยกำหนดค่าจ้าง ตามน้ำหนักไม่เกิน ". $model['garbageweight']." กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  ". $model['garbageweight']." กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ ". number_format($model['fine'])." บาท (". $Config->Convert($model['fine']).") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตรา{$paymentType} ".number_format($model['rate'])." บาท (". $Config->Convert($model['rate']).")  โดยเข้าจัดเก็บ ". $model['levy']." ครั้งต่อเดือน  ".$discount." เป็นค่าจ้างรวมทั้งสิ้นต่อปี ". number_format($model['total'])." บาท (". $Config->Convert($model['total']).")" .$vatText;
 $text2 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ ". number_format($model['unitprice'])." บาท (". $Config->Convert($model['unitprice']).") ".$vatText." \"ผู้รับจ้าง\" จะทำการเก็บขนย้ายไปทำลายในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ สัปดาห์ละ ". $model['levy']." ครั้ง (ทุกวันอังคาร) ";
+$text3 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะไม่เกิน ". $model['garbageweight']." กิโลกรัมต่อครั้ง ในอัตรา{$paymentType} ".number_format($model['rate'])." บาท (". $Config->Convert($model['rate']).")  ส่วนปริมาณน้ำหนักขยะส่วนที่เกิน  ". $model['garbageweight']." กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะเพิ่ม กิโลกรัมละ ". number_format($model['fine'])." บาท (". $Config->Convert($model['fine']).") “ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  โดยเข้าจัดเก็บเดือนละ ". $model['levy']." ครั้งต่อเดือน รวม ".($model['levy']*12)." ครั้งต่อปี ".$discount." คิดเป็นค่าจ้างรวมทั้งปี ". number_format($model['total'])." บาท (". $Config->Convert($model['total']).")" .$vatText;
 if($model['recivetype'] == 1 || $model['recivetype'] == 3)
 {
-    if($Config->getPaymentMonth($model['payment']) == 0)
-    {
-        $recivetype = $text1;
-    }
-    else if($Config->getPaymentMonth($model['payment']) == 1)
-    {
-        $recivetype = $text2;
-    }
+    $recivetype = $model['payment'] == 5 ? $text3 : $text1;
 }
 else if($model['recivetype'] == 2)
 {
@@ -55,7 +73,7 @@ else if($model['recivetype'] == 2)
         <p> 
   
            
-            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3 </strong> “ผู้ว่าจ้าง”  ตกลงจ่าย  และผู้รับจ้างตกลงรับเงินค่าจ้างเป็น<?php echo $model['textpayment'];?>  รวมระยะเวลา  <?php echo $month;?>  เดือน <?php echo $recivetype;?>   โดยกำหนดจ่ายภายใน  30 วัน นับตั้งแต่วันที่ “ผู้ว่าจ้าง” หรือตัวแทนของ “ผู้ว่าจ้าง” ได้ทำการตรวจรับถูกต้องเรียบร้อยแล้ว
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3 </strong> “ผู้ว่าจ้าง”  ตกลงจ่าย  และผู้รับจ้างตกลงรับเงินค่าจ้างเป็น<?php echo $promiseType;?>  รวมระยะเวลา  <?php echo $month;?>  เดือน <?php echo $recivetype;?>   โดยกำหนดจ่าย ภายใน  30 วัน นับตั้งแต่วันที่ “ผู้ว่าจ้าง” หรือตัวแทนของ “ผู้ว่าจ้าง” ได้ทำการตรวจรับถูกต้องเรียบร้อยแล้ว
           
         </p>
         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 4 หน้าที่รับผิดชอบของ “ผู้รับจ้าง”</strong>

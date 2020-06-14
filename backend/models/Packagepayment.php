@@ -11,7 +11,7 @@ use Yii;
  * @property int $packege ประเภทสัญญา
  * @property string $payment รูปแบบการชำระเงิน
  * @property int $distcount 0 = มีส่วนลด 1 = ไม่มีส่วนลด
- * @property int $keepmont เก็บตามน้ำหนักจริง
+ * @property string $typepayment M = รายเดือน ,P = ราย 6 เดือน,Y = ราย
  */
 class Packagepayment extends \yii\db\ActiveRecord
 {
@@ -29,8 +29,9 @@ class Packagepayment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['packege', 'distcount', 'keepmont'], 'integer'],
+            [['packege', 'distcount'], 'integer'],
             [['payment'], 'string', 'max' => 255],
+            [['typepayment'], 'string', 'max' => 1],
         ];
     }
 
@@ -44,7 +45,7 @@ class Packagepayment extends \yii\db\ActiveRecord
             'packege' => 'Packege',
             'payment' => 'Payment',
             'distcount' => 'Distcount',
-            'keepmont' => 'Keepmont',
+            'typepayment' => 'Typepayment',
         ];
     }
 }
