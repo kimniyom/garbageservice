@@ -177,11 +177,11 @@ class Config {
 
     function getPaymentMonth($payment)
     {
-        $sql = "select keepmont from packagepayment  where id = {$payment}";
+        $sql = "select typepayment from packagepayment  where id = {$payment}";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         if ($rs) {
             
-            return $rs['keepmont'];
+            return $rs['typepayment'];
         }
         return "";
     }
