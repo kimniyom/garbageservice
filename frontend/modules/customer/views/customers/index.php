@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
-                        <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/payment']) ?>">
+                        <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/invoice']) ?>">
                             <div class="card-body">
                                 <i class="fa fa-dollar-sign fa-5x"></i><br/><br/>
                                 แจ้งชำระเงิน
@@ -123,6 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </a>
                     </div>
                 </div>
+                <!--
                 <div class="col-md-6 col-lg-4">
                     <div class="card">
                         <div class="card-body">
@@ -131,7 +132,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     </div>
                 </div>
-
+                -->
             </div>
         </div>
     </div>

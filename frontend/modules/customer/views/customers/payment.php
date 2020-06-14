@@ -30,8 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
         echo Select2::widget([
             'name' => 'bank',
             'value' => '',
+            'id' => 'bank',
             'data' => ArrayHelper::map($bank, "id", "bname"),
-            'options' => ['multiple' => false, 'placeholder' => 'Select Bank ...']
+            'options' => [
+                'multiple' => false, 'placeholder' => 'Select Bank ...'
+            ]
         ]);
         ?>
     </div>
@@ -103,11 +106,17 @@ $this->params['breadcrumbs'][] = $this->title;
     function confirmOrders() {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/saveconfirmorder']) ?>";
         var id = <?php echo $id ?>;
+        var bank = $("#bank").val();
         var dateservice = $("#dateservice").val();
         var timeservice = $("#timeservice").val();
         var comment = $("#comment").val();
-        if (dateservice == "" || timeservice == "") {
-            alert("กรอกข้อมูลไม่ครบ...");
+        if (dateservice == "" || timeservice == "" || bank == "") {
+            //alert("กรอกข้อมูลไม่ครบ...");
+            Swal.fire(
+                    'Alert?',
+                    'กรอกข้อมูลไม่ครบ?',
+                    'warning'
+                    );
             return false;
         }
         var data = {
@@ -119,8 +128,19 @@ $this->params['breadcrumbs'][] = $this->title;
         console.log(data);
 
         $.post(url, data, function(datas) {
-            alert("ยืนยันรายการสำเร็จ...");
-            window.location="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/2Finvoice']) ?>";
+            //alert("ยืนยันรายการสำเร็จ...");
+            Swal.fire({
+                title: 'Success',
+                text: "ยืนยันรายการสำเร็จ",
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.value) {
+                    window.location = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/invoice']) ?>";
+                }
+            });
+
         });
     }
 

@@ -20,7 +20,7 @@ use kartik\widgets\TimePicker;
 ?>
 
 <div class="customer-form">
-    <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <?php
@@ -38,7 +38,7 @@ use kartik\widgets\TimePicker;
             ?>
         </div>
         <div class="col-md-3 col-lg-3">
-                <?= $form->field($img, 'filename')->fileInput()?>
+            <?= $form->field($img, 'filename')->fileInput() ?>
         </div>
     </div>
     <div class="row">
@@ -194,36 +194,36 @@ use kartik\widgets\TimePicker;
 
     <!-- <div class="row">
         <div class="col-md-3 col-lg-3">
-            <?php
-            // $grouptype = Grouptypecustomer::find()->all();
-            // echo $form->field($model, 'grouptype')->widget(Select2::classname(), [
-            //     'data' => ArrayHelper::map($grouptype, "id", "groupname"),
-            //     'language' => 'th',
-            //     'options' => [
-            //         'placeholder' => 'ประเภทกลุ่มลูกค้า ',
-            //         'id' => 'grouptype',
-            //     ],
-            //     'pluginOptions' => [
-            //         'allowClear' => true,
-            //     ],
-            // ]);
-            ?>
+    <?php
+    // $grouptype = Grouptypecustomer::find()->all();
+    // echo $form->field($model, 'grouptype')->widget(Select2::classname(), [
+    //     'data' => ArrayHelper::map($grouptype, "id", "groupname"),
+    //     'language' => 'th',
+    //     'options' => [
+    //         'placeholder' => 'ประเภทกลุ่มลูกค้า ',
+    //         'id' => 'grouptype',
+    //     ],
+    //     'pluginOptions' => [
+    //         'allowClear' => true,
+    //     ],
+    // ]);
+    ?>
         </div>
         <div class="col-md-3 col-lg-3">
-            <?php
-            // $businesstype = Businesstype::find()->all();
-            // echo $form->field($model, 'businesstype')->widget(Select2::classname(), [
-            //     'data' => ArrayHelper::map($businesstype, "id", "businesstype"),
-            //     'language' => 'th',
-            //     'options' => [
-            //         'placeholder' => 'ประเภทธุรกิจ ',
-            //         'id' => 'businesstype',
-            //     ],
-            //     'pluginOptions' => [
-            //         'allowClear' => true,
-            //     ],
-            // ]);
-            ?>
+    <?php
+    // $businesstype = Businesstype::find()->all();
+    // echo $form->field($model, 'businesstype')->widget(Select2::classname(), [
+    //     'data' => ArrayHelper::map($businesstype, "id", "businesstype"),
+    //     'language' => 'th',
+    //     'options' => [
+    //         'placeholder' => 'ประเภทธุรกิจ ',
+    //         'id' => 'businesstype',
+    //     ],
+    //     'pluginOptions' => [
+    //         'allowClear' => true,
+    //     ],
+    // ]);
+    ?>
         </div>
     </div> -->
 
