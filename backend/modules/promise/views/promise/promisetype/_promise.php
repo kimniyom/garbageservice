@@ -28,6 +28,9 @@ $total = number_format($total);
 $totalText = str_replace(",","",$total);
 $totalText = str_replace(".","",$totalText);
 
+$unitprice = $model['unitprice'];
+$unitpriceText = "";
+
 $promiseType = "";
 $paymentType = "";
 if($model['payment'] == 1 || $model['payment'] == 7)
@@ -39,6 +42,15 @@ else if($model['payment'] == 2)
 {
     $promiseType = " รายเดือน ";
     $paymentType = "";
+
+    if($model['vat']==1 && $model['vattype']==2)
+    {
+        $unitprice = ($unitprice * 100)/107;
+    }
+    else if($model['vat']==1 && $model['vattype']==1)
+    {
+        $unitprice = $unitprice + (($unitprice * 7)/100);
+    }
 }
 else if($model['payment'] == 5)
 {
@@ -51,10 +63,13 @@ else if($model['payment'] == 6 || $model['payment'] == 3)
     $paymentType = " เดือนละ ";
 }
 
+$unitprice = number_format($unitprice);
+$unitpriceText = str_replace(",","",$unitprice);
+$unitpriceText = str_replace(".","",$unitpriceText);
 
 $recivetype = "";
 $text1 = " โดยกำหนดค่าจ้าง ตามน้ำหนักไม่เกิน ". $model['garbageweight']." กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  ". $model['garbageweight']." กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ ". number_format($model['fine'])." บาท (". $Config->Convert($model['fine']).") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตรา{$paymentType} ".number_format($model['rate'])." บาท (". $Config->Convert($model['rate']).")  โดยเข้าจัดเก็บ ". $model['levy']." ครั้งต่อเดือน  ".$discount." เป็นค่าจ้างรวมทั้งสิ้นต่อปี ". $total." บาท (". $Config->Convert($totalText).")" .$vatText;
-$text2 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ ". number_format($model['unitprice'])." บาท (". $Config->Convert($model['unitprice']).") ".$vatText." \"ผู้รับจ้าง\" จะทำการเก็บขนย้ายไปทำลายในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ สัปดาห์ละ ". $model['levy']." ครั้ง (ทุกวันอังคาร) ";
+$text2 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ ". $unitprice." บาท (". $Config->Convert($unitpriceText).") ".$vatText." \"ผู้รับจ้าง\" จะทำการเก็บขนย้ายไปทำลายในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ สัปดาห์ละ ". $model['levy']." ครั้ง (ทุกวันอังคาร) ";
 $text3 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะไม่เกิน ". $model['garbageweight']." กิโลกรัมต่อครั้ง ในอัตรา{$paymentType} ".number_format($model['rate'])." บาท (". $Config->Convert($model['rate']).")  ส่วนปริมาณน้ำหนักขยะส่วนที่เกิน  ". $model['garbageweight']." กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะเพิ่ม กิโลกรัมละ ". number_format($model['fine'])." บาท (". $Config->Convert($model['fine']).") “ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  โดยเข้าจัดเก็บเดือนละ ". $model['levy']." ครั้งต่อเดือน รวม ".($model['levy']*12)." ครั้งต่อปี ".$discount." คิดเป็นค่าจ้างรวมทั้งปี ". $total." บาท (". $Config->Convert($totalText).")" .$vatText;
 if($model['recivetype'] == 1 || $model['recivetype'] == 3)
 {
