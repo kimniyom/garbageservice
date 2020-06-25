@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\modules\typecustomer;
+use app\modules\customer\models\Vattype;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\customer\models\Customerneed */
@@ -20,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2><?= Html::encode($this->title) ?></h2>
     <!--
     <p>
-        <?php //Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+    <?php //Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary'])  ?>
     </p>
     -->
     <?=
@@ -52,7 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'roundofmount',
             'priceofmount',
             'priceofyear',
-            'typebill',
+            [
+                //'format'=>'html',
+                'label' => 'ออกบิลในนาม',
+                'value' => Vattype::findOne(["id" => $model->typebill])['vattype']
+            ],
             'roundprice',
             'detail:ntext',
         //'d_update',

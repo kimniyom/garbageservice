@@ -3,6 +3,7 @@
 //use yii\grid\GridView;
 use kartik\grid\GridView;
 use app\modules\customer\models\Customers;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\customer\models\CustomerSearch */
@@ -11,8 +12,12 @@ use app\modules\customer\models\Customers;
 $this->title = 'ใบเสนอราคา';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<button type="button" class="btn btn-default">
-    <i class="fa fa-chevron-circle-left fa-2x"></i> <span style="font-size: 18px;">กลับ</span></button>
+<a href="<?php echo Url::to(['quotation']) ?>">
+    <button type="button" class="btn btn-default">
+        <i class="fa fa-chevron-circle-left fa-2x"></i> <span style="font-size: 18px;">กลับ</span></button></a>
+<a href="<?php echo Url::to(['quotation']) ?>">
+    <button type="button" class="btn btn-default">
+        <i class="fa fa-plus fa-2x"></i> <span style="font-size: 18px;">ทำใบเสนอราคา</span></button></a>
 <table class="table">
     <tr>
         <td style="text-align: right; width: 200px;">เรื่อง</td>
@@ -70,11 +75,15 @@ $this->params['breadcrumbs'][] = $this->title;
     </tr>
     <tr>
         <td style="text-align: right;">ออกบิลในนาม</td>
-        <td><?php echo $datas['typebill'] ?></td>
+        <td><?php echo $datas['vattype'] ?></td>
+    </tr>
+    <tr>
+        <td style="text-align: right;">vat</td>
+        <td><?php echo $datas['vat'] ?></td>
     </tr>
     <tr>
         <td style="text-align: right;">รอบการชำระเงิน</td>
-        <td><?php echo $datas['roundprice'] ?></td>
+        <td><?php echo ($datas['roundprice'] == "1") ? "รายเดือน" : "รายปี"; ?></td>
     </tr>
     <tr>
         <td style="text-align: right;">รายละเอียดอื่น ๆ</td>

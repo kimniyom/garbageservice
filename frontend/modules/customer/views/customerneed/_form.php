@@ -125,6 +125,9 @@ use yii\captcha\Captcha;
 
     <div class="row">
         <div class="col-md-4 col-lg-4">
+            <?= $form->field($model, 'priceofonetime')->textInput() ?>
+        </div>
+        <div class="col-md-4 col-lg-4">
             <?= $form->field($model, 'priceofmount')->textInput() ?>
         </div>
         <div class="col-md-4 col-lg-4">
@@ -134,7 +137,7 @@ use yii\captcha\Captcha;
 
     <?php //$form->field($model, 'typebill')->textInput() ?>
     <div class="row">
-        <div class="col-md-3 col-lg-3">
+        <div class="col-md-5 col-lg-5">
             <?php
             $vattype = Vattype::find()->all();
             echo $form->field($model, 'typebill')->widget(Select2::classname(), [
@@ -150,6 +153,7 @@ use yii\captcha\Captcha;
             ?>
         </div>
     </div>
+    <?= $form->field($model, 'vat')->radioList(['0' => 'ไม่รวม vat', '1' => 'รวม vat']) ?>
     <?php // $form->field($model, 'roundprice')->textInput() ?>
     <?= $form->field($model, 'roundprice')->radioList(['1' => 'รายเดือน', '2' => 'รายปี']) ?>
     <?= $form->field($model, 'detail')->textarea(['rows' => 6]) ?>
