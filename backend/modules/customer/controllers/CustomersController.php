@@ -323,5 +323,17 @@ class CustomersController extends Controller {
         }
         return $status;
     }
+    
+    public function actionQuotation(){
+        $model = new Customers();
+        $data['datas'] = $model->getQuotation();
+        return $this->render('quotation', $data);
+    }
+    
+    public function actionDetailquotation($id){
+        $model = new Customers();
+        $data['datas'] = $model->getDeatilQuotation($id);
+        return $this->render('detailquotation',$data);
+    }
 
 }

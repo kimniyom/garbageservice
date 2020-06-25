@@ -4,8 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\modules\customer\models\Typecustomer;
 use app\modules\customer\models\Vattype;
+use common\models\Changwat;
+use common\models\Ampur;
+use common\models\Tambon;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use kartik\depdrop\DepDrop;
 use yii\helpers\Url;
 use yii\captcha\Captcha;
 
@@ -41,7 +45,61 @@ use yii\captcha\Captcha;
         </div>
     </div>
     <?php //$form->field($model, 'address')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'address')->textarea(['rows' => 3]) ?>
+    <?= $form->field($model, 'address')->textarea(['rows' => 1]) ?>
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            <?php
+            $province = Changwat::find()->all();
+            echo $form->field($model, 'changwat')->widget(Select2::classname(), [
+                'data' => ArrayHelper::map($province, "changwat_id", "changwat_name"),
+                'language' => 'th',
+                'options' => [
+                    'placeholder' => 'Select a state ...',
+                    'id' => 'CHANGWAT',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <?=
+            $form->field($model, 'amphur')->widget(DepDrop::classname(), [
+                'data' => ArrayHelper::map(Ampur::find()->where(['changwat_id' => $model->changwat])->all(), 'ampur_id', 'ampur_name'),
+                'type' => DepDrop::TYPE_SELECT2,
+                'options' => ['id' => 'AMPUR'],
+                //'data' => [$model->truck1],
+                'pluginOptions' => [
+                    'required' => 'required',
+                    'depends' => ['CHANGWAT'],
+                    'placeholder' => 'เลือกอำเภอ...',
+                    'url' => Url::to(['customerneed/getamphur']),
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <?=
+            $form->field($model, 'tambon')->widget(DepDrop::classname(), [
+                'data' => ArrayHelper::map(Tambon::find()->where(['ampur_id' => $model->amphur])->all(), 'tambon_id', 'tambon_name'),
+                'type' => DepDrop::TYPE_SELECT2,
+                'options' => ['id' => 'TAMBON'],
+                //'data' => [$model->truck1],
+                'pluginOptions' => [
+                    'required' => 'required',
+                    'depends' => ['AMPUR'],
+                    'placeholder' => 'เลือกตำบล...',
+                    'url' => Url::to(['customerneed/gettambon']),
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <?= $form->field($model, 'zipcode')->textInput(['maxlength' => true]) ?>
+
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4 col-lg-4">
             <?= $form->field($model, 'tel')->textInput(['maxlength' => true]) ?>
@@ -97,12 +155,9 @@ use yii\captcha\Captcha;
     <?= $form->field($model, 'detail')->textarea(['rows' => 6]) ?>
 
     <?php
-    /*
-      echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-      'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-      ])
-     *
-     */
+    echo $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+        'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
+    ])
     ?>
     <hr/>
     <div class="form-group">
