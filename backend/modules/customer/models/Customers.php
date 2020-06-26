@@ -141,7 +141,7 @@ class Customers extends \yii\db\ActiveRecord {
     }
 
     function getDeatilQuotation($id) {
-        $sql = "SELECT c.*,p.changwat_name,a.ampur_name,t.tambon_name,y.typename,v.vattype,IF(c.vat = '0','ไม่รวม vat','รวม vat') AS vat
+        $sql = "SELECT c.*,p.changwat_name,a.ampur_name,t.tambon_name,y.typename,y.typename_en,v.vattype,IF(c.vat = '0','ไม่รวม vat','รวม vat') AS vat
                 FROM customerneed c INNER JOIN changwat p ON c.changwat = p.changwat_id
                 INNER JOIN ampur a ON c.amphur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id

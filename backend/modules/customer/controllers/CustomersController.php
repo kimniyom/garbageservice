@@ -5,6 +5,7 @@ namespace app\modules\customer\controllers;
 use app\modules\customer\models\Customers;
 use app\modules\customer\models\CustomersImg;
 use app\modules\customer\models\CustomersSearch;
+use app\models\Customerneed;
 use app\models\Location;
 use Yii;
 use yii\filters\VerbFilter;
@@ -59,7 +60,7 @@ class CustomersController extends Controller {
         return $this->render('view', [
                     'model' => $this->findModel($id),
                     'location' => $rs,
-                    'img'=> CustomersImg::findOne(['customerid'=>$id])
+                    'img' => CustomersImg::findOne(['customerid' => $id])
         ]);
     }
 
@@ -104,10 +105,9 @@ class CustomersController extends Controller {
             $location->save();
 
             $img->filename = UploadedFile::getInstance($img, 'filename');
-            if($img->filename )
-            {
+            if ($img->filename) {
                 $img->customerid = $model->id;
-                $img->filename->name = $model->id.".".$img->filename ->extension;
+                $img->filename->name = $model->id . "." . $img->filename->extension;
                 $img->dateupload = date("Y-m-d H:i:s");
                 $img->uploadby = Yii::$app->user->id;
                 $img->save();
@@ -122,7 +122,7 @@ class CustomersController extends Controller {
                     'model' => $model,
                     'taxnumber' => $taxnumber,
                     'location' => $location,
-                    'img'=>$img,
+                    'img' => $img,
         ]);
     }
 
@@ -153,15 +153,15 @@ class CustomersController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
         $location = Location::findOne(['customer_id' => $id]);
-        $img =  CustomersImg::findOne(['customerid' => $id]) ? CustomersImg::findOne(['customerid' => $id]) :  new CustomersImg();;
+        $img = CustomersImg::findOne(['customerid' => $id]) ? CustomersImg::findOne(['customerid' => $id]) : new CustomersImg();
+        ;
 
         if ($model->load(Yii::$app->request->post()) && $model->save() && $location->load(Yii::$app->request->post()) && $location->save()) {
-            
+
             $img->filename = UploadedFile::getInstance($img, 'filename');
-            if($img->filename )
-            {
+            if ($img->filename) {
                 $img->customerid = $model->id;
-                $img->filename->name = $model->id.".".$img->filename ->extension;
+                $img->filename->name = $model->id . "." . $img->filename->extension;
                 $img->dateupload = date("Y-m-d H:i:s");
                 $img->uploadby = Yii::$app->user->id;
                 $img->save();
@@ -175,7 +175,7 @@ class CustomersController extends Controller {
         return $this->render('update', [
                     'model' => $model,
                     'location' => $location,
-                    'img'=>$img,
+                    'img' => $img,
         ]);
     }
 
@@ -271,15 +271,12 @@ class CustomersController extends Controller {
     public function actionCustomernonapprove() {
         $parameter = "";
         $sqlWhere = "";
-        if(Yii::$app->request->post())
-        {
-            if(($parameter=Yii::$app->request->post('customer')) != "")
-            {
+        if (Yii::$app->request->post()) {
+            if (($parameter = Yii::$app->request->post('customer')) != "") {
                 $sqlWhere = " AND c.id = $parameter ";
             }
-                
-            if(($parameter=Yii::$app->request->post('typecustomer')) != "")
-            {
+
+            if (($parameter = Yii::$app->request->post('typecustomer')) != "") {
                 $sqlWhere .= " AND c.type = {$parameter} ";
             }
         }
@@ -323,17 +320,105 @@ class CustomersController extends Controller {
         }
         return $status;
     }
-    
-    public function actionQuotation(){
+
+    public function actionQuotation() {
         $model = new Customers();
         $data['datas'] = $model->getQuotation();
         return $this->render('quotation', $data);
     }
-    
-    public function actionDetailquotation($id){
+
+    public function actionDetailquotation($id) {
         $model = new Customers();
         $data['datas'] = $model->getDeatilQuotation($id);
-        return $this->render('detailquotation',$data);
+        $data['quotation'] = \app\models\Quotationlist::findAll(['quotation_id' => $id]);
+        if ($data['datas']['code'] != "") {
+            $data['cusCode'] = $data['datas']['code'];
+            $data['no'] = $data['datas']['NO'];
+        } else {
+            $data['cusCode'] = $this->getCustomerCode($data['datas']['typename_en']);
+            $data['no'] = $this->getQuotationCode();
+        }
+        return $this->render('detailquotation', $data);
+    }
+
+    function getCustomerCode($typeCus) {
+        //ตัวอย่างหากต้องการ SN59-00001
+        $lastRecord = Customerneed::find()->where(['like', 'code', $typeCus])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
+        if ($lastRecord) {
+
+            $digit = explode($typeCus, $lastRecord->code);
+
+            $lastDigit = ((int) $digit[1]); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+            $lastDigit++; //เพิ่ม 1
+            $lastDigit = str_pad($lastDigit, 10, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
+        } else {
+            $lastDigit = '0000000001';
+        }
+
+        return $typeCus . "-" . $lastDigit;
+    }
+
+    function getQuotationCode() {
+        //ตัวอย่างหากต้องการ SN59-00001
+        $lastRecord = Customerneed::find()->where(['like', 'NO', 'QTT'])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
+        if ($lastRecord) {
+            $digit = explode("QTT", $lastRecord->NO);
+            $lastDigit = ((int) $digit[1]); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+            $lastDigit++; //เพิ่ม 1
+            $lastDigit = str_pad($lastDigit, 10, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
+        } else {
+            $lastDigit = '0000000001';
+        }
+
+        return "QTT" . $lastDigit;
+    }
+
+    public function actionSaveqoutation() {
+        $id = Yii::$app->request->post('id');
+        $description = Yii::$app->request->post('description');
+        $periodoftime = Yii::$app->request->post('periodoftime');
+        $quantity = Yii::$app->request->post('quantity');
+        $unit = Yii::$app->request->post('unit');
+        $priceofmonth = Yii::$app->request->post('priceofmonth');
+
+        $columns = array(
+            "quotation_id" => $id,
+            "description" => $description,
+            "periodoftime" => $periodoftime,
+            "quantity" => $quantity,
+            "unit" => $unit,
+            "priceofmonth" => $priceofmonth
+        );
+
+        \Yii::$app->db->createCommand()
+                ->insert("quotationlist", $columns)
+                ->execute();
+    }
+
+    public function actionUpdatequotation() {
+        $id = Yii::$app->request->post('id');
+        $columns = array(
+            "duedate" => Yii::$app->request->post('duedate'),
+            "createdittime" => Yii::$app->request->post('createdittime'),
+            "expiredate" => Yii::$app->request->post('expiredate'),
+            "numpoint" => Yii::$app->request->post('numpoint'),
+            "locationpoint" => Yii::$app->request->post('locationpoint')
+        );
+
+        \Yii::$app->db->createCommand()
+                ->update("customerneed", $columns, "id = '$id'")
+                ->execute();
+    }
+    
+    public function actionUpdatecomment(){
+        $id = Yii::$app->request->post('id');
+        $columns = array(
+            "comment" => Yii::$app->request->post('comment')
+        );
+
+        \Yii::$app->db->createCommand()
+                ->update("customerneed", $columns, "id = '$id'")
+                ->execute();
     }
 
 }
