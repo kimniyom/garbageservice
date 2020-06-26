@@ -42,13 +42,15 @@ class Customerneed extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['title', 'customername', 'address', 'contact', 'tel', 'customrttype', 'roundofweek', 'roundofmount', 'priceofmount', 'priceofyear', 'typebill', 'roundprice'], 'required'],
-            [['customrttype', 'roundofweek', 'roundofmount', 'priceofmount', 'priceofyear', 'typebill', 'roundprice', 'status'], 'integer'],
+            [['title', 'customername', 'address', 'contact', 'tel', 'customrttype', 'roundofweek', 'roundofmount',
+            'priceofmount', 'priceofyear', 'priceofonetime', 'typebill', 'roundprice', 'changwat', 'amphur', 'tambon', 'zipcode', 'vat'], 'required'],
+            [['customrttype', 'roundofweek', 'roundofmount', 'priceofmount', 'priceofyear', 'typebill', 'roundprice', 'status', 'changwat', 'amphur', 'tambon', 'vat'], 'integer'],
             [['detail'], 'string'],
             [['d_update'], 'safe'],
+            [['zipcode'], 'match', 'pattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
             [['title', 'customername', 'address', 'contact', 'dayopen', 'location'], 'string', 'max' => 255],
             [['tel'], 'string', 'max' => 20],
-                //[['verifyCode'], 'captcha'],
+            ['verifyCode', 'captcha', 'captchaAction' => '/customer/site/captcha'],
         ];
     }
 
@@ -63,20 +65,26 @@ class Customerneed extends \yii\db\ActiveRecord {
             'customername' => 'ชื่อสถานบริการ/บริษัท',
             'customrttype' => 'ประเภทสถานพยาบาล',
             'address' => 'ที่อยู่',
+            'changwat' => 'จังหวัด',
+            'amphur' => 'อำเภอ',
+            'tambon' => 'ตำบล',
+            'zipcode' => 'รหัสไปรษณีย์',
             'tel' => 'เบอร์โทรศัพท์สำนักงาน',
             'contact' => 'ชื่อผู้ติดต่อและเบอร์โทรศัพท์',
             'dayopen' => 'วัน - เวลา ที่เปิดทำการ',
             'location' => 'สถานที่ตั้ง',
             'roundofweek' => 'รอบจัดเก็บ (ครั้งต่อสัปดาห์)',
             'roundofmount' => 'รวมจำนวนครั้งต่อเดือน',
+            'priceofonetime' => 'ราคาต่อครั้ง',
             'priceofmount' => 'ราคาต่อเดือน',
             'priceofyear' => 'ราคาต่อปี',
             'typebill' => 'ออกบิลในนาม',
             'roundprice' => 'รอบการชำระเงิน',
             'detail' => 'รายละเอียดอื่น ๆ',
             'd_update' => 'วันที่บันทึก',
-            //'verifyCode' => 'Verification Code',
-            'status' => 'status'
+            'verifyCode' => 'Verification Code',
+            'status' => 'status',
+            'vat' => 'vat'
         ];
     }
 

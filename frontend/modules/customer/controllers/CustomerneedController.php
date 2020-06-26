@@ -6,6 +6,7 @@ use Yii;
 use app\modules\customer\models\Customerneed;
 use app\modules\customer\models\CustomerneedSearch;
 use yii\web\Controller;
+use yii\helpers\Json;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
@@ -23,18 +24,26 @@ class CustomerneedController extends Controller {
     /**
      * {@inheritdoc}
      */
-    /*
-      public function behaviors() {
-      return [
-      'verbs' => [
-      'class' => VerbFilter::className(),
-      'actions' => [
-      'delete' => ['POST'],
-      ],
-      ],
-      ];
-      }
-     */
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['captcha', 'index','create','view','update','getamphur','gettambon'],
+                        'allow' => true,
+                    ],
+                ]
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     public function actions() {
 
         //$this->layout = $this->setting['layout'];
@@ -45,7 +54,7 @@ class CustomerneedController extends Controller {
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-            //'fixedVerifyCode' => YII_ENV_TEST ? '42' : null,
+                'fixedVerifyCode' => YII_ENV_TEST ? '42' : null,
             ],
         ];
     }
@@ -140,6 +149,48 @@ class CustomerneedController extends Controller {
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    
+        protected function MapData($datas, $fieldId, $fieldName) {
+        $obj = [];
+        foreach ($datas as $key => $value) {
+            array_push($obj, ['id' => $value->{$fieldId}, 'name' => $value->{$fieldName}]);
+        }
+        return $obj;
+    }
+
+    public function actionGetamphur() {
+        //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $province_id = $parents[0];
+                $datas = \common\models\Ampur::find()->where(['changwat_id' => $province_id])->all();
+                $out = $this->MapData($datas, 'ampur_id', 'ampur_name');
+                return Json::encode(['output' => $out, 'selected' => '']);
+                //return ob_get_clean();
+            }
+        }
+
+        echo Json::encode(['output' => '', 'selected' => '']);
+    }
+
+    public function actionGettambon() {
+        //\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $amphur_id = $parents[0];
+                $datas = \common\models\Tambon::find()->where(['ampur_id' => $amphur_id])->all();
+                $out = $this->MapData($datas, 'tambon_id', 'tambon_name');
+                return Json::encode(['output' => $out, 'selected' => '']);
+                //return;
+            }
+        }
+
+        echo Json::encode(['output' => '', 'selected' => '']);
     }
 
 }

@@ -14,6 +14,7 @@ use app\modules\promise\models\Promise;
 $customerModel = new Customers();
 $promiseModel = new Promise();
 $promiseall = $promiseModel->Countpromiseall();
+
 ?>
 <aside class="main-sidebar">
 
@@ -66,6 +67,12 @@ $promiseall = $promiseModel->Countpromiseall();
                             ],
                         ],
                         [
+                            'label' => 'ใบเสนอราคา', 
+                            'icon' => 'file text-danger', 
+                            'url' => ['/customer/customers/quotation'],
+                            'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-red">' . $customerModel->countQuotation() . '</small></span></a>'
+                            ],
+                        [
                             'label' => 'สัญญา',
                             'icon' => 'fa fa-address-card-o',
                             'url' => ['/promise/promise'],
@@ -80,6 +87,7 @@ $promiseall = $promiseModel->Countpromiseall();
                         ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save text-success', 'url' => ['/service/default/index']],
                         ['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
                         ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
+                        /*
                         ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
                             'items' => [
                                 ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
@@ -87,6 +95,8 @@ $promiseall = $promiseModel->Countpromiseall();
                                 ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
                             ],
                         ],
+                         * 
+                         */
                         ['label' => 'ตั้งค่าระบบ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
                         ['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],
                         ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],

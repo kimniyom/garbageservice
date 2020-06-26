@@ -25,7 +25,7 @@
         color: #cc0000;
     }
 
-    #customerneed-contact,#customerneed-address,#customerneed-detail{
+    #customerneed-contact,#customerneed-address,#customerneed-detail,#CHANGWAT,#AMPUR,#TAMBON{
         font-size: 24px;
         color: #000000;
     }
@@ -59,6 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php
 $this->registerJs('
-$("#customerneed-customrttype,#customerneed-typebill").select2({ height: "50px",width: "100%", dropdownCssClass: "myFont" });
+$("#customerneed-customrttype,#customerneed-typebill,#CHANGWAT,#AMPUR,#TAMBON").select2({ height: "50px",width: "100%", dropdownCssClass: "myFont" });
  ');
 ?>
