@@ -281,7 +281,7 @@ class CustomersController extends Controller {
             }
         }
         $sql = "select c.*,t.typename, changwat.changwat_name, ampur.ampur_name, tambon.tambon_name
-                from customers c 
+                from customers c
                 LEFT join typecustomer t on c.type = t.id
                 INNER JOIN changwat ON c.changwat = changwat.changwat_id
                 INNER JOIN ampur ON c.ampur = ampur.ampur_id
@@ -409,11 +409,22 @@ class CustomersController extends Controller {
                 ->update("customerneed", $columns, "id = '$id'")
                 ->execute();
     }
-    
-    public function actionUpdatecomment(){
+
+    public function actionUpdatecomment() {
         $id = Yii::$app->request->post('id');
         $columns = array(
             "comment" => Yii::$app->request->post('comment')
+        );
+
+        \Yii::$app->db->createCommand()
+                ->update("customerneed", $columns, "id = '$id'")
+                ->execute();
+    }
+
+    public function actionUpdatepayment() {
+        $id = Yii::$app->request->post('id');
+        $columns = array(
+            "payment" => Yii::$app->request->post('payment')
         );
 
         \Yii::$app->db->createCommand()

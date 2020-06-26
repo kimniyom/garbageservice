@@ -21,87 +21,94 @@ $this->params['breadcrumbs'][] = $this->title;
 <a href="<?php echo Url::to(['quotation']) ?>">
     <button type="button" class="btn btn-default">
         <i class="fa fa-chevron-circle-left fa-2x"></i> <span style="font-size: 18px;">กลับ</span></button></a>
-<a href="<?php echo Url::to(['quotation']) ?>">
-    <button type="button" class="btn btn-default">
-        <i class="fa fa-plus fa-2x"></i> <span style="font-size: 18px;">ทำใบเสนอราคา</span></button></a>
-<table class="table">
-    <tr>
-        <td style="text-align: right; width: 200px;">เรื่อง</td>
-        <td><?php echo $datas['title'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">สถานบริการ / บริษัท</td>
-        <td><?php echo $datas['customername'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">ประเภทสถานบริการ</td>
-        <td><?php echo $datas['typename'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">ชื่อผู้ติดต่อ</td>
-        <td><?php echo $datas['contact'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">โทรศัพท์</td>
-        <td><?php echo $datas['tel'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">ที่อยู่</td>
-        <td>
-            <?php echo $datas['address'] ?>&nbsp;
-            ต.<?php echo $datas['tambon_name'] ?>&nbsp;
-            อ.<?php echo $datas['ampur_name'] ?>&nbsp;
-            จ.<?php echo $datas['tambon_name'] ?>&nbsp;
-            <?php echo $datas['zipcode'] ?>
-        </td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">วัน - เวลา ที่เปิดทำการ</td>
-        <td><?php echo $datas['dayopen'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">สถานที่ตั้ง</td>
-        <td><?php echo ($datas['location']) ? $datas['location'] : "-"; ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">รอบจัดเก็บ (ครั้งต่อสัปดาห์)</td>
-        <td><?php echo $datas['roundofweek'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">รวมจำนวนครั้งต่อเดือน</td>
-        <td><?php echo $datas['roundofmount'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">ราคาต่อเดือน</td>
-        <td><?php echo $datas['priceofmount'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">ราคาต่อปี</td>
-        <td><?php echo $datas['priceofyear'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">ออกบิลในนาม</td>
-        <td><?php echo $datas['vattype'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">vat</td>
-        <td><?php echo $datas['vat'] ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">รอบการชำระเงิน</td>
-        <td><?php echo ($datas['roundprice'] == "1") ? "รายเดือน" : "รายปี"; ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">รายละเอียดอื่น ๆ</td>
-        <td><?php echo ($datas['detail']) ? $datas['detail'] : "-"; ?></td>
-    </tr>
-    <tr>
-        <td style="text-align: right;">วันที่บันทึก</td>
-        <td><?php echo $datas['d_update'] ?></td>
-    </tr>
-</table>
+<button type="button" class="btn btn-default" id="quot">
+    <i class="fa fa-plus fa-2x"></i> <span style="font-size: 18px;">ทำใบเสนอราคา</span></button>
+<br/><br/>
+<div class="box" id="box-detail">
+    <div class="box-header" style=" padding-bottom: 0px;">
+        <h4>ข้อมูลลูกค้า</h4>
+    </div>
+    <div class="box-body" style="padding-top:0px;">
+        <table class="table">
+            <tr>
+                <td style="text-align: right; width: 200px;">เรื่อง</td>
+                <td><?php echo $datas['title'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">สถานบริการ / บริษัท</td>
+                <td><?php echo $datas['customername'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">ประเภทสถานบริการ</td>
+                <td><?php echo $datas['typename'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">ชื่อผู้ติดต่อ</td>
+                <td><?php echo $datas['contact'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">โทรศัพท์</td>
+                <td><?php echo $datas['tel'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">ที่อยู่</td>
+                <td>
+                    <?php echo $datas['address'] ?>&nbsp;
+                    ต.<?php echo $datas['tambon_name'] ?>&nbsp;
+                    อ.<?php echo $datas['ampur_name'] ?>&nbsp;
+                    จ.<?php echo $datas['tambon_name'] ?>&nbsp;
+                    <?php echo $datas['zipcode'] ?>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">วัน - เวลา ที่เปิดทำการ</td>
+                <td><?php echo $datas['dayopen'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">สถานที่ตั้ง</td>
+                <td><?php echo ($datas['location']) ? $datas['location'] : "-"; ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">รอบจัดเก็บ (ครั้งต่อสัปดาห์)</td>
+                <td><?php echo $datas['roundofweek'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">รวมจำนวนครั้งต่อเดือน</td>
+                <td><?php echo $datas['roundofmount'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">ราคาต่อเดือน</td>
+                <td><?php echo $datas['priceofmount'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">ราคาต่อปี</td>
+                <td><?php echo $datas['priceofyear'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">ออกบิลในนาม</td>
+                <td><?php echo $datas['vattype'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">vat</td>
+                <td><?php echo $datas['vat'] ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">รอบการชำระเงิน</td>
+                <td><?php echo ($datas['roundprice'] == "1") ? "รายเดือน" : "รายปี"; ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">รายละเอียดอื่น ๆ</td>
+                <td><?php echo ($datas['detail']) ? $datas['detail'] : "-"; ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;">วันที่บันทึก</td>
+                <td><?php echo $datas['d_update'] ?></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-<div class="row">
+<div class="row" id="head-invoice">
     <div class="col-md-4 col-lg-4">
         <label>วันกำหนดส่งมอบงาม</label>
         <input type="text" id="duedate" class="form-control" value="<?php echo $datas['duedate'] ?>"/>
@@ -177,7 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     อีเมล์(E-mail): -<br/>
                 </td>
                 <td colspan="2" valign="top">
-                    วันกำหนดส่งมอบงาม(Due Date): <?php echo $datas['duedate'] ?> วัน<br/>
+                    วันกำหนดส่งมอบงาน(Due Date): <?php echo $datas['duedate'] ?> วัน<br/>
                     เงื่อนไขการชำระเงิน(Credit Term): <?php echo $datas['createdittime'] ?><br/>
                     ยืนยันราคาภายใน(Expire Date): <?php echo $datas['expiredate'] ?>
                     <hr style="margin-top:2px; margin-bottom: 2px;"/>
@@ -208,7 +215,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><?php echo $rs['periodoftime'] ?></td>
                     <td><?php echo $rs['quantity'] ?></td>
                     <td><?php echo $rs['unit'] ?></td>
-                    <td style="text-align:right;"><?php echo number_format($rs['priceofmonth']) ?></td>
+                    <td style="text-align:right;"><?php echo number_format($rs['priceofmonth']) ?> <i class="fa fa-trash text-danger" style=" cursor: pointer;"></i></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
@@ -245,7 +252,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <th style="text-align:right;"><?php echo number_format($sum) ?></th>
             </tr>
             <tr>
-                <th colspan="6"><b>ชำระเงินโดย:</b></th>
+                <th>
+                    <b>ชำระเงินโดย:</b>
+                    <button type="button" class="btn btn-default btn-block" onclick="onUpdatePayment()"><i class="fa fa-plus"></i> </button>
+                </th>
+                <th colspan="5">
+                    <?php echo $datas['payment'] ?>
+                    <input type="text" id="payment" class="form-control" value="<?php echo $datas['payment'] ?>"/>
+                </th>
             </tr>
             <tr>
                 <th colspan="6">
@@ -270,6 +284,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </table>
 </div>
 
+<button type="button" id="top" class="btn btn-default" style="position: fixed; right: 10px; bottom: 10px; z-index: 5; display: none;">Click To Top</button>
+
 <script type="text/javascript">
     function onSave() {
         var url = "<?php echo Yii::$app->urlManager->createUrl('customer/customers/saveqoutation') ?>";
@@ -292,7 +308,7 @@ $this->params['breadcrumbs'][] = $this->title;
             return false;
         }
 
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             window.location.reload();
         });
     }
@@ -313,13 +329,12 @@ $this->params['breadcrumbs'][] = $this->title;
             numpoint: numpoint,
             locationpoint: locationpoint
         };
-
         if (duedate == "" || createdittime == "" || expiredate == "" || numpoint == "" || locationpoint == "") {
             alert("กรอกข้อมูลไม่ครบ");
             return false;
         }
 
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             window.location.reload();
         });
     }
@@ -341,21 +356,54 @@ $this->params['breadcrumbs'][] = $this->title;
             id: id,
             comment: comment
         };
-
         if (comment == "") {
             alert("กรอกข้อมูลไม่ครบ");
             return false;
         }
 
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             window.location.reload();
         });
     }
+
+    function onUpdatePayment() {
+        var id = "<?php echo $datas['id'] ?>";
+        var payment = $("#payment").val();
+        var url = "<?php echo Yii::$app->urlManager->createUrl('customer/customers/updatepayment') ?>";
+        var data = {
+            id: id,
+            payment: payment
+        };
+        if (payment == "") {
+            alert("กรอกข้อมูลไม่ครบ");
+            return false;
+        }
+
+        $.post(url, data, function(res) {
+            window.location.reload();
+        });
+    }
+
 </script>
 
-<?php 
-    $this->registerJs('setComment();');
-?>
+<?php
+$this->registerJs('
+        setComment();
+        $(document).ready(function() {
+            $("#quot").click(function() {
+                $("html, body").animate({
+                    scrollTop: $("#head-invoice").offset().top
+                });
+                $("#top").show();
+            });
 
+            $("#top").click(function() {
+                 $("html, body").animate({ scrollTop: 0 }, "slow");
+                 $("#top").hide();
+                 return false;
+              });
+        });
+         ');
+?>
 
 
