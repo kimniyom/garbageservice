@@ -9,7 +9,12 @@ $date1=date_create($model['promisedatebegin']);
 $date2=date_create($model['promisedateend']);
 $diff=date_diff($date1,$date2);
 $month = number_format($diff->format('%a')/30);
-$discount = $Config->getDiscount($model['payment']) == 1 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   number_format($model['distcountbath'])." บาท (". $Config->Convert(number_format($model['distcountbath'])).")" : "";
+
+$discountBath = number_format($model['distcountbath'],2);
+$discountBathText = str_replace(",","",$discountBath);
+//$discountBathText = str_replace(".","",$discountBath);
+
+$discount = $Config->getDiscount($model['payment']) == 1 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด ".   $discountBath." บาท (". $Config->Convert($discountBathText).")" : "";
 
 $vatText = "";
 $total = $model['total'];
@@ -24,9 +29,9 @@ else if($model['vat']==1 && $model['vattype']==1)
     $total = $total + (($total * 7)/100);
 }
 
-$total = number_format($total);
+$total = number_format($total,2);
 $totalText = str_replace(",","",$total);
-$totalText = str_replace(".","",$totalText);
+//$totalText = str_replace(".","",$totalText);
 
 $unitprice = $model['unitprice'];
 $unitpriceText = "";
@@ -63,9 +68,9 @@ else if($model['payment'] == 6 || $model['payment'] == 3)
     $paymentType = " เดือนละ ";
 }
 
-$unitprice = number_format($unitprice);
+$unitprice = number_format($unitprice,2);
 $unitpriceText = str_replace(",","",$unitprice);
-$unitpriceText = str_replace(".","",$unitpriceText);
+//$unitpriceText = str_replace(".","",$unitpriceText);
 
 $recivetype = "";
 $text1 = " โดยกำหนดค่าจ้าง ตามน้ำหนักไม่เกิน ". $model['garbageweight']." กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  ". $model['garbageweight']." กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ ". number_format($model['fine'])." บาท (". $Config->Convert($model['fine']).") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตรา{$paymentType} ".number_format($model['rate'])." บาท (". $Config->Convert($model['rate']).")  โดยเข้าจัดเก็บ ". $model['levy']." ครั้งต่อเดือน  ".$discount." เป็นค่าจ้างรวมทั้งสิ้นต่อปี ". $total." บาท (". $Config->Convert($totalText).")" .$vatText;
