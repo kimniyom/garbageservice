@@ -409,7 +409,8 @@ class CustomersController extends Controller {
             "createdittime" => Yii::$app->request->post('createdittime'),
             "expiredate" => Yii::$app->request->post('expiredate'),
             "numpoint" => Yii::$app->request->post('numpoint'),
-            "locationpoint" => Yii::$app->request->post('locationpoint')
+            "locationpoint" => Yii::$app->request->post('locationpoint'),
+            "distcount" => Yii::$app->request->post('distcount')
         );
 
         \Yii::$app->db->createCommand()

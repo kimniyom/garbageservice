@@ -13,7 +13,14 @@ $this->title = 'คำขอใบเสนอราคา';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="box" id="box-detail">
-    <div class="box-header" style=" padding-bottom: 0px;"></div>
+    <div class="box-header" style=" padding-bottom: 0px;">
+        <label>สถานะ</label>
+        <select id="status" class="form-control">
+            <option value="ทั้งหมด">ทั้งหมด</option>
+            <option value="ทั้งหมด">ทำแล้ว</option>
+            <option value="ทั้งหมด">ยังไม่ทำ</option>
+        </select>
+    </div>
     <div class="box-body" style="padding-top:0px;">
         <table class="table">
             <thead>

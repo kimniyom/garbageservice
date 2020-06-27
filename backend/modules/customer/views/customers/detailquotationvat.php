@@ -146,7 +146,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-4 col-lg-4">
             <label>วันกำหนดส่งมอบงาม</label>
-            <input type="text" id="duedate" class="form-control" value="<?php echo $datas['duedate'] ?>"/>
+            <input type="text" id="duedate" class="form-control" onKeyUp="if (this.value * 1 != this.value)
+                            this.value = '';" value="<?php echo $datas['duedate'] ?>"/>
         </div>
         <div class="col-md-4 col-lg-4">
             <label>เงื่อนไขการชำระเงิน</label>
@@ -154,25 +155,32 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-4 col-lg-4">
             <label>ยืนยันราคาภายใน</label>
-            <input type="text" id="expiredate" class="form-control" value="<?php echo $datas['expiredate'] ?>"/>
+            <input type="text" id="expiredate" class="form-control" onKeyUp="if (this.value * 1 != this.value)
+                            this.value = '';" value="<?php echo $datas['expiredate'] ?>"/>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <label>จำนวนจุดจัดเก็บ</label>
-            <input type="text" id="numpoint" class="form-control" value="<?php echo $datas['numpoint'] ?>"/>
+            <input type="text" id="numpoint" class="form-control" onKeyUp="if (this.value * 1 != this.value)
+                            this.value = '';" value="<?php echo $datas['numpoint'] ?>"/>
         </div>
+        <div class="col-md-3  col-lg-3">
+            <label>ส่วนลด</label>
+            <input type="text" id="distount" class="form-control" onKeyUp="if (this.value * 1 != this.value)
+                            this.value = '';" value="<?php echo ($datas['distcount']) ? $datas['distcount'] : 0 ?>"/>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-9 col-lg-9">
             <label>สถานที่</label>
             <input type="text" id="locationpoint" class="form-control" value="<?php echo $datas['locationpoint'] ?>"/>
         </div>
-    </div>
-    <br/>
-    <div class="row">
         <div class="col-md-3 col-lg-3">
-            <button class="btn btn-default" onclick="onUpdate()"><i class="fa fa-plus"></i> เพิ่มรายละเอียด</button>
+            <button class="btn btn-default" onclick="onUpdate()" style=" margin-top: 25px;"><i class="fa fa-plus"></i> เพิ่มรายละเอียด</button>
         </div>
     </div>
+    <br/>
     <br/>
 <?php } ?>
 <?php if ($datas['status'] == 1) { ?>
@@ -274,18 +282,61 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td><input type="text" class="form-control" id="periodoftime"/></td>
                     <td><input type="text" class="form-control" id="quantity"/></td>
                     <td><input type="text" class="form-control" id="unit"/></td>
-                    <td><input type="text" class="form-control" id="priceofmonth"/></td>
-                </tr>
-            <?php } else { ?>
-                <tr>
-                    <td id="hbody"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <input type="text" class="form-control" id="priceofmonth" onKeyUp="if (this.value * 1 != this.value)
+                                        this.value = '';"/>
+                    </td>
                 </tr>
             <?php } ?>
+            <tr>
+                <td></td>
+                <td colspan="4" style="padding: 5px; font-size: 12px;">*** รบกวนลูกค้าดำเนินการดังนี้</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4" style="padding: 5px; font-size: 12px;">
+                    1. ลงนามในใบเสนอราคาและส่ง E-mail : icquality@icqs.net
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4" style="padding: 5px; font-size: 12px;">
+                    2. แจ้งระบบวิธีการชำระเงินของลูกค้า กรณีชำระเงินรายเดือน ไม่ได้รับส่วนลดและของแถม
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4" style="padding: 5px; font-size: 12px;">
+                    3. Add line มาที่บริษัท คือ @icqualitysystem เพื่อเข้าระบบ
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4" style="padding: 5px; font-size: 12px;">
+                    4. ส่งพิกัด จุดจัดเก็บ แนบมาพร้อมใบเสนอราคาที่ลงนามแล้ว
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4" style="padding: 5px; font-size: 12px;">
+                    5. ลูกค้าออกหนังสือหักภาษี ณ ที่จ่าย ส่งมาทุกครั้งเมื่อมีการใช้บริการ
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="4" style="padding: 5px; font-size: 12px;">
+                    6. เมื่อสัญญาเรียบร้อยแล้ว จะยืนยันวันที่เข้าจัดเก็บให้ลูกค้ารับทราบ
+                </td>
+                <td></td>
+            </tr>
+
+
             <!--
         <tr>
             <td style="font-size: 12px; font-weight: bold;">หมายเหตุ:<br/>
@@ -306,46 +357,58 @@ $this->params['breadcrumbs'][] = $this->title;
         </tbody>
         <tfoot>
             <tr>
-                <td rowspan="5" style="font-size: 12px; font-weight: bold;">หมายเหตุ: <br/>
+                <td rowspan="4" style="font-size: 12px; font-weight: bold; padding: 5px;">หมายเหตุ: <br/>
                     <?php if ($datas['status'] == 0) { ?>
                         <button type="button" class="btn btn-default btn-block" onclick="onUpdateComment()"><i class="fa fa-plus"></i> </button>
                     <?php } ?>
                 </td>
-                <td rowspan="5" colspan="2">
+                <td rowspan="4" colspan="2" style="font-size: 12px; padding: 5px;">
                     <?php echo $datas['comment'] ?>
                     <?php if ($datas['status'] == 0) { ?>
                         <textarea class="form-control" id="comment" rows="3"></textarea>
                     <?php } ?>
                 </td>
-                <td colspan="2">รวมเป็นเงิน</td>
-                <td></td>
+                <td colspan="2" style="font-size: 12px; font-weight: bold; padding: 5px;">รวมเป็นเงิน</td>
+                <td style=" text-align: right;font-size: 12px; font-weight: bold; padding: 5px;""><?php echo number_format($sum, 2) ?></td>
             </tr>
             <tr>
-                <td colspan="2">มอบส่วนลด</td>
-                <td>&nbsp;</td>
+                <td colspan="2" style="font-size: 12px; font-weight: bold; padding: 5px;">มอบส่วนลด</td>
+                <td style=" text-align: right; font-size: 12px; font-weight: bold; padding: 5px;""><?php
+                    $total = ($datas['distcount']) ? $datas['distcount'] : 0;
+                    echo number_format($total, 2)
+                    ?>
+                </td>
             </tr>
             <tr>
-                <td colspan="2">&nbsp;</td>
-                <td>&nbsp;</td>
+                <td colspan="2" style="font-size: 12px; font-weight: bold; padding: 5px;">จำนวนหักส่วนลด</td>
+                <td style=" text-align: right; font-size: 12px; font-weight: bold; padding: 5px;""><?php echo ($sum > 0) ? number_format($sum - $datas['distcount'], 2) : "0" ?></td>
             </tr>
             <tr>
-                <td colspan="2">จำนวนหักส่วนลด</td>
-                <td>&nbsp;</td>
+                <td colspan="2" style="font-size: 12px; font-weight: bold; padding: 5px;">ภาษีมูลค่าเพิ่ม 7 %</td>
+                <td style=" text-align: right; font-size: 12px; font-weight: bold; padding: 5px;">
+                    <?php
+                    if ($total > 0) {
+                        $tax = ($total * 7) / 100;
+                        echo number_format($tax, 2);
+                    } else {
+                        $tax = 0;
+                        echo 0;
+                    }
+                    $sumAll = 0;
+                    $sumAll = ($total + $tax)
+                    ?>
+                </td>
             </tr>
             <tr>
-                <td colspan="2">ภาษีมูลค่าเพิ่ม 7 %</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <th colspan="3" style="text-align:center;  font-size: 12px;">
-                    <?php echo $Config->Convert($sum) ?>
+                <th colspan="3" style="text-align:center;  font-size: 12px; padding: 5px;">
+                    <?php echo $Config->Convert(number_format($sumAll, 2)) ?>
                 </th>
-                <th style="text-align:right; font-size: 12px;" colspan="2">จำนวนเงินรวมทั้งสิ้น</th>
-                <th style="text-align:right; font-size: 12px;"><?php echo number_format($sum) ?></th>
+                <th style="text-align:right; font-size: 12px; padding: 5px;" colspan="2">จำนวนเงินรวมทั้งสิ้น</th>
+                <th style="text-align:right; font-size: 12px;font-weight: bold; padding: 5px;"><?php echo number_format($sumAll, 2) ?></th>
             </tr>
             <tr>
-                <th colspan="6" style=" font-size: 12px;">
-                    <b style=" font-size: 12px;">ชำระเงินโดย:</b>
+                <th colspan="6" style=" font-size: 12px; padding: 5px;">
+                    <b style=" font-size: 12px; padding: 5px;">ชำระเงินโดย:</b>
                     <?php echo $datas['payment'] ?>
                     <?php if ($datas['status'] == 0) { ?>
                         <div class="row">
@@ -421,6 +484,7 @@ $this->params['breadcrumbs'][] = $this->title;
         var expiredate = $("#expiredate").val();
         var numpoint = $("#numpoint").val();
         var locationpoint = $("#locationpoint").val();
+        var distcount = $("#distount").val();
         var url = "<?php echo Yii::$app->urlManager->createUrl('customer/customers/updatequotation') ?>";
         var data = {
             id: id,
@@ -428,7 +492,8 @@ $this->params['breadcrumbs'][] = $this->title;
             createdittime: createdittime,
             expiredate: expiredate,
             numpoint: numpoint,
-            locationpoint: locationpoint
+            locationpoint: locationpoint,
+            distcount: distcount
         };
         if (duedate == "" || createdittime == "" || expiredate == "" || numpoint == "" || locationpoint == "") {
             alert("กรอกข้อมูลไม่ครบ");
@@ -457,10 +522,7 @@ $this->params['breadcrumbs'][] = $this->title;
             id: id,
             comment: comment
         };
-        if (comment == "") {
-            alert("กรอกข้อมูลไม่ครบ");
-            return false;
-        }
+
 
         $.post(url, data, function(res) {
             window.location.reload();
@@ -529,7 +591,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php
 $this->registerJs('
         setComment();
-        settables();
         $(document).ready(function() {
             $("#quot").click(function() {
                 $("html, body").animate({
