@@ -459,7 +459,7 @@ class PromiseController extends Controller {
                     customers.flag = 1
                     AND customers.approve = 'Y'
                     AND promise.id = '{$id}'";
-       
+
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
 

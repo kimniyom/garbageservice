@@ -7,6 +7,9 @@ use app\modules\customer\models\CustomersImg;
 use app\modules\customer\models\CustomersSearch;
 use app\models\Customerneed;
 use app\models\Location;
+use kartik\mpdf\Pdf;
+use Mpdf\Config\ConfigVariables;
+use Mpdf\Config\FontVariables;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
@@ -338,7 +341,11 @@ class CustomersController extends Controller {
             $data['cusCode'] = $this->getCustomerCode($data['datas']['typename_en']);
             $data['no'] = $this->getQuotationCode();
         }
-        return $this->render('detailquotation', $data);
+        if ($data['datas']['vat'] == "0") {
+            return $this->render('detailquotation', $data);
+        } else {
+            return $this->render('detailquotationvat', $data);
+        }
     }
 
     function getCustomerCode($typeCus) {
@@ -355,7 +362,7 @@ class CustomersController extends Controller {
             $lastDigit = '0000000001';
         }
 
-        return $typeCus . "-" . $lastDigit;
+        return $typeCus . $lastDigit;
     }
 
     function getQuotationCode() {
@@ -430,6 +437,82 @@ class CustomersController extends Controller {
         \Yii::$app->db->createCommand()
                 ->update("customerneed", $columns, "id = '$id'")
                 ->execute();
+    }
+
+    public function actionDeletequotation() {
+        $id = Yii::$app->request->post('id');
+        Yii::$app->db->createCommand()
+                ->delete("quotationlist", "id = '$id'")
+                ->execute();
+    }
+
+    public function actionConfirmquotation() {
+        $id = Yii::$app->request->post('id');
+        $no = Yii::$app->request->post('no');
+        $code = Yii::$app->request->post('code');
+
+        $columns = array(
+            "NO" => $no,
+            "code" => $code,
+            "status" => 1
+        );
+        \Yii::$app->db->createCommand()
+                ->update("customerneed", $columns, "id = '$id'")
+                ->execute();
+    }
+
+    public function actionPdfpreview($id) {
+        $model = new Customers();
+        $data['datas'] = $model->getDeatilQuotation($id);
+        $data['quotation'] = \app\models\Quotationlist::findAll(['quotation_id' => $id]);
+        $data['cusCode'] = $data['datas']['code'];
+        $data['no'] = $data['datas']['NO'];
+        $content = $this->renderPartial('_print_quotation', $data);
+        $pdf = new Pdf([
+            // set to use core fonts only
+            'mode' => 'th',
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4,
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT,
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,
+            // your html content input
+            'content' => $content,
+            // format content from your own css file if needed or use the
+            // enhanced bootstrap css built by Krajee for mPDF formatting
+            //'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            //'cssInline' => '.kv-heading-1{font-size:18px}',
+            // set mPDF properties on the fly
+            //'options' => ['title' => 'Krajee Report Title'],
+            //'filename' => $promisenumber,
+            'filename' => $data['datas']['NO'] . ".pdf",
+            // call mPDF methods on the fly
+            'methods' => [
+            //'SetHeader'=>['Krajee Report Header'],
+            //'SetFooter' => ['{PAGENO}'],
+            ],
+        ]);
+
+        $defaultConfig = (new ConfigVariables())->getDefaults();
+        $fontDirs = $defaultConfig['fontDir'];
+
+        $defaultFontConfig = (new FontVariables())->getDefaults();
+        $fontData = $defaultFontConfig['fontdata'];
+
+        $pdf->options['fontDir'] = array_merge($fontDirs, [
+            Yii::getAlias('@webroot') . '/web/fonts/thsarabun/',
+        ]);
+
+        $pdf->options['fontdata'] = $fontData + [
+            'sarabun' => [
+                'R' => 'THSarabun.ttf',
+            ],
+        ];
+
+        // return the pdf output as per the destination setting
+        return $pdf->render();
     }
 
 }

@@ -185,10 +185,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div style="text-align:center; margin-bottom: 0px;">
-        <b>ไอซี ควอลิตี้ ซิสเท็ม</b><br/>
-        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
-        เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
-        12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+        <b>บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด</b><br/>
+        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+        เลขที่ 50/9 หมู่ 6  ตำบล บางหลวง อำเภอเมือง จังหวัด ปทุมธานี 12000 <br/>
+        12/1  Moo 8  Bangkuwat , Mueng , Pathumthani 12000<br/>
         โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564 E-mail : iccquality@icqs.net
     </div>
 
@@ -210,7 +210,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <tr>
             <td style=" width: 55%; font-size: 12px; font-weight: bold;">
                 รหัสลูกค้า(Customer Code): <?php echo $cusCode ?><br/>
-                ชื่อองค์กรลูกค้า(Company Name): <?php echo $datas['customername'] ?><br/>
+                ชื่อบริษัทลูกค้า(Company Name): <?php echo $datas['customername'] ?><br/>
                 ชื่อผู้ติดต่อ(Name): <?php echo $datas['contact'] ?><br/>
                 ที่อยู่ <?php echo $datas['address'] ?>&nbsp;
                 ต.<?php echo $datas['tambon_name'] ?>&nbsp;
@@ -286,23 +286,56 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td></td>
                 </tr>
             <?php } ?>
+            <!--
+        <tr>
+            <td style="font-size: 12px; font-weight: bold;">หมายเหตุ:<br/>
+            <?php //if ($datas['status'] == 0) { ?>
+                    <button type="button" class="btn btn-default btn-block" onclick="onUpdateComment()"><i class="fa fa-plus"></i> </button>
+            <?php //} ?>
+            </td>
+            <td colspan="3" style="font-size: 12px;">
+            <?php //echo $datas['comment'] ?>
+            <?php //if ($datas['status'] == 0) { ?>
+                    <textarea class="form-control" id="comment" rows="3"></textarea>
+            <?php //} ?>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+            -->
+        </tbody>
+        <tfoot>
             <tr>
-                <td style="font-size: 12px; font-weight: bold;">หมายเหตุ:<br/>
+                <td rowspan="5" style="font-size: 12px; font-weight: bold;">หมายเหตุ: <br/>
                     <?php if ($datas['status'] == 0) { ?>
                         <button type="button" class="btn btn-default btn-block" onclick="onUpdateComment()"><i class="fa fa-plus"></i> </button>
                     <?php } ?>
                 </td>
-                <td colspan="3" style="font-size: 12px;">
+                <td rowspan="5" colspan="2">
                     <?php echo $datas['comment'] ?>
                     <?php if ($datas['status'] == 0) { ?>
                         <textarea class="form-control" id="comment" rows="3"></textarea>
                     <?php } ?>
                 </td>
-                <td></td>
+                <td colspan="2">รวมเป็นเงิน</td>
                 <td></td>
             </tr>
-        </tbody>
-        <tfoot>
+            <tr>
+                <td colspan="2">มอบส่วนลด</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2">จำนวนหักส่วนลด</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2">ภาษีมูลค่าเพิ่ม 7 %</td>
+                <td>&nbsp;</td>
+            </tr>
             <tr>
                 <th colspan="3" style="text-align:center;  font-size: 12px;">
                     <?php echo $Config->Convert($sum) ?>
