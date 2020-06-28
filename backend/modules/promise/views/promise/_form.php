@@ -324,15 +324,17 @@ for ($i = 1; $i <= 36; $i++) {
                             </div>
                         </div>
 
-                        <!-- <div id="dateservice">
+                         <div id="dateservice">
                             <h4>วันที่จัดเก็บ</h4>
                             <hr style="margin-top:0px;"/>
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
-                        <?= $form->field($model, 'dayinweek')->dropDownList($dayInweek); ?>
+                                    <?= $form->field($model, 'dayinweek')->dropDownList($dayInweek); ?>
                                 </div>
+                            </div>
+                        </div>
 
-                                <div class="col-md-6 col-lg-6">
+                        <!--        <div class="col-md-6 col-lg-6">
                         <?php
                         // echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
                         //     'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
