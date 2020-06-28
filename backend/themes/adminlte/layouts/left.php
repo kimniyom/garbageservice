@@ -69,7 +69,7 @@ $promiseall = $promiseModel->Countpromiseall();
                         [
                             'label' => 'ใบเสนอราคา', 
                             'icon' => 'file text-danger', 
-                            'url' => ['/customer/customers/quotation'],
+                            'url' => ['/customer/customers/quotation','status' => 0],
                             'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-red">' . $customerModel->countQuotation() . '</small></span></a>'
                             ],
                         [

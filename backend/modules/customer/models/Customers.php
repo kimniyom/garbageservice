@@ -135,12 +135,18 @@ class Customers extends \yii\db\ActiveRecord {
         return $rs;
     }
 
-    function getQuotationAll() {
+    function getQuotationAll($status = "") {
+        if($status == ""){
+            $where = "1=1";
+        } else {
+            $where = "c.status = '$status'";
+        }
         $sql = "SELECT c.*,p.changwat_name,a.ampur_name,t.tambon_name,y.typename
                 FROM customerneed c INNER JOIN changwat p ON c.changwat = p.changwat_id
                 INNER JOIN ampur a ON c.amphur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id
                 INNER JOIN typecustomer y ON c.customrttype = y.id
+                WHERE $where
                 ORDER BY c.id ASC";
         $rs = Yii::$app->db->createCommand($sql)->queryAll();
         return $rs;

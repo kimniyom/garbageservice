@@ -324,9 +324,14 @@ class CustomersController extends Controller {
         return $status;
     }
 
-    public function actionQuotation() {
+    public function actionQuotation($status = "") {
         $model = new Customers();
-        $data['datas'] = $model->getQuotation();
+        if ($status != "") {
+            $data['status'] = $status;
+        } else {
+            $data['status'] = "2";
+        }
+        $data['datas'] = $model->getQuotationAll($status);
         return $this->render('quotation', $data);
     }
 

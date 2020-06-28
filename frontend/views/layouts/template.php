@@ -134,12 +134,14 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                 </div>
                                 <div class="top_bar_content ml-auto">
                                     <div class="top_bar_user">
-                                        <?php if (Yii::$app->user->isGuest) { ?>
+                                        <?php //if (Yii::$app->user->isGuest) { ?>
+                                        <!--
                                             <div class="user_icon">
-                                                <img src="<?php echo Url::to('@web/web/theme/images/user.svg') ?>" alt="">
+                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')  ?>" alt="">
                                             </div>
-                                            <div><a href="<?php echo Yii::$app->urlManager->createUrl(['user/registration/register']) ?>">Register</a></div>
-                                        <?php } ?>
+                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])  ?>">Register</a></div>
+                                        -->
+                                        <?php //} ?>
                                         <div>
                                             <?php if (Yii::$app->user->isGuest) { ?>
                                                 <a href="<?php echo Yii::$app->urlManager->createUrl(['user/security/login']) ?>"><i class="fa fa-lock"></i> Sign in</a>
@@ -395,113 +397,113 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                 </div>
             </div>
             <!-- Newsletter -->
-
-            <div class="newsletter bg-secondary" style="padding-bottom:0px; padding-top:25px;">
-                <div class="container" style="padding-bottom:20px;">
-                    <div class="row">
-                        <div class="col">
-                            <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
-                                <div class="newsletter_title_container">
-                                    <div class="newsletter_icon"><img src="<?php echo Url::to('@web/web/theme/images/send.png') ?>" alt=""></div>
-                                    <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
-                                </div>
-                                <div class="newsletter_content clearfix">
-                                    <form action="#" class="newsletter_form">
-                                        <input type="email" class="newsletter_input" placeholder="Enter your email address">
-                                        <button class="newsletter_button">Subscribe</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Footer -->
-                <footer class="footer bg-dark">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-4 footer_col">
-                                <div class="footer_column footer_contact">
-                                    <div class="logo_container">
-                                        <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
-                                    </div>
-                                    <div class="footer_title text-white">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
-                                    <div class="footer_contact_text text-white">
-                                        <p>50/19 หมู่ 6 ต.บางหลวง</p>
-                                        <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
-                                    </div>
-                                    <div class="footer_phone">โทร : (02) 1010325</div>
-                                    <div class="footer_phone">Facebook : ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
-                                    <div class="footer_phone">id line : @icqualitysystem</div>
-
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-2">
-                                <div class="footer_column">
-                                    <div class="footer_title text-warning">ข่าวสาร</div>
-                                    <ul class="footer_list">
-                                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสารและกิจกรรม</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-
-                            <?php
-                            foreach ($menu as $menus):
-                                if ($menus['submenu'] == "1") {
-                                    $Smenu = $Config->getSubMenu($menus['id']);
-                                    ?>
-                                    <div class="col-lg-2">
-                                        <div class="footer_column">
-                                            <div class="footer_title text-warning"><?php echo $menus['navbar'] ?></div>
-                                            <ul class="footer_list">
-                                                <?php foreach ($Smenu as $Smenus) { ?>
-                                                    <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
-                                                <?php } ?>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="col-lg-2">
-                                        <div class="footer_column">
-                                            <div class="footer_title">
-                                                <a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a>
+            <!--
+                        <div class="newsletter bg-secondary" style="padding-bottom:0px; padding-top:25px;">
+                            <div class="container" style="padding-bottom:20px;">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
+                                            <div class="newsletter_title_container">
+                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')  ?>" alt=""></div>
+                                                <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
+                                            </div>
+                                            <div class="newsletter_content clearfix">
+                                                <form action="#" class="newsletter_form">
+                                                    <input type="email" class="newsletter_input" placeholder="Enter your email address">
+                                                    <button class="newsletter_button">Subscribe</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                <?php } ?>
-                            <?php endforeach; ?>
-
-
-                        </div>
-                    </div>
-                </footer>
-            </div>
-            <!-- Copyright -->
-            <div class="copyright">
+                                </div>
+                            </div>
+            -->
+            <!-- Footer -->
+            <footer class="footer bg-dark">
                 <div class="container">
                     <div class="row">
-                        <div class="col col-lg-10 col-md-10">
-                            <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
-                                <div class="copyright_content text-info"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> IC QUALITY SYSTEM Co., Ltd.
-                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <div class="col-lg-4 footer_col">
+                            <div class="footer_column footer_contact">
+                                <div class="logo_container">
+                                    <div class="logo"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" alt=""></div>
                                 </div>
+                                <div class="footer_title text-white">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                <div class="footer_contact_text text-white">
+                                    <p>50/19 หมู่ 6 ต.บางหลวง</p>
+                                    <p>อ.เมืองปทุมธานี จ.ปทุมธานี 12000</p>
+                                </div>
+                                <div class="footer_phone">โทร : (02) 1010325</div>
+                                <div class="footer_phone">Facebook : ไอซี ควอลิตี้ ซิสเท็ม จำกัด</div>
+                                <div class="footer_phone">id line : @icqualitysystem</div>
 
                             </div>
                         </div>
-                        <div class="col col-lg-2 col-md-2">
-                            <button type="button" class="btn btn-light pull-right text-info" id="button_top" style="margin-top:10px; float: right;"><i class="fa fa-arrow-up"></i> TOP</button>
+
+
+                        <div class="col-lg-2">
+                            <div class="footer_column">
+                                <div class="footer_title text-warning">ข่าวสาร</div>
+                                <ul class="footer_list">
+                                    <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสารและกิจกรรม</a></li>
+                                </ul>
+                            </div>
                         </div>
+
+
+                        <?php
+                        foreach ($menu as $menus):
+                            if ($menus['submenu'] == "1") {
+                                $Smenu = $Config->getSubMenu($menus['id']);
+                                ?>
+                                <div class="col-lg-2">
+                                    <div class="footer_column">
+                                        <div class="footer_title text-warning"><?php echo $menus['navbar'] ?></div>
+                                        <ul class="footer_list">
+                                            <?php foreach ($Smenu as $Smenus) { ?>
+                                                <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col-lg-2">
+                                    <div class="footer_column">
+                                        <div class="footer_title">
+                                            <a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        <?php endforeach; ?>
+
+
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- Copyright -->
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col col-lg-10 col-md-10">
+                        <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
+                            <div class="copyright_content text-info"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> IC QUALITY SYSTEM Co., Ltd.
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col col-lg-2 col-md-2">
+                        <button type="button" class="btn btn-light pull-right text-info" id="button_top" style="margin-top:10px; float: right;"><i class="fa fa-arrow-up"></i> TOP</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <?php $this->endBody() ?>
-    </body>
+    <?php $this->endBody() ?>
+</body>
 </html>
 <?php $this->endPage() ?>
 
