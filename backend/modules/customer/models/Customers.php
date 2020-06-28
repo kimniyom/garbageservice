@@ -43,8 +43,8 @@ class Customers extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            //[['company','address','taxnumber','tel','changwat','ampur','tambon','zipcode','manager','user_id','approve','type','typeregister','grouptype'], 'required'],
-            [['company', 'approve'], 'required'],
+            [['company', 'address', 'taxnumber', 'tel', 'changwat', 'ampur', 'tambon', 'zipcode', 'manager', 'user_id', 'approve', 'type', 'typeregister', 'grouptype'], 'required'],
+            //[['company', 'approve'], 'required'],
             //[['company'], 'required'],
             [['flag', 'approve'], 'string'],
             [['create_date', 'update_date', 'timework'], 'safe'],
@@ -136,7 +136,7 @@ class Customers extends \yii\db\ActiveRecord {
     }
 
     function getQuotationAll($status = "") {
-        if($status == ""){
+        if ($status == "") {
             $where = "1=1";
         } else {
             $where = "c.status = '$status'";

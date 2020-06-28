@@ -53,6 +53,10 @@ class DefaultController extends Controller {
         }
     }
 
+    function detailCustomer() {
+
+    }
+
     public function actionFormsaveround($promise) {
         $Promise = Promise::find()->where(['id' => $promise, 'status' => '2'])->One();
         $Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
