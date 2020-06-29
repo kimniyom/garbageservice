@@ -49,6 +49,9 @@ return [
 		'service' => [
 			'class' => 'app\modules\service\Module',
 		],
+		'confirmform' => [
+            'class' => 'app\modules\confirmform\Module',
+        ],
 	],
 	'components' => [
 		'view' => [

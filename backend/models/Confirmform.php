@@ -1,0 +1,93 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "confirmform".
+ *
+ * @property int $id
+ * @property string $confirmformnumber เลขที่แบบฟอร์ม
+ * @property int $customerid รหัสลูกค้า
+ * @property int $typeform ประเภทฟอร์ม
+ * @property int $roundkeep_sunday วันอาทิตย์
+ * @property int $roundkeep_monday วันจันทร์
+ * @property int $roundkeep_tueday วันอังคาร
+ * @property int $roundkeep_wednesday วันพุธ
+ * @property int $roundkeep_thursday วันพฤหัส
+ * @property int $roundkeep_friday วันศุกร์
+ * @property int $roundkeep_saturday วันเสาร์
+ * @property string $roundkeep_day วันที่เข้าจัดเก็บขยะ
+ * @property int $timeperiod ช่วงเวลาที่เข้าจัดเก็บ
+ * @property string $timeperiod_time ระบุเวลา
+ * @property int $billdoc_originalinvoice ต้นฉบับใบวางบิล/ใบแจ้งหนี้
+ * @property int $billdoc_copyofinvoice สำเนาใบวางบิล/ใบแจ้งหนี้
+ * @property int $billdoc_originalreceipt ต้นฉบับใบเสร็จรับเงิน/กำกับภาษี
+ * @property int $billdoc_copyofreceipt สำเนาใบเสร็จรับเงิน/ใบกำกับภาษี
+ * @property int $billdoc_copyofbank สำเนาเลขที่บัญชีธนาคารเพื่อให้ลูกค้าโอนเงิน
+ * @property int $billdoc_etc
+ * @property string $billdoc_etctext อื่น ๆ ระบุ
+ * @property string $cyclekeepmoney รอบการวางบิล/ชำระเงินของลูกค้าของทุกเดือน
+ * @property int $paymentschedule กำหนดการชำระเงิน
+ * @property int $methodpeyment วิธีการชำระเงิน
+ * @property int $sendtype ส่งเอกสาร
+ */
+class Confirmform extends \yii\db\ActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'confirmform';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['customerid', 'typeform', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment'], 'required'],
+            [['customerid', 'typeform', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'sendtype'], 'integer'],
+            [['roundkeep_day', 'timeperiod_time', 'cyclekeepmoney'], 'safe'],
+            [['billdoc_etctext'], 'string'],
+            [['confirmformnumber'], 'string', 'max' => 32],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'confirmformnumber' => 'Confirmformnumber',
+            'customerid' => 'Customerid',
+            'typeform' => 'Typeform',
+            'roundkeep_sunday' => 'วันอาทิตย์',
+            'roundkeep_monday' => 'วันจันทร์',
+            'roundkeep_tueday' => 'วันอังคาร',
+            'roundkeep_wednesday' => 'วันพุธ',
+            'roundkeep_thursday' => 'วันพฤหัส',
+            'roundkeep_friday' => 'วันศุกร์',
+            'roundkeep_saturday' => 'วันเสาร์',
+            'roundkeep_day' => 'วันที่เข้าจัดเก็บขยะ',
+            'timeperiod' => 'ช่วงเวลาที่เข้าจัดเก็บขยะ',
+            'timeperiod_time' => 'Timeperiod Time',
+            'billdoc_originalinvoice' => '1. ต้นฉบับใบวางบิล/ใบแจ้งหนี้',
+            'billdoc_copyofinvoice' => '2. สำเนาใบวางบิล/ใบแจ้งหนี้',
+            'billdoc_originalreceipt' => '3. ต้นฉบับใบเสร็จรับเงิน/กำกับภาษี',
+            'billdoc_copyofreceipt' => '4. สำเนาใบเสร็จรับเงิน/ใบกำกับภาษี',
+            'billdoc_copyofbank' => '5. สำเนาเลขที่บัญชีธนาคารเพื่อให้ลูกค้าโอนเงิน',
+            'billdoc_etc' => 'อื่นๆ ระบุ',
+            'billdoc_etctext' => 'Billdoc Etctext',
+            'cyclekeepmoney' => '2. รอบการวางบิล/ชำระเงินของลูกค้าของทุกเดือน คือ ',
+            'paymentschedule' => 'ลูกค้าชำระเงิน',
+            'methodpeyment' => '4.วิธีการชำระเงิน',
+            'sendtype' => 'Sendtype',
+        ];
+    }
+}
