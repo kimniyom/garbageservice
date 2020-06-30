@@ -94,4 +94,10 @@ class Confirmform extends \yii\db\ActiveRecord
             'senddoc_customer' => 'ส่งเอกสารให้ลูกค้า',
         ];
     }
+
+    public function countConfirmform() {
+        $sql = "select count(*) as total from confirmform";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        return $rs['total'];
+    } 
 }

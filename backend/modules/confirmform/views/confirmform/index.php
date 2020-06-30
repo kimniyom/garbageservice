@@ -7,15 +7,15 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ConfirmformSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Confirmforms';
+$this->title = 'แบบยืนยันลูกค้าเพื่อเข้าเก็บขยะติดเชื้อ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="confirmform-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
-        <?= Html::a('Create Confirmform', ['beforecreate'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('สร้างแบบยืนยันลูกค้าเพื่อเข้าเก็บขยะติดเชื้อ', ['beforecreate'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

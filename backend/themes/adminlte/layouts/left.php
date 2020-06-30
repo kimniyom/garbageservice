@@ -10,11 +10,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\modules\customer\models\Customers;
 use app\modules\promise\models\Promise;
+use app\models\Confirmform;
 
 $customerModel = new Customers();
 $promiseModel = new Promise();
+$confirmFormModel = new Confirmform();
 $promiseall = $promiseModel->Countpromiseall();
-
+$confirmformAll = $confirmFormModel->countConfirmform();
 ?>
 <aside class="main-sidebar">
 
@@ -77,6 +79,12 @@ $promiseall = $promiseModel->Countpromiseall();
                             'icon' => 'fa fa-address-card-o',
                             'url' => ['/promise/promise'],
                             'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">' . $promiseall . '</small></span></a>'
+                        ],
+                        [
+                            'label' => 'แบบยืนยันลูกค้า',
+                            'icon' => 'file text-success',
+                            'url' => ['/confirmform/confirmform'],
+                            'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-green">' . $confirmformAll . '</small></span></a>'
                         ],
                         //['label' => 'รอบเก็บ', 'icon' => 'download', 'url' => ['/gii'],
                         //'items' => [
