@@ -19,7 +19,8 @@ use Yii;
  * @property int $roundkeep_friday วันศุกร์
  * @property int $roundkeep_saturday วันเสาร์
  * @property string $roundkeep_day วันที่เข้าจัดเก็บขยะ
- * @property int $timeperiod ช่วงเวลาที่เข้าจัดเก็บ
+ * @property int $timeperiod_morning ช่วงเวลาที่เข้าจัดเก็บ ช่วงเช้า
+ * @property int $timeperiod_affternoon ช่วงเวลาที่เข้าจัดเก็บ ช่วงบ่าย
  * @property string $timeperiod_time ระบุเวลา
  * @property int $billdoc_originalinvoice ต้นฉบับใบวางบิล/ใบแจ้งหนี้
  * @property int $billdoc_copyofinvoice สำเนาใบวางบิล/ใบแจ้งหนี้
@@ -31,7 +32,8 @@ use Yii;
  * @property string $cyclekeepmoney รอบการวางบิล/ชำระเงินของลูกค้าของทุกเดือน
  * @property int $paymentschedule กำหนดการชำระเงิน
  * @property int $methodpeyment วิธีการชำระเงิน
- * @property int $sendtype ส่งเอกสาร
+ * @property int $senddoc_finance ส่งเอกสารให้บัญชี/การเงิน
+ * @property int $senddoc_customer ส่งเอกสารให้ลูกค้า
  */
 class Confirmform extends \yii\db\ActiveRecord
 {
@@ -49,8 +51,8 @@ class Confirmform extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customerid', 'typeform', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment'], 'required'],
-            [['customerid', 'typeform', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'sendtype'], 'integer'],
+            [['customerid', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment'], 'required'],
+            [['customerid', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer'], 'integer'],
             [['roundkeep_day', 'timeperiod_time', 'cyclekeepmoney'], 'safe'],
             [['billdoc_etctext'], 'string'],
             [['confirmformnumber'], 'string', 'max' => 32],
@@ -75,19 +77,21 @@ class Confirmform extends \yii\db\ActiveRecord
             'roundkeep_friday' => 'วันศุกร์',
             'roundkeep_saturday' => 'วันเสาร์',
             'roundkeep_day' => 'วันที่เข้าจัดเก็บขยะ',
-            'timeperiod' => 'ช่วงเวลาที่เข้าจัดเก็บขยะ',
-            'timeperiod_time' => 'Timeperiod Time',
+            'timeperiod_morning' => 'ช่วงเช้า',
+            'timeperiod_affternoon' => 'ช่วงบ่าย',
+            'timeperiod_time' => 'ระบุเวลา',
             'billdoc_originalinvoice' => '1. ต้นฉบับใบวางบิล/ใบแจ้งหนี้',
             'billdoc_copyofinvoice' => '2. สำเนาใบวางบิล/ใบแจ้งหนี้',
             'billdoc_originalreceipt' => '3. ต้นฉบับใบเสร็จรับเงิน/กำกับภาษี',
             'billdoc_copyofreceipt' => '4. สำเนาใบเสร็จรับเงิน/ใบกำกับภาษี',
             'billdoc_copyofbank' => '5. สำเนาเลขที่บัญชีธนาคารเพื่อให้ลูกค้าโอนเงิน',
             'billdoc_etc' => 'อื่นๆ ระบุ',
-            'billdoc_etctext' => 'Billdoc Etctext',
-            'cyclekeepmoney' => '2. รอบการวางบิล/ชำระเงินของลูกค้าของทุกเดือน คือ ',
-            'paymentschedule' => 'ลูกค้าชำระเงิน',
+            'billdoc_etctext' => '',
+            'cyclekeepmoney' => '2. รอบการวางบิล/ชำระเงินของลูกค้าของทุกเดือน ',
+            'paymentschedule' => '3. กำหนดการชำระเงิน',
             'methodpeyment' => '4.วิธีการชำระเงิน',
-            'sendtype' => 'Sendtype',
+            'senddoc_finance' => 'ส่งเอกสารให้บัญชี/การเงิน',
+            'senddoc_customer' => 'ส่งเอกสารให้ลูกค้า',
         ];
     }
 }

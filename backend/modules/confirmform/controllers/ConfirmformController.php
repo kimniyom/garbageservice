@@ -8,7 +8,7 @@ use app\models\ConfirmformSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use common\models\Customers;
 /**
  * ConfirmformController implements the CRUD actions for Confirmform model.
  */
@@ -57,16 +57,26 @@ class ConfirmformController extends Controller
         ]);
     }
 
+    public function actionBeforecreate()
+    {
+        $customer = Customers::find()->where(['flag' => 1, 'approve' => 'Y'])->all();
+        return $this->render('beforecreate',[
+            'customer' => $customer
+        ]);
+    }
+
     /**
      * Creates a new Confirmform model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($customerid)
     {
         $model = new Confirmform();
-
+        $model->customerid = 10;
+       
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+           
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -123,5 +133,15 @@ class ConfirmformController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionIscustomeractive() {
+        $customerid = Yii::$app->request->post('customerid');
+        $isReccord = 1;
+        $rs = Customers::find()->where("id = '$customerid' and approve = 'Y' ")->count();
+        if ($rs > 0) {
+            $isReccord = 0;
+        }
+        return $isReccord;
     }
 }

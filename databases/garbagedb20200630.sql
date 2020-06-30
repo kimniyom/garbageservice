@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2020-06-28 23:53:44
+Date: 2020-06-30 16:13:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1175,6 +1175,79 @@ INSERT INTO `changwat` VALUES ('74', '94', 'ปัตตานี   ', '6');
 INSERT INTO `changwat` VALUES ('75', '95', 'ยะลา   ', '6');
 INSERT INTO `changwat` VALUES ('76', '96', 'นราธิวาส   ', '6');
 INSERT INTO `changwat` VALUES ('77', '97', 'บึงกาฬ', '3');
+
+-- ----------------------------
+-- Table structure for `confirmform`
+-- ----------------------------
+DROP TABLE IF EXISTS `confirmform`;
+CREATE TABLE `confirmform` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `confirmformnumber` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เลขที่แบบฟอร์ม',
+  `customerid` int(11) NOT NULL COMMENT 'รหัสลูกค้า',
+  `typeform` int(11) NOT NULL COMMENT 'ประเภทฟอร์ม',
+  `roundkeep_sunday` tinyint(6) DEFAULT NULL COMMENT 'วันอาทิตย์',
+  `roundkeep_monday` tinyint(6) DEFAULT NULL COMMENT 'วันจันทร์',
+  `roundkeep_tueday` tinyint(6) DEFAULT NULL COMMENT 'วันอังคาร',
+  `roundkeep_wednesday` tinyint(6) DEFAULT NULL COMMENT 'วันพุธ',
+  `roundkeep_thursday` tinyint(6) DEFAULT NULL COMMENT 'วันพฤหัส',
+  `roundkeep_friday` tinyint(6) DEFAULT NULL COMMENT 'วันศุกร์',
+  `roundkeep_saturday` tinyint(6) DEFAULT NULL COMMENT 'วันเสาร์',
+  `roundkeep_day` date DEFAULT NULL COMMENT 'วันที่เข้าจัดเก็บขยะ',
+  `timeperiod_morning` tinyint(11) DEFAULT NULL COMMENT 'ช่วงเวลาที่เข้าจัดเก็บ ช่วงเช้า',
+  `timeperiod_affternoon` tinyint(6) DEFAULT NULL COMMENT 'ช่วงเวลาที่เข้าจัดเก็บ ช่วงบ่าย',
+  `timeperiod_time` time DEFAULT NULL COMMENT 'ระบุเวลา',
+  `billdoc_originalinvoice` tinyint(6) DEFAULT NULL COMMENT 'ต้นฉบับใบวางบิล/ใบแจ้งหนี้',
+  `billdoc_copyofinvoice` tinyint(6) DEFAULT NULL COMMENT 'สำเนาใบวางบิล/ใบแจ้งหนี้',
+  `billdoc_originalreceipt` tinyint(6) DEFAULT NULL COMMENT 'ต้นฉบับใบเสร็จรับเงิน/กำกับภาษี',
+  `billdoc_copyofreceipt` tinyint(6) DEFAULT NULL COMMENT 'สำเนาใบเสร็จรับเงิน/ใบกำกับภาษี',
+  `billdoc_copyofbank` tinyint(6) DEFAULT NULL COMMENT 'สำเนาเลขที่บัญชีธนาคารเพื่อให้ลูกค้าโอนเงิน',
+  `billdoc_etc` tinyint(6) DEFAULT NULL,
+  `billdoc_etctext` text COLLATE utf8_unicode_ci COMMENT 'อื่น ๆ ระบุ',
+  `cyclekeepmoney` date NOT NULL COMMENT 'รอบการวางบิล/ชำระเงินของลูกค้าของทุกเดือน',
+  `paymentschedule` int(11) NOT NULL COMMENT 'กำหนดการชำระเงิน',
+  `methodpeyment` int(11) NOT NULL COMMENT 'วิธีการชำระเงิน',
+  `senddoc_finance` tinyint(11) DEFAULT NULL COMMENT 'ส่งเอกสารให้บัญชี/การเงิน',
+  `senddoc_customer` tinyint(4) DEFAULT NULL COMMENT 'ส่งเอกสารให้ลูกค้า',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of confirmform
+-- ----------------------------
+INSERT INTO `confirmform` VALUES ('1', null, '10', '0', '1', '1', '1', '1', '1', '1', '1', '2020-06-30', '1', '1', '15:26:00', '1', '1', '1', '1', '1', '1', 'กหดกหดกห', '2020-07-01', '1', '1', '1', '1');
+INSERT INTO `confirmform` VALUES ('2', null, '10', '0', '1', '1', '0', '0', '0', '0', '0', '2020-06-30', '1', '0', '15:12:00', '1', '1', '0', '0', '0', '0', '', '2020-06-30', '1', '1', '1', '1');
+
+-- ----------------------------
+-- Table structure for `confirmform_methodpayment`
+-- ----------------------------
+DROP TABLE IF EXISTS `confirmform_methodpayment`;
+CREATE TABLE `confirmform_methodpayment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `method` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'วิธีการชำระเงิน',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of confirmform_methodpayment
+-- ----------------------------
+INSERT INTO `confirmform_methodpayment` VALUES ('1', 'โอนเงินเข้าบัญชีธนาคาร');
+INSERT INTO `confirmform_methodpayment` VALUES ('2', 'จ่ายเช็ค/เงินสด');
+
+-- ----------------------------
+-- Table structure for `confirmform_payment`
+-- ----------------------------
+DROP TABLE IF EXISTS `confirmform_payment`;
+CREATE TABLE `confirmform_payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `payment` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'ลูกค้าชำระเงิน',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of confirmform_payment
+-- ----------------------------
+INSERT INTO `confirmform_payment` VALUES ('1', 'ชำระพร้อมกับวันที่เข้าจัดเก็บ');
+INSERT INTO `confirmform_payment` VALUES ('2', 'ชำระภายใน 30 วัน');
 
 -- ----------------------------
 -- Table structure for `customer`
@@ -22671,36 +22744,3 @@ INSERT INTO `zipcodes` VALUES ('7452', '961204', '96220');
 INSERT INTO `zipcodes` VALUES ('7453', '961301', '96130');
 INSERT INTO `zipcodes` VALUES ('7454', '961302', '96130');
 INSERT INTO `zipcodes` VALUES ('7455', '961303', '96130');
-
-
-DROP TABLE IF EXISTS `confirmform`;
-CREATE TABLE `confirmform` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `confirmformnumber` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'เลขที่แบบฟอร์ม',
-  `customerid` int(11) NOT NULL COMMENT 'รหัสลูกค้า',
-  `typeform` int(11) NOT NULL COMMENT 'ประเภทฟอร์ม',
-  `roundkeep_sunday` tinyint(6) DEFAULT NULL COMMENT 'วันอาทิตย์',
-  `roundkeep_monday` tinyint(6) DEFAULT NULL COMMENT 'วันจันทร์',
-  `roundkeep_tueday` tinyint(6) DEFAULT NULL COMMENT 'วันอังคาร',
-  `roundkeep_wednesday` tinyint(6) DEFAULT NULL COMMENT 'วันพุธ',
-  `roundkeep_thursday` tinyint(6) DEFAULT NULL COMMENT 'วันพฤหัส',
-  `roundkeep_friday` tinyint(6) DEFAULT NULL COMMENT 'วันศุกร์',
-  `roundkeep_saturday` tinyint(6) DEFAULT NULL COMMENT 'วันเสาร์',
-  `roundkeep_day` date DEFAULT NULL COMMENT 'วันที่เข้าจัดเก็บขยะ',
-  `timeperiod_morning` tinyint(11) DEFAULT NULL COMMENT 'ช่วงเวลาที่เข้าจัดเก็บ ช่วงเช้า',
-  `timeperiod_affternoon` tinyint(6) DEFAULT NULL COMMENT 'ช่วงเวลาที่เข้าจัดเก็บ ช่วงบ่าย',
-  `timeperiod_time` time DEFAULT NULL COMMENT 'ระบุเวลา',
-  `billdoc_originalinvoice` tinyint(6) DEFAULT NULL COMMENT 'ต้นฉบับใบวางบิล/ใบแจ้งหนี้',
-  `billdoc_copyofinvoice` tinyint(6) DEFAULT NULL COMMENT 'สำเนาใบวางบิล/ใบแจ้งหนี้',
-  `billdoc_originalreceipt` tinyint(6) DEFAULT NULL COMMENT 'ต้นฉบับใบเสร็จรับเงิน/กำกับภาษี',
-  `billdoc_copyofreceipt` tinyint(6) DEFAULT NULL COMMENT 'สำเนาใบเสร็จรับเงิน/ใบกำกับภาษี',
-  `billdoc_copyofbank` tinyint(6) DEFAULT NULL COMMENT 'สำเนาเลขที่บัญชีธนาคารเพื่อให้ลูกค้าโอนเงิน',
-  `billdoc_etc` tinyint(6) DEFAULT NULL,
-  `billdoc_etctext` text COLLATE utf8_unicode_ci COMMENT 'อื่น ๆ ระบุ',
-  `cyclekeepmoney` date NOT NULL COMMENT 'รอบการวางบิล/ชำระเงินของลูกค้าของทุกเดือน',
-  `paymentschedule` int(11) NOT NULL COMMENT 'กำหนดการชำระเงิน',
-  `methodpeyment` int(11) NOT NULL COMMENT 'วิธีการชำระเงิน',
-  `senddoc_finance` tinyint(11) DEFAULT NULL COMMENT 'ส่งเอกสารให้บัญชี/การเงิน',
-  `senddoc_customer` tinyint(4) DEFAULT NULL COMMENT 'ส่งเอกสารให้ลูกค้า',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

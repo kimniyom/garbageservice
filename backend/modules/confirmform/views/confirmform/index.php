@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Confirmform', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Confirmform', ['beforecreate'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -38,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'roundkeep_friday',
             //'roundkeep_saturday',
             //'roundkeep_day',
-            //'timeperiod:datetime',
+            //'timeperiod_morning:datetime',
+            //'timeperiod_affternoon:datetime',
             //'timeperiod_time',
             //'billdoc_originalinvoice',
             //'billdoc_copyofinvoice',
@@ -50,7 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'cyclekeepmoney',
             //'paymentschedule',
             //'methodpeyment',
-            //'sendtype',
+            //'senddoc_finance',
+            //'senddoc_customer',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

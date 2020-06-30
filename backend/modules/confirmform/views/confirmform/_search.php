@@ -39,7 +39,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'roundkeep_day') ?>
 
-    <?php // echo $form->field($model, 'timeperiod') ?>
+    <?php // echo $form->field($model, 'timeperiod_morning') ?>
+
+    <?php // echo $form->field($model, 'timeperiod_affternoon') ?>
 
     <?php // echo $form->field($model, 'timeperiod_time') ?>
 
@@ -63,7 +65,9 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'methodpeyment') ?>
 
-    <?php // echo $form->field($model, 'sendtype') ?>
+    <?php // echo $form->field($model, 'senddoc_finance') ?>
+
+    <?php // echo $form->field($model, 'senddoc_customer') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

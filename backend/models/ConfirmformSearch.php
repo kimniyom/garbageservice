@@ -17,7 +17,7 @@ class ConfirmformSearch extends Confirmform
     public function rules()
     {
         return [
-            [['id', 'customerid', 'typeform', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'sendtype'], 'integer'],
+            [['id', 'customerid', 'typeform', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer'], 'integer'],
             [['confirmformnumber', 'roundkeep_day', 'timeperiod_time', 'billdoc_etctext', 'cyclekeepmoney'], 'safe'],
         ];
     }
@@ -69,7 +69,8 @@ class ConfirmformSearch extends Confirmform
             'roundkeep_friday' => $this->roundkeep_friday,
             'roundkeep_saturday' => $this->roundkeep_saturday,
             'roundkeep_day' => $this->roundkeep_day,
-            'timeperiod' => $this->timeperiod,
+            'timeperiod_morning' => $this->timeperiod_morning,
+            'timeperiod_affternoon' => $this->timeperiod_affternoon,
             'timeperiod_time' => $this->timeperiod_time,
             'billdoc_originalinvoice' => $this->billdoc_originalinvoice,
             'billdoc_copyofinvoice' => $this->billdoc_copyofinvoice,
@@ -80,7 +81,8 @@ class ConfirmformSearch extends Confirmform
             'cyclekeepmoney' => $this->cyclekeepmoney,
             'paymentschedule' => $this->paymentschedule,
             'methodpeyment' => $this->methodpeyment,
-            'sendtype' => $this->sendtype,
+            'senddoc_finance' => $this->senddoc_finance,
+            'senddoc_customer' => $this->senddoc_customer,
         ]);
 
         $query->andFilterWhere(['like', 'confirmformnumber', $this->confirmformnumber])

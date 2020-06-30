@@ -41,7 +41,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'roundkeep_friday',
             'roundkeep_saturday',
             'roundkeep_day',
-            'timeperiod:datetime',
+            'timeperiod_morning:datetime',
+            'timeperiod_affternoon:datetime',
             'timeperiod_time',
             'billdoc_originalinvoice',
             'billdoc_copyofinvoice',
@@ -53,7 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'cyclekeepmoney',
             'paymentschedule',
             'methodpeyment',
-            'sendtype',
+            'senddoc_finance',
+            'senddoc_customer',
         ],
     ]) ?>
 
