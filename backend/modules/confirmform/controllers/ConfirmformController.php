@@ -35,13 +35,9 @@ class ConfirmformController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ConfirmformSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $model = new Confirmform();
+        $data['datas'] = $model->geConfirmformAll();
+        return $this->render('index', $data);
     }
 
     /**
@@ -52,9 +48,10 @@ class ConfirmformController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = new Confirmform();
+        $data['datas'] = $model->geConfirmformById($id);
+        
+        return $this->render('view', $data);
     }
 
     public function actionBeforecreate()
@@ -73,7 +70,7 @@ class ConfirmformController extends Controller
     public function actionCreate($customerid)
     {
         $model = new Confirmform();
-        $model->customerid = 10;
+        $model->customerid = $customerid;
        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
            
