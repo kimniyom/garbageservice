@@ -128,6 +128,7 @@ use yii\helpers\ArrayHelper;
                                 <label>การส่งเอกสาร</label>
                                 <?= $form->field($model, 'senddoc_finance')->checkbox() ?>
                                 <?= $form->field($model, 'senddoc_customer')->checkbox() ?>
+                                <?= $form->field($model, 'department')->textInput() ?>
                             </div>
                         </div>
 

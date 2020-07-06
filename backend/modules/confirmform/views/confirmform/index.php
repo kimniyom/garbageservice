@@ -4,16 +4,18 @@
 use kartik\grid\GridView;
 use app\models\Confirmform;
 use yii\helpers\Url;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\customer\models\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'คำขอใบเสนอราคา';
+$this->title = 'แบบยืนยันลูกค้าเพื่อเข้าเก็บขยะติดเชื้อ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?= Html::a('<i class="fa fa fa-plus"></i> สร้างแบบยืนยันลูกค้าเพื่อเข้าจัดเก็บขยะ', ['beforecreate'], ['class' => 'btn btn-primary']) ?>
 <div class="box" id="box-detail">
-   
+    
     <div class="box-body" style="padding-top:0px;">
         <table class="table">
             <thead>

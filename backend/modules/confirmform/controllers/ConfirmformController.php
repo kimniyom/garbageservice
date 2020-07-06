@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Customers;
+use app\models\ConfirmformPayment;
+use app\models\ConfirmformMethodpayment;
 /**
  * ConfirmformController implements the CRUD actions for Confirmform model.
  */
@@ -51,6 +53,8 @@ class ConfirmformController extends Controller
         $model = new Confirmform();
         $data['datas'] = $model->geConfirmformById($id);
         
+        $data['payment'] = ConfirmformPayment::findOne(['id'=>$data['datas']['paymentschedule']]);
+        $data['method'] = ConfirmformMethodpayment::findOne(['id'=>$data['datas']['methodpeyment']]);
         return $this->render('view', $data);
     }
 

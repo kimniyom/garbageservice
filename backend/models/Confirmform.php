@@ -34,6 +34,7 @@ use Yii;
  * @property int $methodpeyment วิธีการชำระเงิน
  * @property int $senddoc_finance ส่งเอกสารให้บัญชี/การเงิน
  * @property int $senddoc_customer ส่งเอกสารให้ลูกค้า
+ * @property string|null $department แผนก/หน่วยงาน
  */
 class Confirmform extends \yii\db\ActiveRecord
 {
@@ -56,6 +57,7 @@ class Confirmform extends \yii\db\ActiveRecord
             [['roundkeep_day', 'timeperiod_time', 'cyclekeepmoney'], 'safe'],
             [['billdoc_etctext'], 'string'],
             [['confirmformnumber'], 'string', 'max' => 32],
+            [['department'], 'string', 'max' => 128], 
         ];
     }
 
@@ -92,6 +94,7 @@ class Confirmform extends \yii\db\ActiveRecord
             'methodpeyment' => '4.วิธีการชำระเงิน',
             'senddoc_finance' => 'ส่งเอกสารให้บัญชี/การเงิน',
             'senddoc_customer' => 'ส่งเอกสารให้ลูกค้า',
+            'department' => 'ติดต่อ แผนก/หน่วยงาน',
         ];
     }
 
