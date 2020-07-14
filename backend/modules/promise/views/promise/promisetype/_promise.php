@@ -1,6 +1,7 @@
 <?php 
 use yii\helpers\Html;
 use app\models\Config;
+use yii\helpers\Url;
 $Config = new Config();
 
 $promiseWith = $model['typeregister'] == 1 ? "บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด  โดย นายนิติพัฒน์   วงศ์ศิริธร ตำแหน่ง กรรมการ  ผู้มีอำนาจลงนาม  สำนักงานตั้งอยู่เลขที่  50/19  หมู่ที่ 6  ตำบลบางหลวง  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000 โทรศัพท์   02 - 1010325" : "ไอซี ควอลิตี้ ซิสเท็ม  โดย นายอาทิตย์   บุญเคน   ผู้รับมอบอำนาจ สำนักงานตั้งอยู่เลขที่  12/1  หมู่ที่ 8 ตำบลบางคูวัด  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000  โทรศัพท์  02-1010325";
@@ -188,13 +189,100 @@ else if($model['recivetype'] == 2)
                 (นางบุญสวย    พรมไพร)  
             </div>
         </div>
-   
-    <!-- <br><br>   
-    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ลงชื่อ).........................................ผู้ว่าจ้าง&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (ลงชื่อ).........................................ผู้รับจ้าง
-    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<?php echo $employer1;?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(นายนิติพัฒน์      วงศ์ศิริธร)
-    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ผู้รับมอบอำนาจ       
-    	 	                                                     
-                        
-  <br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ลงชื่อ).........................................พยาน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ลงชื่อ).........................................พยาน
-  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<?php echo $witness;?>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(นางบุญสวย    พรมไพร)   -->
-     
+      
+        <?php if($model['typeregister'] == 1):?>
+            <div class="div" style="page-break-after:always;"></div>
+        <div class="row"  style="padding-left:20px;font-family:sarabun;font-size:20px;line-height: 1">
+            <div class="text-center "><strong>เอกสารแนบท้ายสัญญา</strong></div> 
+            &nbsp;&nbsp;&nbsp;&nbsp;เงื่อนไขการจัดการมูลฝอยติดเชื้อสำหรับสถานบริการสาธารณสุข / บริษัทเอกชน ที่รับการบริการ
+            <div style="">
+                <br>1.&nbsp;&nbsp;ถุงพลาสติกที่ใช้บรรจุมูลฝอยติดเชื้อต้องทนทาน  ไม่ฉีกขาดง่าย  มีสีแดงสด  ทึบแสง บรรจุมูลฝอยติดเชื้อไม่เกิน 2 ใน 3 ส่วน<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ของถุงพลาสติกแดง และไม่ใส่ปะปนกับมูลฝอยทั่วไป แล้วมัดปากถุงด้วยเชือกหรือวัสดุอื่นๆให้แน่น  
+                <br>2.&nbsp;&nbsp;ภาชนะมูลฝอยติดเชื้อประเภทของมีคม ต้องบรรจุอยู่ในภาชนะที่ทนทานต่อการทิ่มแทงทะลุ  มีฝาปิดกล่อง  มีสีแดงสด  ทึบแสง <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;โดยจะต้องบรรจุไม่เกิน 3 ใน 4 ส่วนของความจุภาชนะนั้นๆ
+                <br>3.&nbsp;&nbsp;ห้ามมิให้สถานบริการสาธารณสุขทิ้งเข็มฉีดยา หรือวัตถุมีคมประเภทต่างๆ ลงในถุงขยะติดเชื้อโดยตรง  ควรรวบรวมทิ้งไว้ในกระป๋อง<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;หรือกระปุกที่มีฝาปิดมิดชิด  เพราะเข็มฉีดยาหรือวัตถุมีคมทำให้ถุงฉีกขาดเป็นการแพร่กระจายของเชื้อโรค<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;และอาจทำอันตรายเจ้าหน้าที่ในขณะปฏิบัติงานได้
+                <br>4.&nbsp;&nbsp;กรณีสถานบริการสาธารณสุขอยู่ในอาคารสูง สถานพยาบาลนั้นๆ ต้องติดต่อกับเจ้าของอาคารในการจัดที่พักมูลฝอยไว้<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ทางด้านล่างของอาคาร  เพื่อป้องกันการแพร่กระจายของเชื้อโรค  
+                <br>5.&nbsp;&nbsp;สถานบริการสาธารณสุขควรนำมูลฝอยติดเชื้อมาใส่ถังที่มีฝาปิดมิดชิดและติดป้ายชัดเจนว่า  “ขยะติดเชื้อ BIOHAZARD WASTE”<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เท่านั้น และนำถังมาไว้ที่จุดที่พักขยะ โดยแยกขยะติดเชื้อออกจากขยะทั่วไปอย่างชัดเจน
+                <br>6.&nbsp;&nbsp;เนื่องจากในแต่ละวัน ทางบริษัทฯ ต้องให้บริการแก่สถานบริการสาธารณสุขเป็นจำนวนมาก และในการเข้าเก็บขนในแต่ละพื้นที่<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;มักจะประสบปัญหา          เรื่องการจราจร ทางบริษัทฯ  จึงขอความร่วมมือให้สถานบริการสาธารณสุข จัดเตรียมขยะไว้ที่จุดพักขยะ<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ให้พร้อม เพื่อให้เข้าเก็บได้ทันที
+                <br>7.&nbsp;&nbsp;เมื่อสถานบริการสาธารณสุขมีความประสงค์ต้องการรับการบริการ  ยกเลิก  ปิดกิจการ  ย้ายที่อยู่  เปลี่ยนชื่อ  ปิดปรับปรุง <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;กรุณาแจ้งเป็นลายลักษณ์อักษรให้ทราบล่วงหน้าอย่างน้อย  1   เดือน
+                <br>8.&nbsp;&nbsp;กรณีที่สถานบริการสาธารณสุขชำระค่าบริการเป็นรายเดือนทุกเดือน  ขอความร่วมมือให้ชำระค่าบริการโดยการโอนเงินเข้าบัญชี <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;หรือชำระด้วยเช็คสั่งจ่ายเท่านั้น   กรณีที่มีความจำเป็นต้องชำระเป็นเงินสดกับพนักงานจัดเก็บ ขอให้ทางสถานบริการสาธารณสุข <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ร้องขอใบเสร็จที่มีการประทับตราบริษัทฯด้วยทุกครั้ง เพื่อเป็นการยืนยันว่าท่านได้ชำระเงินเรียบร้อยแล้ว   หากไม่มีใบเสร็จที่ออก<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จากทางบริษัทฯมายืนยัน  บริษัทฯจะไม่รับผิดชอบต่อความเสียหายใดๆที่เกิดขึ้นทั้งสิ้น
+                <br>9.&nbsp;&nbsp;หลังจากที่ทำสัญญาเรียบร้อยแล้วทางบริษัทฯ จะจัดรอบการเข้าจัดเก็บ และแจ้งให้ทราบอีกครั้งว่า รอบการเข้าจัดเก็บ เป็นวันอะไร <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัปดาห์ที่เท่าไหร่ของเดือน  ซึ่งทางสถานบริการสาธารณสุขจะต้องนำมูลฝอยติดเชื้อ วางไว้ที่จุดพักขยะให้พร้อม เพื่อให้เจ้าหน้า<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ที่สามารถทำการจัดเก็บได้  กรณีไม่มีเจ้าหน้าที่เข้าจัดเก็บตามรอบ  ต้องรีบแจ้งเรื่องให้บริษัทฯ รับทราบทันที 
+            </div>
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ทางบริษัทฯ หวังเป็นอย่างยิ่งว่า  สถานบริการสาธารณสุขของท่านจะปฏิบัติตามเงื่อนไขดังกล่าวอย่างเคร่งครัด  เพื่อให้การเก็บขน<br>มูลฝอยติดเชื้อดำเนินการอย่างมีประสิทธิภาพและถูกต้องตามหลักสุขาภิบาล หากสถานบริการสาธารณสุขใดไม่ปฏิบัติตามเงื่อนปฏิบัติ ทางบริษัทฯ ขอสงวนสิทธิ์การเข้าจัดเก็บมูลฝอยติดเชื้อจากสถานบริการสาธารณสุขนั้นๆ  จนกว่าท่านจะดำเนินการแก้ไขให้เป็นไปตาม<br>เงื่อนไขของบริษัทฯเรียบร้อยแล้ว
+            <div style="text-decoration: underline;">รายการขยะติดเชื้อที่รับจัดเก็บ ได้แก่</div>
+            1.วัสดุของมีคม เช่น เข็ม ใบมีด กระบอกฉีดยา หลอดแก้ว ภาชนะที่ทำด้วยแก้วสไลด์ และแผ่นกระจกปิดสไลด์
+            <br>2.วัสดุซึ่งสัมผัส หรือ สงสัยว่าจะสัมผัสกับเลือด ส่วนประกอบขยะเลือด ผลิตภัณฑ์ที่ได้จากเลือด สารน้ำจากร่างกายของมนุษย์หรือสัตว์ หรือวัคซีนที่ทำจากเชื้อโรคที่มีชีวิต เช่น สำลี ผ้าก๊อต  ผ้าต่างๆ และท่อยาง
+            <br>3.มูลฝอยทุกชนิดที่มาจากห้องรักษาผู้ป่วยติดเชื้อร้ายแรง 
+            <br>4.ขยะติดเชื้ออื่นๆ ตามเงื่อนไขของผู้รับกำจัด
+            <div class="text-center" style="border:1px solid;">ช่องทางและเงื่อนไขการชำระค่าบริการ</div>
+            <div class="row" style="margin-top:10px;">
+                <div style="float:left;width:30%;padding-left:20px;">
+                    <img src="<?php echo Url::to('@web/../images/scbfull.jpg') ?>"/>
+                </div>
+                <div style="float:left;width:60%;padding-left:20px;">
+                    <strong>ธนาคาร  : ไทยพาณิชย์  สาขา : ตลาดพูนทรัพย์ (ปทุมธานี)</strong>
+                    <strong><br>ชื่อบัญชี : บริษัท ไอซี  ควอลิตี้  ซิสเท็ม  จำกัด</strong>
+                    <strong><br>เลขที่บัญชี : 372 – 259936 –7 </strong>
+                </div>
+            </div>
+            <div style="padding-left:15px;">
+                หมายเหตุ  :   หากท่านชำระเงินแล้ว กรุณาส่งหลักฐานการโอนเงินหรือสลิป พร้อมทั้งระบุชื่อสถานบริการสาธารณสุข<br>และเดือนที่ท่านชำระค่าบริการให้ชัดเจน   โดยส่งได้ที่ ID Line OA : @icqualitysystem  หรือนำส่งทาง e–mail : icquality@icqs.net  โทรศัพท์  02–101–0325 / 096-878-1596  (กรุณาชำระเงินภายใน 30 วัน หลังจากส่งมอบงาน)
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div style="float:left;width:10%;padding-left:30px;">
+                    <img src="<?php echo Url::to('@web/../images/qrcodeline.PNG') ?>" width="70px"/>
+                </div>
+                <div style="float:left;width:80%;padding-left:20px;">
+                    <strong>สามารถสแกน QR Code เพื่อเพิ่มเพื่อนใน Line Official Account บริษัทฯ ได้เลยค่ะ </strong>
+                    <strong><br>ID  Line OA :  @icqualitysystem </strong>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
+
+        <?php if($model['typeregister'] == 3):?>
+            <div class="div" style="page-break-after:always;"></div>
+        <div class="row"  style="padding-left:20px;font-family:sarabun;font-size:20px;line-height: 1">
+            <div class="text-center "><strong>เอกสารแนบท้ายสัญญา</strong></div> 
+            &nbsp;&nbsp;&nbsp;&nbsp;เงื่อนไขการจัดการมูลฝอยติดเชื้อสำหรับสถานบริการสาธารณสุข / บริษัทเอกชน ที่รับการบริการ
+            <div style="">
+                <br>1.&nbsp;&nbsp;ถุงพลาสติกที่ใช้บรรจุมูลฝอยติดเชื้อต้องทนทาน  ไม่ฉีกขาดง่าย  มีสีแดงสด  ทึบแสง บรรจุมูลฝอยติดเชื้อไม่เกิน 2 ใน 3 ส่วน<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ของถุงพลาสติกแดง และไม่ใส่ปะปนกับมูลฝอยทั่วไป แล้วมัดปากถุงด้วยเชือกหรือวัสดุอื่นๆให้แน่น  
+                <br>2.&nbsp;&nbsp;ภาชนะมูลฝอยติดเชื้อประเภทของมีคม ต้องบรรจุอยู่ในภาชนะที่ทนทานต่อการทิ่มแทงทะลุ  มีฝาปิดกล่อง  มีสีแดงสด  ทึบแสง <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;โดยจะต้องบรรจุไม่เกิน 3 ใน 4 ส่วนของความจุภาชนะนั้นๆ
+                <br>3.&nbsp;&nbsp;ห้ามมิให้สถานบริการสาธารณสุขทิ้งเข็มฉีดยา หรือวัตถุมีคมประเภทต่างๆ ลงในถุงขยะติดเชื้อโดยตรง  ควรรวบรวมทิ้งไว้ในกระป๋อง<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;หรือกระปุกที่มีฝาปิดมิดชิด  เพราะเข็มฉีดยาหรือวัตถุมีคมทำให้ถุงฉีกขาดเป็นการแพร่กระจายของเชื้อโรค<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;และอาจทำอันตรายเจ้าหน้าที่ในขณะปฏิบัติงานได้
+                <br>4.&nbsp;&nbsp;กรณีสถานบริการสาธารณสุขอยู่ในอาคารสูง สถานพยาบาลนั้นๆ ต้องติดต่อกับเจ้าของอาคารในการจัดที่พักมูลฝอยไว้<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ทางด้านล่างของอาคาร  เพื่อป้องกันการแพร่กระจายของเชื้อโรค  
+                <br>5.&nbsp;&nbsp;สถานบริการสาธารณสุขควรนำมูลฝอยติดเชื้อมาใส่ถังที่มีฝาปิดมิดชิดและติดป้ายชัดเจนว่า  “ขยะติดเชื้อ BIOHAZARD WASTE”<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เท่านั้น และนำถังมาไว้ที่จุดที่พักขยะ โดยแยกขยะติดเชื้อออกจากขยะทั่วไปอย่างชัดเจน
+                <br>6.&nbsp;&nbsp;เนื่องจากในแต่ละวัน ทางบริษัทฯ ต้องให้บริการแก่สถานบริการสาธารณสุขเป็นจำนวนมาก และในการเข้าเก็บขนในแต่ละพื้นที่<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;มักจะประสบปัญหา          เรื่องการจราจร ทางบริษัทฯ  จึงขอความร่วมมือให้สถานบริการสาธารณสุข จัดเตรียมขยะไว้ที่จุดพักขยะ<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ให้พร้อม เพื่อให้เข้าเก็บได้ทันที
+                <br>7.&nbsp;&nbsp;เมื่อสถานบริการสาธารณสุขมีความประสงค์ต้องการรับการบริการ  ยกเลิก  ปิดกิจการ  ย้ายที่อยู่  เปลี่ยนชื่อ  ปิดปรับปรุง <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;กรุณาแจ้งเป็นลายลักษณ์อักษรให้ทราบล่วงหน้าอย่างน้อย  1   เดือน
+                <br>8.&nbsp;&nbsp;กรณีที่สถานบริการสาธารณสุขชำระค่าบริการเป็นรายเดือนทุกเดือน  ขอความร่วมมือให้ชำระค่าบริการโดยการโอนเงินเข้าบัญชี <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;หรือชำระด้วยเช็คสั่งจ่ายเท่านั้น   กรณีที่มีความจำเป็นต้องชำระเป็นเงินสดกับพนักงานจัดเก็บ ขอให้ทางสถานบริการสาธารณสุข <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ร้องขอใบเสร็จที่มีการประทับตราบริษัทฯด้วยทุกครั้ง เพื่อเป็นการยืนยันว่าท่านได้ชำระเงินเรียบร้อยแล้ว   หากไม่มีใบเสร็จที่ออก<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จากทางบริษัทฯมายืนยัน  บริษัทฯจะไม่รับผิดชอบต่อความเสียหายใดๆที่เกิดขึ้นทั้งสิ้น
+                <br>9.&nbsp;&nbsp;หลังจากที่ทำสัญญาเรียบร้อยแล้วทางบริษัทฯ จะจัดรอบการเข้าจัดเก็บ และแจ้งให้ทราบอีกครั้งว่า รอบการเข้าจัดเก็บ เป็นวันอะไร <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัปดาห์ที่เท่าไหร่ของเดือน  ซึ่งทางสถานบริการสาธารณสุขจะต้องนำมูลฝอยติดเชื้อ วางไว้ที่จุดพักขยะให้พร้อม เพื่อให้เจ้าหน้า<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ที่สามารถทำการจัดเก็บได้  กรณีไม่มีเจ้าหน้าที่เข้าจัดเก็บตามรอบ  ต้องรีบแจ้งเรื่องให้บริษัทฯ รับทราบทันที 
+            </div>
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ทางบริษัทฯ หวังเป็นอย่างยิ่งว่า  สถานบริการสาธารณสุขของท่านจะปฏิบัติตามเงื่อนไขดังกล่าวอย่างเคร่งครัด  เพื่อให้การเก็บขน<br>มูลฝอยติดเชื้อดำเนินการอย่างมีประสิทธิภาพและถูกต้องตามหลักสุขาภิบาล หากสถานบริการสาธารณสุขใดไม่ปฏิบัติตามเงื่อนปฏิบัติ ทางบริษัทฯ ขอสงวนสิทธิ์การเข้าจัดเก็บมูลฝอยติดเชื้อจากสถานบริการสาธารณสุขนั้นๆ  จนกว่าท่านจะดำเนินการแก้ไขให้เป็นไปตาม<br>เงื่อนไขของบริษัทฯเรียบร้อยแล้ว
+            <div style="text-decoration: underline;">รายการขยะติดเชื้อที่รับจัดเก็บ ได้แก่</div>
+            1.วัสดุของมีคม เช่น เข็ม ใบมีด กระบอกฉีดยา หลอดแก้ว ภาชนะที่ทำด้วยแก้วสไลด์ และแผ่นกระจกปิดสไลด์
+            <br>2.วัสดุซึ่งสัมผัส หรือ สงสัยว่าจะสัมผัสกับเลือด ส่วนประกอบขยะเลือด ผลิตภัณฑ์ที่ได้จากเลือด สารน้ำจากร่างกายของมนุษย์หรือสัตว์ หรือวัคซีนที่ทำจากเชื้อโรคที่มีชีวิต เช่น สำลี ผ้าก๊อต  ผ้าต่างๆ และท่อยาง
+            <br>3.มูลฝอยทุกชนิดที่มาจากห้องรักษาผู้ป่วยติดเชื้อร้ายแรง 
+            <br>4.ขยะติดเชื้ออื่นๆ ตามเงื่อนไขของผู้รับกำจัด
+            <div class="text-center" style="border:1px solid;">ช่องทางและเงื่อนไขการชำระค่าบริการ</div>
+            <div class="row" style="margin-top:10px;">
+                <div style="float:left;width:30%;padding-left:20px;">
+                    <img src="<?php echo Url::to('@web/../images/scbfull.jpg') ?>"/>
+                </div>
+                <div style="float:left;width:60%;padding-left:20px;">
+                    <strong>ธนาคาร  : ไทยพาณิชย์  สาขา : ตลาดพูนทรัพย์ (ปทุมธานี)</strong>
+                    <strong><br>ชื่อบัญชี : นายอาทิตย์ บุญเคน</strong>
+                    <strong><br>เลขที่บัญชี : 372 – 269136 –3 </strong>
+                </div>
+            </div>
+            <div style="padding-left:15px;">
+                หมายเหตุ  :   หากท่านชำระเงินแล้ว กรุณาส่งหลักฐานการโอนเงินหรือสลิป พร้อมทั้งระบุชื่อสถานบริการสาธารณสุข<br>และเดือนที่ท่านชำระค่าบริการให้ชัดเจน   โดยส่งได้ที่ ID Line OA : @icqualitysystem  หรือนำส่งทาง e–mail : icquality@icqs.net  โทรศัพท์  02–101–0325 / 096-878-1596  (กรุณาชำระเงินภายใน 30 วัน หลังจากส่งมอบงาน)
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div style="float:left;width:10%;padding-left:30px;">
+                    <img src="<?php echo Url::to('@web/../images/qrcodeline.PNG') ?>" width="70px"/>
+                </div>
+                <div style="float:left;width:80%;padding-left:20px;">
+                    <strong>สามารถสแกน QR Code เพื่อเพิ่มเพื่อนใน Line Official Account บริษัทฯ ได้เลยค่ะ </strong>
+                    <strong><br>ID  Line OA :  @icqualitysystem </strong>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
+</div>
