@@ -51,11 +51,13 @@ use yii\helpers\ArrayHelper;
                                 <?= $form->field($model, 'timeperiod_time')->widget(TimePicker::classname(), [
                                     'pluginOptions' => [
                                         'showMeridian' => false,
+                                        'autoclose' => true,
                                         'minuteStep' => 1,
                                         'secondStep' => 5,
+                                        'defaultTime'=>false
                                     ],
                                     'options' => [
-                                        'readonly' => true
+                                        'readonly' => false
                                 ],]);?>
                             </div>
                         </div>

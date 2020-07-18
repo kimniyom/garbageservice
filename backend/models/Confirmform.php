@@ -10,7 +10,6 @@ use Yii;
  * @property int $id
  * @property string $confirmformnumber เลขที่แบบฟอร์ม
  * @property int $customerid รหัสลูกค้า
- * @property int $typeform ประเภทฟอร์ม
  * @property int $roundkeep_sunday วันอาทิตย์
  * @property int $roundkeep_monday วันจันทร์
  * @property int $roundkeep_tueday วันอังคาร
@@ -70,7 +69,6 @@ class Confirmform extends \yii\db\ActiveRecord
             'id' => 'ID',
             'confirmformnumber' => 'Confirmformnumber',
             'customerid' => 'Customerid',
-            'typeform' => 'Typeform',
             'roundkeep_sunday' => 'วันอาทิตย์',
             'roundkeep_monday' => 'วันจันทร์',
             'roundkeep_tueday' => 'วันอังคาร',

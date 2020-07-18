@@ -166,7 +166,7 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
                     <input type="checkbox" <?php echo $tursday;?> disabled>วันพฤหัสบดี&nbsp;
                     <input type="checkbox" <?php echo $friday;?> disabled>วันศุกร์&nbsp;
                     <input type="checkbox" <?php echo $saturday;?> disabled>วันเสาร์&nbsp;    
-                    <br>วันที่เข้าจัดเก็บขยะ <?php echo $Config->thaidate($datas['roundkeep_day'])?> 
+                    <br>วันที่เข้าจัดเก็บขยะ <?php echo $datas['roundkeep_day']==""? " ............ " : $Config->thaidate($datas['roundkeep_day'])?> 
                     ช่วงเวลาที่เข้าจัดเก็บขยะ 
                     <input type="checkbox" <?php echo $morning;?> disabled>ช่วงเช้า&nbsp;
                     <input type="checkbox" <?php echo $affernoon;?> disabled>ช่วงบ่าย&nbsp;
