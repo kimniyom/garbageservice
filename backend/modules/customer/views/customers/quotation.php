@@ -41,19 +41,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                     <tr>
                         <td><?php echo $i ?></td>
-                        <td><?php echo $rs['customername'] ?></td>
                         <td><?php echo $rs['title'] ?></td>
+                        <td><?php echo $rs['customername'] ?></td>
                         <td><?php echo $rs['typename'] ?></td>
                         <td><?php echo $rs['tel'] ?></td>
                         <td><?php echo $rs['contact'] ?></td>
                         <td>
-                            <?php if($rs['status'] == 0) { ?>
-                            <a href="<?php echo Url::to(['detailquotation', 'id' => $rs['id']]) ?>">
-                                <button class="btn btn-primary btn-sm btn-block" type="button"><i class="fa fa-plus"></i> สร้างใบเสนอราคา</button></a>
+                            <?php if ($rs['status'] == 0) { ?>
+                                <a href="<?php echo Url::to(['detailquotation', 'id' => $rs['id']]) ?>">
+                                    <button class="btn btn-primary btn-sm btn-block" type="button"><i class="fa fa-plus"></i> สร้างใบเสนอราคา</button></a>
                             <?php } else { ?>
-                            <a href="<?php echo Url::to(['detailquotation', 'id' => $rs['id']]) ?>">
-                                <button class="btn btn-success btn-sm btn-block text-success" type="button"><i class="fa fa-check"></i> ใบเสนอราคา</button></a>
-                            <?php } ?>
+                                <a href="<?php echo Url::to(['detailquotation', 'id' => $rs['id']]) ?>">
+                                    <button class="btn btn-success btn-sm btn-block text-success" type="button"><i class="fa fa-check"></i> ใบเสนอราคา</button></a>
+                                <?php } ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

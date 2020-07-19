@@ -91,7 +91,7 @@ for ($i = 1; $i <= 36; $i++) {
         </div>
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
-                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']   ?>)</div>
+                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']    ?>)</div>
                 <div class="box-body"  id="box-right" style=" position: relative; overflow: auto;">
                     <div class="well">
                         <?php

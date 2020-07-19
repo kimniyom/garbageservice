@@ -360,27 +360,25 @@ class PromiseController extends Controller {
     }
 
     protected function getCustomer($customerid) {
-
+        //Update 2020-08-19 By Kimniyom
         $sql = "
                 SELECT
-
                     customers.*,
                     changwat.changwat_name as changwat,
                     ampur.ampur_name as ampur,
                     tambon.tambon_name as tambon,
-
-                    user.username
+                    user.username,
+                    c.groupcustomer as groupcus
                     FROM customers
                 INNER JOIN changwat ON customers.changwat = changwat.changwat_id
                 INNER JOIN ampur ON customers.ampur = ampur.ampur_id
                 INNER JOIN tambon ON customers.tambon = tambon.tambon_id
                 LEFT JOIN user ON customers.user_id = user.id
+                INNER JOIN groupcustomer c ON customers.grouptype = c.id
                 WHERE
                     customers.flag = 1
                     AND customers.approve = 'Y'
-                    AND customers.id = '{$customerid}'
-
-        ";
+                    AND customers.id = '{$customerid}' ";
 
         return Yii::$app->db->createCommand($sql)->queryOne();
 
@@ -467,10 +465,16 @@ class PromiseController extends Controller {
         $customerid = Yii::$app->request->post('customerid');
         $isReccord = 0;
         $rs = Promise::find()->where("customerid = '$customerid' and status != '0' and active = '1'")->count();
+        $customerDetail = \Yii::$app->db->createCommand("select c.*,g.groupcustomer as groupcus from customers c inner join groupcustomer g on c.grouptype = g.id where c.id = '$customerid'")->queryOne();
         if ($rs > 0) {
             $isReccord = 1;
         }
-        return $isReccord;
+        $json = array(
+            "status" => $isReccord,
+            'customer' => $customerDetail
+        );
+        //print_r($customerDetail);
+        return json_encode($json);
     }
 
     public function actionSetstatus() {
@@ -878,6 +882,46 @@ class PromiseController extends Controller {
         return $data['distcount'];
     }
 
-    
+    public function actionCreatesubpromise($customerid) {
+        $conFig = new Config();
+        $model = new Promise();
+        $model->customerid = $customerid;
+        //$model->createat = date('Y-m-d');
+        $model->promisenumber = $this->getNextId("promise", "promisenumber", 5);
+        $error = "";
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->recivetype == 1 || $model->recivetype == 3 || $model->recivetype == 2) {
+                //$week = $model->weekinmonth;
+                //$weekround = implode(",", $week);
+                //$model->weekinmonth = $weekround;
+                //$countWeek = count($week);
+                //if ($model->levy != $countWeek) {
+                //$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
+                //} else {
+                if ($model->save()) {
+                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+
+                //}
+            } else {
+                if ($model->save()) {
+                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+
+                /*
+                  $model->save();
+                  return $this->redirect(['view', 'id' => $model->id]);
+                 */
+            }
+        }
+
+        return $this->render('createsubpromise', [
+                    'model' => $model,
+                    'customer' => $this->getCustomer($customerid),
+                    'error' => $error,
+        ]);
+    }
 
 }
