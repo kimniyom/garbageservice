@@ -91,7 +91,7 @@ for ($i = 1; $i <= 36; $i++) {
         </div>
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
-                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']    ?>)</div>
+                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']                               ?>)</div>
                 <div class="box-body"  id="box-right" style=" position: relative; overflow: auto;">
                     <div class="well">
                         <?php
@@ -147,7 +147,7 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
-                                <?php $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package'); ?>
+                                <?php $listPackage = ArrayHelper::map(Maspackage::find()->where("id = '1'")->all(), 'id', 'package'); ?>
                                 <?php
                                 echo $form->field($model, 'recivetype')->widget(Select2::classname(), [
                                     'data' => $listPackage,
@@ -177,7 +177,7 @@ for ($i = 1; $i <= 36; $i++) {
                             <div class="col-md-4 col-lg-3">
                                 <?=
                                 $form->field($model, 'vat')->dropDownList([
-                                    0 => 'ไม่มี vat', 1 => 'มี vat',
+                                    0 => 'ไม่ vat', 1 => 'เอา vat',
                                         ], [
                                     'onchange' => 'calculation()',
                                 ])
@@ -188,8 +188,8 @@ for ($i = 1; $i <= 36; $i++) {
                                 $form->field($model, 'vattype')->dropDownList(
                                         [
                                             //0 => 'ปกติ',
-                                            1 => 'รวมvat',
-                                            2 => 'ไม่รวมvat'
+                                            1 => 'รวม vat',
+                                            2 => 'ไม่รวม vat'
                                         ]
                                 )
                                 ?>
@@ -198,34 +198,33 @@ for ($i = 1; $i <= 36; $i++) {
                         </div>
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
-                                <?=
-                                $form->field($model, 'payment')->widget(DepDrop::classname(), [
-                                    'data' => ArrayHelper::map(app\models\Packagepayment::find()->where(['packege' => $model->recivetype])->all(), 'id', 'payment'),
-                                    'type' => DepDrop::TYPE_SELECT2,
-                                    'options' => [
-                                        'id' => 'PAYMENT',
-                                        'onchange' => 'setdistCount(this.value)',
-                                        'placeholder' => '... เลือกการชำระเงิน ...',
-                                    ],
-                                    //'data' => [$model->truck1],
-                                    'pluginOptions' => [
-                                        'required' => 'required',
-                                        'depends' => ['RECIVETYPE'],
-                                        'url' => Url::to(['promise/promisetype']),
-                                    ],
-                                ]);
+                                <?php
+                                /*
+                                  $form->field($model, 'payment')->widget(DepDrop::classname(), [
+                                  'data' => ArrayHelper::map(app\models\Packagepayment::find()->where(['id' => '1'])->one(), 'id', 'payment'),
+                                  'type' => DepDrop::TYPE_SELECT2,
+                                  'options' => [
+                                  'id' => 'PAYMENT',
+                                  'onchange' => 'setdistCount(this.value)',
+                                  'placeholder' => '... เลือกการชำระเงิน ...',
+                                  ],
+                                  'pluginOptions' => [
+                                  'required' => 'required',
+                                  'depends' => ['RECIVETYPE'],
+                                  'url' => Url::to(['promise/promisetype']),
+                                  ],
+                                  ]);
+                                 * */
                                 ?>
 
                                 <?php
-                                /*
-                                  echo $form->field($model, 'payment')->dropDownList([
-                                  "" => "== กรุณาเลือก ==",
-                                  0 => 'แบ่งจ่ายรายเดือน / รายครั้ง',
-                                  1 => 'เหมาจ่าย',
-                                  ], [
-                                  'onchange' => 'setDistcount()',
-                                  ])
-                                 */
+                                echo $form->field($model, 'payment')->dropDownList([
+                                    "" => "== กรุณาเลือก ==",
+                                    1 => 'จ่ายรายเดือน',
+                                        //1 => 'เหมาจ่าย',
+                                        ], [
+                                        //'onchange' => 'setDistcount()',
+                                ])
                                 ?>
                             </div>
                         </div>
@@ -233,16 +232,16 @@ for ($i = 1; $i <= 36; $i++) {
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
                                 <?= $form->field($model, 'yearunit')->hiddenInput(['value' => '1'])->label(false) ?>
-                                <?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false) ?>
+                                <?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false)  ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" style=" display: none;">
                             <div id="unit">
                                 <div class="col-md-4 col-lg-4">
                                     <?=
                                     $form->field($model, 'unitprice')->textInput(
                                             [
-                                                'onkeyup' => 'calculation()',
+                                                'onkeyup' => 'calculation()'
                                             ]
                                     )
                                     ?>
@@ -268,7 +267,7 @@ for ($i = 1; $i <= 36; $i++) {
                             </div>
                         </div>
 
-                        <div class="row" id="divmonth">
+                        <div class="row" id="divmonth" style=" display: none;">
                             <div class="col-md-8 col-lg-5">
                                 <?=
                                 $form->field($model, 'rate')->textInput(
@@ -282,7 +281,7 @@ for ($i = 1; $i <= 36; $i++) {
                                 <?= $form->field($model, 'deposit')->dropDownList($deposit, ['prompt' => 'ไม่มีมัดจำ']) ?>
                             </div>
                         </div>
-                        <div class="fine">
+                        <div class="fine" style=" display: none;">
                             <h4>ค่าปรับ</h4>
                             <hr style="margin-top:0px;"/>
                             <div class="row">
@@ -292,7 +291,7 @@ for ($i = 1; $i <= 36; $i++) {
                             </div>
                         </div>
 
-                        <div class="distcount">
+                        <div class="distcount" style=" display: none;">
                             <h4>ส่วนลด</h4>(*ถ้ามีการแก้ไขข้อมูลข้างบนส่วนลดจะต้องคำนวณใหม่ทุกครั้ง)
                             <hr style="margin-top:0px;"/>
                             <div class="row">
@@ -319,7 +318,7 @@ for ($i = 1; $i <= 36; $i++) {
                             </div>
                         </div>
 
-                        <div class="row" id="divyear">
+                        <div class="row" id="divyear" style=" display: none">
                             <div class="col-md-3 col-lg-5">
                                 <?= $form->field($model, 'payperyear')->textInput(['readonly' => 'readonly']) ?>
                             </div>
@@ -327,33 +326,8 @@ for ($i = 1; $i <= 36; $i++) {
                                 <?= $form->field($model, 'total')->textInput(['readonly' => 'readonly']) ?>
                             </div>
                         </div>
-                        <!--
-                         <div id="dateservice">
-                            <h4>วันที่จัดเก็บ</h4>
-                            <hr style="margin-top:0px;"/>
-                            <div class="row">
-                                <div class="col-md-6 col-lg-6">
-                                    <?//= $form->field($model, 'dayinweek')->dropDownList($dayInweek); ?>
-                                </div>
-                            </div>
-                        </div>
 
-                                <div class="col-md-6 col-lg-6">
-                        <?php
-                        // echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
-                        //     'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
-                        //     'options' => ['placeholder' => 'Select a week ...'],
-                        //     'pluginOptions' => [
-                        //         'allowClear' => true,
-                        //         'multiple' => true,
-                        //     ],
-                        // ]);
-                        ?>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <div id="manager">
+                        <div id="manager" style="display: none">
                             <h4>ผู้ว่าจ้าง และพยาน</h4>
                             <hr style="margin-top:0px;"/>
                             <div class="row">
@@ -379,7 +353,7 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <!-- <div class="row">
                             <div class="col-md-12 col-lg-6">
-                        <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])     ?>
+                        <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])      ?>
                             </div>
                             <div class="col-md-12 col-lg-6">
                         <?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])     ?>
@@ -516,12 +490,12 @@ if ($model->id == "") {
         //}
         if (type == 1) {
             $("#garbageweight").show();
-            $(".fine").show();
-            $("#divmonth").show();
-            $("#divyear").show();
+            $(".fine").hide();
+            $("#divmonth").hide();
+            $("#divyear").hide();
             //$(".distcount").show();
-            $("#dateservice").show();
-            $("#unit").show();
+            $("#dateservice").hide();
+            $("#unit").hide();
             //calculation();
         } else if (type == 2) {
             $(".fine").hide();
@@ -532,15 +506,15 @@ if ($model->id == "") {
             $("#promise-rate").val(0);
             $("#promise-payperyear").val(0);
             $("#dateservice").hide();
-            $("#unit").show();
-        } else if (type == 3) {
-            $("#divmonth").show();
-            $("#garbageweight").show();
-            //$(".distcount").show();
-            $(".fine").show();
-            $("#dateservice").show();
             $("#unit").hide();
-            $("#divyear").show();
+        } else if (type == 3) {
+            $("#divmonth").hide();
+            $("#garbageweight").hide();
+            //$(".distcount").show();
+            $(".fine").hide();
+            $("#dateservice").hide();
+            $("#unit").hide();
+            $("#divyear").hide();
             $("#popupsetYear").modal();
             //$("#promise-payperyear").removeAttr("readonly");
             //$("#promise-payperyear").focus();
@@ -588,15 +562,20 @@ if ($model->id == "") {
         var totalSum = "";
         var vat = $("#promise-vat").val();
         var types = parseInt($("#RECIVETYPE").val());
-        var unit = parseInt($("#promise-unitprice").val());
-        var garbageweight = parseInt($("#promise-garbageweight").val());
+        $("#promise-unitprice").val(0);
+        $("#promise-garbageweight").val(0);
+        $("#promise-garbageweight").val(0);
+        $("#promise-rate").val(0);
+        $("#promise-fine").val(0);
+        var unit = 0;
+        var garbageweight = 0;
         var levy = parseInt($("#promise-levy").val());
         //var payment = parseInt($("#promise-payment").val());
         //enable vattype
         getvattype();
         var totalyear;
+        $("#fine").hide();
         if (types == 1) {
-
             total = (unit * levy);
             totalyear = (total * 12);
             let vatBath = (totalyear * 7) / 100;
@@ -607,8 +586,8 @@ if ($model->id == "") {
              totalSum = totalyear;
              }
              */
-            $("#promise-rate").val(total);
-            $("#promise-payperyear").val(parseInt(totalyear));
+            $("#promise-rate").val(0);
+            $("#promise-payperyear").val(0);
             $("#promise-total").val(totalyear);
             $("#promise-distcountpercent").val(0);
             $("#promise-distcountbath").val(0);
