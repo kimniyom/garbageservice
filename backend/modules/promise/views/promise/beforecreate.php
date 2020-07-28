@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'data' => ArrayHelper::map($customer, "id", "company"),
                 'options' => [
                     'placeholder' => 'เลือกลูกค้า',
+                    'id' => 'customerid'
                 ],
                 'pluginEvents' => [
                     "select2:select" => "function(){setcustomerid(this.value)}",
@@ -47,9 +48,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 
-    <div class="row" style=" margin-top: 10px;">
+    <div class="row" style=" margin-top: 10px; display: none;" id="nextflow">
         <div class="col col-md-4 col-lg-4">
-            <button type="button"  id="nextflow" class="btn btn-primary" style="font-size: 20px; display: none;" onclick="createsubpromise()">ทำสัญญาแบบมีลูกข่าย(สำหรับกลุ่มโรงพยาบาล) <i class="fa fa-arrow-right"></i></button>
+            <button type="button"   class="btn btn-primary" style="font-size: 20px;" onclick="createsubpromise()">
+                ทำสัญญาแบบมีลูกข่าย(สำหรับกลุ่มโรงพยาบาล) <i class="fa fa-arrow-right"></i></button>
         </div>
     </div>
 
@@ -70,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
     function check() {
         $("#next").hide();
         $("#nextfalse").hide();
-        var customerid = parseInt($("#customerid").val());
+        var customerid = $("#customerid").val();
         if (customerid == "") {
             alert("ยังไม่ได้เลือกลูกค้า..!");
             return false;
@@ -111,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     function createsubpromise() {
         var customerid = parseInt($("#customerid").val());
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/createsubpromise']) ?>" + "&customerid=" + customerid;
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/createsubpromise']) ?>" + "&customerid=" + customerid + "&flag=1";
         window.location = url;
     }
 </script>

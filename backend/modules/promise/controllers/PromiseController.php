@@ -43,15 +43,25 @@ class PromiseController extends Controller {
      * Lists all Promise models.
      * @return mixed
      */
-    public function actionIndex() {
+    public function actionIndex($group = "", $groupname = "") {
         $searchModel = new PromiseSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $promise = Promise::find()->all();
+        //$promise = Promise::find()->where([''])->all();
+        $promise = $this->getCustomertInGroup($group);
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
-                    'promise' => $promise
+                    'promise' => $promise,
+                    'groupname' => $groupname,
+                    'group' => $group
         ]);
+    }
+
+    function getCustomertInGroup($group) {
+        $sql = "SELECT p.*
+                    FROM promise p INNER JOIN customers c ON p.customerid = c.id
+                    WHERE c.grouptype = '$group' ";
+        return \Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     /**
@@ -80,8 +90,8 @@ class PromiseController extends Controller {
         return $rs;
     }
 
-    public function actionBeforecreate() {
-        $customer = Customers::find()->where(['flag' => 1, 'approve' => 'Y'])->all();
+    public function actionBeforecreate($group) {
+        $customer = Customers::find()->where(['flag' => 1, 'approve' => 'Y', 'grouptype' => $group])->all();
         return $this->render('beforecreate', [
                     'customer' => $customer,
         ]);
@@ -96,24 +106,24 @@ class PromiseController extends Controller {
         $conFig = new Config();
         $model = new Promise();
         $model->customerid = $customerid;
-        //$model->createat = date('Y-m-d');
+//$model->createat = date('Y-m-d');
         $model->promisenumber = $this->getNextId("promise", "promisenumber", 5);
         $error = "";
         if ($model->load(Yii::$app->request->post())) {
             if ($model->recivetype == 1 || $model->recivetype == 3 || $model->recivetype == 2) {
-                //$week = $model->weekinmonth;
-                //$weekround = implode(",", $week);
-                //$model->weekinmonth = $weekround;
-                //$countWeek = count($week);
-                //if ($model->levy != $countWeek) {
-                //$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
-                //} else {
+//$week = $model->weekinmonth;
+//$weekround = implode(",", $week);
+//$model->weekinmonth = $weekround;
+//$countWeek = count($week);
+//if ($model->levy != $countWeek) {
+//$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
+//} else {
                 if ($model->save()) {
                     $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
-                //}
+//}
             } else {
                 if ($model->save()) {
                     $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
@@ -135,7 +145,7 @@ class PromiseController extends Controller {
     }
 
     public function getNextId() {
-        //ตัวอย่างหากต้องการ SN59-00001
+//ตัวอย่างหากต้องการ SN59-00001
         $lastRecord = Promise::find()->where(['like', 'promisenumber', 'IC'])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
         if ($lastRecord) {
             $digit = explode('IC', $lastRecord->promisenumber);
@@ -195,31 +205,31 @@ class PromiseController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        //$model->weekinmonth = explode(",", $model->weekinmonth);
+//$model->weekinmonth = explode(",", $model->weekinmonth);
         $error = "";
         if ($model->load(Yii::$app->request->post())) {
-            //$week = $model->weekinmonth;
-            //$weekround = implode(",", $week);
-            //$model->weekinmonth = $weekround;
+//$week = $model->weekinmonth;
+//$weekround = implode(",", $week);
+//$model->weekinmonth = $weekround;
 
             if ($model->recivetype == 1 || $model->recivetype == 3 || $model->recivetype == 2) {
-                //$countWeek = count($week);
-                //if ($model->levy != $countWeek) {
-                //$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
-                //} else {
-                //ถ้าแบ่งจ่ายรายเดือนจะคำนวณหาวันที่ต้องชำระเงินในแต่ละเดือน
-                //if ($model->payment == 0) {
+//$countWeek = count($week);
+//if ($model->levy != $countWeek) {
+//$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
+//} else {
+//ถ้าแบ่งจ่ายรายเดือนจะคำนวณหาวันที่ต้องชำระเงินในแต่ละเดือน
+//if ($model->payment == 0) {
                 $id = $model->id;
                 Yii::$app->db->createCommand()
                         ->delete("roundmoney", "promiseid = '$id'")
                         ->execute();
 
                 $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
-                //}
+//}
 
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
-                //}
+//}
             } else {
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -227,6 +237,46 @@ class PromiseController extends Controller {
         }
 
         return $this->render('update', [
+                    'model' => $model,
+                    'customer' => $this->getCustomer($model->customerid),
+                    'error' => $error,
+        ]);
+    }
+
+    public function actionUpdatesubpromise($id) {
+        $model = $this->findModel($id);
+        $error = "";
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->recivetype == 1 || $model->recivetype == 3 || $model->recivetype == 2) {
+
+                $id = $model->id;
+                Yii::$app->db->createCommand()
+                        ->delete("roundmoney", "promiseid = '$id'")
+                        ->execute();
+
+                $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                $model->save();
+
+                $columns = array(
+                    "createat" => $model->createat,
+                    "promisedatebegin" => $model->promisedatebegin,
+                    "promisedateend" => $model->promisedateend,
+                    "recivetype" => $model->recivetype,
+                    "unitprice" => $model->unitprice,
+                    "status" => 2
+                );
+                Yii::$app->db->createCommand()
+                        ->update("promise", $columns, "upper = '$id'")
+                        ->execute();
+
+                return $this->redirect(['viewsubpromise', 'id' => $model->id]);
+            } else {
+                $model->save();
+                return $this->redirect(['viewsubpromise', 'id' => $model->id]);
+            }
+        }
+
+        return $this->render('updatesubpromise', [
                     'model' => $model,
                     'customer' => $this->getCustomer($model->customerid),
                     'error' => $error,
@@ -243,6 +293,10 @@ class PromiseController extends Controller {
      */
     public function actionDelete($id) {
         $this->findModel($id)->delete();
+        Yii::$app->db->createCommand()
+                ->delete("promise", "upper = '$id'")
+                ->execute();
+
         return $this->redirect(['index']);
     }
 
@@ -263,7 +317,7 @@ class PromiseController extends Controller {
 
     function setCancelPromise($promiseId) {
         if ($promiseId) {
-            //อัพเดทรอบจัดเก็บให้เป็นสถานะยกเลิกสัญญาด้วย
+//อัพเดทรอบจัดเก็บให้เป็นสถานะยกเลิกสัญญาด้วย
             $columns = array(
                 "status" => 3,
                 "datekeep" => date("Y-m-d")
@@ -334,7 +388,7 @@ class PromiseController extends Controller {
         $templateProcessor->saveAs(Yii::getAlias('@webroot') . '/web/doc/promise.docx');
         Yii::$app->response->sendFile(Yii::getAlias('@webroot') . '/web/doc/promise.docx');
 
-        //clear temp
+//clear temp
         $files = glob(Yii::getAlias('@webroot') . '/web/temp/*');
         foreach ($files as $file) {
             if (is_file($file)) {
@@ -360,7 +414,7 @@ class PromiseController extends Controller {
     }
 
     protected function getCustomer($customerid) {
-        //Update 2020-08-19 By Kimniyom
+//Update 2020-08-19 By Kimniyom
         $sql = "
                 SELECT
                     customers.*,
@@ -387,7 +441,7 @@ class PromiseController extends Controller {
           return $model;
           }
          */
-        //throw new NotFoundHttpException('The requested page does not exist.');
+//throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     protected function getPromise($id) {
@@ -426,8 +480,9 @@ class PromiseController extends Controller {
 					customers.timework,
 					customers.zipcode,
                     customers.manager,
+                    CONCAT(customers.tel,',',customers.telephone) AS tels,
                     customers.tel,
-					customers.telephone,
+                    customers.telephone,
 					customers.remark,
 					customers.typeregister,
                     changwat.changwat_name as changwat,
@@ -473,7 +528,7 @@ class PromiseController extends Controller {
             "status" => $isReccord,
             'customer' => $customerDetail
         );
-        //print_r($customerDetail);
+//print_r($customerDetail);
         return json_encode($json);
     }
 
@@ -539,61 +594,61 @@ class PromiseController extends Controller {
     public function actionPdfpreview($id, $promisenumber) {
         $model = $this->getPromise($id);
         $content = $this->renderPartial('promisetype/_promise', ['model' => $model]);
-        //promise form มี 3 แบบ รายครั้ง , ตามขนาดจริง, เหมาจ่าย
-        // นิติบุคคล  ไม่รวม vat รายครั้ง
-        // if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 1) {
-        //     $content = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
-        // }
-        // // นิติบุคคล  รวม vat รายครั้ง
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 1) {
-        //     $content = $this->renderPartial('promisetype/_promisetype1_2', ['model' => $model]);
-        // }
-        // // นิติบุคคล  ไม่คิด vat รายครั้ง
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 1) {
-        //     $content = $this->renderPartial('promisetype/_promisetype1_3', ['model' => $model]);
-        // }
-        // //------------------------------------------------------------------------------------
-        // // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่รวม vat
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 2) {
-        //     $content = $this->renderPartial('promisetype/_promisetype2_1', ['model' => $model]);
-        // }
-        // // นิติบุคคลรวม คิดตามน้ำหนักจริง รวม vat
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 2) {
-        //     $content = $this->renderPartial('promisetype/_promisetype2_2', ['model' => $model]);
-        // }
-        // // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่มี vat
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 2) {
-        //     $content = $this->renderPartial('promisetype/_promisetype2_3', ['model' => $model]);
-        // }
-        // //------------------------------------------------------------------------------------------
-        // //นิติบุคคล เหมาจ่ายรายเดือน ไม่รวม vat
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 3) {
-        //     $content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
-        // }
-        // //นิติบุคคล เหมาจ่ายรายเดือน รวม vat
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 3) {
-        //     $content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
-        // }
-        // // นิติบุคคล เหมาจ่ายรายเดือน ไม่มี vat
-        // else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 3) {
-        //     $content = $this->renderPartial('promisetype/_promisetype3_3', ['model' => $model]);
-        // }
-        // //------------------------------------------------------------------------------------
-        // //บุคคลธรรมดา รายครั้ง
-        // else if ($model['typeregister'] == 3 && $model['recivetype'] == 1) {
-        //     $content = $this->renderPartial('promisetype/_promisetype4_1', ['model' => $model]);
-        // }
-        // //บุคคลธรรมดา คิดตามน้ำหนักจริง
-        // else if ($model['typeregister'] == 3 && $model['recivetype'] == 2) {
-        //     $content = $this->renderPartial('promisetype/_promisetype4_2', ['model' => $model]);
-        // }
-        // //บุคคลธรรมดา เหมาจ่ายรายเดือน
-        // else if ($model['typeregister'] == 3 && $model['recivetype'] == 3) {
-        //     $content = $this->renderPartial('promisetype/_promisetype4_3', ['model' => $model]);
-        // }
-        //------------------------------------------------------------------------------------------
+//promise form มี 3 แบบ รายครั้ง , ตามขนาดจริง, เหมาจ่าย
+// นิติบุคคล  ไม่รวม vat รายครั้ง
+// if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 1) {
+//     $content = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
+// }
+// // นิติบุคคล  รวม vat รายครั้ง
+// else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 1) {
+//     $content = $this->renderPartial('promisetype/_promisetype1_2', ['model' => $model]);
+// }
+// // นิติบุคคล  ไม่คิด vat รายครั้ง
+// else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 1) {
+//     $content = $this->renderPartial('promisetype/_promisetype1_3', ['model' => $model]);
+// }
+// //------------------------------------------------------------------------------------
+// // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่รวม vat
+// else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 2) {
+//     $content = $this->renderPartial('promisetype/_promisetype2_1', ['model' => $model]);
+// }
+// // นิติบุคคลรวม คิดตามน้ำหนักจริง รวม vat
+// else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 2) {
+//     $content = $this->renderPartial('promisetype/_promisetype2_2', ['model' => $model]);
+// }
+// // นิติบุคคลรวม คิดตามน้ำหนักจริง ไม่มี vat
+// else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 2) {
+//     $content = $this->renderPartial('promisetype/_promisetype2_3', ['model' => $model]);
+// }
+// //------------------------------------------------------------------------------------------
+// //นิติบุคคล เหมาจ่ายรายเดือน ไม่รวม vat
+// else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '2' && $model['recivetype'] == 3) {
+//     $content = $this->renderPartial('promisetype/_promisetype3_1', ['model' => $model]);
+// }
+// //นิติบุคคล เหมาจ่ายรายเดือน รวม vat
+// else if ($model['typeregister'] == 1 && $model['vat'] == 1 && $model['vattype'] == '1' && $model['recivetype'] == 3) {
+//     $content = $this->renderPartial('promisetype/_promisetype3_2', ['model' => $model]);
+// }
+// // นิติบุคคล เหมาจ่ายรายเดือน ไม่มี vat
+// else if ($model['typeregister'] == 1 && $model['vat'] == 0 && $model['recivetype'] == 3) {
+//     $content = $this->renderPartial('promisetype/_promisetype3_3', ['model' => $model]);
+// }
+// //------------------------------------------------------------------------------------
+// //บุคคลธรรมดา รายครั้ง
+// else if ($model['typeregister'] == 3 && $model['recivetype'] == 1) {
+//     $content = $this->renderPartial('promisetype/_promisetype4_1', ['model' => $model]);
+// }
+// //บุคคลธรรมดา คิดตามน้ำหนักจริง
+// else if ($model['typeregister'] == 3 && $model['recivetype'] == 2) {
+//     $content = $this->renderPartial('promisetype/_promisetype4_2', ['model' => $model]);
+// }
+// //บุคคลธรรมดา เหมาจ่ายรายเดือน
+// else if ($model['typeregister'] == 3 && $model['recivetype'] == 3) {
+//     $content = $this->renderPartial('promisetype/_promisetype4_3', ['model' => $model]);
+// }
+//------------------------------------------------------------------------------------------
         $pdf = new Pdf([
-            // set to use core fonts only
+// set to use core fonts only
             'mode' => 'th',
             // A4 paper format
             'format' => Pdf::FORMAT_A4,
@@ -604,7 +659,7 @@ class PromiseController extends Controller {
             // your html content input
             'content' => $content,
             // format content from your own css file if needed or use the
-            // enhanced bootstrap css built by Krajee for mPDF formatting
+// enhanced bootstrap css built by Krajee for mPDF formatting
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
@@ -614,7 +669,7 @@ class PromiseController extends Controller {
             'filename' => $promisenumber . ".pdf",
             // call mPDF methods on the fly
             'methods' => [
-                //'SetHeader'=>['Krajee Report Header'],
+//'SetHeader'=>['Krajee Report Header'],
                 'SetFooter' => ['{PAGENO}'],
             ],
         ]);
@@ -635,7 +690,7 @@ class PromiseController extends Controller {
             ],
         ];
 
-        // return the pdf output as per the destination setting
+// return the pdf output as per the destination setting
         return $pdf->render();
     }
 
@@ -647,34 +702,34 @@ class PromiseController extends Controller {
             $j = $i - 1; //เริ่มเก็บเดือนที่เริ่มสัญญา ถ้า เริ่มเก็บเดือนถัดไปให้เรียกใช้ i
             $myDate = date("Y-m-d", strtotime(date($dateStart, strtotime(date("Y-m-d"))) . "+$j month"));
 
-            //echo "<pre>";
-            //echo " งวดที่ " . $i;
-            //echo " เดือนที่ต้องจัดเก็บ ";
+//echo "<pre>";
+//echo " งวดที่ " . $i;
+//echo " เดือนที่ต้องจัดเก็บ ";
             $datekeep = date('Y-m-d', strtotime($myDate));
             $yearRound = substr($datekeep, 0, 4);
             $monthRound = substr($datekeep, 5, 2);
-            //echo "</pre>";
+//echo "</pre>";
 
             $roundNumber = $round; //เดือนละกี่รอบรอบ
             $weekInmonth = explode(",", $weekinmonth); //อาทิตย์ที่จะให้จัดเก็บ
             $dayInweek = $dayinweek; //วันใน week ที่ให้จัดเก็บเก็บเป็นตัวเลข 0 = วันจันทร์
-            //$sqlRound = "select MONTH(datekeep) as m,YEAR(datekeep) as y from roundmoney where promiseid = '$promise' ";
-            //$result = Yii::$app->db->createCommand($sqlRound)->queryAll();
-            //foreach ($result as $rs):
-            //if (strlen($rs['m']) < 2) {$month = '0' . $rs['m'];} else { $month = $rs['m'];}
-            //$year = $rs['y'];
+//$sqlRound = "select MONTH(datekeep) as m,YEAR(datekeep) as y from roundmoney where promiseid = '$promise' ";
+//$result = Yii::$app->db->createCommand($sqlRound)->queryAll();
+//foreach ($result as $rs):
+//if (strlen($rs['m']) < 2) {$month = '0' . $rs['m'];} else { $month = $rs['m'];}
+//$year = $rs['y'];
             echo $yearRound . "-" . (int) $monthRound . "<hr/>";
             $Round = $this->rangweek(2019, (int) $monthRound);
-            //print_r($Round);
+//print_r($Round);
             foreach ($weekInmonth as $key):
-                //$Round['สัปดาห์ในที่']['วันในสัปดาห์']
+//$Round['สัปดาห์ในที่']['วันในสัปดาห์']
                 $week = ($key - 1);
-                //echo $week . "<br/>";
-                //$Round[$week];
+//echo $week . "<br/>";
+//$Round[$week];
                 echo $Round[$week][$dayInweek] . "<br/>";
             endforeach;
-            //endforeach;
-            //$datekeep = date('Y-m-d', strtotime($myDate));
+//endforeach;
+//$datekeep = date('Y-m-d', strtotime($myDate));
             /*
               $columns = array(
               "customerid" => $customerID,
@@ -724,7 +779,7 @@ class PromiseController extends Controller {
 
         $mweek = array();
         for ($week = $first_month_week; $week <= $last_month_week; $week++) {
-            #echo sprintf('%d-%02d-1', $year, $week ), "\n <br>";
+#echo sprintf('%d-%02d-1', $year, $week ), "\n <br>";
             array_push($mweek, array(
                 date("Y-m-d", strtotime(sprintf('%dW%02d-1', $year, $week))),
                 date("Y-m-d", strtotime(sprintf('%dW%02d-2', $year, $week))),
@@ -759,9 +814,9 @@ class PromiseController extends Controller {
             $count_week++;
         }
 
-        // its give the number of week for the given month and year
+// its give the number of week for the given month and year
         echo $count_week;
-        //print_r($week_array);
+//print_r($week_array);
 
         /*
           for ($i = 0; $i < $count_week; $i++) {
@@ -793,7 +848,7 @@ class PromiseController extends Controller {
         );
 
         return $array1;
-        // echo "Start Date-->".$from."End Date -->".$to;
+// echo "Start Date-->".$from."End Date -->".$to;
     }
 
     public function actionPromisenearexpire() {
@@ -882,38 +937,17 @@ class PromiseController extends Controller {
         return $data['distcount'];
     }
 
-    public function actionCreatesubpromise($customerid) {
+    public function actionCreatesubpromise($customerid, $flag) {
         $conFig = new Config();
         $model = new Promise();
         $model->customerid = $customerid;
-        //$model->createat = date('Y-m-d');
+//$model->createat = date('Y-m-d');
         $model->promisenumber = $this->getNextId("promise", "promisenumber", 5);
         $error = "";
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->recivetype == 1 || $model->recivetype == 3 || $model->recivetype == 2) {
-                //$week = $model->weekinmonth;
-                //$weekround = implode(",", $week);
-                //$model->weekinmonth = $weekround;
-                //$countWeek = count($week);
-                //if ($model->levy != $countWeek) {
-                //$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
-                //} else {
-                if ($model->save()) {
-                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
-
-                //}
-            } else {
-                if ($model->save()) {
-                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
-
-                /*
-                  $model->save();
-                  return $this->redirect(['view', 'id' => $model->id]);
-                 */
+            if ($model->save()) {
+                $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                return $this->redirect(['viewsubpromise', 'id' => $model->id]);
             }
         }
 
@@ -922,6 +956,76 @@ class PromiseController extends Controller {
                     'customer' => $this->getCustomer($customerid),
                     'error' => $error,
         ]);
+    }
+
+    public function actionViewsubpromise($id) {
+        $checkSub = Yii::$app->db->createCommand("select count(*) as total from promise where upper = '$id'")->queryOne();
+        $data['customer'] = Customers::find()->where(['flag' => 1, 'approve' => 'Y', 'grouptype' => 4])->all();
+        $data['list'] = $this->getListSub($id);
+
+        $data['checksub'] = $checkSub['total'];
+        $data['model'] = $this->getPromise($id);
+        $data['roundmoney'] = $this->getRoundMoney($id);
+        $data['roundgarbage'] = $this->getRoundGarbage($id);
+        return $this->render('viewsubpromise', $data);
+    }
+
+    function getListSub($id) {
+        $sql = "SELECT p.id as promiseId,p.promisenumber,c.*,cw.changwat_name,a.ampur_name,t.tambon_name
+                    FROM promise p INNER JOIN customers c ON p.customerid = c.id
+                    INNER JOIN changwat cw ON c.changwat = cw.changwat_id
+                    INNER JOIN ampur a ON c.ampur = a.ampur_id
+                    INNER JOIN tambon t ON c.tambon = t.tambon_id
+                    WHERE p.upper = '$id'";
+        return Yii::$app->db->createCommand($sql)->queryAll();
+    }
+
+    public function actionGetcustomer() {
+        $cusId = Yii::$app->request->post('cusId');
+        $result = Customers::findOne(['id' => $cusId]);
+        $str = "";
+        $str .= "<input type='hidden' id='custometId' value='" . $result['id'] . "'/>";
+        $str .= "<ul class='list-group'>";
+        $str .= "<li class='list-group-item'>" . $result['company'] . "</li>";
+        $str .= "<li class='list-group-item'>Address. " . $result['address'] . "</li>";
+        $str .= "<li class='list-group-item'>Tel. " . $result['tel'] . " " . $result['telephone'] . "</li>";
+        $str .= "</ul>";
+        echo $str;
+    }
+
+    public function actionAddsubpromise() {
+        $customerid = Yii::$app->request->post('custometId');
+        $sql = "SELECT IFNULL(COUNT(*),0) AS total
+                    FROM promise p
+                    WHERE p.customerid ='$customerid' AND p.`status` IN('1','2')";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        if ($rs['total'] <= 0) {
+            $columns = array(
+                "promisenumber" => $this->getNextId("promise", "promisenumber", 5),
+                "customerid" => $customerid,
+                "upper" => Yii::$app->request->post('upper'),
+                "createat" => Yii::$app->request->post('createat'),
+                "promisedatebegin" => Yii::$app->request->post('promisedatebegin'),
+                "promisedateend" => Yii::$app->request->post('promisedateend'),
+                "recivetype" => Yii::$app->request->post('recivetype'),
+                "unitprice" => Yii::$app->request->post('unitprice'),
+                "status" => 2,
+                "etc" => "ลูกข่าย",
+                "flag" => 0
+            );
+            Yii::$app->db->createCommand()
+                    ->insert("promise", $columns)
+                    ->execute();
+        } else {
+            echo "1";
+        }
+    }
+
+    public function actionDeletesubpromise() {
+        $id = Yii::$app->request->post('id');
+        Yii::$app->db->createCommand()
+                ->delete("promise", "id = '$id'")
+                ->execute();
     }
 
 }

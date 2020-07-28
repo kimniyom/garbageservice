@@ -69,16 +69,29 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                             ],
                         ],
                         [
-                            'label' => 'ใบเสนอราคา', 
-                            'icon' => 'file text-danger', 
-                            'url' => ['/customer/customers/quotation','status' => 0],
+                            'label' => 'ใบเสนอราคา',
+                            'icon' => 'file text-danger',
+                            'url' => ['/customer/customers/quotation', 'status' => 0],
                             'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-red">' . $customerModel->countQuotation() . '</small></span></a>'
+                        ],
+                        /*
+                          [
+                          'label' => 'สัญญา',
+                          'icon' => 'fa fa-address-card-o',
+                          'url' => ['/promise/promise'],
+                          'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">' . $promiseall . '</small></span></a>'
+                          ],
+                         *
+                         */
+                        ['label' => 'สัญญา', 'icon' => 'address-card-o text-info', 'url' => ['/'],
+                            'items' => [
+                                ['label' => 'กลุ่มคลินิก', 'icon' => 'h-square', 'url' => ['/promise/promise', 'group' => 1, 'groupname' => 'กลุ่มคลินิก']],
+                                ['label' => 'กลุ่มโรงพยาบาล', 'icon' => 'hospital-o', 'url' => ['/promise/promise', 'group' => 2, 'groupname' => 'กลุ่มโรงพยาบาล']],
+                                ['label' => 'กลุ่มบริษัท', 'icon' => 'building-o', 'url' => ['/promise/promise', 'group' => 3, 'groupname' => 'กลุ่มบริษัท']],
+                                ['label' => 'กลุ่ม รพ.สต.', 'icon' => 'medkit', 'url' => ['/promise/promise', 'group' => 4, 'groupname' => 'กลุ่ม รพ.สต.']],
+                                ['label' => 'กลุ่มหน่วยงานราชการ', 'icon' => 'building', 'url' => ['/promise/promise', 'group' => 5, 'groupname' => 'กลุ่มหน่วยงานราชการ']],
+                                ['label' => 'กลุ่มอื่น ๆ', 'icon' => 'university', 'url' => ['/promise/promise', 'group' => 6, 'groupname' => 'กลุ่มอื่น ๆ']],
                             ],
-                        [
-                            'label' => 'สัญญา',
-                            'icon' => 'fa fa-address-card-o',
-                            'url' => ['/promise/promise'],
-                            'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">' . $promiseall . '</small></span></a>'
                         ],
                         [
                             'label' => 'แบบยืนยันลูกค้า',
@@ -96,14 +109,14 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                         ['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
                         ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
                         /*
-                        ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
-                            'items' => [
-                                ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
-                                ['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => ['/report/report/accruedservicefee']],
-                                ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
-                            ],
-                        ],
-                         * 
+                          ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
+                          'items' => [
+                          ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
+                          ['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => ['/report/report/accruedservicefee']],
+                          ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
+                          ],
+                          ],
+                         *
                          */
                         ['label' => 'ตั้งค่าระบบ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
                         ['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],

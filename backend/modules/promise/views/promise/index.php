@@ -33,14 +33,14 @@ use app\modules\customer\models\Customers;
 /* @var $searchModel app\modules\promise\models\PromiseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'สัญญา';
+$this->title = 'สัญญา(' . $groupname . ")";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="promise-index">
 
     <p>
-        <?= Html::a('ทำสัญญา', ['beforecreate'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('ทำสัญญา', ['beforecreate', 'group' => $group], ['class' => 'btn btn-success']) ?>
     </p>
 
     <ul class="list-group">
@@ -62,7 +62,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] >= 1) ? "complete" : "disabled"; ?>">
                                 <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] >= 1) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
-                                <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <?php if ($rs['flag'] == "1") { ?>
+                                    <a href="<?php echo \yii\helpers\Url::to(['promise/viewsubpromise', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <?php } else { ?>
+                                    <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <?php } ?>
                                 <div class="bs-wizard-info text-center"></div>
                             </div>
 

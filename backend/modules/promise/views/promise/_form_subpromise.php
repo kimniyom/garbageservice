@@ -18,31 +18,8 @@ use yii\helpers\Url;
 $Config = new Config();
 $yearUnit = array();
 $levy = array();
-$monthunit = array();
 $deposit = array();
-$dayInweek = array(
-    '0' => 'จันทร์',
-    '1' => 'อังคาร',
-    '2' => 'พุธ',
-    '3' => 'พฤหัสบดี',
-    '4' => 'วันศุกร์',
-    '5' => 'วันเสาร์',
-    '6' => 'วันอาทิตย์',
-);
-for ($i = 1; $i <= 36; $i++) {
-    if ($i <= 5) {
-        $yearUnit[$i] = $i;
-    }
-    if ($i <= 5) {
-        $levy[$i] = $i;
-    }
-    if ($i >= 12) {
-        $monthunit[$i] = $i;
-    }
-    if ($i <= 12) {
-        $deposit[$i] = $i;
-    }
-}
+
 //echo print_r($levy);
 ?>
 
@@ -91,7 +68,7 @@ for ($i = 1; $i <= 36; $i++) {
         </div>
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
-                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']                               ?>)</div>
+                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']                                               ?>)</div>
                 <div class="box-body"  id="box-right" style=" position: relative; overflow: auto;">
                     <div class="well">
                         <?php
@@ -147,7 +124,7 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
-                                <?php $listPackage = ArrayHelper::map(Maspackage::find()->where("id = '1'")->all(), 'id', 'package'); ?>
+                                <?php $listPackage = ArrayHelper::map(Maspackage::find()->where("id = '2'")->all(), 'id', 'package'); ?>
                                 <?php
                                 echo $form->field($model, 'recivetype')->widget(Select2::classname(), [
                                     'data' => $listPackage,
@@ -177,9 +154,9 @@ for ($i = 1; $i <= 36; $i++) {
                             <div class="col-md-4 col-lg-3">
                                 <?=
                                 $form->field($model, 'vat')->dropDownList([
-                                    0 => 'ไม่ vat', 1 => 'เอา vat',
+                                    0 => 'ไม่เอา vat', 1 => 'เอา vat',
                                         ], [
-                                    'onchange' => 'calculation()',
+                                    'onchange' => 'getvattype()',
                                 ])
                                 ?>
                             </div>
@@ -199,28 +176,9 @@ for ($i = 1; $i <= 36; $i++) {
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
                                 <?php
-                                /*
-                                  $form->field($model, 'payment')->widget(DepDrop::classname(), [
-                                  'data' => ArrayHelper::map(app\models\Packagepayment::find()->where(['id' => '1'])->one(), 'id', 'payment'),
-                                  'type' => DepDrop::TYPE_SELECT2,
-                                  'options' => [
-                                  'id' => 'PAYMENT',
-                                  'onchange' => 'setdistCount(this.value)',
-                                  'placeholder' => '... เลือกการชำระเงิน ...',
-                                  ],
-                                  'pluginOptions' => [
-                                  'required' => 'required',
-                                  'depends' => ['RECIVETYPE'],
-                                  'url' => Url::to(['promise/promisetype']),
-                                  ],
-                                  ]);
-                                 * */
-                                ?>
-
-                                <?php
                                 echo $form->field($model, 'payment')->dropDownList([
                                     "" => "== กรุณาเลือก ==",
-                                    1 => 'จ่ายรายเดือน',
+                                    "1" => 'จ่ายรายเดือน',
                                         //1 => 'เหมาจ่าย',
                                         ], [
                                         //'onchange' => 'setDistcount()',
@@ -232,11 +190,10 @@ for ($i = 1; $i <= 36; $i++) {
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
                                 <?= $form->field($model, 'yearunit')->hiddenInput(['value' => '1'])->label(false) ?>
-                                <?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false)  ?>
                             </div>
                         </div>
-                        <div class="row" style=" display: none;">
-                            <div id="unit">
+                        <div class="row">
+                            <div id="unit" style=" display: none;">
                                 <div class="col-md-4 col-lg-4">
                                     <?=
                                     $form->field($model, 'unitprice')->textInput(
@@ -247,7 +204,7 @@ for ($i = 1; $i <= 36; $i++) {
                                     ?>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-lg-4" id="garbageweight">
+                            <div class="col-md-4 col-lg-4" id="garbageweight" style=" display: none;">
                                 <?=
                                 $form->field($model, 'garbageweight')->textInput(
                                         [
@@ -256,7 +213,7 @@ for ($i = 1; $i <= 36; $i++) {
                                 )
                                 ?>
                             </div>
-                            <div class="col-md-4 col-lg-4" id="divlevy">
+                            <div class="col-md-4 col-lg-4" id="divlevy" style=" display: none;">
                                 <?=
                                 $form->field($model, 'levy')->dropDownList(
                                         $levy, [
@@ -427,7 +384,7 @@ $this->registerJs("$(document).ready(function() {
     ");
 $this->registerJs("setScreen();");
 if ($model->id == "") {
-    $this->registerJs("getrecivetype();");
+    //$this->registerJs("getrecivetype();");
     //$this->registerJs("setDistcount()");
 } else {
     $this->registerJs("getrecivetypeEdit(" . $model->recivetype . ");");
@@ -506,7 +463,7 @@ if ($model->id == "") {
             $("#promise-rate").val(0);
             $("#promise-payperyear").val(0);
             $("#dateservice").hide();
-            $("#unit").hide();
+            $("#unit").show();
         } else if (type == 3) {
             $("#divmonth").hide();
             $("#garbageweight").hide();
@@ -558,23 +515,23 @@ if ($model->id == "") {
     }
 
     function calculation() {
-        var total = "";
-        var totalSum = "";
-        var vat = $("#promise-vat").val();
-        var types = parseInt($("#RECIVETYPE").val());
-        $("#promise-unitprice").val(0);
-        $("#promise-garbageweight").val(0);
-        $("#promise-garbageweight").val(0);
-        $("#promise-rate").val(0);
-        $("#promise-fine").val(0);
-        var unit = 0;
-        var garbageweight = 0;
-        var levy = parseInt($("#promise-levy").val());
+        //var total = "";
+        //var totalSum = "";
+        //var vat = $("#promise-vat").val();
+        //var types = parseInt($("#RECIVETYPE").val());
+        //$("#promise-unitprice").val(0);
+        //$("#promise-garbageweight").val(0);
+        //$("#promise-garbageweight").val(0);
+        //$("#promise-rate").val(0);
+        //$("#promise-fine").val(0);
+        //var unit = 0;
+        //var garbageweight = 0;
+        //var levy = parseInt($("#promise-levy").val());
         //var payment = parseInt($("#promise-payment").val());
         //enable vattype
-        getvattype();
+        //getvattype();
         var totalyear;
-        $("#fine").hide();
+        //$("#fine").hide();
         if (types == 1) {
             total = (unit * levy);
             totalyear = (total * 12);
