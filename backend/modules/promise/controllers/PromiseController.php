@@ -942,6 +942,7 @@ class PromiseController extends Controller {
         $model = new Promise();
         $model->customerid = $customerid;
 //$model->createat = date('Y-m-d');
+        $model->flag = $flag;
         $model->promisenumber = $this->getNextId("promise", "promisenumber", 5);
         $error = "";
         if ($model->load(Yii::$app->request->post())) {
