@@ -59,6 +59,7 @@ use yii\helpers\ArrayHelper;
                                     'options' => [
                                         'readonly' => false
                                 ],]);?>
+                                <?= $form->field($model, 'amount')->textInput() ?>
                             </div>
                         </div>
                        
