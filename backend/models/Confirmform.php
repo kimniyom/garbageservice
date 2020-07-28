@@ -34,6 +34,7 @@ use Yii;
  * @property int $senddoc_finance ส่งเอกสารให้บัญชี/การเงิน
  * @property int $senddoc_customer ส่งเอกสารให้ลูกค้า
  * @property string|null $department แผนก/หน่วยงาน
+ * @property int|null $amount จำนวนครั้งที่จัดเก็บ 
  */
 class Confirmform extends \yii\db\ActiveRecord
 {
@@ -52,7 +53,7 @@ class Confirmform extends \yii\db\ActiveRecord
     {
         return [
             [['customerid', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment'], 'required'],
-            [['customerid', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer'], 'integer'],
+            [['customerid', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer', 'amount'], 'integer'],
             [['roundkeep_day', 'timeperiod_time', 'cyclekeepmoney'], 'safe'],
             [['billdoc_etctext'], 'string'],
             [['confirmformnumber'], 'string', 'max' => 32],
@@ -93,6 +94,7 @@ class Confirmform extends \yii\db\ActiveRecord
             'senddoc_finance' => 'ส่งเอกสารให้บัญชี/การเงิน',
             'senddoc_customer' => 'ส่งเอกสารให้ลูกค้า',
             'department' => 'ติดต่อ แผนก/หน่วยงาน',
+            'amount' => 'จำนวนครั้งที่จัดเก็บ',
         ];
     }
 

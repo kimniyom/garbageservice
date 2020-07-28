@@ -171,6 +171,7 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
                     <input type="checkbox" <?php echo $morning;?> disabled>ช่วงเช้า&nbsp;
                     <input type="checkbox" <?php echo $affernoon;?> disabled>ช่วงบ่าย&nbsp;
                     <input type="checkbox" <?php echo $timeperiod_time;?> disabled>ระบุเวลา&nbsp;<?php echo $datas['timeperiod_time']?>
+                    จำนวนครั้งที่เข้าจัดเก็บ <?php echo $datas['amount']?> ครั้ง
                 </div>
         </div>
         <br>
