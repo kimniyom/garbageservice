@@ -14,6 +14,15 @@
 
 <div class="row">
     <div class="col-md-4 col-lg-4">
+    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>">
+        <button type="button" class="btn btn-warning btn-block btn-lg">
+            ออกใบวางบิลรายครั้ง
+        </button></a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 col-lg-4">
     <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill','type' => 1]) ?>">
         <button type="button" class="btn btn-default btn-block btn-lg">
             ออกใบวางบิลรอบเดือน

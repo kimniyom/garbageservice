@@ -136,7 +136,7 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
     <div id="head-invoice"></div>
     <button type="button" onclick="printDiv('invoice')"><i class="fa fa-print"></i> พิมพ์แบบยืนยัน</button>
     <div style="background:#ffffff; padding:20px;width: 210mm;" id="invoice">
-
+        <div class="text-right">เลขที่ <?php echo $datas['confirmformnumber'];?></div>
         <div class="row" style="margin-top: 10px;">
                 <div style="float: left;width: 40%;text-align:right;">
                     <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;padding-top: 10px;"/><br/><br/>

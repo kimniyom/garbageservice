@@ -35,6 +35,7 @@ use Yii;
  * @property int $senddoc_customer ส่งเอกสารให้ลูกค้า
  * @property string|null $department แผนก/หน่วยงาน
  * @property int|null $amount จำนวนครั้งที่จัดเก็บ 
+ * @property int $status สถานะการใช้งาน 1 คือ ยังไม่จบกระบวนการ 2 คือ จบกระบวนการแล้ว
  */
 class Confirmform extends \yii\db\ActiveRecord
 {
@@ -52,8 +53,8 @@ class Confirmform extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customerid', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment'], 'required'],
-            [['customerid', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer', 'amount'], 'integer'],
+            [['customerid', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment', 'confirmformnumber', 'amount'], 'required'],
+            [['customerid', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer', 'amount', 'status'], 'integer'],
             [['roundkeep_day', 'timeperiod_time', 'cyclekeepmoney'], 'safe'],
             [['billdoc_etctext'], 'string'],
             [['confirmformnumber'], 'string', 'max' => 32],

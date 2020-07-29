@@ -105,7 +105,13 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                         //['label' => 'รอบการเก็บเงิน', 'icon' => '', 'url' => ['/roundmoney/roundmoney']],
                         //],
                         //],
-                        ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save text-success', 'url' => ['/service/default/index']],
+                       
+                        ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save text-success', 'url' => ['/'],
+                        'items' => [
+                            ['label' => 'ตามสัญญา', 'icon' => 'trash', 'url' => ['/service/default/index']],
+                            ['label' => 'รายครั้ง', 'icon' => 'trash-o', 'url' => ['/service/servicepertime/index']],
+                        ],
+                    ],
                         ['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
                         ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
                         /*

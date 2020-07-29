@@ -553,9 +553,12 @@ class PromiseController extends Controller {
     public function actionUploadpromise($id, $customerid) {
         $model = $this->getPromise($id, $customerid);
         $promise = Promise::findOne(['id' => $id]);
-        $promisefile = new Promisefile();
-        $promisefile->scenario = 'create';
-
+        $promisefile = Promisefile::findOne(['promiseid'=>$id, 'filename'=>$model['promisenumber'].".pdf"]);
+        if($promisefile == null)
+        {
+            $promisefile = new Promisefile();
+        }
+       
         if ($promisefile->load(Yii::$app->request->post())) {
 
             $promisefile->filename = UploadedFile::getInstance($promisefile, 'filename');

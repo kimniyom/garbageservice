@@ -75,10 +75,25 @@ class ConfirmformController extends Controller
     {
         $model = new Confirmform();
         $model->customerid = $customerid;
+        $model->status = 1;
        
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) 
+        {
+            $confirmformnumber = Confirmform::find()->orderBy('confirmformnumber DESC')->one();
+            if($confirmformnumber == null)
+            {
+                $model->confirmformnumber = "ICP00001";
+            }
+            else{
+                $number =  str_replace("ICP","",$confirmformnumber->confirmformnumber);
+                $model->confirmformnumber = "ICP".str_pad(intval($number) + 1, 5, "0", STR_PAD_LEFT);
+            }
            
-            return $this->redirect(['view', 'id' => $model->id]);
+           
+            if($model->save())
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
