@@ -325,6 +325,14 @@ class PromiseController extends Controller {
             Yii::$app->db->createCommand()
                     ->update("roundmoney", $columns, "promiseid='$promiseId' and status = '0'")
                     ->execute();
+
+            $updatSubpromise = array(
+                "status" => 4,
+                "active" => 0
+            );
+            Yii::$app->db->createCommand()
+                    ->update("promise", $updatSubpromise, "upper='$promiseId'")
+                    ->execute();
         }
     }
 
@@ -451,8 +459,8 @@ class PromiseController extends Controller {
                     promise.promisenumber,
                     promise.customerid,
                     promise.promisedatebegin,
-					promise.promisedateend,
-					promise.createat,
+		    promise.promisedateend,
+		    promise.createat,
                     promise.recivetype,
                     promise.rate,
                     promise.ratetext,
@@ -463,22 +471,22 @@ class PromiseController extends Controller {
                     promise.garbageweight,
                     promise.checkmoney,
                     promise.status,
-					promise.active,
-					promise.vat,
-					promise.deposit,
+		    promise.active,
+		    promise.vat,
+		    promise.deposit,
                     promise.yearunit,
-					promise.unitprice,
-					promise.distcountpercent,
-					promise.distcountbath,
-					promise.total,
+		    promise.unitprice,
+		    promise.distcountpercent,
+		    promise.distcountbath,
+		    promise.total,
                     promise.fine,
                     promise.payment,
                     promise.vattype,
                     customers.company,
                     customers.taxnumber,
-					customers.address,
-					customers.timework,
-					customers.zipcode,
+		    customers.address,
+		    customers.timework,
+		    customers.zipcode,
                     customers.manager,
                     CONCAT(customers.tel,',',customers.telephone) AS tels,
                     customers.tel,
@@ -498,7 +506,8 @@ class PromiseController extends Controller {
 					promise.witness1,
                     promise.witness2,
                     packagepayment.payment as textpayment,
-					maspackage.package
+					maspackage.package,
+                                        promise.flag
                 FROM
                     promise
                 INNER JOIN customers ON promise.customerid = customers.id
@@ -553,7 +562,8 @@ class PromiseController extends Controller {
             $promisefile->promiseid = $id;
             $promisefile->uploadby = Yii::$app->user->id;
             $promisefile->dateupload = date('Y-m-d H:i');
-
+            
+            
             if ($promisefile->filename && $promisefile->validate() && ($promise->promisenumber === str_replace(".pdf", "", $promisefile->filename))) {
                 $path = '../uploads/promise/pdf/' . $promise->promisenumber . '.' . $promisefile->filename->extension;
                 $promisefile->promiseid = $id;
@@ -563,11 +573,17 @@ class PromiseController extends Controller {
                     $promise->status = '2';
 
                     $promise->save(false);
-
-                    return $this->redirect(['view',
-                                'id' => $id,
-                                'customerid' => $customerid,
-                    ]);
+                    if ($model['flag'] == 1) {
+                        return $this->redirect(['viewsubpromise',
+                                    'id' => $id,
+                                    'customerid' => $customerid,
+                        ]);
+                    } else {
+                        return $this->redirect(['view',
+                                    'id' => $id,
+                                    'customerid' => $customerid,
+                        ]);
+                    }
                 }
             } else {
                 Yii::$app->getSession()->setFlash('alert', [

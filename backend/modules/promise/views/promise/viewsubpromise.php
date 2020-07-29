@@ -45,7 +45,8 @@ Modal::End();
                 <div class="box-header" style=" padding-bottom: 0px;">
                     รายละเอียดสัญญา
                     <div class="alert alert-info">
-                        * กรุณานำบันทึกข้อตกลงที่โรงพยาบาลหรือรพ.สต. ออกให้มาอัพโหลดให้สมบูรณ์
+                        * กรุณานำบันทึกข้อตกลงที่โรงพยาบาลหรือรพ.สต. ออกให้มาอัพโหลดให้สมบูรณ์<br/> 
+                        * ปุ่มอัพโหลดจะแสดงเมื่อมีลูกข่ายอย่างน้อย 1 ที่
                     </div>
                     <?php if ($checksub <= 0) { ?>
                         <div class="alert alert-warning">
@@ -68,24 +69,25 @@ Modal::End();
                                 ],
                             ])
                             ?>
-
                         <?php } ?>
                         <?= Html::button('Cancel', ['value' => Url::to(Yii::$app->urlManager->createUrl(['promise/promise/cancelpromise', 'id' => $model['id'], 'status' => '4'])), 'class' => 'btn btn-warning', 'id' => 'modalButton']) ?>
                         <?php
-                        if ($model['status'] == '1') {
-                            //ms word
-                            /*
-                              echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']);
-                             */
-                            //pdf preview
-                            echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> พิมพ์สัญญา', ['pdfpreview', 'id' => $model['id'], 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'PDF', 'target' => '_blank']);
+                        if ($checksub > 0) {
+                            ?>
+                           <?php 
+                           if($model['status'] != "1"){ 
+                               //$path = Yii::getAlias('@webroot') . '/uploads/promise/pdf/' . $model['promisenumber'] . '.pdf';
+                               $path = str_replace("backend/", "", Url::to('@web/uploads/promise/pdf/'.$model['promisenumber'].".pdf",true));
+                               //echo $path;
+                               ?>
+                            
+                        <a href="<?php echo $path ?>" target="_blank" style=" text-decoration: none;"><button type="button" class="btn tn-default"><i class="fa fa-file-pdf-o"></i> <?php echo $model['promisenumber'] ?></button></a>
+                        <?php } ?>
+                            <?php 
                             //upload pdf
-                            echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> อัพโหลดไฟล์สัญญาที่มีลายเซ็นต์ทั้ง 2 ฝ่าย', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
+                            echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> อัพโหลดไฟล์สัญญาข้อตกลง', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
                         }
-                        if ($model['status'] == '2') {
-                            //save pdf
-                            echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-success', 'title' => 'ดาวโหลดสัญญา']);
-                        }
+                        
                         ?>
                     </p>
                     <?php
@@ -291,7 +293,6 @@ Modal::End();
                         <?php endforeach ?>
                     </table>
                 </div>
-
             </div>
         </div>
         <div class="col-md-4 col-lg-4">

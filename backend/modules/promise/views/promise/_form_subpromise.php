@@ -60,7 +60,7 @@ $deposit = array();
                             User ผู้รับผิดชอบ <span class="badge"><?php echo $customer['username'] ?></span>
                         </div>
                     </div>
-                    <div class="well text-danger">
+                    <div class="alert text-danger">
                         *สัญญาจะมีผลก็ต่อเมื่อมีการอัพโหลดไฟล์สัญญาที่มีลายมือชื่อทั้ง 2 ฝ่ายเข้าสู่ระบบแล้วเท่านั้น
                     </div>
                 </div>
