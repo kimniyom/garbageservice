@@ -554,13 +554,14 @@ class PromiseController extends Controller {
         $model = $this->getPromise($id, $customerid);
         $promise = Promise::findOne(['id' => $id]);
         $promisefile = Promisefile::findOne(['promiseid'=>$id, 'filename'=>$model['promisenumber'].".pdf"]);
+      
         if($promisefile == null)
         {
             $promisefile = new Promisefile();
         }
        
         if ($promisefile->load(Yii::$app->request->post())) {
-
+            
             $promisefile->filename = UploadedFile::getInstance($promisefile, 'filename');
             $promisefile->promiseid = $id;
             $promisefile->uploadby = Yii::$app->user->id;
