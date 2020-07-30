@@ -553,20 +553,20 @@ class PromiseController extends Controller {
     public function actionUploadpromise($id, $customerid) {
         $model = $this->getPromise($id, $customerid);
         $promise = Promise::findOne(['id' => $id]);
-        $promisefile = Promisefile::findOne(['promiseid'=>$id, 'filename'=>$model['promisenumber'].".pdf"]);
-      
+        $promisefile = Promisefile::find()->where(['promiseid'=>$id, 'status'=>1])->one();
+       
         if($promisefile == null)
         {
             $promisefile = new Promisefile();
         }
-       
+
         if ($promisefile->load(Yii::$app->request->post())) {
-            
+
             $promisefile->filename = UploadedFile::getInstance($promisefile, 'filename');
             $promisefile->promiseid = $id;
             $promisefile->uploadby = Yii::$app->user->id;
             $promisefile->dateupload = date('Y-m-d H:i');
-            
+            $promisefile->status = 1;
             
             if ($promisefile->filename && $promisefile->validate() && ($promise->promisenumber === str_replace(".pdf", "", $promisefile->filename))) {
                 $path = '../uploads/promise/pdf/' . $promise->promisenumber . '.' . $promisefile->filename->extension;
