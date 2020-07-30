@@ -54,6 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     $sql = "select * from promisefile where promiseid = '" . $rs['id'] . "'";
                     $checkfile = Yii::$app->db->createCommand($sql)->queryScalar();
+                    if ($rs['flag'] == "1") {
+                        $link = \yii\helpers\Url::to(['promise/viewsubpromise', 'id' => $rs['id']]);
+                    } else {
+                        $link = \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]);
+                    }
                     ?>
                 </li>
                 <?php if ($rs['status'] != '4') { ?>
@@ -62,25 +67,21 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] >= 1) ? "complete" : "disabled"; ?>">
                                 <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] >= 1) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
-                                <?php if ($rs['flag'] == "1") { ?>
-                                    <a href="<?php echo \yii\helpers\Url::to(['promise/viewsubpromise', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
-                                <?php } else { ?>
-                                    <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
-                                <?php } ?>
+                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
                                 <div class="bs-wizard-info text-center"></div>
                             </div>
 
                             <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "complete" : "disabled"; ?>"><!-- complete -->
                                 <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ตรวจสอบบ / อัพโหลดสัญญา</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
-                                <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
                                 <div class="bs-wizard-info text-center"></div>
                             </div>
 
                             <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "active" : "disabled"; ?>"><!-- complete -->
                                 <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ทำสัญญาสำเร็จ</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
-                                <a href="<?php echo \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]) ?>" class="bs-wizard-dot"></a>
+                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
                                 <div class="bs-wizard-info text-center"></div>
                             </div>
                         </div>
