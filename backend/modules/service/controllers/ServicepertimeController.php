@@ -132,9 +132,24 @@ class ServicepertimeController extends \yii\web\Controller
                 ->execute();
     }
 
-    public function actionCreatebill()
+    public function actionCreatebill($customerId = "")
     {
-        return $this->render('createbill');
+         //ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
+        //$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
+        $sql = "select 
+                    c.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+                from customers c
+		        inner join changwat p on c.changwat = p.changwat_id
+		        inner join ampur a on c.ampur = a.ampur_id
+		        inner join tambon t on c.tambon = t.tambon_id
+                inner join confirmform confirm on c.id = confirm.customerid
+                
+                where confirm.`status` = '1' ";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['customer'] = $result;
+        
+        $data['customerId'] = $customerId;
+        return $this->render('createbill', $data);
     }
 
 }
