@@ -37,12 +37,7 @@ class Promisefile extends \yii\db\ActiveRecord
             [['promiseid'], 'string', 'max' => 64],
             [['filename'], 'file', 'extensions' => 'pdf','skipOnEmpty' => true],
             [['filename'], 'required', 'on'=>'create'],
-            [['filename'],  function ($attribute, $params, $validator) {
-                $model = Promisefile::find()->where(['filename'=>$this->$attribute, 'status'=>1])->one();
-                if ($model == null) {
-                    $this->addError($attribute, $this->$attribute.' ชื่อไฟล์ที่อัพโหลดไม่ตรงกับเลขที่สัญญา');
-                }
-            }],
+            
         ];
     }
 
