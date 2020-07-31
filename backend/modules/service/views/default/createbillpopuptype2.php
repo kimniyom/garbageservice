@@ -4,312 +4,339 @@ use yii\helpers\Url;
 use app\models\Config;
 
 $Config = new Config();
+//ConfigBill
+$arrayDate = array('2', '4', '5'); //เอาวันที่
 ?>
 
 <?php if ($status > 0) { ?>
     <button type="button" onclick="printDiv('invoice')"><i class="fa fa-print"></i> พิมพ์ใบแจ้งหนี้</button>
 <?php } ?>
-<div style="background:#ffffff; padding:10px;" id="invoice">
+<?php
+//ประเภทกลุ่มลูกค้า
+echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
+echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
+echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => ไม่เอา" : "วันที่ => เอาวันที่";
+?>
 
-    <div style="width:50%; left:20px;  position:absolute;">
-        <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
-    </div>
+<div>
 
-    <div style="width:30%; right:20px; text-align: right;position:absolute;">
-        เลขที่ <?php echo $invnumber ?><br/>
-        อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-        <?php if ($status > 0) { ?>
-            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-        <?php } else { ?>
-            วันที่
-        <?php } ?>
-    </div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">รวม Vat</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยก Vat</a></li>
 
-    <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
-    <div style="text-align:center;">
-        <?php if ($type == 1) { ?>
-            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
-            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
-            เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
-            50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
-            โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Eขmail : icqualitysystem2019@gmail.com<br/><br/>
-        <?php } else { ?>
-            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม<br/>
-            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
-            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
-            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
-            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564 E-mail : iccqualitysystem2019@gmail.com<br/><br/>
-        <?php } ?>
-    </div>
+    </ul>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th colspan="5">
-                    ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
-                    ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customer['tambon_name'] . ' อำเภอ ' . $customer['ampur_name'] . ' จังหวัด ' . $customer['changwat_name'] . ' ' . $customer['zipcode'] ?>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div style="background:#ffffff; padding:10px;" id="invoice">
+                <div style="width:50%; left:20px;  position:absolute;">
+                    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
+                </div>
 
-                </th>
-            </tr>
-            <tr>
-                <th colspan="5">
-                    ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
-                </th>
-            </tr>
-            <tr>
-                <th style="text-align: center;">#</th>
-                <th>รายการ</th>
-                <th style="text-align:right;">จำนวน(กก.)</th>
-                <th style="text-align:right;">ราคา/หน่วย(บาท)</th>
-                <th style="text-align:right;">จำนวนเงิน(บาท)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $sum = 0;
-            $i = 0;
-            foreach ($billdetail as $rs): $i++;
-                //$fineprice = ($promise['fine'] * $rs['garbageover']);
-                $totalRow = ($promise['unitprice'] * $rs['amount']);
-                $sum = $sum + $totalRow;
-                ?>
-                <tr>
-                    <td style="text-align: center;"><?php echo $i ?></td>
-                    <td>ค่ากำจัดขยะติดเชื้อ วันที่ <?php echo $Config->thaidate($rs['datekeep']) ?></td>
-                    <td style="text-align:right;"><?php echo $rs['amount'] ?> </td>
-                    <td style="text-align:right;"><?php echo number_format($promise['unitprice'], 2) ?></td>
-                    <td style="text-align:right;"><?php echo number_format($totalRow, 2) ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-        <tfoot>
-            <?php if ($vat == 1) { ?>
-                <tr>
-                    <th colspan="3" style="text-align:center;">
+                <div style="width:30%; right:20px; text-align: right;position:absolute;">
+                    เลขที่ <?php echo $invnumber ?><br/>
+                    อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
+                    <?php if ($status > 0 && !in_array($customer['grouptype'], $arrayDate)) { ?>
+                        วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                    <?php } else { ?>
 
-                    </th>
-                    <th style="text-align:right;">ราคาสุทธิค่าบริการ</th>
-                    <th style="text-align:right;">
+                    <?php } ?>
+                </div>
+
+                <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
+                <div style="text-align:center;">
+                    <?php if ($customer['grouptype'] != 1) { ?>
+                        <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+                        เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+                        50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+                        โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
+                    <?php } else { ?>
+                        <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+                        เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+                        12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+                        โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
+                    <?php } ?>
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
+                                ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customer['tambon_name'] . ' อำเภอ ' . $customer['ampur_name'] . ' จังหวัด ' . $customer['changwat_name'] . ' ' . $customer['zipcode'] ?>
+
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="5">
+                                ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">#</th>
+                            <th>รายการ</th>
+                            <th style="text-align:right;">จำนวน(กก.)</th>
+                            <th style="text-align:right;">ราคา/หน่วย(บาท)</th>
+                            <th style="text-align:right;">จำนวนเงิน(บาท)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
-                        echo $sum;
-                        ?>
-                    </th>
-                </tr>
-                <tr>
-                    <th colspan="3" style="text-align:center;"></th>
-                    <th style="text-align:right;">ภาษีมูลค่าเพิ่ม 7%</th>
-                    <th style="text-align:right;">
-                        <?php
-                        //คำนวน vat
-                        $vatbath = (($sum * 7) / 100);
-                        echo number_format($vatbath, 2);
-                        ?>
-                    </th>
-                </tr>
-            <?php } ?>
-            <tr>
-                <th colspan="3" style="text-align:center;">
-                    <?php
-                    if ($vattype == 1) {//vat ลบ
-                        $sumVat = ($sum - $vatbath);
-                    } else if ($vattype == 2) {// vat เพิ่ม
-                        $sumVat = ($sum + $vatbath);
-                    } else {
-                        $sumVat = $sum;
-                    }
-                    echo $Config->Convert($sumVat)
-                    ?>
-                </th>
-                <th style="text-align:right;">จำนวนเงินทั้งสิ้น</th>
-                <th style="text-align:right;"><?php echo number_format($sumVat, 2) ?></th>
-            </tr>
+                        $sum = 0;
+                        $i = 0;
+                        foreach ($billdetail as $rs): $i++;
+                            //$fineprice = ($promise['fine'] * $rs['garbageover']);
+                            $totalRow = ($promise['unitprice'] * $rs['amount']);
+                            $sum = $sum + $totalRow;
+                            ?>
+                            <tr>
+                                <td style="text-align: center;"><?php echo $i ?></td>
+                                <td>ค่ากำจัดขยะติดเชื้อ วันที่ <?php echo $Config->thaidate($rs['datekeep']) ?></td>
+                                <td style="text-align:right;"><?php echo $rs['amount'] ?> </td>
+                                <td style="text-align:right;"><?php echo number_format($promise['unitprice'], 2) ?></td>
+                                <td style="text-align:right;"><?php echo number_format($totalRow, 2) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <?php if ($vat == 1) { ?>
+                            <tr>
+                                <th colspan="3" style="text-align:center;">
 
-            <tr>
-                <th colspan="5">
-                    <div style="width: 30%; float: left; margin-right: 40px;">
-                        <br/>
-                        ลงชื่อ
-                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                        <div style="text-align:center;">ผู้รับวางบิล</div>
-                    </div>
-                    <div style="width: 30%; float: left;">
-                        <br/>
-                        ลงชื่อ
-                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                        <div style="text-align:center;">ผู้วางบิล</div>
-                    </div>
-                    <div style="width: 30%; float: right;">
-                        <br/>
-                        ลงชื่อ
-                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                        <div style="text-align:center;">ผู้มีอำนาจลงนาม</div>
-                    </div>
-
-
-                </th>
-            </tr>
-            <?php if ($status <= 0) { ?>
-                <tr>
-                    <th colspan="5">
-                        <!--if($i == $promise['levy'])-->
-                        <?php if ($i > 0) { ?>
-                            <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
-                        <?php } else { ?>
-                            <button class="btn btn-warning disabled" type="button"><i class="fa fa-info"></i> ยังไม่มีการจัดเก็บในรอบเดือน</button>
+                                </th>
+                                <th style="text-align:right;">ราคาสุทธิค่าบริการ</th>
+                                <th style="text-align:right;">
+                                    <?php
+                                    echo $sum;
+                                    ?>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" style="text-align:center;"></th>
+                                <th style="text-align:right;">ภาษีมูลค่าเพิ่ม 7%</th>
+                                <th style="text-align:right;">
+                                    <?php
+                                    //คำนวน vat
+                                    $vatbath = (($sum * 7) / 100);
+                                    echo number_format($vatbath, 2);
+                                    ?>
+                                </th>
+                            </tr>
                         <?php } ?>
-                    </th>
-                </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:center;">
+                                <?php
+                                if ($vattype == 1) {//vat ลบ
+                                    $sumVat = ($sum - $vatbath);
+                                } else if ($vattype == 2) {// vat เพิ่ม
+                                    $sumVat = ($sum + $vatbath);
+                                } else {
+                                    $sumVat = $sum;
+                                }
+                                echo $Config->Convert($sumVat)
+                                ?>
+                            </th>
+                            <th style="text-align:right;">จำนวนเงินทั้งสิ้น</th>
+                            <th style="text-align:right;"><?php echo number_format($sumVat, 2) ?></th>
+                        </tr>
+
+                        <tr>
+                            <th colspan="5">
+                                <div style="width: 30%; float: left; margin-right: 40px;">
+                                    <br/>
+                                    ลงชื่อ
+                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                    <div style="text-align:center;">ผู้รับวางบิล</div>
+                                </div>
+                                <div style="width: 30%; float: left;">
+                                    <br/>
+                                    ลงชื่อ
+                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                    <div style="text-align:center;">ผู้วางบิล</div>
+                                </div>
+                                <div style="width: 30%; float: right;">
+                                    <br/>
+                                    ลงชื่อ
+                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                    <div style="text-align:center;">ผู้มีอำนาจลงนาม</div>
+                                </div>
+
+
+                            </th>
+                        </tr>
+                        <?php if ($status <= 0) { ?>
+                            <tr>
+                                <th colspan="5">
+                                    <!--if($i == $promise['levy'])-->
+                                    <?php if ($i > 0) { ?>
+                                        <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+                                    <?php } else { ?>
+                                        <button class="btn btn-warning disabled" type="button"><i class="fa fa-info"></i> ยังไม่มีการจัดเก็บในรอบเดือน</button>
+                                    <?php } ?>
+                                </th>
+                            </tr>
+                        <?php } ?>
+
+                    </tfoot>
+                </table>
+            </div>
+            <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $id ?>"/>
+
+            <!-- /////////////////////// Bill ///////////////////////////-->
+            <br/>
+            <?php if ($status > 0) { ?>
+                <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
             <?php } ?>
 
-        </tfoot>
-    </table>
-</div>
-<input type="hidden" id="id" name="id" class="form-control" value="<?php echo $id ?>"/>
+            <div style="background:#ffffff; padding:10px;" id="bill">
+                <div style="width:50%; left:20px;  position:absolute;">
+                    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
+                </div>
 
-<!-- /////////////////////// Bill ///////////////////////////-->
-<br/>
-<?php if ($status > 0) { ?>
-    <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
-<?php } ?>
+                <div style="width:30%; right:20px; text-align: right;position:absolute;">
+                    เลขที่ <?php echo $invnumber ?><br/>
+                    อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
+                    <?php if ($status > 0 && !in_array($customer['grouptype'], $arrayDate)) { ?>
+                        วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                    <?php } else { ?>
 
-<div style="background:#ffffff; padding:10px;" id="bill">
-    <div style="width:50%; left:20px;  position:absolute;">
-        <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
-    </div>
+                    <?php } ?>
+                </div>
 
-    <div style="width:30%; right:20px; text-align: right;position:absolute;">
-        เลขที่ <?php echo $invnumber ?><br/>
-        อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-        <?php if ($status > 0) { ?>
-            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-        <?php } else { ?>
-            วันที่
-        <?php } ?>
-    </div>
-
-    <h4 style="text-align: center;">ใบเสร็จรับเงิน</h4>
-    <div style="text-align:center;">
-        <?php if ($type == 1) { ?>
-            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
-            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
-            เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
-            50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
-            โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Email : icqualitysystem2019@gmail.com<br/><br/>
-        <?php } else { ?>
-            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม<br/>
-            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
-            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
-            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
-            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564 E-mail : iccqualitysystem2019@gmail.com<br/><br/>
-        <?php } ?>
-    </div>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th colspan="5">
-                    ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
-                </th>
-            </tr>
-            <tr>
-                <th style="text-align: center;">#</th>
-                <th>รายการ</th>
-                <th style="text-align:right;">จำนวน(กก.)</th>
-                <th style="text-align:right;">ราคา/หน่วย(บาท)</th>
-                <th style="text-align:right;">จำนวนเงิน(บาท)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $sum = 0;
-            $i = 0;
-            foreach ($billdetail as $rs): $i++;
-                //$fineprice = ($promise['fine'] * $rs['garbageover']);
-                $totalRow = ($promise['unitprice'] * $rs['amount']);
-                $sum = $sum + $totalRow;
-                //เช็คการเก็บขยะ
-                if ($rs['status'] == 1) {
-                    ?>
-                    <tr>
-                        <td style="text-align: center;"><?php echo $i ?></td>
-                        <td>ค่ากำจัดขยะติดเชื้อ วันที่ <?php echo $Config->thaidate($rs['datekeep']) ?></td>
-                        <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
-                        <td style="text-align:right;"><?php echo number_format($promise['unitprice'], 2) ?></td>
-
-                        <td style="text-align:right;"><?php echo number_format($totalRow, 2) ?></td>
-                    </tr>
-                <?php } ?>
-            <?php endforeach; ?>
-        </tbody>
-        <tfoot>
-            <?php if ($vat == 1) { ?>
-                <tr>
-                    <th colspan="3" style="text-align:center;">
-
-                    </th>
-                    <th style="text-align:right;">ราคาสุทธิค่าบริการ</th>
-                    <th style="text-align:right;">
+                <h4 style="text-align: center;">ใบเสร็จรับเงิน</h4>
+                <div style="text-align:center;">
+                    <?php if ($customer['grouptype'] != 1) { ?>
+                        <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+                        เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+                        50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+                        โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
+                    <?php } else { ?>
+                        <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+                        เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+                        12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+                        โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
+                    <?php } ?>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">#</th>
+                            <th>รายการ</th>
+                            <th style="text-align:right;">จำนวน(กก.)</th>
+                            <th style="text-align:right;">ราคา/หน่วย(บาท)</th>
+                            <th style="text-align:right;">จำนวนเงิน(บาท)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
-                        echo $sum;
-                        ?>
-                    </th>
-                </tr>
-                <tr>
-                    <th colspan="3" style="text-align:center;">
+                        $sum = 0;
+                        $i = 0;
+                        foreach ($billdetail as $rs): $i++;
+                            //$fineprice = ($promise['fine'] * $rs['garbageover']);
+                            $totalRow = ($promise['unitprice'] * $rs['amount']);
+                            $sum = $sum + $totalRow;
+                            //เช็คการเก็บขยะ
+                            if ($rs['status'] == 1) {
+                                ?>
+                                <tr>
+                                    <td style="text-align: center;"><?php echo $i ?></td>
+                                    <td>ค่ากำจัดขยะติดเชื้อ วันที่ <?php echo $Config->thaidate($rs['datekeep']) ?></td>
+                                    <td style="text-align:right;"><?php echo $rs['amount'] ?></td>
+                                    <td style="text-align:right;"><?php echo number_format($promise['unitprice'], 2) ?></td>
 
-                    </th>
-                    <th style="text-align:right;">ภาษีมูลค่าเพิ่ม 7%</th>
-                    <th style="text-align:right;">
-                        <?php
-                        //คำนวน vat
-                        $vatbath = (($sum * 7) / 100);
-                        echo number_format($vatbath, 2);
-                        ?>
-                    </th>
-                </tr>
-            <?php } ?>
-            <tr>
-                <th colspan="3" style="text-align:center;">
-                    <?php
-                    if ($vattype == 1) {//vat ลบ
-                        $sumVat = ($sum - $vatbath);
-                    } else if ($vattype == 2) {// vat เพิ่ม
-                        $sumVat = ($sum + $vatbath);
-                    } else {
-                        $sumVat = $sum;
-                    }
-                    echo $Config->Convert($sumVat)
-                    ?>
-                </th>
-                <th style="text-align:right;">จำนวนเงินทั้งสิ้น</th>
-                <th style="text-align:right;"><?php echo number_format($sumVat, 2) ?></th>
-            </tr>
-            <tr>
-                <th colspan="5">
-                    <b>ชำระเงินโดย</b>
-                    <ul>
-                        <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
-                        <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
-                    </ul>
-                </th>
-            </tr>
-            <tr>
-                <th colspan="3">
-                    <br/>
-                    ลงชื่อ
-                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                    <div style="text-align:center;">ผู้รับเงิน</div>
-                </th>
-                <th colspan="2">
-                    <br/>
-                    ลงชื่อ
-                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                    <div style="text-align:center;">ผู้มีอำนาจลงนาม</div>
-                </th>
-            </tr>
+                                    <td style="text-align:right;"><?php echo number_format($totalRow, 2) ?></td>
+                                </tr>
+                            <?php } ?>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <?php if ($vat == 1) { ?>
+                            <tr>
+                                <th colspan="3" style="text-align:center;">
 
-        </tfoot>
-    </table>
+                                </th>
+                                <th style="text-align:right;">ราคาสุทธิค่าบริการ</th>
+                                <th style="text-align:right;">
+                                    <?php
+                                    echo $sum;
+                                    ?>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" style="text-align:center;">
+
+                                </th>
+                                <th style="text-align:right;">ภาษีมูลค่าเพิ่ม 7%</th>
+                                <th style="text-align:right;">
+                                    <?php
+                                    //คำนวน vat
+                                    $vatbath = (($sum * 7) / 100);
+                                    echo number_format($vatbath, 2);
+                                    ?>
+                                </th>
+                            </tr>
+                        <?php } ?>
+                        <tr>
+                            <th colspan="3" style="text-align:center;">
+                                <?php
+                                if ($vattype == 1) {//vat ลบ
+                                    $sumVat = ($sum - $vatbath);
+                                } else if ($vattype == 2) {// vat เพิ่ม
+                                    $sumVat = ($sum + $vatbath);
+                                } else {
+                                    $sumVat = $sum;
+                                }
+                                echo $Config->Convert($sumVat)
+                                ?>
+                            </th>
+                            <th style="text-align:right;">จำนวนเงินทั้งสิ้น</th>
+                            <th style="text-align:right;"><?php echo number_format($sumVat, 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="5">
+                                <b>ชำระเงินโดย</b>
+                                <ul>
+                                    <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
+                                    <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
+                                </ul>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3">
+                                <br/>
+                                ลงชื่อ
+                                <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                <div style="text-align:center;">ผู้รับเงิน</div>
+                            </th>
+                            <th colspan="2">
+                                <br/>
+                                ลงชื่อ
+                                <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                <div style="text-align:center;">ผู้มีอำนาจลงนาม</div>
+                            </th>
+                        </tr>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="profile">Profile</div>
+    </div>
+
 </div>
+
+
 
 <script type="text/javascript">
     function saveInvoice() {
@@ -332,7 +359,7 @@ $Config = new Config();
         }
         //console.log(data);
 
-        $.post(url, data, function(datas) {
+        $.post(url, data, function (datas) {
             getInvoice();
         });
 
@@ -351,7 +378,7 @@ $Config = new Config();
             invoice: invoice,
             type: 1
         };
-        $.post(url, data, function(datas) {
+        $.post(url, data, function (datas) {
             $("#createbill").html(datas);
         });
     }

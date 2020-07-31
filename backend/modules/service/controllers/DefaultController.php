@@ -107,6 +107,7 @@ class DefaultController extends Controller {
           ->execute();
          */
     }
+    
 
     public function actionMainbill() {
         return $this->render('mainbill');
@@ -116,13 +117,13 @@ class DefaultController extends Controller {
         //ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
         //$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
         $sql = "select c.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
-                    from customers c
+                from customers c
 		inner join changwat p on c.changwat = p.changwat_id
 		inner join ampur a on c.ampur = a.ampur_id
 		inner join tambon t on c.tambon = t.tambon_id
-                                   inner join promise pro on c.id = pro.customerid
-                                   INNER JOIN packagepayment pm ON pro.payment = pm.id
-                    where pro.`status` = '2' and pm.typepayment = 'M'";
+                inner join promise pro on c.id = pro.customerid
+                INNER JOIN packagepayment pm ON pro.payment = pm.id
+                where pro.`status` = '2' and pm.typepayment = 'M'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customer'] = $result;
         $data['type'] = $type;
@@ -167,7 +168,7 @@ class DefaultController extends Controller {
                 $round = $rs['round'];
                 $id = $rs['id'];
                 $str .= "<div class='list-group-item'>";
-                $str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-save'></i> สร้างใบวางบิล</a></span>" . "<br/>";
+                $str .= " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-save'></i> สร้างใบวางบิล</a></span>" . "<br/>";
                 $str .= "</div>";
             } else {
                 $link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $promiseId, 'round' => $rs['round'], 'vat' => $Promise['vat'], 'typevat' => $Promise['vattype']]);
@@ -175,7 +176,7 @@ class DefaultController extends Controller {
                 $round = $rs['round'];
                 $id = $rs['id'];
                 $str .= "<div class='list-group-item'>";
-                $str .= "รอบบิล => " . $rs['round'] . " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . " <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a></span>" . "<br/>";
+                $str .= " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . " <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a></span>" . "<br/>";
                 $str .= "</div>";
             }
         endforeach;
@@ -202,7 +203,7 @@ class DefaultController extends Controller {
         $Customer = $this->actionGetcustomer($Promise['customerid']);
         $YearMonth = substr($dateround, 0, 7);
         $sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth' and status='1'";
-        $data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $billdetail = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customer'] = $Customer;
         $data['promise'] = $Promise;
         $data['rounddate'] = $YearMonth;
@@ -222,24 +223,58 @@ class DefaultController extends Controller {
             $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         }
+        
         if ($typepromise == 1) {
             $page = "createbillpopup";
+            $data['billdetail'] = $billdetail;
         } else if ($typepromise == 2) {
-            $page = "createbillpopuptype2";
+            //คิดเป็นกิโล กิโลละ
+            if($Customer['flag'] == 1){
+                //BillsubPromise
+                $data['billdetail'] = $this->getDetailBillSubpromise($promiseId,$YearMonth);
+                //echo $data['billdetail'];
+                $page = "createbillpopuptype2subpromise";
+            } else {
+                $page = "createbillpopuptype2";
+                $data['billdetail'] = $billdetail;
+            }
+            
         } else {
             $page = "createbillpopuptype3";
+            $data['billdetail'] = $billdetail;
         }
 
         return $this->renderPartial($page, $data);
     }
 
     public function actionGetcustomer($customerid) {
-        $sql = "SELECT c.company,ch.changwat_name,a.ampur_name,t.tambon_name,c.zipcode,c.tel,c.telephone,c.typeregister
+        $sql = "SELECT c.company,
+            ch.changwat_name,
+            a.ampur_name,
+            t.tambon_name,
+            c.zipcode,c.tel,
+            c.taxnumber,
+            c.telephone,c.typeregister,c.grouptype,g.groupcustomer,c.flag
 				FROM customers c INNER JOIN changwat ch ON c.changwat = ch.changwat_id
 				INNER JOIN ampur a ON c.ampur = a.ampur_id
 				INNER JOIN tambon t ON c.tambon = t.tambon_id
+                                INNER JOIN groupcustomer g ON c.grouptype = g.id
 				WHERE c.id = '$customerid'";
         return Yii::$app->db->createCommand($sql)->queryOne();
+    }
+    
+    function getDetailBillSubpromise($promiseId,$YearMonth){
+        $sql = "SELECT pro.customerid,c.company,pro.id AS promiseid,IFNULL(Q.total,0) AS total
+                FROM promise pro
+                LEFT JOIN(
+                SELECT p.id AS proID,SUM(r.amount * p.unitprice) AS total
+                        FROM promise p INNER JOIN roundgarbage r ON p.id = r.promiseid
+                        WHERE p.upper = '$promiseId' AND LEFT(r.datekeep,7) = '$YearMonth'
+                        GROUP BY p.id
+                ) Q ON pro.id = Q.Proid
+                INNER JOIN customers c ON pro.customerid = c.id
+                WHERE pro.upper = '$promiseId' ";
+        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     //บันทึกรายการใบแจ้งหนี้

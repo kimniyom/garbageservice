@@ -16,6 +16,7 @@ $Config = new Config();
     </div>
 
     <div style="width:30%; right:20px; text-align: right;position:absolute;">
+        
         เลขที่ <?php echo $invnumber ?><br/>
         อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
         <?php if ($status > 0) { ?>

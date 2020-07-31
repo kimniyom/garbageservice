@@ -1,3 +1,22 @@
+@font-face {
+    font-family: 'supermarket';
+    src: url('font/supermarket.ttf') format("woff");
+}
+
+@font-face {
+    font-family: 'thk';
+    src: url('font/THK2DJuly8.ttf') format("woff");
+}
+
+@font-face {
+    font-family: 'THSarabun';
+    src: url('font/THSarabun.ttf') format("woff");
+}
+
+@font-face {
+    font-family: 'THSarabunBold';
+    src: url('font/THSarabunBold.ttf') format("woff");
+}
 html,
 body {
     height: 100%;
