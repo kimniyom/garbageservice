@@ -53,6 +53,7 @@ class ServicepertimeController extends \yii\web\Controller
         $amount = Yii::$app->request->post('amount');
         $datekeep = Yii::$app->request->post('datekeep');
         $count = Yii::$app->request->post('count');
+        $customerid = Yii::$app->request->post('customerid');
 
         $countInkey = RoundgarbagePertime::find()->where(['confirmid'=>$confirmid])->count();
         
@@ -66,6 +67,7 @@ class ServicepertimeController extends \yii\web\Controller
                 "datekeep" => $datekeep,
                 "confirmid" => $confirmid,
                 "d_update" => date("Y-m-d H:i:s"),
+                "customerid" => $customerid
             );
     
             Yii::$app->db->createCommand()
@@ -125,6 +127,48 @@ class ServicepertimeController extends \yii\web\Controller
         return $str;
     }
 
+    public function getkeeplist($customerid) {
+        $Config = new Config();
+        //$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
+        $sql = "SELECT r.*,p.username,f.`name`
+                FROM roundgarbage_pertime r 
+                INNER JOIN `user` p ON r.keepby = p.id
+                LEFT JOIN `profile` f ON p.id = f.user_id
+                WHERE r.customerid = '$customerid' AND r.flag = 0";
+    
+        $RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
+        $i = 0;
+        $str = "";
+        $str .= "<br/><p class=\"text-danger\">*กรณีที่ลงข้อมูลผิดให้ลบแล้วลงใหม่(ลบได้เฉพาะคนที่บันทึกเท่านั้น)</p>";
+        $str .= "<b>ประวัติการจัดเก็บ</b><br/>
+			<table class='table table-bordered'>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>วันที่</th>
+						<th style='text-align:right;'>ปริมาณ</th>
+						<th style='text-align:right;'>ขยะเกิน</th>
+						
+						";
+        $str .= "</tr></thead>";
+        $str .= "<tbody>";
+        foreach ($RoundGarbage as $rs) {
+            $i++;
+            $str .= "<tr>";
+            $str .= "<td>" . $i . "</td>";
+            $str .= "<td>" . $Config->thaidate($rs['datekeep']) . "</td>";
+            $str .= "<td style='text-align:right;'>" . $rs['amount'] . " กิโลกรัม</td>";
+            $str .= "<td style='text-align:right;'>" . $rs['garbageover'] . " กิโลกรัม</td>";
+           
+           
+            $str .= "</tr>";
+        }
+
+        $str .= "</tbody></table>";
+
+        return $str;
+    }
+
     public function actionDeleteround() {
         $id = Yii::$app->request->post('id');
         Yii::$app->db->createCommand()
@@ -134,10 +178,10 @@ class ServicepertimeController extends \yii\web\Controller
 
     public function actionCreatebill($customerId = "")
     {
-         //ออกบิลสำหรับสัญญาที่แบ่งจ่ายรายเดือน
-        //$data['promise'] = Promise::find()->where(['status' => '2', 'payment' => '0'])->all();
+       
         $sql = "select 
                     c.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+                    ,confirm.id as confirmid
                 from customers c
 		        inner join changwat p on c.changwat = p.changwat_id
 		        inner join ampur a on c.ampur = a.ampur_id
@@ -147,9 +191,55 @@ class ServicepertimeController extends \yii\web\Controller
                 where confirm.`status` = '1' ";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customer'] = $result;
-        
+        $data['roundpertime'] = $this->getkeeplist($customerId);
         $data['customerId'] = $customerId;
         return $this->render('createbill', $data);
+    }
+
+    public function actionCreatebillpopup() {
+        $promiseId = Yii::$app->request->post('promiseid');
+        $dateround = Yii::$app->request->post('dateround');
+        $round = Yii::$app->request->post('round');
+        $id = Yii::$app->request->post('id');
+        $data['vat'] = Yii::$app->request->post('vat');
+        $data['vattype'] = Yii::$app->request->post('vattype');
+        $data['type'] = Yii::$app->request->post('type');
+        $typepromise = Yii::$app->request->post('typepromise');
+
+        $Promise = Promise::find()->where(['id' => $promiseId])->One();
+        //$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
+        $Customer = $this->actionGetcustomer($Promise['customerid']);
+        $YearMonth = substr($dateround, 0, 7);
+        $sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth' and status='1'";
+        $data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['customer'] = $Customer;
+        $data['promise'] = $Promise;
+        $data['rounddate'] = $YearMonth;
+        $data['round'] = $round;
+        $data['id'] = $id;
+
+        $sqlCheckInvoice = "select * from roundmoney where id = '$id' and receiptnumber != ''";
+        $Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
+        if (!$Invoice['receiptnumber']) {
+            $data['invnumber'] = $this->getNextId();
+            $data['status'] = 0;
+            $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
+            $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
+        } else {
+            $data['invnumber'] = $Invoice['receiptnumber'];
+            $data['status'] = 1;
+            $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
+            $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
+        }
+        if ($typepromise == 1) {
+            $page = "createbillpopup";
+        } else if ($typepromise == 2) {
+            $page = "createbillpopuptype2";
+        } else {
+            $page = "createbillpopuptype3";
+        }
+
+        return $this->renderPartial($page, $data);
     }
 
 }

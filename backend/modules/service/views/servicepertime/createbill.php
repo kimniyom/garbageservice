@@ -30,10 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'options' => [
                         'multiple' => false,
                         'placeholder' => 'Select Customer ...',
-                        'onchange' => 'getRound(this.value)',
+                        'onchange' => 'getTime(this.value)',
                     ],
                 ]);
                 ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+               <?php echo $roundpertime;?>
             </div>
         </div>
 
@@ -83,16 +89,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-12 col-lg-12 col-sm-12">
 
                 <div id="createbill">
-
+                        
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    function getRound(customer) {
+    function getTime(customer) {
         //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])   ?>" + "&type=1&customer=" + customer;
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill']) ?>" + "&type=1&customerId=" + customer;
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>" + "&customerId=" + customer;
         window.location = url;
         /*
          var data = {customer_id: customer};
