@@ -64,6 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
         var datekeep = $("#datekeep").val();
         var confirmid = "<?php echo $confirm['id'] ?>";
         var count = "<?php echo $confirm['amount'] ?>";
+        var customerid = "<?php echo $customer['id'] ?>";
 
         if(amount == "" || datekeep == ""){
             alert("กรอกข้อมูลไม่ครบ...!");
@@ -73,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
         var data = {
             amount: amount,
             garbageover: garbageover,
-            //id: id,
+            customerid: customerid,
             datekeep: datekeep,
             confirmid: confirmid,
             count:count
@@ -111,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/getroundlist']) ?>";
         var data = {confirmid: confirmid};
         $.post(url,data,function(datas){
-            console.log(datas);
+            
             $("#result").html(datas);
             $("#amount").val("");
             $("#garbageover").val("");
