@@ -3,6 +3,7 @@
 namespace app\modules\promise\models;
 
 use Yii;
+use app\modules\promise\models\Promisefile;
 
 /**
  * This is the model class for table "promisefile".
@@ -35,7 +36,13 @@ class Promisefile extends \yii\db\ActiveRecord
             [['uploadby', 'status'], 'integer'],
             [['promiseid'], 'string', 'max' => 64],
             [['filename'], 'file', 'extensions' => 'pdf','skipOnEmpty' => true],
-            [['filename'], 'required', 'on'=>'create']
+            [['filename'], 'required', 'on'=>'create'],
+            [['filename'],  function ($attribute, $params, $validator) {
+                $model = Promisefile::find()->where(['filename'=>$this->$attribute, 'status'=>1])->one();
+                if ($model == null) {
+                    $this->addError($attribute, $this->$attribute.' ชื่อไฟล์ที่อัพโหลดไม่ตรงกับเลขที่สัญญา');
+                }
+            }],
         ];
     }
 
@@ -52,5 +59,12 @@ class Promisefile extends \yii\db\ActiveRecord
             'uploadby' => 'user ที่อัพโหลดไฟล์',
             'status' => 'สถานะการใช้งาน 1 คือ ใช้งาน 2 คือ จบการทำงานแล้ว',
         ];
+    }
+
+    public function filenamecheck($attribute,$params)
+    {
+        $model = Promisefile::find()->where(['filename'=>$params['filename'], 'status'=>1])->one();
+       
+            $this->addError($attribute, 'your password is not strong enough!');
     }
 }
