@@ -292,10 +292,23 @@ class PromiseController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-        Yii::$app->db->createCommand()
-                ->delete("promise", "upper = '$id'")
-                ->execute();
+        //$this->findModel($id)->delete();
+        // Yii::$app->db->createCommand()
+        //         ->delete("promise", "upper = '$id'")
+        //         ->execute();
+        
+        $promiseFile = PromiseFile::findOne(['promiseid' => $id]);
+        if($promiseFile)
+        {
+            $path = Yii::getAlias('@webroot')."/../uploads/promise/pdf/".$promiseFile->filename;
+            if(is_file($path))
+            {
+                if(unlink($path))
+                {
+                    $promiseFile->delete();
+                }
+            }
+        }
 
         return $this->redirect(['index']);
     }
