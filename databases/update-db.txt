@@ -1,0 +1,13 @@
+2020-08-02
+
+เพิ่ม fields 
+ตาราง  promise
+  `flag` int(1) DEFAULT '0' COMMENT '1 = ทำสัญญาให้เครือข่าย',
+  `upper` int(11) DEFAULT NULL COMMENT 'แม่ข่ายที่ออกสัญญาให้กับลูกข่าย',
+
+ตาราง invoice
+  `discount` decimal(10,2) DEFAULT '0.00' COMMENT 'ส่วนลด',
+  `deposit` decimal(10,2) DEFAULT NULL COMMENT 'มัดจำ',
+  `credit` int(10) DEFAULT NULL COMMENT 'เครดิตวันชำระเงิน',
+  `checkdateinvoice` int(1) DEFAULT '0' COMMENT '1 = invoice เอาวันที่',
+  `checkdatebill` int(1) DEFAULT '0' COMMENT '1 = bill เอาวันที่',

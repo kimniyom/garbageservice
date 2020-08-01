@@ -6,6 +6,10 @@
     #text-list{
         background: #ffffff;
     }
+
+    #round{
+        overflow: auto;
+    }
 </style>
 <?php
 
@@ -16,7 +20,7 @@ use kartik\date\DatePicker;
 $this->title = "ใบวางบิล / ใบแจ้งยอด";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
+<div class="row" style=" margin-bottom: 0px;">
     <div class="col-lg-4 col-md-4">
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
@@ -81,17 +85,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
-
                 <div id="createbill">
-
+                    <span style="text-align: center; width: 100%; margin-top: 100px; padding-top: 100px;"><i class="fa fa-arrow-left"></i> เลือกรอบเดือนที่ต้องการออกหรือพิมพ์ ใบวางบิล ใบเสร็จ</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?php
+$this->registerJs('setBox()');
+?>
 <script type="text/javascript">
+    function setBox() {
+        var h = window.innerHeight;
+        $("#round").css({"height": h - 200});
+        //$("#createbill").css({"height": h - 200, "overflow-x": "hidden"});
+    }
     function getRound(customer) {
-        //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])   ?>" + "&type=1&customer=" + customer;
+        //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])                                 ?>" + "&type=1&customer=" + customer;
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill']) ?>" + "&type=1&customerId=" + customer;
         window.location = url;
         /*
@@ -103,6 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 
     function popupFormbill(promiseid, months, round, id, type, vat, vattype, typepromise) {
+        $("#createbill").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>Loading...');
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopup']) ?>";
         var data = {
             id: id,

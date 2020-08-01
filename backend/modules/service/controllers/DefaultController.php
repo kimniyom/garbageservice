@@ -107,7 +107,6 @@ class DefaultController extends Controller {
           ->execute();
          */
     }
-    
 
     public function actionMainbill() {
         return $this->render('mainbill');
@@ -154,10 +153,14 @@ class DefaultController extends Controller {
             $vateBill = "ไม่เอา vat";
         }
         $str = "";
-        $str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
+        $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/> ";
         $str .= "<b>สัญญา " . $rs['vattype'] . "</b>";
         $str .= " <b>" . $vateBill . "</b>";
-        $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+        if ($Promise['flag'] != 1) {
+            $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+        } else {
+            $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/viewsubpromise', 'id' => $promiseId]);
+        }
         $str .= "<br/><em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><hr/>";
         $typeCustomrt = $Customer['typeregister'];
         $str .= "<div class='list-group'>";
@@ -223,22 +226,23 @@ class DefaultController extends Controller {
             $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         }
-        
+
         if ($typepromise == 1) {
+            //เก็บเงินรายเดือน
             $page = "createbillpopup";
             $data['billdetail'] = $billdetail;
         } else if ($typepromise == 2) {
             //คิดเป็นกิโล กิโลละ
-            if($Customer['flag'] == 1){
-                //BillsubPromise
-                $data['billdetail'] = $this->getDetailBillSubpromise($promiseId,$YearMonth);
+            if ($Promise['flag'] == 1) {
+                //BillsubPromise => โรงบาลที่ทพสัญญามีเครือข่าย
+                $data['billdetail'] = $this->getDetailBillSubpromise($promiseId, $YearMonth);
                 //echo $data['billdetail'];
                 $page = "createbillpopuptype2subpromise";
             } else {
+                //คิดเป็นกิโล กิโลละ
                 $page = "createbillpopuptype2";
                 $data['billdetail'] = $billdetail;
             }
-            
         } else {
             $page = "createbillpopuptype3";
             $data['billdetail'] = $billdetail;
@@ -262,8 +266,8 @@ class DefaultController extends Controller {
 				WHERE c.id = '$customerid'";
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
-    
-    function getDetailBillSubpromise($promiseId,$YearMonth){
+
+    function getDetailBillSubpromise($promiseId, $YearMonth) {
         $sql = "SELECT pro.customerid,c.company,pro.id AS promiseid,IFNULL(Q.total,0) AS total
                 FROM promise pro
                 LEFT JOIN(
@@ -287,6 +291,9 @@ class DefaultController extends Controller {
         $monthyear = Yii::$app->request->post('monthyear');
         $dateinvoice = Yii::$app->request->post('dateinvoice');
         $datebill = Yii::$app->request->post('datebill');
+        $discount = Yii::$app->request->post('discount');
+        $deposit = Yii::$app->request->post('deposit');
+        $credit = Yii::$app->request->post('credit');
         $year = substr($monthyear, 0, 4);
         $month = substr($monthyear, 5, 2);
         $columns = array(
@@ -300,6 +307,9 @@ class DefaultController extends Controller {
             "type" => $type,
             "dateinvoice" => $dateinvoice,
             "datebill" => $datebill,
+            "discount" => $discount,
+            "deposit" => $deposit,
+            "credit" => $credit,
             "d_update" => date("Y-m-d H:i:s"),
         );
 
