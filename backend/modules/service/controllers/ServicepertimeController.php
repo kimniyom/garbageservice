@@ -5,6 +5,7 @@ namespace app\modules\service\controllers;
 use app\modules\customer\models\Customers;
 use app\models\Confirmform;
 use app\models\RoundgarbagePertime;
+use app\models\InvoicePertime;
 use Yii;
 use app\models\Config;
 
@@ -83,7 +84,7 @@ class ServicepertimeController extends \yii\web\Controller
     public function actionGetroundlist() {
         $Config = new Config();
         $confirmid = Yii::$app->request->post('confirmid');
-        //$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
+        
         $sql = "SELECT r.*,p.username,f.`name`
                 FROM roundgarbage_pertime r 
                 INNER JOIN `user` p ON r.keepby = p.id
@@ -127,48 +128,6 @@ class ServicepertimeController extends \yii\web\Controller
         return $str;
     }
 
-    public function getkeeplist($customerid) {
-        $Config = new Config();
-        //$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
-        $sql = "SELECT r.*,p.username,f.`name`
-                FROM roundgarbage_pertime r 
-                INNER JOIN `user` p ON r.keepby = p.id
-                LEFT JOIN `profile` f ON p.id = f.user_id
-                WHERE r.customerid = '$customerid' AND r.flag = 0";
-    
-        $RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
-        $i = 0;
-        $str = "";
-        $str .= "<br/><p class=\"text-danger\">*กรณีที่ลงข้อมูลผิดให้ลบแล้วลงใหม่(ลบได้เฉพาะคนที่บันทึกเท่านั้น)</p>";
-        $str .= "<b>ประวัติการจัดเก็บ</b><br/>
-			<table class='table table-bordered'>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>วันที่</th>
-						<th style='text-align:right;'>ปริมาณ</th>
-						<th style='text-align:right;'>ขยะเกิน</th>
-						
-						";
-        $str .= "</tr></thead>";
-        $str .= "<tbody>";
-        foreach ($RoundGarbage as $rs) {
-            $i++;
-            $str .= "<tr>";
-            $str .= "<td>" . $i . "</td>";
-            $str .= "<td>" . $Config->thaidate($rs['datekeep']) . "</td>";
-            $str .= "<td style='text-align:right;'>" . $rs['amount'] . " กิโลกรัม</td>";
-            $str .= "<td style='text-align:right;'>" . $rs['garbageover'] . " กิโลกรัม</td>";
-           
-           
-            $str .= "</tr>";
-        }
-
-        $str .= "</tbody></table>";
-
-        return $str;
-    }
-
     public function actionDeleteround() {
         $id = Yii::$app->request->post('id');
         Yii::$app->db->createCommand()
@@ -196,50 +155,159 @@ class ServicepertimeController extends \yii\web\Controller
         return $this->render('createbill', $data);
     }
 
-    public function actionCreatebillpopup() {
-        $promiseId = Yii::$app->request->post('promiseid');
-        $dateround = Yii::$app->request->post('dateround');
-        $round = Yii::$app->request->post('round');
-        $id = Yii::$app->request->post('id');
-        $data['vat'] = Yii::$app->request->post('vat');
-        $data['vattype'] = Yii::$app->request->post('vattype');
-        $data['type'] = Yii::$app->request->post('type');
-        $typepromise = Yii::$app->request->post('typepromise');
+    public function getkeeplist($customerid) {
+        $Config = new Config();
+        $confirm = Confirmform::find()->where(['customerid'=>$customerid,'status'=>1])->one();
+        $customer = Customers::find()->where(['id'=>$customerid])->one();
+        $sql = "SELECT r.*,p.username,f.`name`
+                FROM roundgarbage_pertime r 
+                INNER JOIN `user` p ON r.keepby = p.id
+                LEFT JOIN `profile` f ON p.id = f.user_id
+                WHERE r.customerid = '$customerid' AND r.flag = 0";
+    
+        $RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
+        $i = 0;
+        $str = "";
+        $str .= "<b>ลูกค้า ".$customer->company."</b><br/>";
+        $str .= "<b>จำนวนครั้งที่ตกลงเข้าจัดเก็บ ".$confirm->amount."</b><br/>";
+        $str .= "<b>แบบยืนยันเลขที่  ".$confirm->confirmformnumber."</b><br/>";
+        $str .= "<b>จำนวนเงินทีออกบิลไปแล้ว ".$customer->company."</b><br/>";
+        $str .= "<b>ประวัติการจัดเก็บ</b><br/>
+			<table class='table table-bordered'>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>วันที่</th>
+						<th style='text-align:right;'>ปริมาณ</th>
+						<th style='text-align:right;'>ขยะเกิน</th>
+						
+						";
+        $str .= "</tr></thead>";
+        $str .= "<tbody>";
+        foreach ($RoundGarbage as $rs) {
+            $i++;
+            $str .= "<tr>";
+            $str .= "<td>" . $i . "</td>";
+            $str .= "<td>" . $Config->thaidate($rs['datekeep']) . "</td>";
+            $str .= "<td style='text-align:right;'>" . $rs['amount'] . " กิโลกรัม</td>";
+            $str .= "<td style='text-align:right;'>" . $rs['garbageover'] . " กิโลกรัม</td>";
+           
+           
+            $str .= "</tr>";
+        }
 
-        $Promise = Promise::find()->where(['id' => $promiseId])->One();
-        //$Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
-        $Customer = $this->actionGetcustomer($Promise['customerid']);
-        $YearMonth = substr($dateround, 0, 7);
-        $sql = "select * from roundgarbage where promiseid = '$promiseId' and LEFT(datekeep,7) = '$YearMonth' and status='1'";
+        $str .= "</tbody></table>";
+        if(count($RoundGarbage)>0)
+        {
+            $confirmid = $confirm->id;
+            $str .= '<div>จำนวนเงินที่จะออกบิล<input type="text" class="form-control" id="money"></div>';
+            $str .= "<br>";
+            $str .= "<div class=\"text-right\"><button class=\"button buntton-info\" onclick=\"popupFormbill('{$confirmid}')\">ออกบิล</button></div>";
+        }
+
+        return $str;
+    }
+
+    public function actionCreatebillpopup() {
+        $confirmid = Yii::$app->request->post('confirmid');
+        
+        $confirm = Confirmform::find()->where(['id' => $confirmid])->One();
+        $Customer = $this->actionGetcustomer($confirm['customerid']);
+        
+        $sql = "select * from roundgarbage_pertime where confirmid = '$confirmid' and status='1'";
         $data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customer'] = $Customer;
-        $data['promise'] = $Promise;
-        $data['rounddate'] = $YearMonth;
-        $data['round'] = $round;
-        $data['id'] = $id;
-
-        $sqlCheckInvoice = "select * from roundmoney where id = '$id' and receiptnumber != ''";
+        $data['confirm'] = $confirm;
+        $data['money'] = Yii::$app->request->post('money');
+        $data['type'] = $Customer['typeregister'];
+        
+        $sqlCheckInvoice = "select * from roundmoney_pertime where confirmid = '$confirmid' and receiptnumber != '' ORDER BY datekeep DESC LIMIT 1";
         $Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
         if (!$Invoice['receiptnumber']) {
             $data['invnumber'] = $this->getNextId();
             $data['status'] = 0;
-            $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
+            $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         } else {
-            $data['invnumber'] = $Invoice['receiptnumber'];
+            $data['invnumber'] = $this->getNextId();
             $data['status'] = 1;
-            $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
+            $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         }
-        if ($typepromise == 1) {
-            $page = "createbillpopup";
-        } else if ($typepromise == 2) {
-            $page = "createbillpopuptype2";
-        } else {
-            $page = "createbillpopuptype3";
-        }
+       
 
-        return $this->renderPartial($page, $data);
+        return $this->renderPartial("_createbillpopup", $data);
     }
 
+    public function actionGetcustomer($customerid) {
+        $sql = "SELECT c.company,
+            ch.changwat_name,
+            a.ampur_name,
+            t.tambon_name,
+            c.zipcode,c.tel,
+            c.taxnumber,
+            c.typeregister,
+            c.id,
+            c.telephone,c.typeregister,c.grouptype,g.groupcustomer,c.flag
+				FROM customers c INNER JOIN changwat ch ON c.changwat = ch.changwat_id
+				INNER JOIN ampur a ON c.ampur = a.ampur_id
+				INNER JOIN tambon t ON c.tambon = t.tambon_id
+                INNER JOIN groupcustomer g ON c.grouptype = g.id
+				WHERE c.id = '$customerid'";
+        return Yii::$app->db->createCommand($sql)->queryOne();
+    }
+
+    public function getNextId() {
+        //ตัวอย่างหากต้องการ SN59-00001
+        $lastRecord = InvoicePertime::find()->where(['like', 'invoicenumber', 'INVP'])->orderBy(['id' => SORT_DESC])->one(); //หาตัวล่าสุดก่อน
+        if ($lastRecord) {
+            $digit = explode('INVP', $lastRecord->invoicenumber);
+
+            $lastDigit = ((int) $digit[1]); // เปลี่ยน string เป็น integer สำหรับคำนวณ +1
+            $lastDigit++; //เพิ่ม 1
+            $lastDigit = str_pad($lastDigit, 5, '0', STR_PAD_LEFT); //ใส่ 0 ข้างหน้าหน่อย
+        } else {
+            $lastDigit = '00001';
+        }
+
+        return 'INVP' . $lastDigit;
+    }
+
+    //บันทึกรายการใบแจ้งหนี้
+    public function actionAddinvoice() {
+        $invoiceNumber = Yii::$app->request->post('invoiceNumber');
+        $confirmid = Yii::$app->request->post('confirmid');
+        $total = Yii::$app->request->post('total');
+        $dateinvoice = Yii::$app->request->post('dateinvoice');
+        $datebill = Yii::$app->request->post('datebill');
+        $customerid = Yii::$app->request->post('customerid');
+       
+      
+        $columns = array(
+            "invoicenumber" => $invoiceNumber,
+            "confirmid" => $confirmid,
+            "total" => $total,
+            "status" => "0",
+            "dateinvoice" => $dateinvoice,
+            "datebill" => $datebill,
+            "d_update" => date("Y-m-d H:i:s"),
+        );
+
+        Yii::$app->db->createCommand()
+                ->insert("invoice_pertime", $columns)
+                ->execute();
+
+        $columnsInsert = array(
+            "receiptnumber" => $invoiceNumber,
+            "confirmid" => $confirmid,
+            "amount" => $total,
+            "status" => "0",
+            "customerid" => $customerid,
+            "datekeep" => date("Y-m-d"),
+            "amount" => $total,
+        );
+        Yii::$app->db->createCommand()
+                ->insert("roundmoney_pertime", $columnsInsert)
+                ->execute();
+    }
 }

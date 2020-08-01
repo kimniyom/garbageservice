@@ -108,20 +108,22 @@ $this->params['breadcrumbs'][] = $this->title;
          */
     }
 
-    function popupFormbill(promiseid, months, round, id, type, vat, vattype, typepromise) {
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopup']) ?>";
-        var data = {
-            id: id,
-            promiseid: promiseid,
-            dateround: months,
-            round: round,
-            type: type,
-            vat: vat,
-            vattype: vattype,
-            typepromise: typepromise
-        };
-        $.post(url, data, function(datas) {
-            $("#createbill").html(datas);
-        });
+    function popupFormbill(confirmid) {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbillpopup']) ?>";
+        var money = $("#money").val();
+        if(money)
+        {
+            var data = {
+                confirmid:confirmid,
+                money: money
+            };
+            $.post(url, data, function(datas) {
+                $("#createbill").html(datas);
+            });
+        }
+        else{
+            alert("กรุณากรอกจำนวนเงินก่อน");
+            $("#money").focus();
+        } 
     }
 </script>

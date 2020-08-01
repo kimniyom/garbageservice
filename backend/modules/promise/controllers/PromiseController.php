@@ -294,8 +294,21 @@ class PromiseController extends Controller {
     public function actionDelete($id) {
         $this->findModel($id)->delete();
         Yii::$app->db->createCommand()
-                ->delete("promise", "upper = '$id'")
-                ->execute();
+                 ->delete("promise", "upper = '$id'")
+                 ->execute();
+        
+        $promiseFile = PromiseFile::findOne(['promiseid' => $id]);
+        if($promiseFile)
+        {
+            $path = Yii::getAlias('@webroot')."/../uploads/promise/pdf/".$promiseFile->filename;
+            if(is_file($path))
+            {
+                if(unlink($path))
+                {
+                    $promiseFile->delete();
+                }
+            }
+        }
 
         return $this->redirect(['index']);
     }
