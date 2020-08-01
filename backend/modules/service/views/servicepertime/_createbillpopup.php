@@ -108,18 +108,18 @@ $Config = new Config();
                     </div>
                 </th>
             </tr>
-            <?php if ($status <= 0) { ?>
+           
                 <tr>
                     <th colspan="6">
                         <!--if($i == $promise['levy'])-->
                         <?php if ($billdetail) { ?>
-                            <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+                            <button class="btn btn-success" type="button" onclick="saveInvoice()" id="saveInvoice"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
                         <?php } else { ?>
                             <button class="btn btn-warning disabled" type="button"><i class="fa fa-info"></i> ยังไม่มีการจัดเก็บในรอบเดือน</button>
                         <?php } ?>
                     </th>
                 </tr>
-            <?php } ?>
+            
 
         </tfoot>
     </table>
@@ -146,8 +146,10 @@ $Config = new Config();
         
 
         $.post(url, data, function(datas) {
-            console.log(datas);
+            //console.log(datas);
             //getInvoice();
+            alert("บันทึกข้อมูลเรียบร้อย");
+            $("#saveInvoice").attr("disabled","true");
         });
     }
 
