@@ -4,32 +4,34 @@
     }
 </style>
 <?php
-    use kartik\select2\Select2;
-    use yii\helpers\ArrayHelper;
-    use yii\helpers\Html;
 
-    $this->title = "ใบวางบิล / ใบแจ้งยอด";
-    $this->params['breadcrumbs'][] = $this->title;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+
+$this->title = "ใบวางบิล / ใบแจ้งยอด";
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
     <div class="col-md-4 col-lg-4">
-    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>">
-        <button type="button" class="btn btn-warning btn-block btn-lg">
-            ออกใบวางบิลรายครั้ง
-        </button></a>
+        <a href="<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>">
+            <button type="button" class="btn btn-warning btn-block btn-lg">
+                ออกใบวางบิลรายครั้ง
+            </button></a>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-4 col-lg-4">
-    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill','type' => 1]) ?>">
-        <button type="button" class="btn btn-default btn-block btn-lg">
-            ออกใบวางบิลรอบเดือน
-        </button></a>
+        <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill', 'type' => 1]) ?>">
+            <button type="button" class="btn btn-default btn-block btn-lg">
+                ออกใบวางบิลรอบเดือน
+            </button></a>
     </div>
 </div>
 
+<!--
 <div class="row">
     <div class="col-md-4 col-lg-4">
     <a href="javascript:alert('กำลังดำเนินการ...')">
@@ -38,31 +40,31 @@
         </button></a>
     </div>
 </div>
-
+-->
 <div class="row">
     <div class="col-md-6 col-lg-6">
-    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear','type' => 3]) ?>">
-        <button type="button" class="btn btn-success btn-block btn-lg">
-            ออกใบวางบิลเหมาจ่ายรายปี
-        </button></a>
+        <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear', 'type' => 3]) ?>">
+            <button type="button" class="btn btn-success btn-block btn-lg">
+                ออกใบวางบิลเหมาจ่ายรายปี
+            </button></a>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-6 col-lg-6">
-    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoicesixmonth']) ?>">
-        <button type="button" class="btn btn-warning btn-block btn-lg">
-            ออกใบวางบิลเหมาจ่ายรายครึ่งปี(ุ6 เดือน)
-        </button></a>
+        <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoicesixmonth']) ?>">
+            <button type="button" class="btn btn-warning btn-block btn-lg">
+                ออกใบวางบิลเหมาจ่ายรายครึ่งปี(ุ6 เดือน)
+            </button></a>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-6 col-lg-6">
-    <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear','type' => 3]) ?>">
-        <button type="button" class="btn btn-primary btn-block btn-lg">
-            ออกใบวางบิลขยะส่วนเกิน<em>(กรณีลูกค้าเลือกชำระแบบรายปี)</em>
-        </button></a>
+        <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear', 'type' => 3]) ?>">
+            <button type="button" class="btn btn-primary btn-block btn-lg">
+                ออกใบวางบิลขยะส่วนเกิน<em>(กรณีลูกค้าเลือกชำระแบบรายปี)</em>
+            </button></a>
     </div>
 </div>
 <hr/>

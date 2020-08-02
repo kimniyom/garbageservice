@@ -296,6 +296,7 @@ class DefaultController extends Controller {
         $credit = Yii::$app->request->post('credit');
         $year = substr($monthyear, 0, 4);
         $month = substr($monthyear, 5, 2);
+
         $columns = array(
             "invoicenumber" => $invoiceNumber,
             "promise" => $promiseId,
@@ -439,21 +440,6 @@ class DefaultController extends Controller {
         return $this->render('createinvoiceyear', $data);
     }
 
-    public function actionCreateinvoicesixmonth() {
-        //ออกบิลสำหรับสัญญาที่เหมาจ่ายราย 6 เดือน
-        $sql = "select pro.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
-                    from customers c
-                        inner join changwat p on c.changwat = p.changwat_id
-                        inner join ampur a on c.ampur = a.ampur_id
-                        inner join tambon t on c.tambon = t.tambon_id
-                        inner join promise pro on c.id = pro.customerid
-                        INNER JOIN packagepayment pm ON pro.payment = pm.id
-                where pro.`status` = '2' and pm.typepayment = 'P'";
-        $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
-        //$data['type'] = $type;
-        return $this->render('createinvoicesixmonth', $data);
-    }
-
     public function actionGetroundpromiseyear() {
         $promiseId = Yii::$app->request->post('promiseid');
         $Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
@@ -570,35 +556,178 @@ WHERE r.promiseid = '$promiseId'";
                 ->execute();
     }
 
-    public function actionGetroundpromisesixmonth() {
-        $promiseId = Yii::$app->request->post('promiseid');
-        $Promise = Promise::find()->where(['id' => $promiseId, 'status' => '2'])->One();
-        $Customer = Customers::find()->where(['id' => $Promise['customerid']])->One();
-        $RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
+    public function actionCreateinvoicesixmonth($customerId = "") {
+        //ออกบิลสำหรับสัญญาที่เหมาจ่ายราย 6 เดือน
+        $sql = "select pro.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+                    from customers c
+                        inner join changwat p on c.changwat = p.changwat_id
+                        inner join ampur a on c.ampur = a.ampur_id
+                        inner join tambon t on c.tambon = t.tambon_id
+                        inner join promise pro on c.id = pro.customerid
+                        INNER JOIN packagepayment pm ON pro.payment = pm.id
+                where pro.`status` = '2' and pm.typepayment = 'P'";
+        $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
+        //$data['type'] = $type;
+        $data['round'] = $this->actionGetroundpromisesixmonth($customerId);
+        $data['customerId'] = $customerId;
+        //$data['type'] = $type;
+        return $this->render('createinvoicesixmonth', $data);
+    }
+
+    public function actionGetroundpromisesixmonth($customerId) {
+        $Config = new Config();
+        //$customerId = Yii::$app->request->post('customer_id');
+        $Promise = Promise::find()->where(['customerid' => $customerId, 'status' => '2'])->one();
+        $Customer = Customers::find()->where(['id' => $customerId])->One();
+        $RoundMoney = Roundmoney::find()->where(['promiseid' => $Promise['id']])->all();
+
+        $sql = "select * from vattype where id = '" . $Customer['typeregister'] . "'";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+
+        $promiseId = $Promise['id'];
+        $typePromise = $Promise['recivetype']; //ประเภทการจ้าง
+        $data['vat'] = $Promise['vat']; //เช็คเอา vat  ไม่เอา vat
+        $data['typevat'] = $Promise['vattype']; //เช็คเอา vat- +
+        $vatBill = $Promise['vat'];
+        //$typevatBill = $Promise['vattype'];
+        if ($Promise['vat'] == 1) {
+            $vateBill = "เอา vat";
+        } else {
+            $vateBill = "ไม่เอา vat";
+        }
+
         $str = "";
-        $str .= "<b>ลูกค้า " . $Customer['company'] . "</b> ";
+        $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
         $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+        $str .= "<b>" . $vateBill . "</b><br/>";
         $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
-        $str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
-        $str .= "<ul class='list-gorup'>";
-        $str .= "<li class='list-group-item active'>6 เดือนแรก</li>";
+        //$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+        $str .= "<ul class='list-gorup' style='margin-left:0px; padding-left:0px;'>";
+        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vatBill,$typePromise,1,6)'>สร้างใบวางบิล</button></li>";
         $i = 0;
         foreach ($RoundMoney as $rs):
             $i++;
             if ($i <= 6) {
-                $str .= "<li class='list-group-item'>" . $rs['datekeep'] . "=>" . $rs['round'] . "</li>";
+                $str .= "<li class='list-group-item'>" . $Config->thaidatemonth($rs['datekeep']) . "</li>";
             }
         endforeach;
-        $str .= "<li class='list-group-item active'>6 เดือนหลัง</li>";
+        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vatBill,$typePromise,7,12)'>สร้างใบวางบิล</button></li>";
         $b = 0;
         foreach ($RoundMoney as $rs):
             $b++;
             if ($b > 6) {
-                $str .= "<li class='list-group-item'>" . $rs['datekeep'] . "=>" . $rs['round'] . "</li>";
+                $str .= "<li class='list-group-item'>" . $Config->thaidatemonth($rs['datekeep']) . "</li>";
             }
         endforeach;
         $str .= "</ul>";
         return $str;
+    }
+
+    public function actionCreatebillsixmonth() {
+        $Config = new Config();
+        $promiseId = Yii::$app->request->post('promiseid');
+        $start = Yii::$app->request->post('start');
+        $end = Yii::$app->request->post('end');
+        $data['vat'] = Yii::$app->request->post('vat');
+        $typepromise = Yii::$app->request->post('typepromise');
+        $data['start'] = $start;
+        $data['end'] = $end;
+
+        $StartMonth = \Yii::$app->db->createCommand("select * from roundmoney where promiseid = '$promiseId' and round = '$start'")->queryOne()['datekeep'];
+        $EndMonth = \Yii::$app->db->createCommand("select * from roundmoney where promiseid = '$promiseId' and round = '$end'")->queryOne()['datekeep'];
+        $data['startmonth'] = $Config->thaidatemonth($StartMonth);
+        $data['endmonth'] = $Config->thaidatemonth($EndMonth);
+        $Promise = Promise::find()->where(['id' => $promiseId])->One();
+        $Customer = $this->actionGetcustomer($Promise['customerid']);
+
+        $sql = "select * from roundmoney where promiseid = '$promiseId' and round BETWEEN '$start' AND '$end'";
+        $billdetail = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['customer'] = $Customer;
+        $data['promise'] = $Promise;
+
+        $sqlCheckInvoice = "select * from roundmoney where promiseid = '$promiseId' and round BETWEEN '$start' AND '$end' and receiptnumber != '' ";
+        $Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
+        if (!$Invoice['receiptnumber']) {
+            $data['invnumber'] = $this->getNextId();
+            $data['status'] = 0;
+            $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
+            $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
+        } else {
+            $data['invnumber'] = $Invoice['receiptnumber'];
+            $data['status'] = 1;
+            $sqlInvoice = "select * from invoice where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
+            $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
+        }
+
+        $page = "createbillpopupsixmonth";
+        $data['billdetail'] = $billdetail;
+
+        return $this->renderPartial($page, $data);
+    }
+
+    //บันทึกรายการใบแจ้งหนี้6เดือน
+    public function actionAddinvoicesixmonth() {
+        $Config = new Config();
+        $invoiceNumber = Yii::$app->request->post('invoiceNumber');
+        $promiseId = Yii::$app->request->post('promiseId');
+        $total = Yii::$app->request->post('total');
+        //$roundId = Yii::$app->request->post('roundId');
+        //$type = Yii::$app->request->post('type');
+        //$monthyear = Yii::$app->request->post('monthyear');
+        $dateinvoice = Yii::$app->request->post('dateinvoice');
+        $datebill = Yii::$app->request->post('datebill');
+        $discount = Yii::$app->request->post('discount');
+        $deposit = Yii::$app->request->post('deposit');
+        $credit = Yii::$app->request->post('credit');
+        //$year = substr($monthyear, 0, 4);
+        //$month = substr($monthyear, 5, 2);
+        $start = Yii::$app->request->post('start');
+        $end = Yii::$app->request->post('end');
+        $vat = Yii::$app->request->post('vat');
+
+        $sumdiscount = ($total - $discount);
+        $sumdeposit = ($sumdiscount - $deposit);
+        if ($vat == 1) {
+            $vats = (($sumdeposit * 7) / 100);
+        } else {
+            $vats = 0;
+        }
+
+        $totalInvoiceFinal = ($sumdeposit + $vats);
+
+        $StartMonth = \Yii::$app->db->createCommand("select * from roundmoney where promiseid = '$promiseId' and round = '$start'")->queryOne()['datekeep'];
+        $EndMonth = \Yii::$app->db->createCommand("select * from roundmoney where promiseid = '$promiseId' and round = '$end'")->queryOne()['datekeep'];
+        $startmonth = $Config->thaidatemonth($StartMonth);
+        $endmonth = $Config->thaidatemonth($EndMonth);
+
+        $columns = array(
+            "invoicenumber" => $invoiceNumber,
+            "promise" => $promiseId,
+            //"round" => $roundId,
+            "total" => $totalInvoiceFinal,
+            "status" => "0",
+            //"year" => $year,
+            //"month" => $month,
+            //"type" => $type,
+            "dateinvoice" => $dateinvoice,
+            "datebill" => $datebill,
+            "discount" => $discount,
+            "deposit" => $deposit,
+            "credit" => $credit,
+            "comment" => $startmonth . "-" . $endmonth,
+            "d_update" => date("Y-m-d H:i:s"),
+        );
+
+        Yii::$app->db->createCommand()
+                ->insert("invoice", $columns)
+                ->execute();
+
+        $columnsUpdate = array(
+            "receiptnumber" => $invoiceNumber,
+        );
+        Yii::$app->db->createCommand()
+                ->update("roundmoney", $columnsUpdate, "promiseid = '$promiseId' AND round BETWEEN '$start' AND '$end' ")
+                ->execute();
     }
 
 }

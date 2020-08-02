@@ -45,7 +45,8 @@ echo "ใบแจ้งหนี้ ";
 echo (in_array($customer['grouptype'], $arrayDateInvoice)) ? "วันที่ => เอาวันที่</br>" : "วันที่ => ไม่เอา</br>";
 echo "บิล ";
 echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => เอาวันที่" : "วันที่ => ไม่เอา";
-
+echo $startmonth;
+echo $endmonth;
 $vatbath = 0;
 ?>
 
@@ -56,7 +57,7 @@ $vatbath = 0;
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="border-left: none;  ">ใบแจ้งหนี้ / ใบเสร็จ</a></li>
-        <li role="presentation" style=" display: none;"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยก Vat</a></li>
+        <li role="presentation" ><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยกรายเดือน</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -113,11 +114,6 @@ $vatbath = 0;
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
-                                ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
-                            </th>
-                        </tr>
-                        <tr>
                             <th style="text-align: center;font-family: THSarabun;font-size: 18px;">No</th>
                             <th style="font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
@@ -134,8 +130,8 @@ $vatbath = 0;
 
                         //ConfigBill
                         //if ($status > 0) {
-                        $sumDiscount = ($promise['rate'] - $invoicedetail['discount']);
-                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        //$sumDiscount = ($promise['rate'] - $invoicedetail['discount']);
+                        //$sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
                         //}
 
                         foreach ($billdetail as $rs): $i++;
@@ -144,12 +140,17 @@ $vatbath = 0;
                             $sum = $sum + $totalRow;
                             ?>
                         <?php endforeach; ?>
+                        <?php
+                        $sumDiscount = ($sum - $invoicedetail['discount']);
+                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        //}
+                        ?>
                         <tr>
                             <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;">1</td>
-                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อ <?php echo $Config->thaidatemonth($rounddate) ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
+                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าบริการตามสัญญารายปี <?php echo "(" . $startmonth . " - " . $endmonth . ")" ?></td>
+                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 6 เดือน</td>
                             <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($promise['rate'], 2) ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($promise['rate'], 2) ?></td>
+                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sum, 2) ?></td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -159,7 +160,7 @@ $vatbath = 0;
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                echo number_format($promise['rate'], 2);
+                                echo number_format($sum, 2);
                                 ?>
                             </th>
                         </tr>
@@ -244,7 +245,7 @@ $vatbath = 0;
                     </tfoot>
                 </table>
             </div>
-            <input type="hidden" id="id" name="id" class="form-control" value="<?php echo $id ?>"/>
+
 
             <!-- /////////////////////// Bill ///////////////////////////-->
             <br/>
@@ -297,11 +298,7 @@ $vatbath = 0;
                                 </div>
                             </th>
                         </tr>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
-                                ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
-                            </th>
-                        </tr>
+
                         <tr>
                             <th style="text-align: center; font-family: THSarabun;font-size: 18px;">No</th>
                             <th style="text-align: center; font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
@@ -316,7 +313,7 @@ $vatbath = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
                             //$fineprice = ($promise['fine'] * $rs['garbageover']);
-                            $totalRow = $rs['amount'];
+                            $totalRow = $promise['rate'];
                             $sum = $sum + $totalRow;
                             //เช็คการเก็บขยะ
                             //if ($rs['status'] == 1) {
@@ -326,10 +323,10 @@ $vatbath = 0;
                         <?php endforeach; ?>
                         <tr>
                             <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1</td>
-                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อ <?php echo $Config->thaidatemonth($rounddate) ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
+                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าบริการตามสัญญารายปี <?php echo "(" . $startmonth . " - " . $endmonth . ")" ?></td>
+                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 6 เดือน</td>
                             <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($promise['rate'], 2) ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($promise['rate'], 2) ?></td>
+                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sum, 2) ?></td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -339,7 +336,7 @@ $vatbath = 0;
                             <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                echo number_format($promise['rate'], 2);
+                                echo number_format($sum, 2);
                                 ?>
                             </th>
                         </tr>
@@ -482,11 +479,7 @@ $vatbath = 0;
                                 </div>
                             </th>
                         </tr>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
-                                ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
-                            </th>
-                        </tr>
+
                         <tr>
                             <th style="text-align: center;font-family: THSarabun;font-size: 18px;">No</th>
                             <th style="font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
@@ -505,7 +498,7 @@ $vatbath = 0;
                             ?>
                             <tr>
                                 <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                        ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อ <?php echo $Config->thaidatemonth($rs['datekeep']) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
@@ -650,11 +643,7 @@ $vatbath = 0;
                                 </div>
                             </th>
                         </tr>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
-                                ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?>
-                            </th>
-                        </tr>
+
                         <tr>
                             <th style="text-align: center; font-family: THSarabun;font-size: 18px;">No</th>
                             <th style="text-align: center; font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
@@ -676,7 +665,7 @@ $vatbath = 0;
                             ?>
                             <tr>
                                 <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                        ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อ <?php echo $Config->thaidatemonth($rs['datekeep']) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
@@ -797,33 +786,36 @@ $vatbath = 0;
             alert("ยังไม่มีรายการจัดเก็บในเดือน...!");
             return false;
         }
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/addinvoice']) ?>";
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/addinvoicesixmonth']) ?>";
         var invoiceNumber = "<?php echo $invnumber ?>";
         var promiseId = "<?php echo $promise['id'] ?>";
-        var total = "<?php echo $sumVat ?>";
-        var roundId = "<?php echo $id ?>";
-        var monthyear = "<?php echo $rounddate ?>";
+        var total = "<?php echo $sum ?>";
         var dateinvoice = $("#dateinvoice").val();
         var datebill = $("#datebill").val();
         var discount = $("#discount").val();
         var deposit = $("#deposit").val();
         var credit = $("#credit").val();
+        var start = "<?php echo $start ?>";
+        var end = "<?php echo $end ?>";
+        var vat = "<?php echo $vat ?>";
         var data = {
             invoiceNumber: invoiceNumber,
             promiseId: promiseId,
             total: total,
-            roundId: roundId,
-            monthyear: monthyear,
             dateinvoice: dateinvoice,
             datebill: datebill,
             discount: discount,
             deposit: deposit,
-            credit: credit
+            credit: credit,
+            start: start,
+            end: end,
+            vat: vat
         };
         //console.log(data);
 
         $.post(url, data, function(datas) {
-            getInvoice();
+            window.location.reload();
+            //getInvoice();
         });
 
     }
@@ -831,13 +823,9 @@ $vatbath = 0;
     function getInvoice() {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getinvoice']) ?>";
         var promiseid = "<?php echo $promise['id'] ?>";
-        var dateround = "<?php echo $rounddate ?>";
-        var id = "<?php echo $id ?>";
         var invoice = "<?php echo $invnumber ?>";
         var data = {
-            id: id,
             promiseid: promiseid,
-            dateround: dateround,
             invoice: invoice,
             type: 1
         };

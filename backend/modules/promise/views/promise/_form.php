@@ -91,7 +91,7 @@ for ($i = 1; $i <= 36; $i++) {
         </div>
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
-                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']   ?>)</div>
+                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']         ?>)</div>
                 <div class="box-body"  id="box-right" style=" position: relative; overflow: auto;">
                     <div class="well">
                         <?php
@@ -147,7 +147,10 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
-                                <?php $listPackage = ArrayHelper::map(Maspackage::find()->all(), 'id', 'package'); ?>
+                                <?php
+                                $sqlPackage = "select * from maspackage WHERE id != '3'";
+                                $listPackage = ArrayHelper::map(Yii::$app->db->createCommand($sqlPackage)->queryAll(), 'id', 'package');
+                                ?>
                                 <?php
                                 echo $form->field($model, 'recivetype')->widget(Select2::classname(), [
                                     'data' => $listPackage,
@@ -233,7 +236,7 @@ for ($i = 1; $i <= 36; $i++) {
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
                                 <?= $form->field($model, 'yearunit')->hiddenInput(['value' => '1'])->label(false) ?>
-                                <?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false) ?>
+<?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false)  ?>
                             </div>
                         </div>
                         <div class="row">
@@ -279,7 +282,7 @@ for ($i = 1; $i <= 36; $i++) {
                                 ?>
                             </div>
                             <div class="col-md-5 col-lg-5">
-                                <?= $form->field($model, 'deposit')->dropDownList($deposit, ['prompt' => 'ไม่มีมัดจำ']) ?>
+<?= $form->field($model, 'deposit')->dropDownList($deposit, ['prompt' => 'ไม่มีมัดจำ']) ?>
                             </div>
                         </div>
                         <div class="fine">
@@ -287,7 +290,7 @@ for ($i = 1; $i <= 36; $i++) {
                             <hr style="margin-top:0px;"/>
                             <div class="row">
                                 <div class="col-md-4 col-lg-4">
-                                    <?= $form->field($model, 'fine')->textInput() ?>
+<?= $form->field($model, 'fine')->textInput() ?>
                                 </div>
                             </div>
                         </div>
@@ -321,10 +324,10 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <div class="row" id="divyear">
                             <div class="col-md-3 col-lg-5">
-                                <?= $form->field($model, 'payperyear')->textInput(['readonly' => 'readonly']) ?>
+<?= $form->field($model, 'payperyear')->textInput(['readonly' => 'readonly']) ?>
                             </div>
                             <div class="col-md-3 col-lg-5">
-                                <?= $form->field($model, 'total')->textInput(['readonly' => 'readonly']) ?>
+<?= $form->field($model, 'total')->textInput(['readonly' => 'readonly']) ?>
                             </div>
                         </div>
                         <!--
@@ -358,18 +361,18 @@ for ($i = 1; $i <= 36; $i++) {
                             <hr style="margin-top:0px;"/>
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
-                                    <?= $form->field($model, 'employer1')->textInput() ?>
+<?= $form->field($model, 'employer1')->textInput() ?>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
-                                    <?= $form->field($model, 'employer2')->textInput() ?>
+<?= $form->field($model, 'employer2')->textInput() ?>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
-                                    <?= $form->field($model, 'witness1')->textInput() ?>
+<?= $form->field($model, 'witness1')->textInput() ?>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
-                                    <?= $form->field($model, 'witness2')->textInput() ?>
+<?= $form->field($model, 'witness2')->textInput() ?>
                                 </div>
                             </div>
                         </div>
@@ -379,21 +382,21 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <!-- <div class="row">
                             <div class="col-md-12 col-lg-6">
-                        <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])     ?>
+<?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])      ?>
                             </div>
                             <div class="col-md-12 col-lg-6">
-                        <?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])     ?>
+<?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])      ?>
                             </div>
                         </div> -->
                         <?php if ($error) { ?>
                             <div class="alert alert-danger"><?php echo $error ?></div>
-                        <?php } ?>
+<?php } ?>
                     </div>
                 </div>
                 <div class="box-footer">
                     <div class="form-group">
                         <div id="btn-save" style="display:none;">
-                            <?= Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success']) ?>
+<?= Html::submitButton('บันทึกข้อมูลสัญญา', ['class' => 'btn btn-success']) ?>
                         </div>
                         <div id="btn-save-hide">
                             <div class="btn btn-default disabled">บันทึกข้อมูลสัญญา</div>
@@ -401,7 +404,7 @@ for ($i = 1; $i <= 36; $i++) {
 
                     </div>
                 </div>
-                <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
             </div>
         </div>
     </div>

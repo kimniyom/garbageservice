@@ -2,6 +2,9 @@
     .row{
         margin-bottom: 10px;
     }
+    #round{
+        overflow: auto;
+    }
 </style>
 <?php
 
@@ -12,19 +15,16 @@ use kartik\date\DatePicker;
 $this->title = "ใบวางบิล / ใบแจ้งยอด เหมาจ่ายครึ่งปี(6 เดือน)";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="alert alert-warning">
-    <p>*สัญญาที่มีการเหมาจ่ายเป็นรายปีเท่านั้น</p>
-</div>
-<div class="row">
+<div class="row" style=" margin-bottom: 0px;">
     <div class="col-lg-4 col-md-4">
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
                 <label>เลือกลูกค้า</label>
                 <?php
-                $listCustomer = ArrayHelper::map($customer, 'id', 'address');
+                $listCustomer = ArrayHelper::map($customer, 'customerid', 'address');
                 echo Select2::widget([
                     'name' => 'promise',
-                    'value' => '',
+                    'value' => $customerId,
                     'data' => $listCustomer,
                     'options' => [
                         'multiple' => false,
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
-                <div id="round"></div>
+                <div id="round"><?php echo $round ?></div>
             </div>
         </div>
     </div>
@@ -85,20 +85,36 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<?php
+$this->registerJs('setBox()');
+?>
 <script type="text/javascript">
-    function getRound(promise) {
-        alert(promise);
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getroundpromisesixmonth']) ?>";
-        var data = {promiseid: promise};
-        $.post(url, data, function(datas) {
-            $("#round").html(datas);
-        });
+    function setBox() {
+        var h = window.innerHeight;
+        $("#round").css({"height": h - 200});
+        //$("#createbill").css({"height": h - 200, "overflow-x": "hidden"});
+    }
+    function getRound(customerId) {
+        /*
+         var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromisesixmonth'])                        ?>";
+         var data = {promiseid: promise};
+         $.post(url, data, function(datas) {
+         $("#round").html(datas);
+         });
+         */
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoicesixmonth']) ?>" + "&customerId=" + customerId;
+        window.location = url;
     }
 
-    function popupFormbill(promiseid) {
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopupyear']) ?>";
+    function popupFormbill(promiseid, vat, typepromise, start, end) {
+        $("#createbill").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>Loading...');
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillsixmonth']) ?>";
         var data = {
-            promiseid: promiseid
+            promiseid: promiseid,
+            vat: vat,
+            typepromise: typepromise,
+            start: start,
+            end: end
         };
         $.post(url, data, function(datas) {
             $("#createbill").html(datas);
