@@ -12,16 +12,16 @@ use yii\helpers\Html;
 $this->title = "ใบวางบิล / ใบแจ้งยอด";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<!--
 <div class="row">
     <div class="col-md-4 col-lg-4">
-        <a href="<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>">
+        <a href="<?php //echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>">
             <button type="button" class="btn btn-warning btn-block btn-lg">
                 ออกใบวางบิลรายครั้ง
             </button></a>
     </div>
 </div>
-
+-->
 <div class="row">
     <div class="col-md-4 col-lg-4">
         <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill', 'type' => 1]) ?>">
@@ -54,19 +54,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-6 col-lg-6">
         <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoicesixmonth']) ?>">
             <button type="button" class="btn btn-warning btn-block btn-lg">
-                ออกใบวางบิลเหมาจ่ายรายครึ่งปี(ุ6 เดือน)
+                ออกใบวางบิลเหมาจ่ายรายครึ่งปี(6 เดือน)
             </button></a>
     </div>
 </div>
-
+<!--
 <div class="row">
     <div class="col-md-6 col-lg-6">
-        <a href="<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear', 'type' => 3]) ?>">
+        <a href="<?php //echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear', 'type' => 3]) ?>">
             <button type="button" class="btn btn-primary btn-block btn-lg">
                 ออกใบวางบิลขยะส่วนเกิน<em>(กรณีลูกค้าเลือกชำระแบบรายปี)</em>
             </button></a>
     </div>
 </div>
+-->
 <hr/>
 <div class="alert alert-default">
     เมื่อท่านบันทึกใบวางบิล / ใบแจ้งหนี้ ข้อมูลจะแสดงในส่วนของ user นั้นด้วย...

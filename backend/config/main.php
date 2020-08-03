@@ -12,6 +12,7 @@ return [
 	'controllerNamespace' => 'backend\controllers',
 	'bootstrap' => ['log'],
 	'modules' => [
+            
 		'user' => [
 			'class' => 'dektrium\user\Module',
 			'enableUnconfirmedLogin' => true,

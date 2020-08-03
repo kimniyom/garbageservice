@@ -13,6 +13,10 @@ $Config = new Config();
 $arrayDateInvoice = array('1', '3'); //เอาวันที่
 //ConfigBill
 $arrayDate = array('3'); //เอาวันที่
+
+if (Yii::$app->user->identity->username == "kimniyom") {
+    echo $page;
+}
 ?>
 <div class="row">
     <div class="col-md-3 col-lg-3">
@@ -41,12 +45,12 @@ $arrayDate = array('3'); //เอาวันที่
 //ประเภทกลุ่มลูกค้า
 //echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
 //echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
-echo "ใบแจ้งหนี้ ";
-echo (in_array($customer['grouptype'], $arrayDateInvoice)) ? "วันที่ => เอาวันที่</br>" : "วันที่ => ไม่เอา</br>";
-echo "บิล ";
-echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => เอาวันที่" : "วันที่ => ไม่เอา";
-echo $startmonth;
-echo $endmonth;
+//echo "ใบแจ้งหนี้ ";
+//echo (in_array($customer['grouptype'], $arrayDateInvoice)) ? "วันที่ => เอาวันที่</br>" : "วันที่ => ไม่เอา</br>";
+//echo "บิล ";
+//echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => เอาวันที่" : "วันที่ => ไม่เอา";
+//echo $startmonth;
+//echo $endmonth;
 $vatbath = 0;
 ?>
 
@@ -760,7 +764,9 @@ $vatbath = 0;
         </div><!-- End แยก vat -->
     </div>
 </div>
-
+<?php 
+    //echo $sum;
+?>
 <script type="text/javascript">
     setBoxs();
     function setBoxs() {

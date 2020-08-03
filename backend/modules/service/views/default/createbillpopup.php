@@ -13,6 +13,10 @@ $Config = new Config();
 $arrayDateInvoice = array('1', '3'); //เอาวันที่
 //ConfigBill
 $arrayDate = array('3'); //เอาวันที่
+
+if (Yii::$app->user->identity->username == "kimniyom") {
+    echo $page;
+}
 ?>
 <div class="row">
     <div class="col-md-3 col-lg-3">
@@ -39,8 +43,8 @@ $arrayDate = array('3'); //เอาวันที่
 
 <?php
 //ประเภทกลุ่มลูกค้า
-//echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
-//echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
+echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
+echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
 echo "ใบแจ้งหนี้ ";
 echo (in_array($customer['grouptype'], $arrayDateInvoice)) ? "วันที่ => เอาวันที่</br>" : "วันที่ => ไม่เอา</br>";
 echo "บิล ";
@@ -505,7 +509,7 @@ $vatbath = 0;
                             ?>
                             <tr>
                                 <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                        ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                         ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
@@ -676,7 +680,7 @@ $vatbath = 0;
                             ?>
                             <tr>
                                 <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                        ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                         ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
@@ -771,7 +775,10 @@ $vatbath = 0;
         </div><!-- End แยก vat -->
     </div>
 </div>
-
+<?php
+//echo $vat;
+//echo $promise['rate'] 
+?>
 <script type="text/javascript">
     setBoxs();
     function setBoxs() {
@@ -800,7 +807,7 @@ $vatbath = 0;
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/addinvoice']) ?>";
         var invoiceNumber = "<?php echo $invnumber ?>";
         var promiseId = "<?php echo $promise['id'] ?>";
-        var total = "<?php echo $sumVat ?>";
+        var total = "<?php echo $promise['rate'] ?>";
         var roundId = "<?php echo $id ?>";
         var monthyear = "<?php echo $rounddate ?>";
         var dateinvoice = $("#dateinvoice").val();
@@ -818,12 +825,14 @@ $vatbath = 0;
             datebill: datebill,
             discount: discount,
             deposit: deposit,
-            credit: credit
+            credit: credit,
+            vat: "<?php echo $vat ?>"
         };
         //console.log(data);
 
-        $.post(url, data, function(datas) {
-            getInvoice();
+        $.post(url, data, function (datas) {
+            //getInvoice();
+            window.location.reload();
         });
 
     }
@@ -841,7 +850,7 @@ $vatbath = 0;
             invoice: invoice,
             type: 1
         };
-        $.post(url, data, function(datas) {
+        $.post(url, data, function (datas) {
             $("#createbill").html(datas);
         });
     }

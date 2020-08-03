@@ -95,7 +95,7 @@ Modal::End();
                                 'label' => 'ลูกค้า',
                                 'attribute' => 'company',
                                 'format' => 'raw', // I want something like this
-                                'value' => yii\bootstrap\Html::a($model['company'], Yii::$app->urlManager->createUrl(['customer/customers/view', 'id' => $model['id']])),
+                                'value' => yii\bootstrap\Html::a($model['company'], Yii::$app->urlManager->createUrl(['customer/customers/view', 'id' => $model['customerid']])),
                             ],
                             [
                                 'label' => 'ทำสัญญา ณ ',

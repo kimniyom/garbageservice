@@ -12,19 +12,17 @@ use kartik\date\DatePicker;
 $this->title = "ใบวางบิล / ใบแจ้งยอด(เหมาจ่ายทั้งปี)";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="alert alert-warning">
-    <p>*สัญญาที่มีการเหมาจ่ายเป็นรายปีเท่านั้น</p>
-</div>
+
 <div class="row">
     <div class="col-lg-4 col-md-4">
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
                 <label>เลือกลูกค้า</label>
                 <?php
-                $listCustomer = ArrayHelper::map($customer, 'id', 'address');
+                $listCustomer = ArrayHelper::map($customer, 'customerid', 'address');
                 echo Select2::widget([
                     'name' => 'promise',
-                    'value' => '',
+                    'value' => $customerId,
                     'data' => $listCustomer,
                     'options' => [
                         'multiple' => false,
@@ -38,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
-                <div id="round"></div>
+                <div id="round"><?php echo $round ?></div>
             </div>
         </div>
     </div>
@@ -86,12 +84,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <script type="text/javascript">
-    function getRound(promise) {
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getroundpromiseyear']) ?>";
-        var data = {promiseid: promise};
-        $.post(url, data, function(datas) {
-            $("#round").html(datas);
-        });
+    function getRound(customerid) {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear']) ?>" + "&customerId=" + customerid;
+        window.location=url;
+//var data = {promiseid: promise};
+        //$.post(url, data, function(datas) {
+            //$("#round").html(datas);
+        //});
     }
 
     function popupFormbill(promiseid) {

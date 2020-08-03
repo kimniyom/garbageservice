@@ -21,6 +21,10 @@ $Config = new Config();
 $arrayDateInvoice = array('1', '3'); //เอาวันที่
 //ConfigBill
 $arrayDate = array('3'); //เอาวันที่
+
+if (Yii::$app->user->identity->username == "kimniyom") {
+    echo $page;
+}
 ?>
 
 <div class="row">
@@ -48,9 +52,10 @@ $arrayDate = array('3'); //เอาวันที่
 
 <?php
 //ประเภทกลุ่มลูกค้า
-//echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
-//echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
-//echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => ไม่เอา" : "วันที่ => เอาวันที่";
+echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
+echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
+echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => ไม่เอา" : "วันที่ => เอาวันที่";
+echo "ประเภท Vat => " . $vattype;
 ?>
 
 <div>
@@ -136,16 +141,43 @@ $arrayDate = array('3'); //เอาวันที่
                         $sum = 0;
                         $sumDiscount = 0;
                         $sumDeposit = 0;
+                        $sumVat = 0; //ราคาเต็มสินค้า
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
                             //$fineprice = ($promise['unitprice'] * $rs['amount']);
                             $totalRow = ($promise['unitprice'] * $rs['amount']);
-                            $sum = $sum + $totalRow;
+                            $sum = $sum + $totalRow; //ราคาสินค้าปกติ
                         endforeach;
+
+                        //หาราคาค่าบริการ
+                        if ($vat == 1) {//ถ้าเอา vat
+                            //คำนวน vat
+                            $vatbath = (($sum * 7) / 100); //คำนวนหา vat จากราคาเต็ม
+                            if ($vattype == 1) {//vat ลบ รวม VAT ให้เอาราคาเต็ม ลบ vat 
+                                $sumVat = ($sum - $vatbath); //ราคาสินค้า
+                            } else {// ถ้าแยก vat
+                                $sumVat = $sum;
+                            }
+                        } else {
+                            $vatbath = 0;
+                            $sumVat = $sum;
+                        }
+                        
+                        
+
+
+
                         //ConfigBill
-                        //if ($status > 0) {
-                        $sumDiscount = ($sum - $invoicedetail['discount']);
+                        //หักส่วนลบค่ามัดจำ
+                        $sumDiscount = ($sumVat - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        
+                        //หาราคาสุทธิ
+                        if($vat == 1 && $vattype == 1){//นำราคาบริการมา + เพิ่ม
+                            
+                        } else {
+                            
+                        }
                         //}
                         ?>
                         <tr>
@@ -163,7 +195,7 @@ $arrayDate = array('3'); //เอาวันที่
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 2);
+                                echo number_format($sumVat, 2);
                                 ?>
                             </th>
                         </tr>
@@ -194,27 +226,13 @@ $arrayDate = array('3'); //เอาวันที่
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                if ($vat == 1) {
-                                    //คำนวน vat
-                                    $vatbath = (($sumDeposit * 7) / 100);
-                                    echo number_format($vatbath, 2);
-                                } else {
-                                    $vatbath = 0;
-                                    echo number_format($vatbath, 2);
-                                }
+                                echo number_format($vatbath, 2);
                                 ?>
                             </th>
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-//if ($vattype == 1) {//vat ลบ
-//$sumVat = ($sum - $vatbath);
-//} else if ($vattype == 2) {// vat เพิ่ม
-                                $sumVat = ($sumDeposit + $vatbath);
-//} else {
-//$sumVat = $sum;
-//}
                                 echo $Config->Convert($sumVat)
                                 ?>
                             </th>
@@ -318,8 +336,8 @@ $arrayDate = array('3'); //เอาวันที่
                     </thead>
                     <tbody>
                         <?php
-                        //การคำนวนคิดเป็นกิโลกรัม
-                        //จำนวนกิโล * ราคาต่อกิโล
+//การคำนวนคิดเป็นกิโลกรัม
+//จำนวนกิโล * ราคาต่อกิโล
                         $sum = 0;
                         $sumDiscount = 0;
                         $sumDeposit = 0;
@@ -329,11 +347,11 @@ $arrayDate = array('3'); //เอาวันที่
                             $totalRow = ($promise['unitprice'] * $rs['amount']);
                             $sum = $sum + $totalRow;
                         endforeach;
-                        //ConfigBill
-                        //if ($status > 0) {
+//ConfigBill
+//if ($status > 0) {
                         $sumDiscount = ($sum - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
-                        //}
+//}
                         ?>
                         <tr>
                             <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1</td>
@@ -378,7 +396,7 @@ $arrayDate = array('3'); //เอาวันที่
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
+//คำนวน vat
                                 if ($vat == 1) {
                                     $vatbath = (($sumDeposit * 7) / 100);
                                     echo number_format($vatbath, 2);
@@ -505,8 +523,8 @@ $arrayDate = array('3'); //เอาวันที่
                     </thead>
                     <tbody>
                         <?php
-                        //การคำนวนคิดเป็นกิโลกรัม
-                        //จำนวนกิโล * ราคาต่อกิโล
+//การคำนวนคิดเป็นกิโลกรัม
+//จำนวนกิโล * ราคาต่อกิโล
                         $sum = 0;
                         $sumDiscount = 0;
                         $sumDeposit = 0;
@@ -568,7 +586,7 @@ $arrayDate = array('3'); //เอาวันที่
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
+//คำนวน vat
                                 if ($vat == 1) {
                                     $vatbath = (($sumDeposit * 7) / 100);
                                     echo number_format($vatbath, 2);
@@ -686,8 +704,8 @@ $arrayDate = array('3'); //เอาวันที่
                     </thead>
                     <tbody>
                         <?php
-                        //การคำนวนคิดเป็นกิโลกรัม
-                        //จำนวนกิโล * ราคาต่อกิโล
+//การคำนวนคิดเป็นกิโลกรัม
+//จำนวนกิโล * ราคาต่อกิโล
                         $sum = 0;
                         $sumDiscount = 0;
                         $sumDeposit = 0;
@@ -749,7 +767,7 @@ $arrayDate = array('3'); //เอาวันที่
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
+//คำนวน vat
                                 if ($vat == 1) {
                                     $vatbath = (($sumDeposit * 7) / 100);
                                     echo number_format($vatbath, 2);
@@ -805,7 +823,9 @@ $arrayDate = array('3'); //เอาวันที่
         </div><!-- End แยก vat -->
     </div>
 </div>
-
+<?php
+//echo $sum;
+?>
 <script type="text/javascript">
     setBoxs();
     function setBoxs() {
@@ -834,7 +854,7 @@ $arrayDate = array('3'); //เอาวันที่
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/addinvoice']) ?>";
         var invoiceNumber = "<?php echo $invnumber ?>";
         var promiseId = "<?php echo $promise['id'] ?>";
-        var total = "<?php echo $sumVat ?>";
+        var total = "<?php echo $sum ?>";
         var roundId = "<?php echo $id ?>";
         var monthyear = "<?php echo $rounddate ?>";
         var dateinvoice = $("#dateinvoice").val();
@@ -852,12 +872,14 @@ $arrayDate = array('3'); //เอาวันที่
             datebill: datebill,
             discount: discount,
             deposit: deposit,
-            credit: credit
+            credit: credit,
+            vat: "<?php echo $vat ?>"
         };
         //console.log(data);
 
-        $.post(url, data, function(datas) {
-            getInvoice();
+        $.post(url, data, function (datas) {
+            //getInvoice();
+            window.location.reload();
         });
 
     }
@@ -875,7 +897,7 @@ $arrayDate = array('3'); //เอาวันที่
             invoice: invoice,
             type: 1
         };
-        $.post(url, data, function(datas) {
+        $.post(url, data, function (datas) {
             $("#createbill").html(datas);
         });
     }

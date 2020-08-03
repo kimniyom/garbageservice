@@ -9,6 +9,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\UrlManager;
 
 /**
  * Site controller
@@ -81,6 +82,9 @@ class SiteController extends Controller {
      * @return string
      */
     public function actionLogin() {
+        $this->redirect(Yii::$app->urlManagerFrontend->createUrl('index.php?r=site'));
+        //exit(0);
+        /*
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -89,12 +93,18 @@ class SiteController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
+            $this->redirect($this->urlManagerFrontend(['site/index']));
+            exit(0);
+         
             $model->password = '';
 
             return $this->render('login', [
                         'model' => $model,
             ]);
+           
         }
+         * 
+         */
     }
 
     public function actionGetlocation() {
