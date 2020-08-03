@@ -112,8 +112,8 @@ if ($model['recivetype'] == 1 || $model['recivetype'] == 3) {
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;วันเวลาทำการ <?php echo $model['timework'] == "" ? "-" : $model['timework']; ?>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สถานที่จัดเก็บ <?php echo $model['company']; ?>
 <?php
-$employer1 = $model['employer1'] == "" ? "................................................." : $model['employer1'];
-$employer2 = $model['employer2'] == "" ? "................................................." : $model['employer2'];
+$employer1 = $model['employer1']; //== "" ? "................................................." : $model['employer1'];
+$employer2 = $model['employer2']; //== "" ? "................................................." : $model['employer2'];
 $witness = "";
 
 // if($model['employer1'] != "" && $model['employer2'] != "")
@@ -138,24 +138,41 @@ if ($model['witness1'] != "" && $model['witness2'] != "") {
 }
 ?>
     <br><br> <br><br>
-    <div>
-        <div style="float: left;width:30%; text-align: center;">
-            (ลงชื่อ).....................................ผู้ว่าจ้าง
-            <br>
-            (<?php echo $employer1; ?>)
-        </div>
+    <?php if($employer1 != "" && $employer2 != ""):?>
+        <div>
+            <div style="float: left;width:30%; text-align: center;">
+                (ลงชื่อ).....................................ผู้ว่าจ้าง
+                <br>
+                (<?php echo $employer1; ?>)
+            </div>
 
-        <div style="float: left;width:30%; text-align: center;">
-            (ลงชื่อ).....................................ผู้ว่าจ้าง
-            <br>
-            (<?php echo $employer2; ?>)
+            <div style="float: left;width:30%; text-align: center;">
+                (ลงชื่อ).....................................ผู้ว่าจ้าง
+                <br>
+                (<?php echo $employer2; ?>)
+            </div>
+            <div style="float: left;width:40%; text-align: center;">
+                (ลงชื่อ).....................................ผู้รับจ้าง
+                <br>
+                (นายนิติพัฒน์      วงศ์ศิริธร)
+            </div>
         </div>
-        <div style="float: left;width:40%; text-align: center;">
-            (ลงชื่อ).....................................ผู้รับจ้าง
-            <br>
-            (นายนิติพัฒน์      วงศ์ศิริธร)
+    <?php endif;?>
+    <?php  if($employer1 != "" && $employer2 == ""){?>
+        <div>
+            <div style="float: left;width:50%; text-align: center;">
+                (ลงชื่อ).....................................ผู้ว่าจ้าง
+                <br>
+                (<?php echo $employer1; ?>)
+            </div>
+
+            <div style="float: left;width:50%; text-align: center;">
+                (ลงชื่อ).....................................ผู้รับจ้าง
+                <br>
+                (นายนิติพัฒน์      วงศ์ศิริธร)
+            </div>
         </div>
-    </div>
+    <?php }?>
     <br>
     <div>
         <div style="float: left;width:50%; text-align: center;">
