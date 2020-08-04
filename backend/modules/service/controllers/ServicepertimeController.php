@@ -168,10 +168,10 @@ class ServicepertimeController extends \yii\web\Controller
         $RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
         $i = 0;
         $str = "";
-        $str .= "<b>ลูกค้า ".$customer->company."</b><br/>";
-        $str .= "<b>จำนวนครั้งที่ตกลงเข้าจัดเก็บ ".$confirm->amount."</b><br/>";
-        $str .= "<b>แบบยืนยันเลขที่  ".$confirm->confirmformnumber."</b><br/>";
-        $str .= "<b>จำนวนเงินทีออกบิลไปแล้ว ".$customer->company."</b><br/>";
+        $str .= "<b>ลูกค้า ".$customer['company']."</b><br/>";
+        $str .= "<b>จำนวนครั้งที่ตกลงเข้าจัดเก็บ ".$confirm['amount']."</b><br/>";
+        $str .= "<b>แบบยืนยันเลขที่  ".$confirm['confirmformnumber']."</b><br/>";
+        $str .= "<b>จำนวนเงินทีออกบิลไปแล้ว </b><br/>";
         $str .= "<b>ประวัติการจัดเก็บ</b><br/>
 			<table class='table table-bordered'>
 				<thead>
