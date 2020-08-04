@@ -45,12 +45,12 @@ if ($model['payment'] == 1 || $model['payment'] == 7) {
 } else if ($model['payment'] == 2) {
     $promiseType = " รายเดือน ";
     $paymentType = "";
-
-    if ($model['vat'] == 1 && $model['vattype'] == 2) {
-        $unitprice = ($unitprice * 100) / 107;
-    } else if ($model['vat'] == 1 && $model['vattype'] == 1) {
-        $unitprice = $unitprice + (($unitprice * 7) / 100);
-    }
+    $vatText = "";
+    // if ($model['vat'] == 1 && $model['vattype'] == 2) {
+    //     $unitprice = ($unitprice * 100) / 107;
+    // } else if ($model['vat'] == 1 && $model['vattype'] == 1) {
+    //     $unitprice = $unitprice + (($unitprice * 7) / 100);
+    // }
 } else if ($model['payment'] == 5) {
     $promiseType = " รายครึ่งปี ";
     $paymentType = " ครั้งละ ";
@@ -65,7 +65,7 @@ $unitpriceText = str_replace(",", "", $unitprice);
 
 $recivetype = "";
 $text1 = " โดยกำหนดค่าจ้าง ตามน้ำหนักไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตรา{$paymentType} " . number_format($model['rate']) . " บาท (" . $Config->Convert($model['rate']) . ")  โดยเข้าจัดเก็บ " . $model['levy'] . " ครั้งต่อเดือน  " . $discount . " เป็นค่าจ้างรวมทั้งสิ้นต่อปี " . $total . " บาท (" . $Config->Convert($totalText) . ")" . $vatText;
-$text2 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ " . $unitprice . " บาท (" . $Config->Convert($unitpriceText) . ") " . $vatText . " \"ผู้รับจ้าง\" จะทำการเก็บขนย้ายไปทำลายในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ {$levy} ";
+$text2 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ " . $unitprice . " บาท (" . $Config->Convert($unitpriceText) . ") " . $vatText . " \"ผู้รับจ้าง\" จะทำการเก็บขนย้าย ไปทำลาย ในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ {$levy} ";
 $text3 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง ในอัตรา{$paymentType} " . number_format($model['rate']) . " บาท (" . $Config->Convert($model['rate']) . ")  ส่วนปริมาณน้ำหนักขยะส่วนที่เกิน  " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะเพิ่ม กิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") “ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  โดยเข้าจัดเก็บเดือนละ " . $model['levy'] . " ครั้งต่อเดือน รวม " . ($model['levy'] * 12) . " ครั้งต่อปี " . $discount . " คิดเป็นค่าจ้างรวมทั้งปี " . $total . " บาท (" . $Config->Convert($totalText) . ")" . $vatText;
 if ($model['recivetype'] == 1 || $model['recivetype'] == 3) {
     $recivetype = $model['payment'] == 5 ? $text3 : $text1;
@@ -83,7 +83,7 @@ if ($model['recivetype'] == 1 || $model['recivetype'] == 3) {
 <?php echo $address; ?> รหัสไปรษณีย์ <?php echo $model['zipcode']; ?> เบอร์โทรสถานประกอบการ <?php echo $model['tel']; ?> เมื่อวันที่ <?php echo $Config->thaidateFull($model['createat']); ?> ระหว่าง <?php echo $model['company']; ?>  โดย <?php echo $model['manager']; ?>  ตำแหน่งเจ้าของสถานประกอบการ   ซึ่งต่อไปนี้เรียกว่า   “ผู้ว่าจ้าง”   ฝ่ายหนึ่ง  กับ <?php echo $promiseWith; ?> ซึ่งต่อไปนี้ในสัญญาเรียกว่า  “ผู้รับจ้าง”  อีกฝ่ายหนึ่ง  คู่สัญญาทั้งสองฝ่ายได้ตกลงกันโดยมีสาระสำคัญ ดังต่อไปนี้
     </p>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 1 </strong>“ผู้ว่าจ้าง”  ตกลงว่าจ้าง และ “ผู้รับจ้าง” ตกลงรับจ้างเหมาทำการเก็บขนย้ายและกำจัดขยะมูลฝอยติดเชื้อ  ให้กับ   “ผู้ว่าจ้าง” เพื่อให้การทำลายขยะดังกล่าวเป็นไปตามกฎกระทรวงสาธารณสุขว่าด้วยการกำจัดขยะมูลฝอยติดเชื้อ พ.ศ. 2545 และกฎหมายอื่นๆที่เกี่ยวข้อง   ตามรายละเอียดแนบท้ายบันทึกที่แนบมาพร้อมนี้  โดยมีข้อกำหนดและเงื่อนไขแห่งบันทึกนี้ รวมทั้งเอกสารแนบท้ายบันทึกนี้</p>
-    <p>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 2 </strong>“ผู้รับจ้าง” ตามข้อ 1 สัญญาว่าจะเริ่มนับตั้งแต่  วันที่ <?php echo $Config->thaidateFull($model['promisedatebegin']); ?> ถึงวันที่ <?php echo $Config->thaidateFull($model['promisedateend']); ?> รวมระยะเวลา <?php echo $month; ?> เดือน  ถ้าผู้รับจ้างมิได้ลงมือทำงานภายในกำหนดเวลา  หรือมีเหตุให้เชื่อได้ว่าผู้รับจ้าง ไม่สามารถทำงานให้แล้วเสร็จภายในกำหนดเวลา  หรือล่าช้าเกินกว่ากำหนดเวลา   หรือผู้รับจ้างทำผิดข้อตกลงข้อใดข้อหนึ่ง  ผู้ว่าจ้างมีสิทธิที่จะบอกเลิกจ้างตามบันทึกนี้ได้ </p>
+    <p>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 2 </strong>“ผู้รับจ้าง” ตามข้อ 1 สัญญาว่าจะเริ่มนับตั้งแต่  วันที่ <?php echo $Config->thaidateFull($model['promisedatebegin']); ?> ถึงวันที่ <?php echo $Config->thaidateFull($model['promisedateend']); ?> รวมระยะเวลา <?php echo $month; ?> เดือน  ถ้าผู้รับจ้างมิได้ลงมือทำงานภายในกำหนดเวลา  หรือมีเหตุให้เชื่อได้ว่าผู้รับจ้าง ไม่สามารถทำงานให้แล้วเสร็จ ภายใน กำหนดเวลา  หรือล่าช้าเกินกว่ากำหนดเวลา   หรือผู้รับจ้างทำผิดข้อตกลงข้อใดข้อหนึ่ง  ผู้ว่าจ้างมีสิทธิที่จะบอกเลิกจ้างตามบันทึกนี้ได้ </p>
     <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3 </strong> “ผู้ว่าจ้าง”  ตกลงจ่าย  และผู้รับจ้างตกลงรับเงินค่าจ้างเป็น<?php echo $promiseType; ?>  รวมระยะเวลา  <?php echo $month; ?>  เดือน <?php echo $recivetype; ?>   โดยกำหนดจ่าย ภายใน  30 วัน นับตั้งแต่วันที่ “ผู้ว่าจ้าง” หรือตัวแทนของ “ผู้ว่าจ้าง” ได้ทำการตรวจรับ ถูกต้องเรียบร้อยแล้ว </p>
 
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 4 หน้าที่รับผิดชอบของ “ผู้รับจ้าง”</strong>
