@@ -43,17 +43,15 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
 <?php
 //ประเภทกลุ่มลูกค้า
-echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
-echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
-echo "ใบแจ้งหนี้ ";
-echo (in_array($customer['grouptype'], $arrayDateInvoice)) ? "วันที่ => เอาวันที่</br>" : "วันที่ => ไม่เอา</br>";
-echo "บิล ";
-echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => เอาวันที่" : "วันที่ => ไม่เอา";
+//echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
+//echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
+//echo "ใบแจ้งหนี้ ";
+//echo (in_array($customer['grouptype'], $arrayDateInvoice)) ? "วันที่ => เอาวันที่</br>" : "วันที่ => ไม่เอา</br>";
+//echo "บิล ";
+//echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => เอาวันที่" : "วันที่ => ไม่เอา";
 
 $vatbath = 0;
 ?>
-
-
 
 <div>
 

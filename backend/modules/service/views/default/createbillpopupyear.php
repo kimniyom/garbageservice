@@ -128,6 +128,7 @@ $vatbath = 0;
                     <tbody>
                         <?php
                         $sum = 0;
+                        $productPrice = 0;
                         $sumDiscount = 0;
                         $sumDeposit = 0;
                         $i = 0;
@@ -145,7 +146,19 @@ $vatbath = 0;
                             ?>
                         <?php endforeach; ?>
                         <?php
-                        $sumDiscount = ($sum - $invoicedetail['discount']);
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
+                        //if ($status > 0) {
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
                         //}
                         ?>
@@ -161,10 +174,10 @@ $vatbath = 0;
 
                         <tr>
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 2);
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -197,7 +210,12 @@ $vatbath = 0;
                                 <?php
                                 if ($vat == 1) {
                                     //คำนวน vat
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -314,6 +332,7 @@ $vatbath = 0;
                     <tbody>
                         <?php
                         $sum = 0;
+                        $productPrice = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
                             //$fineprice = ($promise['fine'] * $rs['garbageover']);
@@ -325,6 +344,23 @@ $vatbath = 0;
 
                             <?php //} ?>
                         <?php endforeach; ?>
+                        <?php
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
+                        //if ($status > 0) {
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
+                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        //}
+                        ?>
                         <tr>
                             <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1</td>
                             <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าบริการตามสัญญารายปี </td>
@@ -337,10 +373,10 @@ $vatbath = 0;
 
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 2);
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -369,9 +405,14 @@ $vatbath = 0;
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    //คำนวน vat
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -495,6 +536,7 @@ $vatbath = 0;
                     <tbody>
                         <?php
                         $sum = 0;
+                        $productPrice = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
                             $totalRow = $rs['amount'];
@@ -508,53 +550,78 @@ $vatbath = 0;
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                             </tr>
                         <?php endforeach; ?>
-
+                        <?php
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
+                        //if ($status > 0) {
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
+                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        //}
+                        ?>
                     </tbody>
                     <tfoot>
-                        <?php if ($vat == 1) { ?>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                    <?php
-                                    echo $sum;
-                                    ?>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1.กรุณาโอเงินผ่านธนาคารไทยพาณิชย์ บัญชีออมทรัพย์</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ชื่อบัญชี บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">เลขบัญชี 372-259936-7</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">2.ส่งหลักฐานการชำระเงินระบุชื่อบริษัทและเดือนที่ชำระค่าบริการให้ชัดเจนส่งมาที่</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                    LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
-                                </th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                    <?php
+
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาค่าบริการ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                <?php
+                                echo number_format($productPrice, 2);
+                                ?>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1.กรุณาโอเงินผ่านธนาคารไทยพาณิชย์ บัญชีออมทรัพย์</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ชื่อบัญชี บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">เลขบัญชี 372-259936-7</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">2.ส่งหลักฐานการชำระเงินระบุชื่อบริษัทและเดือนที่ชำระค่าบริการให้ชัดเจนส่งมาที่</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
+                            </th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                <?php
+                                if ($vat == 1) {
                                     //คำนวน vat
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
-                                    ?>
-                                </th>
-                            </tr>
-                        <?php } ?>
+                                } else {
+                                    $vatbath = 0;
+                                    echo number_format($vatbath, 2);
+                                }
+                                ?>
+                            </th>
+                        </tr>
+
                         <tr>
                             <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
@@ -659,6 +726,7 @@ $vatbath = 0;
                     <tbody>
                         <?php
                         $sum = 0;
+                        $productPrice = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
                             //$fineprice = ($promise['fine'] * $rs['garbageover']);
@@ -676,49 +744,74 @@ $vatbath = 0;
                             </tr>
                             <?php //}  ?>
                         <?php endforeach; ?>
-
+                        <?php
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
+                        //if ($status > 0) {
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
+                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        //}
+                        ?>
                     </tbody>
                     <tfoot>
-                        <?php if ($vat == 1) { ?>
-                            <tr>
-                                <th colspan="3" style="text-align:center;"></th>
-                                <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                    <?php echo number_format($sum, 2); ?>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
-                            </tr>
-                            <tr>
-                                <th colspan="3" style="text-align:center;"></th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                    <?php
+
+                        <tr>
+                            <th colspan="3" style="text-align:center;"></th>
+                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาค่าบริการ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                                <?php echo number_format($productPrice, 2); ?>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align:center;"></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                                <?php
+                                if ($vat == 1) {
                                     //คำนวน vat
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
-                                    ?>
-                                </th>
-                            </tr>
-                        <?php } ?>
+                                } else {
+                                    $vatbath = 0;
+                                    echo number_format($vatbath, 2);
+                                }
+                                ?>
+                            </th>
+                        </tr>
+
                         <tr>
                             <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
@@ -764,8 +857,8 @@ $vatbath = 0;
         </div><!-- End แยก vat -->
     </div>
 </div>
-<?php 
-    //echo $sum;
+<?php
+//echo $sum;
 ?>
 <script type="text/javascript">
     setBoxs();
@@ -815,7 +908,7 @@ $vatbath = 0;
         };
         //console.log(data);
 
-        $.post(url, data, function(datas) {
+        $.post(url, data, function (datas) {
             window.location.reload();
             //getInvoice();
         });
@@ -831,7 +924,7 @@ $vatbath = 0;
             invoice: invoice,
             type: 1
         };
-        $.post(url, data, function(datas) {
+        $.post(url, data, function (datas) {
             $("#createbill").html(datas);
         });
     }

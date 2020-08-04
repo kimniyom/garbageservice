@@ -24,6 +24,13 @@ $arrayDate = array('3'); //เอาวันที่
 
 if (Yii::$app->user->identity->username == "kimniyom") {
     echo $page;
+    //ประเภทกลุ่มลูกค้า
+//echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
+//echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
+//echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => ไม่เอา" : "วันที่ => เอาวันที่";
+    if ($vat == 1) {
+        echo ($vattype == 1) ? " รวม Vat" : " แยก Vat";
+    }
 }
 ?>
 
@@ -48,22 +55,12 @@ if (Yii::$app->user->identity->username == "kimniyom") {
     </div>
 </div>
 
-
-
-<?php
-//ประเภทกลุ่มลูกค้า
-echo $customer['groupcustomer'] . " => " . $customer['grouptype'] . "<br/>";
-echo "แม่ข่าย => " . $customer['flag'] . "<br/>";
-echo (in_array($customer['grouptype'], $arrayDate)) ? "วันที่ => ไม่เอา" : "วันที่ => เอาวันที่";
-echo "ประเภท Vat => " . $vattype;
-?>
-
 <div>
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="border-left: none;  ">รวม Vat</a></li>
-        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยก Vat</a></li>
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="border-left: none;  ">รวม</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยกรายละเอียด</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -138,46 +135,31 @@ echo "ประเภท Vat => " . $vattype;
                         <?php
                         //การคำนวนคิดเป็นกิโลกรัม
                         //จำนวนกิโล * ราคาต่อกิโล
-                        $sum = 0;
+                        $sum = 0; //รวมยังไม่สุทธิ
+                        $productPrice = 0; //ค่าบริการสินค้า
                         $sumDiscount = 0;
                         $sumDeposit = 0;
-                        $sumVat = 0; //ราคาเต็มสินค้า
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
                             //$fineprice = ($promise['unitprice'] * $rs['amount']);
                             $totalRow = ($promise['unitprice'] * $rs['amount']);
-                            $sum = $sum + $totalRow; //ราคาสินค้าปกติ
+                            $sum = $sum + $totalRow;
                         endforeach;
 
-                        //หาราคาค่าบริการ
-                        if ($vat == 1) {//ถ้าเอา vat
-                            //คำนวน vat
-                            $vatbath = (($sum * 7) / 100); //คำนวนหา vat จากราคาเต็ม
-                            if ($vattype == 1) {//vat ลบ รวม VAT ให้เอาราคาเต็ม ลบ vat 
-                                $sumVat = ($sum - $vatbath); //ราคาสินค้า
-                            } else {// ถ้าแยก vat
-                                $sumVat = $sum;
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
                             }
                         } else {
-                            $vatbath = 0;
-                            $sumVat = $sum;
+                            $productPrice = $sum;
                         }
-                        
-                        
-
-
-
                         //ConfigBill
-                        //หักส่วนลบค่ามัดจำ
-                        $sumDiscount = ($sumVat - $invoicedetail['discount']);
+                        //if ($status > 0) {
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
-                        
-                        //หาราคาสุทธิ
-                        if($vat == 1 && $vattype == 1){//นำราคาบริการมา + เพิ่ม
-                            
-                        } else {
-                            
-                        }
                         //}
                         ?>
                         <tr>
@@ -192,10 +174,10 @@ echo "ประเภท Vat => " . $vattype;
 
                         <tr>
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                echo number_format($sumVat, 2);
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -223,16 +205,35 @@ echo "ประเภท Vat => " . $vattype;
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
                             </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                echo number_format($vatbath, 2);
+                                if ($vat == 1) {
+                                    //คำนวน vat
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
+                                    echo number_format($vatbath, 2);
+                                } else {
+                                    $vatbath = 0;
+                                    echo number_format($vatbath, 2);
+                                }
                                 ?>
                             </th>
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
+//if ($vattype == 1) {//vat ลบ
+//$sumVat = ($sum - $vatbath);
+//} else if ($vattype == 2) {// vat เพิ่ม
+                                $sumVat = ($sumDeposit + $vatbath);
+//} else {
+//$sumVat = $sum;
+//}
                                 echo $Config->Convert($sumVat)
                                 ?>
                             </th>
@@ -336,9 +337,10 @@ echo "ประเภท Vat => " . $vattype;
                     </thead>
                     <tbody>
                         <?php
-//การคำนวนคิดเป็นกิโลกรัม
-//จำนวนกิโล * ราคาต่อกิโล
+                        //การคำนวนคิดเป็นกิโลกรัม
+                        //จำนวนกิโล * ราคาต่อกิโล
                         $sum = 0;
+                        $productPrice = 0; //ค่าบริการสินค้า
                         $sumDiscount = 0;
                         $sumDeposit = 0;
                         $i = 0;
@@ -347,11 +349,22 @@ echo "ประเภท Vat => " . $vattype;
                             $totalRow = ($promise['unitprice'] * $rs['amount']);
                             $sum = $sum + $totalRow;
                         endforeach;
-//ConfigBill
-//if ($status > 0) {
-                        $sumDiscount = ($sum - $invoicedetail['discount']);
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
+                        //if ($status > 0) {
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
-//}
+                        //}
+                        //}
                         ?>
                         <tr>
                             <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1</td>
@@ -364,10 +377,10 @@ echo "ประเภท Vat => " . $vattype;
                     <tfoot>
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 2);
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -393,12 +406,12 @@ echo "ประเภท Vat => " . $vattype;
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-//คำนวน vat
+                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    $vatbath = (($productPrice * 7) / 100);
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -523,9 +536,10 @@ echo "ประเภท Vat => " . $vattype;
                     </thead>
                     <tbody>
                         <?php
-//การคำนวนคิดเป็นกิโลกรัม
-//จำนวนกิโล * ราคาต่อกิโล
+                        //การคำนวนคิดเป็นกิโลกรัม
+                        //จำนวนกิโล * ราคาต่อกิโล
                         $sum = 0;
+                        $productPrice = 0;
                         $sumDiscount = 0;
                         $sumDeposit = 0;
                         $i = 0;
@@ -544,19 +558,30 @@ echo "ประเภท Vat => " . $vattype;
                         endforeach;
                         ?>
                         <?php
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
                         //ConfigBill
                         //if ($status > 0) {
-                        $sumDiscount = ($sum - $invoicedetail['discount']);
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        //}
                         //}
                         ?>
                     </tbody>
                     <tfoot>
                         <tr>
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                <?php echo number_format($sum, 2); ?>
+                                <?php echo number_format($productPrice, 2); ?>
                             </th>
                         </tr>
                         <tr>
@@ -583,12 +608,12 @@ echo "ประเภท Vat => " . $vattype;
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
                             </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-//คำนวน vat
+                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    $vatbath = (($productPrice * 7) / 100);
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -704,10 +729,11 @@ echo "ประเภท Vat => " . $vattype;
                     </thead>
                     <tbody>
                         <?php
-//การคำนวนคิดเป็นกิโลกรัม
-//จำนวนกิโล * ราคาต่อกิโล
+                        //การคำนวนคิดเป็นกิโลกรัม
+                        //จำนวนกิโล * ราคาต่อกิโล
                         $sum = 0;
                         $sumDiscount = 0;
+                        $productPrice = 0;
                         $sumDeposit = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
@@ -725,20 +751,31 @@ echo "ประเภท Vat => " . $vattype;
                         endforeach;
                         ?>
                         <?php
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
                         //ConfigBill
                         //if ($status > 0) {
-                        $sumDiscount = ($sum - $invoicedetail['discount']);
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        //}
                         //}
                         ?>
                     </tbody>
                     <tfoot>
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 2);
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -764,12 +801,12 @@ echo "ประเภท Vat => " . $vattype;
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-//คำนวน vat
+                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    $vatbath = (($productPrice * 7) / 100);
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;

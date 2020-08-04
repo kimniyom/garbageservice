@@ -86,19 +86,21 @@ $this->params['breadcrumbs'][] = $this->title;
 <script type="text/javascript">
     function getRound(customerid) {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createinvoiceyear']) ?>" + "&customerId=" + customerid;
-        window.location=url;
+        window.location = url;
 //var data = {promiseid: promise};
         //$.post(url, data, function(datas) {
-            //$("#round").html(datas);
+        //$("#round").html(datas);
         //});
     }
 
-    function popupFormbill(promiseid) {
+    function popupFormbill(promiseid, vat, vattype) {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopupyear']) ?>";
         var data = {
-            promiseid: promiseid
+            promiseid: promiseid,
+            vat: vat,
+            vattype: vattype
         };
-        $.post(url, data, function(datas) {
+        $.post(url, data, function (datas) {
             $("#createbill").html(datas);
         });
     }

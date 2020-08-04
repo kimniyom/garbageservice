@@ -15,8 +15,7 @@ use yii\web\Controller;
  * Default controller for the `service` module
  */
 class DefaultController extends Controller {
-    
-   
+
     /**
      * Renders the index view for the module
      * @return string
@@ -150,19 +149,19 @@ class DefaultController extends Controller {
         $typevatBill = $Promise['vattype'];
         if ($Promise['vat'] == 1) {
             $vateBill = "เอา vat";
-            if($typevatBill == 1){
-                $vatType = "รวม Vat";
+            if ($typevatBill == 1) {
+                $vatText = "รวม Vat";
             } else {
-                $vatType = "แยก Vat";
+                $vatText = "แยก Vat";
             }
         } else {
             $vateBill = "ไม่เอา vat";
-            $vatType = "";
+            $vatText = "";
         }
         $str = "";
         $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/> ";
         $str .= "<b>สัญญา " . $rs['vattype'] . "</b>";
-        $str .= " <b>" . $vateBill . "</b>:<b>".$vatType."</b>";
+        $str .= " <b>" . $vateBill . "</b> " . " (" . $vatText . ")";
         if ($Promise['flag'] != 1) {
             $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
         } else {
@@ -308,17 +307,17 @@ class DefaultController extends Controller {
         $year = substr($monthyear, 0, 4);
         $month = substr($monthyear, 5, 2);
         $vat = Yii::$app->request->post('vat');
-        
-        $sumdiscount = ($total - $discount);//ราคาหลังหักส่วนลด
-        $sumdeposit = ($sumdiscount - $deposit);//ราคาหลังหักค่ามัดจำ
+
+        $sumdiscount = ($total - $discount); //ราคาหลังหักส่วนลด
+        $sumdeposit = ($sumdiscount - $deposit); //ราคาหลังหักค่ามัดจำ
         if ($vat == 1) {//คิด Vat
             $vats = (($sumdeposit * 7) / 100);
         } else {
             $vats = 0;
         }
-        
+
         $totalfinal = ($sumdeposit + $vats);
-        
+
         $columns = array(
             "invoicenumber" => $invoiceNumber,
             "promise" => $promiseId,
@@ -478,27 +477,34 @@ class DefaultController extends Controller {
         $typePromise = $Promise['recivetype']; //ประเภทการจ้าง
         $data['vat'] = $Promise['vat']; //เช็คเอา vat  ไม่เอา vat
         $data['typevat'] = $Promise['vattype']; //เช็คเอา vat- +
-        $vatBill = $Promise['vat'];
-        //$typevatBill = $Promise['vattype'];
-        if ($Promise['vat'] == 1) {
+        $vat = $Promise['vat'];
+        $typevatBill = $Promise['vattype'];
+        if ($vat == 1) {
             $vateBill = "เอา vat";
+            if ($typevatBill == 1) {
+                $vatText = "(รวม Vat)";
+            } else {
+                $vatText = "(แยก Vat)";
+            }
         } else {
             $vateBill = "ไม่เอา vat";
+            $vatText = "";
         }
 
         $str = "";
         $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
         $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
-        $str .= "<b>" . $vateBill . "</b><br/>";
+        $str .= "<b>" . $vateBill . " " . $vatText . "</b><br/>";
         $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
         //$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
-        $str .= "<button type='button' class='btn btn-default' onclick='popupFormbill($promiseId)'>สร้างใบวางบิล</button>";
+        $str .= "<button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$typevatBill)'>สร้างใบวางบิล</button>";
         return $str;
     }
 
     public function actionCreatebillpopupyear() {
         $promiseId = Yii::$app->request->post('promiseid');
-
+        $data['vat'] = Yii::$app->request->post('vat');
+        $data['vatype'] = Yii::$app->request->post('vattype');
         $Promise = Promise::find()->where(['id' => $promiseId])->One();
         $Customer = $this->actionGetcustomer($Promise['customerid']);
         $RoundMoney = Roundmoney::find()->where(['promiseid' => $promiseId])->all();
@@ -615,7 +621,7 @@ WHERE r.promiseid = '$promiseId'";
         $data['round'] = $this->actionGetroundpromisesixmonth($customerId);
         $data['customerId'] = $customerId;
         //$data['type'] = $type;
-        
+
         return $this->render('createinvoicesixmonth', $data);
     }
 
@@ -633,22 +639,31 @@ WHERE r.promiseid = '$promiseId'";
         $typePromise = $Promise['recivetype']; //ประเภทการจ้าง
         $data['vat'] = $Promise['vat']; //เช็คเอา vat  ไม่เอา vat
         $data['typevat'] = $Promise['vattype']; //เช็คเอา vat- +
-        $vatBill = $Promise['vat'];
+        $vatBill = $Promise['vattype'];
+        $vat = $Promise['vat'];
         //$typevatBill = $Promise['vattype'];
-        if ($Promise['vat'] == 1) {
+        if ($vat == 1) {
             $vateBill = "เอา vat";
+            if ($vatBill == 1) {
+                $vatText = "(รวม Vat)";
+            } else {
+                $vatText = "(แยก Vat)";
+            }
         } else {
             $vateBill = "ไม่เอา vat";
+            $vatText = "";
         }
+
+
 
         $str = "";
         $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
         $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
-        $str .= "<b>" . $vateBill . "</b><br/>";
+        $str .= "<b>" . $vateBill . "</b> <b>" . $vatText . "</b>";
         $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
         //$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
         $str .= "<ul class='list-gorup' style='margin-left:0px; padding-left:0px;'>";
-        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vatBill,$typePromise,1,6)'>สร้างใบวางบิล</button></li>";
+        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$vatBill,$typePromise,1,6)'>สร้างใบวางบิล</button></li>";
         $i = 0;
         foreach ($RoundMoney as $rs):
             $i++;
@@ -656,7 +671,7 @@ WHERE r.promiseid = '$promiseId'";
                 $str .= "<li class='list-group-item'>" . $Config->thaidatemonth($rs['datekeep']) . "</li>";
             }
         endforeach;
-        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vatBill,$typePromise,7,12)'>สร้างใบวางบิล</button></li>";
+        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$vatBill,$typePromise,7,12)'>สร้างใบวางบิล</button></li>";
         $b = 0;
         foreach ($RoundMoney as $rs):
             $b++;
@@ -674,6 +689,7 @@ WHERE r.promiseid = '$promiseId'";
         $start = Yii::$app->request->post('start');
         $end = Yii::$app->request->post('end');
         $data['vat'] = Yii::$app->request->post('vat');
+        $data['vattype'] = Yii::$app->request->post('vattype');
         $typepromise = Yii::$app->request->post('typepromise');
         $data['start'] = $start;
         $data['end'] = $end;
@@ -774,8 +790,8 @@ WHERE r.promiseid = '$promiseId'";
                 ->update("roundmoney", $columnsUpdate, "promiseid = '$promiseId' AND round BETWEEN '$start' AND '$end' ")
                 ->execute();
     }
-    
-     //บันทึกรายการใบแจ้งหนี้ 1 ปี
+
+    //บันทึกรายการใบแจ้งหนี้ 1 ปี
     public function actionAddinvoiceyear() {
         $Config = new Config();
         $invoiceNumber = Yii::$app->request->post('invoiceNumber');
