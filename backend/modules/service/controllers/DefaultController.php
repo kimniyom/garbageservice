@@ -31,11 +31,11 @@ class DefaultController extends Controller {
         $Promise = Promise::find()->where(['customerid' => $customerId, 'status' => '2'])->One();
         $Customer = Customers::find()->where(['id' => $customerId])->One();
         //$RoundGarbage = Roundgarbage::find()->where(['promiseid' => $promiseId])->all();
-        $str = "";
+        $str = "<div style='padding:5px;'>";
         $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
         $str .= "<b>เลขที่สัญญา " . $Promise['promisenumber'] . "</b><br/>";
         $link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'promise' => $Promise['id']]);
-        $str .= "  <a href='" . $link . "' class='btn btn-success'><i class='fa fa-save'></i> บันทึกรายการ</a> " . "<br/>";
+        $str .= "  <a href='" . $link . "' class='btn btn-success'><i class='fa fa-save'></i> บันทึกรายการ</a> " . "</div><br/>";
         /*
           foreach ($RoundGarbage as $rs):
           if ($rs['status'] == 0) {
@@ -158,7 +158,7 @@ class DefaultController extends Controller {
             $vateBill = "ไม่เอา vat";
             $vatText = "";
         }
-        $str = "";
+        $str = "<div style='padding:5px;'>";
         $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/> ";
         $str .= "<b>สัญญา " . $rs['vattype'] . "</b>";
         $str .= " <b>" . $vateBill . "</b> " . " (" . $vatText . ")";
@@ -167,16 +167,16 @@ class DefaultController extends Controller {
         } else {
             $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/viewsubpromise', 'id' => $promiseId]);
         }
-        $str .= "<br/><em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><hr/>";
+        $str .= "<br/><em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em></div><hr/>";
         $typeCustomrt = $Customer['typeregister'];
-        $str .= "<div class='list-group'>";
+        $str .= "<div class='list-group' style='border:none;'>";
         foreach ($RoundMoney as $rs):
             if (!$rs['receiptnumber']) {
                 $link = Yii::$app->urlManager->createUrl(['service/default/formsaveround', 'id' => $rs['id'], 'promise' => $rs['promiseid'], 'round' => $rs['round'], 'vat' => $Promise['vat'], 'typevat' => $Promise['vattype']]);
                 $dateMonth = '"' . $rs['datekeep'] . '"';
                 $round = $rs['round'];
                 $id = $rs['id'];
-                $str .= "<div class='list-group-item'>";
+                $str .= "<div class='list-group-item' style='border:none;'>";
                 $str .= " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . "  <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-save'></i> สร้างใบวางบิล</a></span>" . "<br/>";
                 $str .= "</div>";
             } else {
@@ -184,7 +184,7 @@ class DefaultController extends Controller {
                 $dateMonth = '"' . $rs['datekeep'] . '"';
                 $round = $rs['round'];
                 $id = $rs['id'];
-                $str .= "<div class='list-group-item'>";
+                $str .= "<div class='list-group-item' style='border:none;'>";
                 $str .= " เดือน => " . $Config->thaidatemonth($rs['datekeep']) . " <span class='badge badge-primary badge-pill' id='text-list'><a href='javascript:popupFormbill($promiseId,$dateMonth,$round,$id,$typeCustomrt,$vatBill,$typevatBill,$typePromise)'><i class='fa fa-check'></i> ใบวางบิล / ใบเสร็จ</a></span>" . "<br/>";
                 $str .= "</div>";
             }
@@ -654,32 +654,36 @@ WHERE r.promiseid = '$promiseId'";
             $vatText = "";
         }
 
-
-
         $str = "";
-        $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
-        $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
-        $str .= "<b>" . $vateBill . "</b> <b>" . $vatText . "</b>";
-        $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
-        //$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
-        $str .= "<ul class='list-gorup' style='margin-left:0px; padding-left:0px;'>";
-        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$vatBill,$typePromise,1,6)'>สร้างใบวางบิล</button></li>";
-        $i = 0;
-        foreach ($RoundMoney as $rs):
-            $i++;
-            if ($i <= 6) {
-                $str .= "<li class='list-group-item'>" . $Config->thaidatemonth($rs['datekeep']) . "</li>";
-            }
-        endforeach;
-        $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$vatBill,$typePromise,7,12)'>สร้างใบวางบิล</button></li>";
-        $b = 0;
-        foreach ($RoundMoney as $rs):
-            $b++;
-            if ($b > 6) {
-                $str .= "<li class='list-group-item'>" . $Config->thaidatemonth($rs['datekeep']) . "</li>";
-            }
-        endforeach;
-        $str .= "</ul>";
+        if ($RoundMoney) {
+            $str .= "<div style='padding:5px;'>";
+            $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
+            $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+            $str .= "<b>" . $vateBill . "</b> <b>" . $vatText . "</b>";
+            $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em></div><br/><br/>";
+
+            //$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+            $str .= "<ul class='list-gorup' style='margin-left:0px; padding-left:0px; border:none;'>";
+            $str .= "<li class='list-group-item active' style='border:none; border-radius:0px;'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$vatBill,$typePromise,1,6)'>สร้างใบวางบิล</button></li>";
+            $i = 0;
+            foreach ($RoundMoney as $rs):
+                $i++;
+                if ($i <= 6) {
+                    $str .= "<li class='list-group-item'>" . $Config->thaidatemonth($rs['datekeep']) . "</li>";
+                }
+            endforeach;
+            $str .= "<li class='list-group-item active'><button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$vatBill,$typePromise,7,12)'>สร้างใบวางบิล</button></li>";
+            $b = 0;
+            foreach ($RoundMoney as $rs):
+                $b++;
+                if ($b > 6) {
+                    $str .= "<li class='list-group-item' style='border-radius:0px;'>" . $Config->thaidatemonth($rs['datekeep']) . "</li>";
+                }
+            endforeach;
+            $str .= "</ul>";
+        } else {
+            $str .= "ยังไม่เลือกลูกค้า";
+        }
         return $str;
     }
 
@@ -854,6 +858,37 @@ WHERE r.promiseid = '$promiseId'";
         Yii::$app->db->createCommand()
                 ->update("roundmoney", $columnsUpdate, "promiseid = '$promiseId' ")
                 ->execute();
+    }
+
+    public function actionConfirmorderonmonth($groupid = "", $year = "", $month = "") {
+        $data['groupId'] = $groupid;
+        //$data['customerid'] = $customerid;
+        $data['year'] = $year;
+        $data['month'] = $month;
+        $sql = "select pro.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+                    from customers c
+                        inner join changwat p on c.changwat = p.changwat_id
+                        inner join ampur a on c.ampur = a.ampur_id
+                        inner join tambon t on c.tambon = t.tambon_id
+                        inner join promise pro on c.id = pro.customerid
+                        INNER JOIN packagepayment pm ON pro.payment = pm.id
+                        INNER JOIN groupcustomer g ON c.grouptype = g.id
+                where pro.`status` = '2' AND g.id = '$groupid'";
+
+        $data['groupcustomer'] = \app\models\Groupcustomer::find()->all();
+        $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
+        //$data['customer'] = \common\models\Customers::findAll(['grouptype' => $groupid]);
+
+        return $this->render("confirmorderonmonth", $data);
+    }
+
+    public function actionGetroudinmonth() {
+        $promise = \Yii::$app->request->post('promise');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+
+        //$sql = "select * from ";
+        echo $promise;
     }
 
 }

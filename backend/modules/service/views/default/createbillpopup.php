@@ -792,6 +792,7 @@ $vatbath = 0;
             $("#deposit").attr("disabled", "disabled");
             $("#credit").attr("disabled", "disabled");
         } else {
+            $("#discount").attr("disabled", "disabled");
             $("#dateinvoice").removeAttr("disabled");
             $("#datebill").removeAttr("disabled");
         }

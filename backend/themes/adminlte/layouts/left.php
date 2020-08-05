@@ -112,7 +112,8 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                             ['label' => 'รายครั้ง', 'icon' => 'trash-o', 'url' => ['/service/servicepertime/index']],
                         ],
                     ],
-                        ['label' => 'ใบวางบิล/ใบแจ้งยอด', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
+                        ['label' => 'ใบวางบิล/ใบเสร็จ', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
+                        ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
                         ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
                         /*
                           ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],

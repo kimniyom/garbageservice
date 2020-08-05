@@ -128,6 +128,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                     <tbody>
                         <?php
                         $sum = 0;
+                        $productPrice = 0;
                         $sumDiscount = 0;
                         $sumDeposit = 0;
                         $i = 0;
@@ -138,14 +139,26 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                             //CongigBill
                             //if ($status > 0) {
-                            $sumDiscount = ($sum - $invoicedetail['discount']);
-                            $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                            //$sumDiscount = ($sum - $invoicedetail['discount']);
+                            //$sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
                             //}
                             ?>
 
                         <?php endforeach; ?>
                         <?php
-                        $sumDiscount = ($sum - $invoicedetail['discount']);
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
+
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
                         $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
                         ?>
                         <tr>
@@ -160,10 +173,10 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                         <tr>
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 2);
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -194,9 +207,14 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    //คำนวน vat
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -319,6 +337,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                     </thead>
                     <tbody>
                         <?php
+                        $productPrice = 0;
                         $sum = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
@@ -331,6 +350,22 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                             <?php //} ?>
                         <?php endforeach; ?>
+                        <?php
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
+
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
+                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        ?>
                         <tr>
                             <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1</td>
                             <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อ <?php echo $Config->thaidatemonth($rounddate) ?></td>
@@ -343,10 +378,10 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 2);
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -375,9 +410,14 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    //คำนวน vat
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -504,6 +544,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                     </thead>
                     <tbody>
                         <?php
+                        $productPrice = 0;
                         $sum = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
@@ -518,7 +559,22 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                             </tr>
                         <?php endforeach; ?>
+                        <?php
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
 
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
+                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        ?>
                     </tbody>
                     <tfoot>
 
@@ -527,7 +583,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                echo $sum;
+                                echo number_format($productPrice, 2);
                                 ?>
                             </th>
                         </tr>
@@ -558,9 +614,14 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    //คำนวน vat
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -677,6 +738,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                     </thead>
                     <tbody>
                         <?php
+                        $productPrice = 0;
                         $sum = 0;
                         $i = 0;
                         foreach ($billdetail as $rs): $i++;
@@ -695,7 +757,22 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             </tr>
                             <?php //}  ?>
                         <?php endforeach; ?>
+                        <?php
+                        //คิดราคาแบบรวมVat
+                        if ($vat == 1) {
+                            if ($vattype == 1) {
+                                $productPrice = ($sum * 100) / 107;
+                            } else {
+                                $productPrice = $sum;
+                            }
+                        } else {
+                            $productPrice = $sum;
+                        }
+                        //ConfigBill
 
+                        $sumDiscount = ($productPrice - $invoicedetail['discount']);
+                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                        ?>
                     </tbody>
                     <tfoot>
 
@@ -704,7 +781,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                echo number_format($sum, 0);
+                                echo number_format($productPrice, 0);
                                 ?>
                             </th>
                         </tr>
@@ -733,9 +810,14 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
-                                //คำนวน vat
                                 if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
+                                    //คำนวน vat
+                                    if ($vattype == 1) {
+                                        $vatbath = ($sum - $productPrice);
+                                    } else {
+                                        $vatbath = (($productPrice * 7) / 100);
+                                    }
+
                                     echo number_format($vatbath, 2);
                                 } else {
                                     $vatbath = 0;
@@ -790,8 +872,8 @@ if (Yii::$app->user->identity->username == "kimniyom") {
         </div><!-- End แยก vat -->
     </div>
 </div>
-<?php 
-    //echo $sum;
+<?php
+//echo $sum;
 ?>
 <script type="text/javascript">
     setBoxs();

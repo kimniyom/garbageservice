@@ -9,6 +9,7 @@
 
     #round{
         overflow: auto;
+        background: #ffffff;
     }
 </style>
 <?php

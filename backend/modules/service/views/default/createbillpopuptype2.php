@@ -4,6 +4,7 @@
 #1.แบบคิดเป็นกิโลกรัม###############################
 #2.แบบคิดเหมาจ่ายรายเดือนโดยเข้าเก็บเป็นจำนวนครั้งตามสัญญาและ#####
 #คิดเงินต่อครั้งตามตกลงส่วนเกินกิโลกรัมคิดตามตกลงออกบิลรวมเป็นรายเดือน#
+#3.ใบส่งมอบ
 ############################################
 -->
 <style type="text/css">
@@ -61,6 +62,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="border-left: none;  ">รวม</a></li>
         <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยกรายละเอียด</a></li>
+        <li role="presentation"><a href="#tranfer" aria-controls="tranfer" role="tab" data-toggle="tab">ใบส่งมอบ</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -205,7 +207,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
                             </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%"; ?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
                                 if ($vat == 1) {
@@ -406,7 +408,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%"; ?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
                                 //คำนวน vat
@@ -466,7 +468,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
         <!--
         ###################################
-        ################ แยกVat ##############
+        ################ แยกรายละเอียด ##############
         ###################################
         -->
         <div role="tabpanel" class="tab-pane" id="profile">
@@ -608,7 +610,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                             <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
                             </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%"; ?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                 <?php
                                 //คำนวน vat
@@ -801,7 +803,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%";?></th>
+                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม <?php echo($vat == 1) ? "7%" : "0%"; ?></th>
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                 <?php
                                 //คำนวน vat
@@ -858,6 +860,54 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                 </table>
             </div>
         </div><!-- End แยก vat -->
+        <div role="tabpanel" class="tab-pane" id="tranfer">
+            <div style="background:#ffffff; padding:10px; position: relative; padding-bottom: 200px;" id="billtranfer">
+                <div style=" text-align: center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
+                    <div style="font-family: THSarabun;font-size: 28px; font-weight: bold;">ใบส่งมอบงาน</div>
+                    ค่าจ้างเหมาขนขยะติดเชื้อเป็นรายเดือน<br/>
+                    สำหรับ <?php echo $customer['company'] ?><br/>
+                    ประจำเดือน <?php echo $Config->thaidatemonth($rounddate) ?> <br/><br/>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style=" text-align: center;font-family: THSarabun;font-size: 18px;">ลำดับที่</th>
+                            <th rowspan="2" style=" text-align: center;font-family: THSarabun;font-size: 18px;">โรงพยาบาล</th>
+                            <th colspan="3" style=" text-align: center;font-family: THSarabun;font-size: 18px;">
+                                วันที่จัดเก็บขยะ<br/>
+                                วันที่.........
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style=" text-align: center;font-family: THSarabun;font-size: 18px;">จำนวน / กก.</th>
+                            <th style=" text-align: center;font-family: THSarabun;font-size: 18px;">ราคา / กก.</th>
+                            <th style=" text-align: center;font-family: THSarabun;font-size: 18px;">เจ้าหน้าที่ส่งขยะ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style=" text-align: center;font-family: THSarabun;font-size: 18px;">1</td>
+                            <td style="font-family: THSarabun;font-size: 18px;"><?php echo $customer['company'] ?></td>
+                            <td style=" text-align: center;font-family: THSarabun;font-size: 18px;">20</td>
+                            <td style=" text-align: center;font-family: THSarabun;font-size: 18px;">30</td>
+                            <td style=" text-align: center;font-family: THSarabun;font-size: 18px;">600</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="font-family: THSarabun;font-size: 18px;">สรุปน้ำหนักขยะ</div>
+                <div style="font-family: THSarabun;font-size: 18px; text-align: center;">น้ำหนักขยะติดเชื้อ = .............................. กิโลกรัม</div><br/><br/>
+                <div style="font-family: THSarabun;font-size: 18px; width: 45%; float: left; text-align: center; position: relative;">
+                    ลงชื่อ ............................................................. <br/>
+                    เจ้าหน้าที่รับขยะ<br/>
+                    วันที่ ...........................
+                </div>
+                <div style="font-family: THSarabun;font-size: 18px; width: 45%; float: right; text-align: center; position: relative;">
+                    ลงชื่อ ............................................................. <br/>
+                    ผู้รับใบสรุปการจัดเก็บขยะ<br/>
+                    วันที่ ...........................
+                </div>
+            </div>
+        </div><!-- End ใบส่งมอบ -->
     </div>
 </div>
 <?php
@@ -878,6 +928,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
             $("#deposit").attr("disabled", "disabled");
             $("#credit").attr("disabled", "disabled");
         } else {
+            $("#discount").attr("disabled", "disabled");
             $("#dateinvoice").removeAttr("disabled");
             $("#datebill").removeAttr("disabled");
         }
