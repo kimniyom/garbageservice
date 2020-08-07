@@ -69,7 +69,7 @@ $yearNow = date("Y");
             'options' => [
                 'multiple' => false,
                 'placeholder' => 'Select Customer ...',
-            //'onchange' => 'getRound()',
+            'onchange' => 'getData()',
             ],
         ]);
         ?>
@@ -79,7 +79,7 @@ $yearNow = date("Y");
 <div class="row" style=" margin-bottom: 20px;">
     <div class="col-lg-4 col-md-4">
         <label>ประจำเดือน</label>
-        <select id="month" class="form-control">
+        <select id="month" class="form-control" onchange="getData()">
             <option value="01" <?php echo ($m == '01') ? "selected" : ""; ?>>มกราคม</option>
             <option value="02" <?php echo ($m == '02') ? "selected" : ""; ?>>กุมภาพันธ์</option>
             <option value="03" <?php echo ($m == '03') ? "selected" : ""; ?>>มีนาคม</option>
@@ -96,7 +96,7 @@ $yearNow = date("Y");
     </div>
     <div class="col-lg-4 col-md-4">
         <label>พ.ศ.</label>
-        <select id="year" class="form-control">
+        <select id="year" class="form-control" onchange="getData()">
             <option value="<?php echo $yearNow ?>" <?php echo ($year == $yearNow) ? "selected" : ""; ?>><?php echo ($yearNow + 543) ?></option>
             <option value="<?php echo ($yearNow - 1) ?>" <?php echo ($year == ($yearNow - 1)) ? "selected" : ""; ?>><?php echo (($yearNow + 543) - 1) ?></option>
         </select>
@@ -154,18 +154,18 @@ $this->registerJs('setBox()');
     }
 
     function getData() {
-        var groupid = $("#groupcustomer").val();
+        //var groupid = $("#groupcustomer").val();
         var promise = $("#promise").val();
         var month = $("#month").val();
         var year = $("#year").val();
         var data = {
-            groupid: groupid,
+            //groupid: groupid,
             promise: promise,
             year: year,
             month: month
         };
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopup']) ?>";
-        if (groupid == "" || promise == "") {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/getroudinmonth']) ?>";
+        if (promise == "") {
             $("#round").html("<br/><br/><center>เลือกเงื่อนไขไม่ครบ ...</center>");
             return false;
         }

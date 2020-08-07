@@ -883,12 +883,24 @@ WHERE r.promiseid = '$promiseId'";
     }
 
     public function actionGetroudinmonth() {
+        $Config = new Config();
         $promise = \Yii::$app->request->post('promise');
         $year = \Yii::$app->request->post('year');
         $month = \Yii::$app->request->post('month');
-
-        //$sql = "select * from ";
-        echo $promise;
+        $yearMonth = $year . "-" . $month;
+        $sql = "select * from roundgarbage where promiseid = '$promise' AND LEFT(datekeep,7) = '$yearMonth'";
+        $round = Yii::$app->db->createCommand($sql)->queryAll();
+        $str = "";
+        if($round){
+        $str .= "<ul class='list-group' style='border:none;'>";
+        foreach($round as $rs):
+            $str .= "<li class='list-group-item' style='border:none;'>".$Config->thaidate($rs['datekeep'])."</li>";
+        endforeach;
+        $str .= "</ul>";
+        } else {
+            $str .= "ยังไม่มีรายการจัดเก็บ";
+        }
+        echo $str;
     }
 
 }
