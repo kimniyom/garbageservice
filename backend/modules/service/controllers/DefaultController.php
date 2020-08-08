@@ -54,7 +54,7 @@ class DefaultController extends Controller {
     }
 
     function detailCustomer() {
-        
+
     }
 
     public function actionFormsaveround($promise) {
@@ -884,23 +884,44 @@ WHERE r.promiseid = '$promiseId'";
 
     public function actionGetroudinmonth() {
         $Config = new Config();
+        $promiseModel = new Promise();
         $promise = \Yii::$app->request->post('promise');
         $year = \Yii::$app->request->post('year');
         $month = \Yii::$app->request->post('month');
         $yearMonth = $year . "-" . $month;
-        $sql = "select * from roundgarbage where promiseid = '$promise' AND LEFT(datekeep,7) = '$yearMonth'";
+        $promiseDetail = $promiseModel::findOne(['id' => $promise]);
+        if ($promiseDetail['flag'] == 1) {
+            $subgroup = $promiseModel::findAll(['upper' => $promise]);
+            $subArr = Array();
+            foreach ($subgroup as $rs):
+                $subArr[] = "'" . $rs['id'] . "'";
+            endforeach;
+            $groupPromise = implode(",", $subArr);
+            $sql = "select * from roundgarbage where promiseid IN ($groupPromise) AND LEFT(datekeep,7) = '$yearMonth' group by datekeep";
+        } else {
+            $sql = "select * from roundgarbage where promiseid = '$promise' AND LEFT(datekeep,7) = '$yearMonth'";
+        }
+
         $round = Yii::$app->db->createCommand($sql)->queryAll();
         $str = "";
         if ($round) {
             $str .= "<ul class='list-group' style='border:none;'>";
-            foreach ($round as $rs):
-                $id = $rs['id'];
-                $str .= "<li class='list-group-item' style='border:none;cursor: pointer;' onclick='getform($id)'>" . $Config->thaidate($rs['datekeep']) . "</li>";
-            endforeach;
+            if ($promiseDetail['flag'] != 1) {
+                foreach ($round as $rs):
+                    $id = $rs['id'];
+                    $str .= "<li class='list-group-item' style='border:none;cursor: pointer;' onclick='getform($id)'>" . $Config->thaidate($rs['datekeep']) . "</li>";
+                endforeach;
+            } else {
+                foreach ($round as $rs):
+                    $datekeep = $rs['datekeep'];
+                    $str .= "<li class='list-group-item' style='border:none;cursor: pointer;' onclick='getformsubpromise(\"$datekeep\")'>" . $Config->thaidate($rs['datekeep']) . "</li>";
+                endforeach;
+            }
             $str .= "</ul>";
         } else {
-            $str .= "ยังไม่มีรายการจัดเก็บ";
+            $str .= "<div style='text-align:center; padding-top:20px;'>ยังไม่มีรายการจัดเก็บ</div>";
         }
+
         echo $str;
     }
 
@@ -909,16 +930,18 @@ WHERE r.promiseid = '$promiseId'";
         $promiseid = \Yii::$app->request->post('promiseid');
         $groupcustomer = \Yii::$app->request->post('groupcustomer');
         $promise = Promise::findOne(['id' => $promiseid]);
+        $data['groupcustomer'] = $groupcustomer;
+        $data['promiseid'] = $promiseid;
+        $data['id'] = $id;
         $data['promise'] = $promise;
-        $sqlCus = "SELECT p.*,c.company
-                        FROM promise p INNER JOIN customers c ON p.customerid = c.id
-                        WHERE p.id = '$promiseid'";
+        $data['customer'] = $this->getcustomerInPromise($promiseid);
 
-        $data['customer'] = \Yii::$app->db->createCommand($sqlCus)->queryOne();
-        
         if ($groupcustomer == "2" || $groupcustomer == "4") {//รพ.และรพ.สต
             if ($promise['flag'] == 1) {
-                //รพ.เครือข่าย
+                //รพ.ที่มีเครือข่าย
+                $data['detail'] = Roundgarbage::findOne(['id' => $id]);
+                //$sql = "";
+                $page = "sendtypehospitalsubpromise";
             } else {
                 //รพ. หรือ รพ.สต.
                 $data['detail'] = Roundgarbage::findOne(['id' => $id]);
@@ -928,6 +951,59 @@ WHERE r.promiseid = '$promiseId'";
             //บริษัท
             $data['detail'] = Roundgarbage::findOne(['id' => $id]);
             $page = "sendtypecompany";
+        }
+        //Roundgarbage::findOne(['id' => $id]);
+        return $this->renderPartial($page, $data);
+    }
+
+    public function actionCreateformsendworksubpromise() {
+        $promiseModel = new Promise();
+        $promiseid = \Yii::$app->request->post('promiseid');
+        $datekeep = \Yii::$app->request->post('datekeep');
+        $promise = Promise::findOne(['id' => $promiseid]);
+        $data['promiseid'] = $promiseid;
+        $data['promise'] = $promise;
+        $data['customer'] = $this->getcustomerInPromise($promiseid);
+        $data['datekeep'] = $datekeep;
+        $subgroup = $promiseModel::findAll(['upper' => $promiseid]);
+        $subArr = Array();
+        foreach ($subgroup as $rs):
+            $subArr[] = "'" . $rs['id'] . "'";
+        endforeach;
+        $groupPromise = implode(",", $subArr);
+        $sql = "select r.*,c.company from roundgarbage r INNER JOIN promise p ON r.promiseid = p.id INNER JOIN customers c ON p.customerid = c.id where promiseid IN ($groupPromise) AND datekeep = '$datekeep' ";
+        //รพ.ที่มีเครือข่าย
+        $data['detail'] = Yii::$app->db->createCommand($sql)->queryAll();
+        //$sql = "";
+        $page = "sendtypehospitalsubpromise";
+        return $this->renderPartial($page, $data);
+    }
+
+    function getcustomerInPromise($promiseId = "") {
+        $sqlCus = "SELECT p.*,c.company
+                        FROM promise p INNER JOIN customers c ON p.customerid = c.id
+                        WHERE p.id = '$promiseId'";
+
+        return \Yii::$app->db->createCommand($sqlCus)->queryOne();
+    }
+
+    public function actionPrint($id, $promiseid, $groupcustomer) {
+        $promise = Promise::findOne(['id' => $promiseid]);
+        $data['promise'] = $promise;
+        $data['customer'] = $this->getcustomerInPromise($promiseid);
+
+        if ($groupcustomer == "2" || $groupcustomer == "4") {//รพ.และรพ.สต
+            if ($promise['flag'] == 1) {
+                //รพ.เครือข่าย
+            } else {
+                //รพ. หรือ รพ.สต.
+                $data['detail'] = Roundgarbage::findOne(['id' => $id]);
+                $page = "printsendtypehospital";
+            }
+        } else if ($groupcustomer == "3") {
+            //บริษัท
+            $data['detail'] = Roundgarbage::findOne(['id' => $id]);
+            $page = "printsendtypecompany";
         }
         //Roundgarbage::findOne(['id' => $id]);
         return $this->renderPartial($page, $data);

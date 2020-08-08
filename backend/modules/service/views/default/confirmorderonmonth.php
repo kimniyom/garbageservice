@@ -145,7 +145,21 @@ $this->registerJs('setBox()');
             promiseid: promise,
             groupcustomer: groupid
         };
-        $.post(url, data, function (datas) {
+        $.post(url, data, function(datas) {
+            $("#paper").html(datas);
+        });
+    }
+
+    function getformsubpromise(datekeep) {
+        $("#paper").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>Loading...');
+        //var groupid = $("#groupcustomer").val();
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createformsendworksubpromise']) ?>";
+        var promise = $("#promise").val();
+        var data = {
+            promiseid: promise,
+            datekeep: datekeep
+        };
+        $.post(url, data, function(datas) {
             $("#paper").html(datas);
         });
     }
@@ -169,7 +183,7 @@ $this->registerJs('setBox()');
 
         $("#round").html("<br/><br/><center>กำลังประมวลผล ...</center>");
 
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             $("#round").html(res);
         });
     }

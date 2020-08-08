@@ -1,8 +1,4 @@
-<style type="text/css">
-    #invoice table tbody td{
-        padding: 2px;
-    }
-</style>
+
 <?php
 
 use yii\helpers\Url;
@@ -10,8 +6,24 @@ use app\models\Config;
 
 $Config = new Config();
 ?>
-<button type="button" onclick="openpopitup('<?php echo $id ?>', '<?php echo $promiseid ?>', '<?php echo $groupcustomer ?>')"><i class="fa fa-print"></i> พิมพ์ใบส่งมอบ</button>
-<hr/>
+<title>ใบส่งมอบ-<?php echo $customer['company'] ?>-<?php echo $Config->thaidatemonth($detail['datekeep']) ?></title>
+<style type="text/css">
+    @font-face {
+        font-family: 'THSarabun';
+        src: url('<?php echo Url::to('@web/web/fonts/thsarabun/THSarabun.ttf') ?>') format("woff");
+    }
+
+    @font-face {
+        font-family: 'THSarabunBold';
+        src: url('<?php echo Url::to('@web/web/fonts/thsarabun/THSarabun.ttf') ?>') format("woff");
+    }
+    #billtranfer table tbody td{
+        padding: 2px;
+    }
+
+</style>
+
+
 <div style="background:#ffffff; padding:10px; position: relative; padding-bottom: 200px; color: #000000;" id="sendcompany">
     <div style="width:50%; left:20px;  position:absolute;">
         <div style=" float: left;">
@@ -31,7 +43,7 @@ $Config = new Config();
     </div>
 
     <div style=" right: 0px;  font-size: 10px; float: right; clear: both;">อ้างจากสัญญาเลขที่:<?php echo $promise['promisenumber'] ?></div>
-    <table class="table table-bordered">
+    <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
         <thead>
             <tr>
                 <th rowspan="2" style=" text-align: center;font-family: THSarabun;font-size: 18px;">ลำดับที่</th>
@@ -57,7 +69,8 @@ $Config = new Config();
             </tr>
         </tbody>
     </table>
-    <div style="font-family: THSarabun;font-size: 18px; font-weight: bold;">สรุปน้ำหนักขยะ</div>
+    <br/>
+    <div style="font-family: THSarabun;font-size: 18px; font-weight: bold;">สรุปน้ำหนักขยะ</div><br/><br/>
     <div style="font-family: THSarabun;font-size: 18px; text-align: center;">น้ำหนักขยะติดเชื้อ = ...............<?php echo $detail['amount'] ?>............... กิโลกรัม</div><br/>
     <div style="font-family: THSarabun;font-size: 18px; text-align: center;">"ผู้รับทำลายขยะ บริษัท ที่ดินบางปะอิน จำกัด โดยวิธีการเผา"</div><br/><br/>
     <div style="font-family: THSarabun;font-size: 18px; width: 45%; float: left; text-align: center; position: relative;">
@@ -76,6 +89,7 @@ $Config = new Config();
 </div>
 
 <script type="text/javascript">
+    printDiv("sendcompany");
     function printDiv(divName) {
 
         var printContents = document.getElementById(divName).innerHTML;
@@ -86,13 +100,5 @@ $Config = new Config();
         window.print();
 
         document.body.innerHTML = originalContents;
-    }
-
-    function openpopitup(id, promiseid, groupcustomer) {
-
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/print']) ?>" + "&id=" + id + "&promiseid=" + promiseid + "&groupcustomer=" + groupcustomer;
-        newwindow = window.open(url, 'name', 'height=1122,width=793');
-
-        return false;
     }
 </script>
