@@ -69,7 +69,7 @@ $yearNow = date("Y");
             'options' => [
                 'multiple' => false,
                 'placeholder' => 'Select Customer ...',
-            'onchange' => 'getData()',
+                'onchange' => 'getData()',
             ],
         ]);
         ?>
@@ -128,7 +128,7 @@ $this->registerJs('setBox()');
     }
     function getRound() {
         var groupid = $("#groupcustomer").val();
-        //var customerid = $("#customer").val();    
+        //var customerid = $("#customer").val();
         var month = $("#month").val();
         var year = $("#year").val();
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/confirmorderonmonth']) ?>" + "&groupid=" + groupid + "&year=" + year + "&month=" + month;
@@ -148,9 +148,13 @@ $this->registerJs('setBox()');
             vattype: vattype,
             typepromise: typepromise
         };
-        $.post(url, data, function (datas) {
+        $.post(url, data, function(datas) {
             $("#createbill").html(datas);
         });
+    }
+
+    function getform(id) {
+        alert(id);
     }
 
     function getData() {
@@ -172,7 +176,7 @@ $this->registerJs('setBox()');
 
         $("#round").html("<br/><br/><center>กำลังประมวลผล ...</center>");
 
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             $("#round").html(res);
         });
     }

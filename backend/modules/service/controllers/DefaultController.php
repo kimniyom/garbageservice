@@ -54,7 +54,7 @@ class DefaultController extends Controller {
     }
 
     function detailCustomer() {
-        
+
     }
 
     public function actionFormsaveround($promise) {
@@ -891,12 +891,13 @@ WHERE r.promiseid = '$promiseId'";
         $sql = "select * from roundgarbage where promiseid = '$promise' AND LEFT(datekeep,7) = '$yearMonth'";
         $round = Yii::$app->db->createCommand($sql)->queryAll();
         $str = "";
-        if($round){
-        $str .= "<ul class='list-group' style='border:none;'>";
-        foreach($round as $rs):
-            $str .= "<li class='list-group-item' style='border:none;'>".$Config->thaidate($rs['datekeep'])."</li>";
-        endforeach;
-        $str .= "</ul>";
+        if ($round) {
+            $str .= "<ul class='list-group' style='border:none;'>";
+            foreach ($round as $rs):
+                $id = $rs['id'];
+                $str .= "<li class='list-group-item' style='border:none;cursor: pointer;' onclick='getform($id)'>" . $Config->thaidate($rs['datekeep']) . "</li>";
+            endforeach;
+            $str .= "</ul>";
         } else {
             $str .= "ยังไม่มีรายการจัดเก็บ";
         }
