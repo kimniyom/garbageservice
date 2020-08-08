@@ -135,26 +135,19 @@ $this->registerJs('setBox()');
         window.location = url;
     }
 
-    function popupFormbill(promiseid, months, round, id, type, vat, vattype, typepromise) {
-        $("#createbill").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>Loading...');
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbillpopup']) ?>";
+    function getform(id) {
+        $("#paper").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>Loading...');
+        var groupid = $("#groupcustomer").val();
+        var promise = $("#promise").val();
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createformsendwork']) ?>";
         var data = {
             id: id,
-            promiseid: promiseid,
-            dateround: months,
-            round: round,
-            type: type,
-            vat: vat,
-            vattype: vattype,
-            typepromise: typepromise
+            promiseid: promise,
+            groupcustomer: groupid
         };
-        $.post(url, data, function(datas) {
-            $("#createbill").html(datas);
+        $.post(url, data, function (datas) {
+            $("#paper").html(datas);
         });
-    }
-
-    function getform(id) {
-        alert(id);
     }
 
     function getData() {
@@ -176,7 +169,7 @@ $this->registerJs('setBox()');
 
         $("#round").html("<br/><br/><center>กำลังประมวลผล ...</center>");
 
-        $.post(url, data, function(res) {
+        $.post(url, data, function (res) {
             $("#round").html(res);
         });
     }

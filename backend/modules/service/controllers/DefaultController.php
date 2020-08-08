@@ -54,7 +54,7 @@ class DefaultController extends Controller {
     }
 
     function detailCustomer() {
-
+        
     }
 
     public function actionFormsaveround($promise) {
@@ -875,7 +875,7 @@ WHERE r.promiseid = '$promiseId'";
                         INNER JOIN groupcustomer g ON c.grouptype = g.id
                 where pro.`status` = '2' AND g.id = '$groupid'";
 
-        $data['groupcustomer'] = \app\models\Groupcustomer::find()->all();
+        $data['groupcustomer'] = \app\models\Groupcustomer::find()->where(['in', 'id', [2, 3, 4]])->all();
         $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
         //$data['customer'] = \common\models\Customers::findAll(['grouptype' => $groupid]);
 
@@ -902,6 +902,35 @@ WHERE r.promiseid = '$promiseId'";
             $str .= "ยังไม่มีรายการจัดเก็บ";
         }
         echo $str;
+    }
+
+    public function actionCreateformsendwork() {
+        $id = \Yii::$app->request->post('id');
+        $promiseid = \Yii::$app->request->post('promiseid');
+        $groupcustomer = \Yii::$app->request->post('groupcustomer');
+        $promise = Promise::findOne(['id' => $promiseid]);
+        $data['promise'] = $promise;
+        $sqlCus = "SELECT p.*,c.company
+                        FROM promise p INNER JOIN customers c ON p.customerid = c.id
+                        WHERE p.id = '$promiseid'";
+
+        $data['customer'] = \Yii::$app->db->createCommand($sqlCus)->queryOne();
+        
+        if ($groupcustomer == "2" || $groupcustomer == "4") {//รพ.และรพ.สต
+            if ($promise['flag'] == 1) {
+                //รพ.เครือข่าย
+            } else {
+                //รพ. หรือ รพ.สต.
+                $data['detail'] = Roundgarbage::findOne(['id' => $id]);
+                $page = "sendtypehospital";
+            }
+        } else if ($groupcustomer == "3") {
+            //บริษัท
+            $data['detail'] = Roundgarbage::findOne(['id' => $id]);
+            $page = "sendtypecompany";
+        }
+        //Roundgarbage::findOne(['id' => $id]);
+        return $this->renderPartial($page, $data);
     }
 
 }
