@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-6 col-lg-6">
                 <label>
                     วันที่ออกใบแจ้งหนี้
-                    
+
                 </label>
                 <input type="checkbox" name="checkdateInvoice" id="checkdateInvoice" onclick="setDate()"/> เอาวันที่ใบแจ้งหนี้
                 <?php
@@ -109,7 +109,7 @@ $this->registerJs('setBox()');
         //$("#createbill").css({"height": h - 200, "overflow-x": "hidden"});
     }
     function getRound(customer) {
-        //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])                                 ?>" + "&type=1&customer=" + customer;
+        //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])                                  ?>" + "&type=1&customer=" + customer;
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill']) ?>" + "&type=1&customerId=" + customer;
         window.location = url;
         /*
@@ -137,18 +137,19 @@ $this->registerJs('setBox()');
             $("#createbill").html(datas);
         });
     }
-    
-    function setDate(){
-        var invoice = $('#checkdateInvoice').is(':checked'); ;
+
+    function setDate() {
+        var invoice = $('#checkdateInvoice').is(':checked');
+        ;
         var bill = $('#checkdateBill').is(':checked');
-        
-        if(invoice == true){
+
+        if (invoice == true) {
             $(".divInvoice").show();
         } else {
             $(".divInvoice").hide();
         }
-        
-        if(bill == true){
+
+        if (bill == true) {
             $(".divBill").show();
         } else {
             $(".divBill").hide();
