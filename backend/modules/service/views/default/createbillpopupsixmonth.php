@@ -287,7 +287,7 @@ $vatbath = 0;
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
+                    เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
                     <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
                         วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
@@ -681,7 +681,7 @@ $vatbath = 0;
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
+                    เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
                     <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
                         วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>

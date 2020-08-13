@@ -62,7 +62,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="border-left: none;  ">รวม</a></li>
         <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยกรายละเอียด</a></li>
-        <li role="presentation"><a href="#tranfer" aria-controls="tranfer" role="tab" data-toggle="tab">ใบส่งมอบ</a></li>
+        <li role="presentation" style=" display: none;"><a href="#tranfer" aria-controls="tranfer" role="tab" data-toggle="tab">ใบส่งมอบ</a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -81,12 +81,11 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
                     เลขที่ <?php echo $invnumber ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDateInvoice)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
-
+                    <div class="divInvoice" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
@@ -285,13 +284,13 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
+                    เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
+                    <div class="divBill" style=" display: none;">
+                    <?php if ($status > 0) { ?>
                         วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                    <?php } else { ?>
-
                     <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
@@ -485,11 +484,12 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
                     เลขที่ <?php echo $invnumber ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDateInvoice)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divInvoice" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                        <?php } ?>
+                    </div>
+                    
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
@@ -678,13 +678,14 @@ if (Yii::$app->user->identity->username == "kimniyom") {
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
+                    เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divBill" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                        <?php } ?>
+                    </div>
+                   
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>

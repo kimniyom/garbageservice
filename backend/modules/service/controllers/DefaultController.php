@@ -54,7 +54,7 @@ class DefaultController extends Controller {
     }
 
     function detailCustomer() {
-
+        
     }
 
     public function actionFormsaveround($promise) {
@@ -995,6 +995,8 @@ WHERE r.promiseid = '$promiseId'";
         if ($groupcustomer == "2" || $groupcustomer == "4") {//รพ.และรพ.สต
             if ($promise['flag'] == 1) {
                 //รพ.เครือข่าย
+                $data['detail'] = Roundgarbage::findOne(['id' => $id]);
+                $page = "printsendtypesubhospital";
             } else {
                 //รพ. หรือ รพ.สต.
                 $data['detail'] = Roundgarbage::findOne(['id' => $id]);
@@ -1006,6 +1008,28 @@ WHERE r.promiseid = '$promiseId'";
             $page = "printsendtypecompany";
         }
         //Roundgarbage::findOne(['id' => $id]);
+        return $this->renderPartial($page, $data);
+    }
+
+    public function actionPrintsubpromise($promiseid,$datekeep) {
+        $promiseModel = new Promise();
+        //$promiseid = \Yii::$app->request->post('promiseid');
+        //$datekeep = \Yii::$app->request->post('datekeep');
+        $promise = Promise::findOne(['id' => $promiseid]);
+        $data['promiseid'] = $promiseid;
+        $data['promise'] = $promise;
+        $data['customer'] = $this->getcustomerInPromise($promiseid);
+        $data['datekeep'] = $datekeep;
+        $subgroup = $promiseModel::findAll(['upper' => $promiseid]);
+        $subArr = Array();
+        foreach ($subgroup as $rs):
+            $subArr[] = "'" . $rs['id'] . "'";
+        endforeach;
+        $groupPromise = implode(",", $subArr);
+        $sql = "select r.*,c.company from roundgarbage r INNER JOIN promise p ON r.promiseid = p.id INNER JOIN customers c ON p.customerid = c.id where promiseid IN ($groupPromise) AND datekeep = '$datekeep' ";
+        //รพ.ที่มีเครือข่าย
+        $data['detail'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $page = "printsendtypesubhospital";
         return $this->renderPartial($page, $data);
     }
 

@@ -185,6 +185,7 @@ $this->registerJs('setBox()');
 
         $.post(url, data, function(res) {
             $("#round").html(res);
+            $("#paper").html("");
         });
     }
 </script>

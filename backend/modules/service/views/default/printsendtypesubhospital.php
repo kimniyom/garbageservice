@@ -1,8 +1,3 @@
-<style type="text/css">
-    #billtranfer table tbody td{
-        padding: 2px;
-    }
-</style>
 <?php
 
 use yii\helpers\Url;
@@ -10,8 +5,24 @@ use app\models\Config;
 
 $Config = new Config();
 ?>
-<button type="button" onclick="openpopitup('<?php echo $promiseid ?>', '<?php echo $datekeep ?>')"><i class="fa fa-print"></i> พิมพ์ใบส่งมอบ</button>
-<hr/>
+<title>ใบส่งมอบ-<?php echo $customer['company'] ?>-<?php echo $Config->thaidatemonth($datekeep) ?></title>
+<style type="text/css">
+    @font-face {
+        font-family: 'THSarabun';
+        src: url('<?php echo Url::to('@web/web/fonts/thsarabun/THSarabun.ttf') ?>') format("woff");
+    }
+
+    @font-face {
+        font-family: 'THSarabunBold';
+        src: url('<?php echo Url::to('@web/web/fonts/thsarabun/THSarabun.ttf') ?>') format("woff");
+    }
+    #billtranfer table tbody td{
+        padding: 2px;
+    }
+
+</style>
+
+
 <div style="background:#ffffff; padding:10px; position: relative; padding-bottom: 200px;" id="billtranfer">
     <div style=" text-align: center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
         <div style="font-family: THSarabun;font-size: 28px; font-weight: bold;">ใบส่งมอบงาน</div>
@@ -19,7 +30,7 @@ $Config = new Config();
         สำหรับโรงพยาบาลส่งเสริมสุขภาพตำบลในเครือข่าย <?php echo $customer['company'] ?><br/>
         ประจำเดือน <?php echo $Config->thaidatemonth($datekeep) ?> <br/><br/>
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
         <thead>
             <tr>
                 <th rowspan="2" style=" text-align: center;font-family: THSarabun;font-size: 18px;">ลำดับที่</th>
@@ -65,22 +76,16 @@ $Config = new Config();
 </div>
 
 <script type="text/javascript">
-    /*
-     function printDiv(divName) {
+    printDiv("billtranfer");
+    function printDiv(divName) {
 
-     var printContents = document.getElementById(divName).innerHTML;
-     var originalContents = document.body.innerHTML;
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-     document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-     window.print();
+        window.print();
 
-     document.body.innerHTML = originalContents;
-     }
-     */
-    function openpopitup(promiseid,datekeep) {
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/printsubpromise']) ?>" + "&promiseid=" + promiseid + "&datekeep=" + datekeep;
-        newwindow = window.open(url, 'name', 'height=1122,width=793');
-        return false;
+        document.body.innerHTML = originalContents;
     }
 </script>

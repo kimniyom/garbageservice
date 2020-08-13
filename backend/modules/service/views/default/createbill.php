@@ -51,7 +51,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-lg-8 col-md-8">
         <div class="row">
             <div class="col-md-6 col-lg-6">
-                <label>วันที่ออกใบแจ้งหนี้</label>
+                <label>
+                    วันที่ออกใบแจ้งหนี้
+                    
+                </label>
+                <input type="checkbox" name="checkdateInvoice" id="checkdateInvoice" onclick="setDate()"/> เอาวันที่ใบแจ้งหนี้
                 <?php
                 echo DatePicker::widget([
                     'name' => 'dateinvoice',
@@ -67,7 +71,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
             </div>
             <div class="col-md-6 col-lg-6">
-                <label>วันที่ออกใบเสร็จ</label>
+                <label>วันที่ออกใบเสร็จ
+                    <input type="checkbox" name="checkdateBill" id="checkdateBill" onclick="setDate()"/> เอาวันที่ใบเสร็จ
+                </label>
                 <?php
                 echo DatePicker::widget([
                     'name' => 'datebill',
@@ -130,5 +136,22 @@ $this->registerJs('setBox()');
         $.post(url, data, function(datas) {
             $("#createbill").html(datas);
         });
+    }
+    
+    function setDate(){
+        var invoice = $('#checkdateInvoice').is(':checked'); ;
+        var bill = $('#checkdateBill').is(':checked');
+        
+        if(invoice == true){
+            $(".divInvoice").show();
+        } else {
+            $(".divInvoice").hide();
+        }
+        
+        if(bill == true){
+            $(".divBill").show();
+        } else {
+            $(".divBill").hide();
+        }
     }
 </script>

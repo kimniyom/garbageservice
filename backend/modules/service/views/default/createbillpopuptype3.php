@@ -180,7 +180,7 @@ $Config = new Config();
     </div>
 
     <div style="width:30%; right:20px; text-align: right;position:absolute;">
-        เลขที่ <?php echo $invnumber ?><br/>
+        เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
         อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
         <?php if ($status > 0) { ?>
             วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>

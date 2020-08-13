@@ -77,10 +77,11 @@ $vatbath = 0;
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
                     เลขที่ <?php echo $invnumber ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDateInvoice)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-                    <?php } else { ?>
-                    <?php } ?>
+                    <div class="divInvoice" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
@@ -260,13 +261,13 @@ $vatbath = 0;
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
+                    เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divBill" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
@@ -446,11 +447,11 @@ $vatbath = 0;
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
                     เลขที่ <?php echo $invnumber ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDateInvoice)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divInvoice" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
@@ -614,13 +615,13 @@ $vatbath = 0;
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
+                    เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divBill" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
