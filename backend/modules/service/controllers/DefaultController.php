@@ -588,7 +588,7 @@ WHERE r.promiseid = '$promiseId'";
         $str .= "</tr></thead>";
         $str .= "<tbody>";
         foreach ($RoundGarbage as $rs) {
-            if($rs['garbageover']){
+            if ($rs['garbageover']) {
                 $Gover = $rs['garbageover'];
             } else {
                 $Gover = "-";
@@ -596,8 +596,8 @@ WHERE r.promiseid = '$promiseId'";
             $i++;
             $str .= "<tr>";
             $str .= "<td>" . $i . "</td>";
-            $str .= "<td>" . $Config->thaidate($rs['datekeep']) ." เข้า ".$rs['timekeepin']." ออก ".$rs['timekeepout']. "</td>";
-            $str .= "<td>" .$rs['car']. "</td>";
+            $str .= "<td>" . $Config->thaidate($rs['datekeep']) . " เข้า " . $rs['timekeepin'] . " ออก " . $rs['timekeepout'] . "</td>";
+            $str .= "<td>" . $rs['car'] . "</td>";
             $str .= "<td style='text-align:right;'>" . $rs['amount'] . " กิโลกรัม</td>";
             $str .= "<td style='text-align:right;'>" . $Gover . " กิโลกรัม</td>";
             $str .= "<td style='text-align:center;'>" . $rs['name'] . "</td>";
@@ -1029,7 +1029,7 @@ WHERE r.promiseid = '$promiseId'";
         return $this->renderPartial($page, $data);
     }
 
-    public function actionPrintsubpromise($promiseid,$datekeep) {
+    public function actionPrintsubpromise($promiseid, $datekeep) {
         $promiseModel = new Promise();
         //$promiseid = \Yii::$app->request->post('promiseid');
         //$datekeep = \Yii::$app->request->post('datekeep');
@@ -1050,6 +1050,71 @@ WHERE r.promiseid = '$promiseId'";
         $data['detailround'] = Yii::$app->db->createCommand($sql)->queryOne();
         $page = "printsendtypesubhospital";
         return $this->renderPartial($page, $data);
+    }
+
+    public function actionGenformgarbageover($groupid = "", $year = "", $month = "") {
+        $data['groupId'] = $groupid;
+        //$data['customerid'] = $customerid;
+        $data['year'] = $year;
+        $data['month'] = $month;
+        $sql = "select pro.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+                    from customers c
+                        inner join changwat p on c.changwat = p.changwat_id
+                        inner join ampur a on c.ampur = a.ampur_id
+                        inner join tambon t on c.tambon = t.tambon_id
+                        inner join promise pro on c.id = pro.customerid
+                        INNER JOIN packagepayment pm ON pro.payment = pm.id
+                        INNER JOIN groupcustomer g ON c.grouptype = g.id
+                where pro.`status` = '2' AND g.id = '$groupid'";
+
+        $data['groupcustomer'] = \app\models\Groupcustomer::find()->where(['in', 'id', [1, 2, 3, 4, 5]])->all();
+        $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
+        //$data['customer'] = \common\models\Customers::findAll(['grouptype' => $groupid]);
+
+        return $this->render("genformgarbageover", $data);
+    }
+    
+    public function actionGetroudinmonthgarbageover() {
+        $Config = new Config();
+        $promiseModel = new Promise();
+        $promise = \Yii::$app->request->post('promise');
+        $year = \Yii::$app->request->post('year');
+        $month = \Yii::$app->request->post('month');
+        $yearMonth = $year . "-" . $month;
+        $promiseDetail = $promiseModel::findOne(['id' => $promise]);
+        if ($promiseDetail['flag'] == 1) {
+            $subgroup = $promiseModel::findAll(['upper' => $promise]);
+            $subArr = Array();
+            foreach ($subgroup as $rs):
+                $subArr[] = "'" . $rs['id'] . "'";
+            endforeach;
+            $groupPromise = implode(",", $subArr);
+            $sql = "select * from roundgarbage where promiseid IN ($groupPromise) AND LEFT(datekeep,7) = '$yearMonth' group by datekeep";
+        } else {
+            $sql = "select * from roundgarbage where promiseid = '$promise' AND LEFT(datekeep,7) = '$yearMonth'";
+        }
+
+        $round = Yii::$app->db->createCommand($sql)->queryAll();
+        $str = "";
+        if ($round) {
+            $str .= "<ul class='list-group' style='border:none;'>";
+            if ($promiseDetail['flag'] != 1) {
+                foreach ($round as $rs):
+                    $id = $rs['id'];
+                    $str .= "<li class='list-group-item' style='border:none;cursor: pointer;' onclick='getform($id)'>" . $Config->thaidate($rs['datekeep']) . "</li>";
+                endforeach;
+            } else {
+                foreach ($round as $rs):
+                    $datekeep = $rs['datekeep'];
+                    $str .= "<li class='list-group-item' style='border:none;cursor: pointer;' onclick='getformsubpromise(\"$datekeep\")'>" . $Config->thaidate($rs['datekeep']) . "</li>";
+                endforeach;
+            }
+            $str .= "</ul>";
+        } else {
+            $str .= "<div style='text-align:center; padding-top:20px;'>ยังไม่มีรายการจัดเก็บ</div>";
+        }
+
+        echo $str;
     }
 
 }

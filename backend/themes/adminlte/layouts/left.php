@@ -115,6 +115,7 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                         ['label' => 'ใบวางบิล/ใบเสร็จ', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
                         ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
                         ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
+                        ['label' => 'บันทกึรายงานการเก็บขยะเกิน', 'icon' => 'check text-warning', 'url' => ['/service/default/genformgarbageover']],
                         /*
                           ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
                           'items' => [
