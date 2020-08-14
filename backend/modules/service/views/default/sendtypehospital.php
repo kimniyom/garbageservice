@@ -57,6 +57,9 @@ $Config = new Config();
         ผู้รับใบสรุปการจัดเก็บขยะ<br/>
         วันที่ ...........................
     </div>
+    <div style="font-family: THSarabun;font-size: 18px; width: 100%; clear: both; padding-top: 30px;">
+        เลขทะเบียนรถ......<?php echo $detail['car'] ?>....... เวลาเข้า...........<?php echo $detail['timekeepin'] ?>.........เวลาออก...........<?php echo $detail['timekeepout'] ?>.........
+    </div>
 </div>
 
 <script type="text/javascript">

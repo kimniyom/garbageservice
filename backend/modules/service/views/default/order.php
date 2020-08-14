@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
             };
             //console.log(data);
 
-            $.post(url, data, function(datas) {
+            $.post(url, data, function (datas) {
                 alert("ยืนยันรายการสำเร็จ...");
                 window.location.reload();
             });

@@ -8,9 +8,9 @@ use yii\helpers\Url;
 /* @var $content string */
 ?>
 
-<header class="main-header">
+<header class="main-header" style=" z-index: 10;">
 
-    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini" style=" z-index: 5;">APP</span><span class="logo-lg">' . Yii::$app->name . '</span>', Yii::$app->homeUrl, ['class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 
@@ -18,7 +18,7 @@ use yii\helpers\Url;
             <span class="sr-only">Toggle navigation</span>
         </a>
 
-        <div class="navbar-custom-menu">
+        <div class="navbar-custom-menu" >
 
             <ul class="nav navbar-nav">
 

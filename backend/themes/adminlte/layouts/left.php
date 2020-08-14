@@ -18,7 +18,7 @@ $confirmFormModel = new Confirmform();
 $promiseall = $promiseModel->Countpromiseall();
 $confirmformAll = $confirmFormModel->countConfirmform();
 ?>
-<aside class="main-sidebar">
+<aside class="main-sidebar" style=" z-index: 5;">
 
     <section class="sidebar" >
 
@@ -128,6 +128,8 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                         ['label' => 'ตั้งค่าระบบ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
                         ['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],
                         ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],
+                        ['label' => 'รถจัดเก็บขยะ', 'icon' => 'car', 'url' => ['/car/car']],
+       
                         ['label' => 'จัดการหน้าเว็บ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
                         ['label' => 'แนะนำสินค้าอื่นๆ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
                         ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],

@@ -65,7 +65,7 @@ $Config = new Config();
                 <td style=" text-align: center;font-family: THSarabun;font-size: 18px;">1</td>
                 <td style="font-family: THSarabun;font-size: 18px;"><?php echo $customer['company'] ?></td>
                 <td style=" text-align: center;font-family: THSarabun;font-size: 18px;"><?php echo $detail['amount'] ?></td>
-                <td style=" text-align: center;font-family: THSarabun;font-size: 18px;">Kimniyom</td>
+                <td style=" text-align: center;font-family: THSarabun;font-size: 18px;"></td>
             </tr>
         </tbody>
     </table>
@@ -84,7 +84,7 @@ $Config = new Config();
         วันที่ ...........................
     </div><br/><br/>
     <div style="font-family: THSarabun;font-size: 18px; width: 100%; clear: both; padding-top: 30px;">
-        เลขทะเบียนรถ................... เวลาเข้า........................... เวลาออก.........................
+        เลขทะเบียนรถ......<?php echo $detail['car'] ?>....... เวลาเข้า...........<?php echo $detail['timekeepin'] ?>.........เวลาออก...........<?php echo $detail['timekeepout'] ?>.........
     </div>
 </div>
 

@@ -80,10 +80,11 @@ $vatbath = 0;
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
                     เลขที่ <?php echo $invnumber ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDateInvoice)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-                    <?php } else { ?>
-                    <?php } ?>
+                    <div class="divInvoice" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
@@ -103,16 +104,16 @@ $vatbath = 0;
                     <?php } ?>
                 </div>
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
                     <thead>
                         <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
                                 ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
                                 ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customer['tambon_name'] . ' อำเภอ ' . $customer['ampur_name'] . ' จังหวัด ' . $customer['changwat_name'] . ' ' . $customer['zipcode'] ?><br/>
                                 เลขประจำตัวผู้เสียภาษี:<?php echo $customer['taxnumber'] ?><br/>
                                 โทร. <?php echo $customer['tel'] ?>
 
-                                <div class="pull-right">
+                                <div style=" float: right; padding: 5px;">
                                     เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
                                 </div>
                             </th>
@@ -242,22 +243,22 @@ $vatbath = 0;
                         </tr>
 
                         <tr>
-                            <th colspan="5">
-                                <div style="width: 30%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
+                            <th colspan="5" style=" padding: 5px;">
+                                <div style="width: 29%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
                                     <br/>
-                                    ลงชื่อ
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                     <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
                                     <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับวางบิล</div>
                                 </div>
-                                <div style="width: 30%; float: left;font-family: THSarabun;font-size: 18px;">
+                                <div style="width: 29%; float: left;font-family: THSarabun;font-size: 18px;">
                                     <br/>
-                                    ลงชื่อ
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                     <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
                                     <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้วางบิล</div>
                                 </div>
-                                <div style="width: 30%; float: right;font-family: THSarabun;font-size: 18px;">
+                                <div style="width: 29%; float: right;font-family: THSarabun;font-size: 18px;">
                                     <br/>
-                                    ลงชื่อ
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                     <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
                                     <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
                                 </div>
@@ -271,7 +272,8 @@ $vatbath = 0;
 
             <!-- /////////////////////// Bill ///////////////////////////-->
             <br/>
-            <?php if ($status > 0) { ?>
+            <?php 
+            if ($status > 0) { ?>
                 <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
             <?php } ?>
 
@@ -281,13 +283,13 @@ $vatbath = 0;
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
+                    เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divBill" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
@@ -307,15 +309,15 @@ $vatbath = 0;
                     <?php } ?>
 
                 </div>
-                <table class="table table-bordered">
+                <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
                     <thead>
                         <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
                                 ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
                                 ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customer['tambon_name'] . ' อำเภอ ' . $customer['ampur_name'] . ' จังหวัด ' . $customer['changwat_name'] . ' ' . $customer['zipcode'] ?><br/>
                                 เลขประจำตัวผู้เสียภาษี:<?php echo $customer['taxnumber'] ?><br/>
                                 โทร. <?php echo $customer['tel'] ?>
-                                <div class="pull-right">
+                                <div style=" float: right; padding: 5px;">
                                     เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
                                 </div>
                             </th>
@@ -439,7 +441,7 @@ $vatbath = 0;
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
                         </tr>
                         <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px; text-align: left;">
                                 <b>ชำระเงินโดย</b>
                                 <ul>
                                     <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
@@ -448,15 +450,15 @@ $vatbath = 0;
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="3" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="3" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
                                 <br/>
-                                ลงชื่อ
+                                <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                 <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
                                 <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับเงิน</div>
                             </th>
-                            <th colspan="2" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="2" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
                                 <br/>
-                                ลงชื่อ
+                                <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                 <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
                                 <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
                             </th>
@@ -486,11 +488,11 @@ $vatbath = 0;
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
                     เลขที่ <?php echo $invnumber ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDateInvoice)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divInvoice" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
@@ -511,15 +513,15 @@ $vatbath = 0;
 
                 </div>
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
                     <thead>
                         <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
                                 ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
                                 ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customer['tambon_name'] . ' อำเภอ ' . $customer['ampur_name'] . ' จังหวัด ' . $customer['changwat_name'] . ' ' . $customer['zipcode'] ?><br/>
                                 เลขประจำตัวผู้เสียภาษี:<?php echo $customer['taxnumber'] ?><br/>
                                 โทร. <?php echo $customer['tel'] ?>
-                                <div class="pull-right">
+                                <div style=" float: right; padding: 5px;">
                                     เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
                                 </div>
                             </th>
@@ -640,22 +642,22 @@ $vatbath = 0;
                         </tr>
 
                         <tr>
-                            <th colspan="5">
-                                <div style="width: 30%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
+                            <th colspan="5" style=" padding: 5px;">
+                                <div style="width: 29%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
                                     <br/>
-                                    ลงชื่อ
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                     <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
                                     <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับวางบิล</div>
                                 </div>
-                                <div style="width: 30%; float: left;font-family: THSarabun;font-size: 18px;">
+                                <div style="width: 29%; float: left;font-family: THSarabun;font-size: 18px;">
                                     <br/>
-                                    ลงชื่อ
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                     <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
                                     <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้วางบิล</div>
                                 </div>
-                                <div style="width: 30%; float: right;font-family: THSarabun;font-size: 18px;">
+                                <div style="width: 29%; float: right;font-family: THSarabun;font-size: 18px;">
                                     <br/>
-                                    ลงชื่อ
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                     <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
                                     <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
                                 </div>
@@ -676,13 +678,13 @@ $vatbath = 0;
                 </div>
 
                 <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
+                    เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
                     อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
-                    <?php if ($status > 0 && in_array($customer['grouptype'], $arrayDate)) { ?>
-                        วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                    <?php } else { ?>
-
-                    <?php } ?>
+                    <div class="divBill" style=" display: none;">
+                        <?php if ($status > 0) { ?>
+                            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                        <?php } ?>
+                    </div>
                 </div>
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
@@ -701,15 +703,15 @@ $vatbath = 0;
                         โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
                     <?php } ?>
                 </div>
-                <table class="table table-bordered">
+                <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
                     <thead>
                         <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
                                 ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
                                 ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customer['tambon_name'] . ' อำเภอ ' . $customer['ampur_name'] . ' จังหวัด ' . $customer['changwat_name'] . ' ' . $customer['zipcode'] ?><br/>
                                 เลขประจำตัวผู้เสียภาษี:<?php echo $customer['taxnumber'] ?><br/>
                                 โทร. <?php echo $customer['tel'] ?>
-                                <div class="pull-right">
+                                <div style=" float: right; padding: 5px;">
                                     เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
                                 </div>
                             </th>
@@ -829,7 +831,7 @@ $vatbath = 0;
                             <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
                         </tr>
                         <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px; text-align: left;">
                                 <b>ชำระเงินโดย</b>
                                 <ul>
                                     <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
@@ -838,15 +840,15 @@ $vatbath = 0;
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="3" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="3" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
                                 <br/>
-                                ลงชื่อ
+                                <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                 <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
                                 <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับเงิน</div>
                             </th>
-                            <th colspan="2" style="font-family: THSarabun;font-size: 18px;">
+                            <th colspan="2" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
                                 <br/>
-                                ลงชื่อ
+                                <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
                                 <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
                                 <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
                             </th>
@@ -931,13 +933,20 @@ $vatbath = 0;
 
     function printDiv(divName) {
 
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
+        var divToPrint = document.getElementById(divName); // เลือก div id ที่เราต้องการพิมพ์
+        var font = "<?php echo Url::to('@web/web/fonts/thsarabun/THSarabun.ttf') ?>";
+        var style = '<style type="text/css">' +
+                '@media print {#invoice {font-family: THSarabun;}}' +
+                "@font-face {font-family: 'THSarabun';src: url(" + font + ") format('woff');" +
+                '</style>';
+        var html = '<html>' + //
+                '<head>' + style +
+                '</head>' +
+                '<body onload="window.print(); window.close();">' + divToPrint.innerHTML + '</body>' +
+                '</html>';
+        var popupWin = window.open();
+        popupWin.document.open();
+        popupWin.document.write(html); //โหลด print.css ให้ทำงานก่อนสั่งพิมพ์
+        popupWin.document.close();
     }
 </script>

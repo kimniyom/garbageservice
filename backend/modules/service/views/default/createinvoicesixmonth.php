@@ -21,19 +21,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
                 <label>เลือกลูกค้า</label>
-<?php
-$listCustomer = ArrayHelper::map($customer, 'customerid', 'address');
-echo Select2::widget([
-    'name' => 'promise',
-    'value' => $customerId,
-    'data' => $listCustomer,
-    'options' => [
-        'multiple' => false,
-        'placeholder' => 'Select Customer ...',
-        'onchange' => 'getRound(this.value)',
-    ],
-]);
-?>
+                <?php
+                $listCustomer = ArrayHelper::map($customer, 'customerid', 'address');
+                echo Select2::widget([
+                    'name' => 'promise',
+                    'value' => $customerId,
+                    'data' => $listCustomer,
+                    'options' => [
+                        'multiple' => false,
+                        'placeholder' => 'Select Customer ...',
+                        'onchange' => 'getRound(this.value)',
+                    ],
+                ]);
+                ?>
             </div>
         </div>
 
@@ -47,35 +47,39 @@ echo Select2::widget([
         <div class="row">
             <div class="col-md-6 col-lg-6">
                 <label>วันที่ออกใบแจ้งหนี้</label>
-<?php
-echo DatePicker::widget([
-    'name' => 'dateinvoice',
-    'value' => date('Y-m-d'),
-    'language' => 'th',
-    'id' => 'dateinvoice',
-    'options' => ['placeholder' => 'วันที่ออกใบแจ้งหนี้ ...'],
-    'pluginOptions' => [
-        'format' => 'yyyy-mm-dd',
-        'todayHighlight' => true
-    ]
-]);
-?>
+                <input type="checkbox" name="checkdateInvoice" id="checkdateInvoice" onclick="setDate()"/> เอาวันที่ใบแจ้งหนี้
+                <?php
+                echo DatePicker::widget([
+                    'name' => 'dateinvoice',
+                    'value' => date('Y-m-d'),
+                    'language' => 'th',
+                    'id' => 'dateinvoice',
+                    'options' => ['placeholder' => 'วันที่ออกใบแจ้งหนี้ ...'],
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true,
+                        'autoclose' => true
+                    ]
+                ]);
+                ?>
             </div>
             <div class="col-md-6 col-lg-6">
                 <label>วันที่ออกใบเสร็จ</label>
-<?php
-echo DatePicker::widget([
-    'name' => 'datebill',
-    'value' => date('Y-m-d'),
-    'language' => 'th',
-    'id' => 'datebill',
-    'options' => ['placeholder' => 'วันที่ออกใบเสร็จ ...'],
-    'pluginOptions' => [
-        'format' => 'yyyy-mm-dd',
-        'todayHighlight' => true
-    ]
-]);
-?>
+                <input type="checkbox" name="checkdateBill" id="checkdateBill" onclick="setDate()"/> เอาวันที่ใบเสร็จ
+                <?php
+                echo DatePicker::widget([
+                    'name' => 'datebill',
+                    'value' => date('Y-m-d'),
+                    'language' => 'th',
+                    'id' => 'datebill',
+                    'options' => ['placeholder' => 'วันที่ออกใบเสร็จ ...'],
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                        'todayHighlight' => true,
+                        'autoclose' => true
+                    ]
+                ]);
+                ?>
             </div>
         </div>
 
@@ -97,7 +101,7 @@ $this->registerJs('setBox()');
     }
     function getRound(customerId) {
         /*
-         var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromisesixmonth'])                         ?>";
+         var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromisesixmonth'])                           ?>";
          var data = {promiseid: promise};
          $.post(url, data, function(datas) {
          $("#round").html(datas);
@@ -121,5 +125,23 @@ $this->registerJs('setBox()');
         $.post(url, data, function (datas) {
             $("#createbill").html(datas);
         });
+    }
+
+    function setDate() {
+        var invoice = $('#checkdateInvoice').is(':checked');
+        ;
+        var bill = $('#checkdateBill').is(':checked');
+
+        if (invoice == true) {
+            $(".divInvoice").show();
+        } else {
+            $(".divInvoice").hide();
+        }
+
+        if (bill == true) {
+            $(".divBill").show();
+        } else {
+            $(".divBill").hide();
+        }
     }
 </script>

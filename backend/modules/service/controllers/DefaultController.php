@@ -8,6 +8,7 @@ use app\modules\customer\models\Customers;
 use app\modules\promise\models\Promise;
 use app\modules\roundmoney\models\Roundmoney;
 use app\modules\roundgarbage\models\Roundgarbage;
+use app\modules\car\models\Car;
 use Yii;
 use yii\web\Controller;
 
@@ -63,6 +64,7 @@ class DefaultController extends Controller {
         $data['promise'] = $Promise;
         $data['customer'] = $Customer;
         $data['promiseid'] = $promise;
+        $data['carlist'] = Car::find()->all();
         return $this->render('formsaveround', $data);
     }
 
@@ -85,6 +87,9 @@ class DefaultController extends Controller {
         $promiseid = Yii::$app->request->post('promiseid');
         $amount = Yii::$app->request->post('amount');
         $datekeep = Yii::$app->request->post('datekeep');
+        $timekeepin = Yii::$app->request->post('timekeepin');
+        $timekeepout = Yii::$app->request->post('timekeepout');
+        $car = Yii::$app->request->post('car');
 
         //$Promise = Promise::find()->where(['id' => $promise,'status' => '2'])->One();
 
@@ -95,6 +100,9 @@ class DefaultController extends Controller {
             "status" => 1,
             "datekeep" => $datekeep,
             "promiseid" => $promiseid,
+            "timekeepin" => $timekeepin,
+            "timekeepout" => $timekeepout,
+            "car" => $car,
             "d_update" => date("Y-m-d H:i:s"),
         );
 
@@ -567,11 +575,12 @@ WHERE r.promiseid = '$promiseId'";
         $str = "";
         $str .= "<br/><p class=\"text-danger\">*กรณีที่ลงข้อมูลผิดให้ลบแล้วลงใหม่(ลบได้เฉพาะคนที่บันทึกเท่านั้น)</p>";
         $str .= "<b>ประวัติการจัดเก็บ</b><br/>
-			<table class='table table-bordered'>
+			<table class='table table-bordered table-striped'>
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>วันที่</th>
+						<th>วันที่ / เวลา</th>
+                                                <th>ทะเบียนรถ</th>
 						<th style='text-align:right;'>ปริมาณ</th>
 						<th style='text-align:right;'>ขยะเกิน</th>
 						<th style='text-align:center;'>ผู้บันทึก</th>
@@ -579,12 +588,18 @@ WHERE r.promiseid = '$promiseId'";
         $str .= "</tr></thead>";
         $str .= "<tbody>";
         foreach ($RoundGarbage as $rs) {
+            if($rs['garbageover']){
+                $Gover = $rs['garbageover'];
+            } else {
+                $Gover = "-";
+            }
             $i++;
             $str .= "<tr>";
             $str .= "<td>" . $i . "</td>";
-            $str .= "<td>" . $Config->thaidate($rs['datekeep']) . "</td>";
+            $str .= "<td>" . $Config->thaidate($rs['datekeep']) ." เข้า ".$rs['timekeepin']." ออก ".$rs['timekeepout']. "</td>";
+            $str .= "<td>" .$rs['car']. "</td>";
             $str .= "<td style='text-align:right;'>" . $rs['amount'] . " กิโลกรัม</td>";
-            $str .= "<td style='text-align:right;'>" . $rs['garbageover'] . " กิโลกรัม</td>";
+            $str .= "<td style='text-align:right;'>" . $Gover . " กิโลกรัม</td>";
             $str .= "<td style='text-align:center;'>" . $rs['name'] . "</td>";
             if (Yii::$app->user->id == $rs['keepby']) {
                 $str .= "<td style='text-align:center;'><i class='fa fa-trash' onclick='deleteRound(" . $rs['id'] . ")'></i></td>";
@@ -973,7 +988,10 @@ WHERE r.promiseid = '$promiseId'";
         $groupPromise = implode(",", $subArr);
         $sql = "select r.*,c.company from roundgarbage r INNER JOIN promise p ON r.promiseid = p.id INNER JOIN customers c ON p.customerid = c.id where promiseid IN ($groupPromise) AND datekeep = '$datekeep' ";
         //รพ.ที่มีเครือข่าย
+        //echo $sql;
+        //exit();
         $data['detail'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['detailround'] = Yii::$app->db->createCommand($sql)->queryOne();
         //$sql = "";
         $page = "sendtypehospitalsubpromise";
         return $this->renderPartial($page, $data);
@@ -1029,6 +1047,7 @@ WHERE r.promiseid = '$promiseId'";
         $sql = "select r.*,c.company from roundgarbage r INNER JOIN promise p ON r.promiseid = p.id INNER JOIN customers c ON p.customerid = c.id where promiseid IN ($groupPromise) AND datekeep = '$datekeep' ";
         //รพ.ที่มีเครือข่าย
         $data['detail'] = Yii::$app->db->createCommand($sql)->queryAll();
+        $data['detailround'] = Yii::$app->db->createCommand($sql)->queryOne();
         $page = "printsendtypesubhospital";
         return $this->renderPartial($page, $data);
     }
