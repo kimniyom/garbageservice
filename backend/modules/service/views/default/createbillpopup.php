@@ -508,7 +508,7 @@ $vatbath = 0;
                             ?>
                             <tr>
                                 <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                                ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                                 ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
@@ -679,7 +679,7 @@ $vatbath = 0;
                             ?>
                             <tr>
                                 <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                                ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php //echo $rs['company']                                                 ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>

@@ -8,6 +8,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="service-default-index">
+    <div style=" border-radius: 10px; width: 300px; height: auto; border: solid 2px #002a80; padding: 10px; margin-bottom: 10px; background: #ffffff;">
+        <i class="fa fa-info-circle"></i> รายชื่อลูกค้าจะแสดงในกล่องตัวเลือกก็ต่อเมื่อมีการทำสัญญาหรือข้อตกลงผ่านระบบแล้วเท่านั้นและสัญญาหรือข้อตกลงต้องมีการยืนยันสถานะที่พร้อมใช้งาน
+    </div>
     <div class="row">
         <div class="col-md-6 col-lg-6 col-sm-12">
             <!--
@@ -29,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
             -->
 
-            <label>เลือกลูกค้า</label>
+            <label style=" font-size: 20px;">เลือกลูกค้า</label>
             <?php
             $listCustomer = ArrayHelper::map($customer, 'id', 'company');
             echo Select2::widget([
@@ -47,7 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-6 col-sm-12">
-            <label>รอบจัดเก็บ</label>
             <div id="round"></div>
         </div>
     </div>

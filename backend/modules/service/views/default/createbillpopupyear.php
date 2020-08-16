@@ -56,7 +56,7 @@ $vatbath = 0;
 
 
 
-<div>
+<div style=" margin-bottom: 0px;">
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
@@ -65,7 +65,7 @@ $vatbath = 0;
     </ul>
 
     <!-- Tab panes -->
-    <div class="tab-content" id="boxtypebill">
+    <div class="tab-content" id="boxtypebill" style=" margin-bottom: 0px;">
         <div role="tabpanel" class="tab-pane active" id="home">
             <?php if ($status > 0) { ?>
                 <div style=" width: 100%; background: #ffffff;">
@@ -272,8 +272,7 @@ $vatbath = 0;
 
             <!-- /////////////////////// Bill ///////////////////////////-->
             <br/>
-            <?php 
-            if ($status > 0) { ?>
+            <?php if ($status > 0) { ?>
                 <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
             <?php } ?>
 
@@ -344,7 +343,7 @@ $vatbath = 0;
                             //if ($rs['status'] == 1) {
                             ?>
 
-                            <?php //} ?>
+                            <?php //}  ?>
                         <?php endforeach; ?>
                         <?php
                         //คิดราคาแบบรวมVat
@@ -744,7 +743,7 @@ $vatbath = 0;
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
                             </tr>
-                            <?php //}  ?>
+                            <?php //}   ?>
                         <?php endforeach; ?>
                         <?php
                         if ($vat == 1) {
@@ -867,7 +866,7 @@ $vatbath = 0;
     function setBoxs() {
         var h = window.innerHeight;
         //$("#round").css({"height": h - 200});
-        $("#boxtypebill").css({"height": h - 311, "overflow-x": "hidden"});
+        $("#boxtypebill").css({"height": h - 323, "overflow-x": "hidden"});
 
         var status = "<?php echo $status ?>";
         if (status == 1) {
@@ -910,7 +909,7 @@ $vatbath = 0;
         };
         //console.log(data);
 
-        $.post(url, data, function (datas) {
+        $.post(url, data, function(datas) {
             window.location.reload();
             //getInvoice();
         });
@@ -926,7 +925,7 @@ $vatbath = 0;
             invoice: invoice,
             type: 1
         };
-        $.post(url, data, function (datas) {
+        $.post(url, data, function(datas) {
             $("#createbill").html(datas);
         });
     }

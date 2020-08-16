@@ -27,11 +27,11 @@ class SiteController extends Controller {
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
-                        [
+                    [
                         'actions' => ['login', 'error', 'getlocation'],
                         'allow' => true,
                     ],
-                        [
+                    [
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -73,7 +73,25 @@ class SiteController extends Controller {
         $data['promiseall'] = $promiseModel->Countpromiseall();
         $data['promiseusing'] = $promiseModel->Countpromiseusing();
         $data['promisepay'] = $promiseModel->Countpromisepay();
+        $result = $this->chartGroup();
+        $Carry = array();
+        foreach ($result as $rs):
+            $Carry[] = "['" . $rs['groups'] . "'," . $rs['TOTAL'] . "]";
+        endforeach;
+        $data['chartgroup'] = implode(",", $Carry);
         return $this->render('index', $data);
+    }
+
+    function chartGroup() {
+        $sql = "SELECT IFNULL(g.groupcustomer,'ไม่ได้กำหนดกลุ่ม') AS groups,Q.TOTAL
+            FROM groupcustomer g
+            RIGHT JOIN
+            (
+            SELECT c.grouptype,COUNT(*) AS TOTAL
+            FROM customers c
+            GROUP BY c.grouptype
+            ) Q ON g.id = Q.grouptype ";
+        return \Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     /**
@@ -85,38 +103,44 @@ class SiteController extends Controller {
         $this->redirect(Yii::$app->urlManagerFrontend->createUrl('index.php?r=site'));
         //exit(0);
         /*
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+          if (!Yii::$app->user->isGuest) {
+          return $this->goHome();
+          }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            $this->redirect($this->urlManagerFrontend(['site/index']));
-            exit(0);
-         
-            $model->password = '';
+          $model = new LoginForm();
+          if ($model->load(Yii::$app->request->post()) && $model->login()) {
+          return $this->goBack();
+          } else {
+          $this->redirect($this->urlManagerFrontend(['site/index']));
+          exit(0);
 
-            return $this->render('login', [
-                        'model' => $model,
-            ]);
-           
-        }
-         * 
+          $model->password = '';
+
+          return $this->render('login', [
+          'model' => $model,
+          ]);
+
+          }
+         *
          */
     }
 
     public function actionGetlocation() {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $sql = "select l.*,c.company from location l inner join customers c on l.customer_id = c.id";
+        $sql = "select l.lat,l.`long`,c.company,c.address,p.changwat_name,a.ampur_name,t.tambon_name
+                    from location l inner join customers c on l.customer_id = c.id
+                    INNER JOIN changwat p ON c.changwat = p.changwat_id
+                    INNER JOIN ampur a ON c.ampur = a.ampur_id
+                    INNER JOIN tambon t ON c.tambon = t.tambon_id
+                    WHERE l.lat != '' ";
         $rs = Yii::$app->db->createCommand($sql)->queryAll();
         $json_data = array();
         foreach ($rs as $row):
             $json_data[] = array(
                 "name" => $row['company'],
                 "lat" => $row['lat'],
-                "long" => $row['long']
+                "long" => $row['long'],
+                "address" => $row['address'] . " ต. " . $row['tambon_name'] . " อ. " . $row['ampur_name'] . " จ. " . $row['changwat_name']
             );
         endforeach;
         return json_encode($json_data);

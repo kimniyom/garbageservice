@@ -7,8 +7,9 @@ use Yii;
 class Config {
 
     function Urlmap() {
-        $key = "AIzaSyDM-VJ53keVzveifGvWs8IJ4ynRtHeuEwU";
-        return "http://maps.google.com/maps/api/js?v=3&language=th&callback=initialize&key=" . $key;
+        //$key = "AIzaSyDM-VJ53keVzveifGvWs8IJ4ynRtHeuEwU";
+        //return "http://maps.google.com/maps/api/js?v=3&language=th&callback=initialize&key=" . $key;
+        return "https://api.longdo.com/map/?key=6d4cb793d13a99df240e6e27ebd4f211";
     }
 
     function thaidate($dateformat = "") {

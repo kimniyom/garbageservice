@@ -109,7 +109,7 @@ $this->registerJs('setBox()');
         //$("#createbill").css({"height": h - 200, "overflow-x": "hidden"});
     }
     function getRound(customer) {
-        //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])                                  ?>" + "&type=1&customer=" + customer;
+        //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])                                    ?>" + "&type=1&customer=" + customer;
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createbill']) ?>" + "&type=1&customerId=" + customer;
         window.location = url;
         /*

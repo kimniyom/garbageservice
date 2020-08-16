@@ -19,7 +19,7 @@ use app\modules\promise\models\Promise;
 /* @var $model app\modules\promise\models\Promise */
 
 $this->title = $model['promisenumber'];
-$this->params['breadcrumbs'][] = ['label' => 'สัญญา', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => 'สัญญา', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 

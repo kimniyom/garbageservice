@@ -20,28 +20,49 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
 
 <script src="<?php echo $urlMap->Urlmap() ?>"></script>
 <script>
-    function initMap() {
-        var mapOptions = {
-            center: {lat: <?php echo ($location['lat']) ? $location['lat'] : "0" ?>, lng: <?php echo ($location['long']) ? $location['long'] : "0" ?>},
-            zoom: <?php echo ($location['zoom']) ? $location['zoom'] : "13" ?>,
-        }
+    //function initMap() {
+    /*
+     var mapOptions = {
+     center: {lat: <?php //echo ($location['lat']) ? $location['lat'] : "0"                        ?>, lng: <?php //echo ($location['long']) ? $location['long'] : "0"                        ?>},
+     zoom: <?php //echo ($location['zoom']) ? $location['zoom'] : "13"                        ?>,
+     }
 
-        var maps = new google.maps.Map(document.getElementById("map"), mapOptions);
+     var maps = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(<?php echo ($location['lat']) ? $location['lat'] : "0" ?>, <?php echo ($location['long']) ? $location['long'] : "0" ?>),
-            map: maps,
-            title: "<?php echo $model['company'] ?>"
+     var marker = new google.maps.Marker({
+     position: new google.maps.LatLng(<?php //echo ($location['lat']) ? $location['lat'] : "0"                        ?>, <?php //echo ($location['long']) ? $location['long'] : "0"                    ?>),
+     map: maps,
+     title: "<?php //echo $model['company']                        ?>"
+     });
+
+     var info = new google.maps.InfoWindow({
+     content: "<div style='font-size: 18px;color: red'>" + "<?php //echo $model['company']                        ?><br/><?php //echo $model['address']                        ?> จ.<?php //echo $changwat                        ?> อ.<?php //echo $ampur                        ?> ต.<?php //echo $tambon                        ?> <?php //echo $model['zipcode']                        ?>" + "</div>"
+     });
+
+     google.maps.event.addListener(marker, 'click', function() {
+     info.open(maps, marker);
+     });
+     }
+     */
+
+    var map;
+    //var marker = new longdo.Marker({lon: 100.604274, lat: 13.847860});
+    function init() {
+
+        map = new longdo.Map({
+            placeholder: document.getElementById('map'),
+            language: 'th'
         });
-
-        var info = new google.maps.InfoWindow({
-            content: "<div style='font-size: 18px;color: red'>" + "<?php echo $model['company'] ?><br/><?php echo $model['address'] ?> จ.<?php echo $changwat ?> อ.<?php echo $ampur ?> ต.<?php echo $tambon ?> <?php echo $model['zipcode'] ?>" + "</div>"
-                    });
-
-                    google.maps.event.addListener(marker, 'click', function() {
-                        info.open(maps, marker);
-                    });
+        map.Overlays.add(new longdo.Marker(
+                {lon: <?php echo ($location['long']) ? $location['long'] : "0" ?>, lat: <?php echo ($location['lat']) ? $location['lat'] : "0" ?>},
+                {
+                    title: "<?php echo $model['company'] ?>",
+                    detail: "<?php echo $model['company'] ?>"
                 }
+        ));
+        map.zoom(15);
+        map.location({lon: <?php echo ($location['long']) ? $location['long'] : "0" ?>, lat: <?php echo ($location['lat']) ? $location['lat'] : "0" ?>});
+    }
 </script>
 <div class="customer-view">
     <div class="row">
@@ -83,7 +104,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
                         'attributes' => [
                             'company',
                             'taxnumber',
-                                [
+                            [
                                 'label' => 'ที่อยู่',
                                 'value' => $model->address . " ต." . $tambon . "  อ." . $ampur . " จ." . $changwat . " " . $model->zipcode,
                             ],
@@ -92,15 +113,15 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
                             'tel',
                             'telephone',
                             'lineid',
-                                [
+                            [
                                 'label' => 'พิกัด',
                                 'value' => "N." . $location['lat'] . "," . "E." . $location['long'],
                             ],
-                                [
+                            [
                                 'label' => 'วันที่ลงทะเบียน',
                                 'value' => $urlMap->thaidate($model->create_date),
                             ],
-                                [
+                            [
                                 'label' => 'แก้ไขข้อมูลล่าสุด',
                                 'value' => $urlMap->thaidate($model->update_date),
                             ],
@@ -126,19 +147,19 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
         </div>
     </div>
     <div class="row">
-    <?php if($img):?>
-        <div class="col col-md-6 col-lg-6">
-            <div class="box" id="box-map">
+        <?php if ($img): ?>
+            <div class="col col-md-6 col-lg-6">
+                <div class="box" id="box-map">
                     <div class="box-header" style=" padding-bottom: 0px;">
                         <i class="fa fa-map"></i> รูปภาพลูกค้า
                     </div>
                     <div class="box-body">
-                        <img src="../uploads/customers/gallerry/<?php echo $img->filename;?>" class="img-fluid" width="100%"/>          
+                        <img src="../uploads/customers/gallerry/<?php echo $img->filename; ?>" class="img-fluid" width="100%"/>
                     </div>
                 </div>
             </div>
         </div>
-    <?php endif;?>
+    <?php endif; ?>
 </div>
 
 <script type="text/javascript">
@@ -165,6 +186,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
 <?php
 $this->registerJs('
         setBox();
-        initMap();
+        init();
+        //initMap();
         ');
 ?>

@@ -63,14 +63,14 @@ $Config = new Config();
         วันที่ ...........................
     </div>
     <div style="font-family: THSarabun;font-size: 18px; width: 100%; clear: both; padding-top: 30px;">
-        เลขทะเบียนรถ......<?php echo $detailround['car'] ?>....... เวลาเข้า...........<?php echo $detailround['timekeepin'] ?>.........เวลาออก...........<?php echo $detailround['timekeepout'] ?>.........
+        เลขทะเบียนรถ......<?php echo $detailround['car'] ?>....... เวลาเข้า...........<?php echo $timekeepin ?>.........เวลาออก...........<?php echo $timekeepout ?>.........
     </div>
 </div>
 
 <script type="text/javascript">
     /*
      function printDiv(divName) {
-
+     
      var printContents = document.getElementById(divName).innerHTML;
      var originalContents = document.body.innerHTML;
 
@@ -81,7 +81,7 @@ $Config = new Config();
      document.body.innerHTML = originalContents;
      }
      */
-    function openpopitup(promiseid,datekeep) {
+    function openpopitup(promiseid, datekeep) {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/printsubpromise']) ?>" + "&promiseid=" + promiseid + "&datekeep=" + datekeep;
         newwindow = window.open(url, 'name', 'height=1122,width=793');
         return false;

@@ -23,7 +23,7 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;
 
-$this->title = "บันทกึรายงานการเก็บขยะเกิน";
+$this->title = "บันทึกรายงานการเก็บขยะเกิน";
 $this->params['breadcrumbs'][] = $this->title;
 
 if (!$month) {
@@ -102,7 +102,7 @@ $yearNow = date("Y");
         </select>
     </div>
     <div class="col-lg-2 col-md-2">
-        <button type="button" class="btn btn-success btn-block" style=" margin-top: 25px;" onclick="getData()">ใบส่งมอบงาน</button>
+        <button type="button" class="btn btn-success btn-block" style=" margin-top: 25px;" onclick="getData()">ใบบันทึกเก็บขยะเกิน</button>
     </div>
 </div>
 
@@ -139,7 +139,7 @@ $this->registerJs('setBox()');
         $("#paper").html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>Loading...');
         var groupid = $("#groupcustomer").val();
         var promise = $("#promise").val();
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createformsendwork']) ?>";
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/createformgarbageover']) ?>";
         var data = {
             id: id,
             promiseid: promise,

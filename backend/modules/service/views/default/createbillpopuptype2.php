@@ -921,7 +921,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
     function setBoxs() {
         var h = window.innerHeight;
         //$("#round").css({"height": h - 200});
-        $("#boxtypebill").css({"height": h - 311, "overflow-x": "hidden"});
+        $("#boxtypebill").css({"height": h - 313, "overflow-x": "hidden"});
         var status = "<?php echo $status ?>";
         if (status == 1) {
             $("#dateinvoice").attr("disabled", "disabled");

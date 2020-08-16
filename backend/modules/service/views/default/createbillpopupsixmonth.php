@@ -68,7 +68,7 @@ $vatbath = 0;
 
 
 
-<div>
+<div style=" margin-bottom: 0px;">
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
@@ -874,7 +874,7 @@ $vatbath = 0;
     function setBoxs() {
         var h = window.innerHeight;
         //$("#round").css({"height": h - 200});
-        $("#boxtypebill").css({"height": h - 311, "overflow-x": "hidden"});
+        $("#boxtypebill").css({"height": h - 313, "overflow-x": "hidden"});
 
         var status = "<?php echo $status ?>";
         if (status == 1) {
@@ -922,7 +922,7 @@ $vatbath = 0;
         };
         //console.log(data);
 
-        $.post(url, data, function (datas) {
+        $.post(url, data, function(datas) {
             window.location.reload();
             //getInvoice();
         });
@@ -938,7 +938,7 @@ $vatbath = 0;
             invoice: invoice,
             type: 1
         };
-        $.post(url, data, function (datas) {
+        $.post(url, data, function(datas) {
             $("#createbill").html(datas);
         });
     }

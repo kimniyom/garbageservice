@@ -105,17 +105,16 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                         //['label' => 'รอบการเก็บเงิน', 'icon' => '', 'url' => ['/roundmoney/roundmoney']],
                         //],
                         //],
-                       
                         ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save text-success', 'url' => ['/'],
-                        'items' => [
-                            ['label' => 'ตามสัญญา', 'icon' => 'trash', 'url' => ['/service/default/index']],
-                            ['label' => 'รายครั้ง', 'icon' => 'trash-o', 'url' => ['/service/servicepertime/index']],
+                            'items' => [
+                                ['label' => 'ตามสัญญา', 'icon' => 'trash', 'url' => ['/service/default/index']],
+                                ['label' => 'รายครั้ง', 'icon' => 'trash-o', 'url' => ['/service/servicepertime/index']],
+                            ],
                         ],
-                    ],
                         ['label' => 'ใบวางบิล/ใบเสร็จ', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
                         ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
                         ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
-                        ['label' => 'บันทกึรายงานการเก็บขยะเกิน', 'icon' => 'check text-warning', 'url' => ['/service/default/genformgarbageover']],
+                        ['label' => 'บันทึกรายงานการเก็บขยะเกิน', 'icon' => 'check text-warning', 'url' => ['/service/default/genformgarbageover']],
                         /*
                           ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
                           'items' => [
@@ -130,7 +129,6 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                         ['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],
                         ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],
                         ['label' => 'รถจัดเก็บขยะ', 'icon' => 'car', 'url' => ['/car/car']],
-       
                         ['label' => 'จัดการหน้าเว็บ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
                         ['label' => 'แนะนำสินค้าอื่นๆ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
                         ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],

@@ -119,14 +119,14 @@ class PromiseController extends Controller {
 //$error = "จำนวนครั้งที่จัดเก็บไม่เท่ากัน..!";
 //} else {
                 if ($model->save()) {
-                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->promisedateend, $model->rate);
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
 //}
             } else {
                 if ($model->save()) {
-                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                    $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->promisedateend, $model->rate);
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
 
@@ -159,15 +159,22 @@ class PromiseController extends Controller {
         return 'IC' . $lastDigit;
     }
 
-    public function actionSetmonth($promiseID, $customerID, $promiesYear, $dateStart, $priceMonth) {
+    public function actionSetmonth($promiseID, $customerID, $promiesYear, $dateStart, $dateEnd, $priceMonth) {
         if ($promiesYear == "") {
             $promiesYear = 1;
         }
-        $month = ((int) $promiesYear * 12);
-        $total_month = $month + 1; //เอามาบวก 1 เพื่อให้ต้วแปร i เริ่มต้นที่ 1 เพราะปกติตัวแปรอาเรย์จะเริ่มต้นที่ 0
+        //$month = ((int) $promiesYear * 12);
+        $dStart = substr($dateStart, 0, 7) . "-01";
+        $dEtart = substr($dateEnd, 0, 7) . "-30";
+        $datetime1 = date_create($dStart);
+        $datetime2 = date_create($dEtart);
+        $interval = date_diff($datetime1, $datetime2);
+        $month = $interval->format('%m');
+
+        $total_month = ($month + 1); //เอามาบวก 1 เพื่อให้ต้วแปร i เริ่มต้นที่ 1 เพราะปกติตัวแปรอาเรย์จะเริ่มต้นที่ 0
         $pay = $priceMonth;
         $j = 0;
-        for ($i = 1; $i < $total_month; $i++) {
+        for ($i = 1; $i <= $total_month; $i++) {
             $j = $i - 1; //เริ่มเก็บเดือนที่เริ่มสัญญา ถ้า เริ่มเก็บเดือนถัดไปให้เรียกใช้ i
             $myDate = date("Y-m-d", strtotime(date($dateStart, strtotime(date("Y-m-d"))) . "+$j month"));
             /*
@@ -224,7 +231,7 @@ class PromiseController extends Controller {
                         ->delete("roundmoney", "promiseid = '$id'")
                         ->execute();
 
-                $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->promisedateend, $model->rate);
 //}
 
                 $model->save();
@@ -254,7 +261,7 @@ class PromiseController extends Controller {
                         ->delete("roundmoney", "promiseid = '$id'")
                         ->execute();
 
-                $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                $this->actionSetmonth($model->id, $model->customerid, $model->yearunit, $model->promisedatebegin, $model->promisedateend, $model->rate);
                 $model->save();
 
                 $columns = array(
@@ -294,17 +301,14 @@ class PromiseController extends Controller {
     public function actionDelete($id) {
         $this->findModel($id)->delete();
         Yii::$app->db->createCommand()
-                 ->delete("promise", "upper = '$id'")
-                 ->execute();
-        
+                ->delete("promise", "upper = '$id'")
+                ->execute();
+
         $promiseFile = PromiseFile::findOne(['promiseid' => $id]);
-        if($promiseFile)
-        {
-            $path = Yii::getAlias('@webroot')."/../uploads/promise/pdf/".$promiseFile->filename;
-            if(is_file($path))
-            {
-                if(unlink($path))
-                {
+        if ($promiseFile) {
+            $path = Yii::getAlias('@webroot') . "/../uploads/promise/pdf/" . $promiseFile->filename;
+            if (is_file($path)) {
+                if (unlink($path)) {
                     $promiseFile->delete();
                 }
             }
@@ -979,7 +983,7 @@ class PromiseController extends Controller {
         $error = "";
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->rate);
+                $this->actionSetmonth($model->id, $customerid, $model->yearunit, $model->promisedatebegin, $model->promisedateend, $model->rate);
                 return $this->redirect(['viewsubpromise', 'id' => $model->id]);
             }
         }
