@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use common\models\Customers;
 use app\models\ConfirmformPayment;
 use app\models\ConfirmformMethodpayment;
+use app\models\Customerneed;
 /**
  * ConfirmformController implements the CRUD actions for Confirmform model.
  */
@@ -60,9 +61,19 @@ class ConfirmformController extends Controller
 
     public function actionBeforecreate()
     {
-        $customer = Customers::find()->where(['flag' => 1, 'approve' => 'Y'])->all();
+        
+        $sql = "
+                SELECT 
+                    customerneed.id,
+                    customerneed.customername
+                FROM customerneed
+                LEFT JOIN confirmform ON customerneed.id = confirmform.customerneedid
+                WHERE confirmform.id IS NULL AND customerneed.`status` = 1
+        ";
+        $customerneed = Yii::$app->db->createCommand($sql)->queryAll();
+                   
         return $this->render('beforecreate',[
-            'customer' => $customer
+            'customerneed' => $customerneed
         ]);
     }
 
@@ -71,10 +82,10 @@ class ConfirmformController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($customerid)
+    public function actionCreate($customerneedid)
     {
         $model = new Confirmform();
-        $model->customerid = $customerid;
+        $model->customerneedid = $customerneedid;
         $model->status = 1;
        
         if ($model->load(Yii::$app->request->post())) 

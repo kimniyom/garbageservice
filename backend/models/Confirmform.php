@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $confirmformnumber เลขที่แบบฟอร์ม
- * @property int $customerid รหัสลูกค้า
+ * @property int $customerneedid รหัสลูกค้า
  * @property int $roundkeep_sunday วันอาทิตย์
  * @property int $roundkeep_monday วันจันทร์
  * @property int $roundkeep_tueday วันอังคาร
@@ -53,8 +53,8 @@ class Confirmform extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customerid', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment', 'confirmformnumber', 'amount'], 'required'],
-            [['customerid', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer', 'amount', 'status'], 'integer'],
+            [['customerneedid', 'cyclekeepmoney', 'paymentschedule', 'methodpeyment', 'confirmformnumber', 'amount'], 'required'],
+            [['customerneedid', 'roundkeep_sunday', 'roundkeep_monday', 'roundkeep_tueday', 'roundkeep_wednesday', 'roundkeep_thursday', 'roundkeep_friday', 'roundkeep_saturday', 'timeperiod_morning', 'timeperiod_affternoon', 'billdoc_originalinvoice', 'billdoc_copyofinvoice', 'billdoc_originalreceipt', 'billdoc_copyofreceipt', 'billdoc_copyofbank', 'billdoc_etc', 'paymentschedule', 'methodpeyment', 'senddoc_finance', 'senddoc_customer', 'amount', 'status'], 'integer'],
             [['roundkeep_day', 'timeperiod_time', 'cyclekeepmoney'], 'safe'],
             [['billdoc_etctext'], 'string'],
             [['confirmformnumber'], 'string', 'max' => 32],
@@ -70,7 +70,7 @@ class Confirmform extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'confirmformnumber' => 'Confirmformnumber',
-            'customerid' => 'Customerid',
+            'customerneedid' => 'customerneedid',
             'roundkeep_sunday' => 'วันอาทิตย์',
             'roundkeep_monday' => 'วันจันทร์',
             'roundkeep_tueday' => 'วันอังคาร',
@@ -119,7 +119,7 @@ class Confirmform extends \yii\db\ActiveRecord
                     CONCAT(l.lat, ', ', l.`long`)  as location
                 FROM
                     confirmform co
-                INNER JOIN customers c ON co.customerid = c.id
+                INNER JOIN customers c ON co.customerneedid = c.id
                 INNER JOIN changwat p ON c.changwat = p.changwat_id
                 INNER JOIN ampur a ON c.ampur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id
@@ -151,7 +151,7 @@ class Confirmform extends \yii\db\ActiveRecord
                     l.`long`
                 FROM
                     confirmform co
-                INNER JOIN customers c ON co.customerid = c.id
+                INNER JOIN customers c ON co.customerneedid = c.id
                 INNER JOIN changwat p ON c.changwat = p.changwat_id
                 INNER JOIN ampur a ON c.ampur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id
