@@ -1,13 +1,17 @@
 <?php
 use kartik\date\DatePicker;
-$this->title = $customer['company'];
+use kartik\select2\Select2;
+use kartik\widgets\TimePicker;
+use yii\helpers\ArrayHelper;
+
+$this->title = $customerneed['customername'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="service-default-formsaveround">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
-            <h4>บันทึรายการเก็บขยะ (ลูกค้า <?php echo $customer['company'] ?>)</h4>
+            <h4>บันทึรายการเก็บขยะ (ลูกค้า <?php echo $customerneed['customername'] ?>)</h4>
             <h4>เลขที่แบบยืนยันลูกค้า (<?php echo $confirm['confirmformnumber'] ?>)</h4>
             <h4>จำนวนครั้งที่เข้าจัดเก็บ (<?php echo $confirm['amount'] ?>)</h4>
             <hr/>
@@ -25,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 col-lg-5">
+        <div class="col-md-3 col-lg-3">
         <label>วันที่</label>
         <?php 
                     echo DatePicker::widget([
@@ -40,6 +44,56 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]
                     ]);
                 ?>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <label>ทะเบียนรถเข้าจัดเก็บ</label>
+            <?php
+            $listCar = ArrayHelper::map($carlist, 'carnumber', 'carnumber');
+            echo Select2::widget([
+                'name' => 'car',
+                'id' => 'car',
+                'value' => '',
+                'data' => $listCar,
+                'options' => [
+                    'multiple' => false,
+                    'placeholder' => 'Select Car ...',
+               
+                ],
+            ]);
+            ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <label>เวลาเข้า</label>
+            <?php
+            echo TimePicker::widget([
+                'name' => 'timekeepin',
+                'id' => 'timekeepin',
+                'readonly' => true,
+                'pluginOptions' => [
+                    'showSeconds' => false,
+                    'showMeridian' => false,
+                    'minuteStep' => 1,
+                    'secondStep' => 5,
+                ]
+            ]);
+            ?>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            <label>เวลาออก</label>
+            <?php
+            echo TimePicker::widget([
+                'name' => 'timekeepout',
+                'id' => 'timekeepout',
+                'readonly' => true,
+                'pluginOptions' => [
+                    'showSeconds' => false,
+                    'showMeridian' => false,
+                    'minuteStep' => 1,
+                    'secondStep' => 5,
+                ]
+            ]);
+            ?>
         </div>
 
         <div class="col-md-6 col-lg-7 col-sm-12">
@@ -60,11 +114,13 @@ $this->params['breadcrumbs'][] = $this->title;
     function Save(){
         var amount = $("#amount").val();
         var garbageover = $("#garbageover").val();
-        //var id = "<?php //echo $id ?>";
         var datekeep = $("#datekeep").val();
         var confirmid = "<?php echo $confirm['id'] ?>";
         var count = "<?php echo $confirm['amount'] ?>";
-        var customerid = "<?php echo $customer['id'] ?>";
+        var customerneedid = "<?php echo $customerneed['id'] ?>";
+        var timekeepin = $("#timekeepin").val();
+        var timekeepout = $("#timekeepout").val();
+        var car = $("#car").val();
 
         if(amount == "" || datekeep == ""){
             alert("กรอกข้อมูลไม่ครบ...!");
@@ -74,12 +130,17 @@ $this->params['breadcrumbs'][] = $this->title;
         var data = {
             amount: amount,
             garbageover: garbageover,
-            customerid: customerid,
+            customerneedid: customerneedid,
             datekeep: datekeep,
             confirmid: confirmid,
-            count:count
+            count: count,
+            timekeepin: timekeepin,
+            timekeepout: timekeepout,
+            car: car
             };
+            console.log(data);
         $.post(url,data,function(datas){
+            console.log(datas);
             if(datas == 1)
             {
                 $("#warning").html("<br><b>ครบตามจำนวนครั้งที่จัดเก็บแล้ว</b>");

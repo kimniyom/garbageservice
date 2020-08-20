@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <label>เลือกลูกค้า</label>
             <?php
-            $listCustomer = ArrayHelper::map($customers, 'id', 'company');
+            $listCustomer = ArrayHelper::map($customers, 'id', 'customername');
             echo Select2::widget([
                 'name' => 'customer',
                 'value' => '',
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <script type="text/javascript">
     function getRound(id) {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/getround']) ?>";
-        var data = {customer_id: id};
+        var data = {customerneedid: id};
         $.post(url, data, function(datas) {
             $("#round").html(datas);
         });

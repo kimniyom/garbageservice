@@ -136,27 +136,26 @@ class Confirmform extends \yii\db\ActiveRecord
         $where = $id == ""? "":" WHERE co.id={$id} ";
         $sql = "SELECT
                     co.*,
-                    c.company,
+                    c.customername,
                     c.tel,
-                    c.manager,
-                    c.timework,
+                    c.contact,
+                    c.dayopen,
                     c.address,
                     c.zipcode,
+                    c.NO,
+                    c.location,
                     p.changwat_name,
                     a.ampur_name,
                     t.tambon_name,
-                    y.typename,
-                    CONCAT(l.lat, ' ', l.`long`)  as location,
-                    l.lat,
-                    l.`long`
+                    y.typename
                 FROM
                     confirmform co
-                INNER JOIN customers c ON co.customerneedid = c.id
+                INNER JOIN customerneed c ON co.customerneedid = c.id
                 INNER JOIN changwat p ON c.changwat = p.changwat_id
-                INNER JOIN ampur a ON c.ampur = a.ampur_id
+                INNER JOIN ampur a ON c.amphur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id
-                INNER JOIN typecustomer y ON c.type = y.id
-                LEFT JOIN location l ON c.company = l.name
+                INNER JOIN typecustomer y ON c.customrttype = y.id
+               
                 {$where}
                 ORDER BY
                     co.id ASC

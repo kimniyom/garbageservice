@@ -6,28 +6,30 @@ use app\modules\customer\models\Customers;
 use app\models\Confirmform;
 use app\models\RoundgarbagePertime;
 use app\models\InvoicePertime;
+use app\models\Customerneed;
 use Yii;
 use app\models\Config;
+use app\modules\car\models\Car;
 
 class ServicepertimeController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $customers = Customers::find()
-        ->select('customers.id,customers.company')
-        ->innerjoin('confirmform', 'customers.id = confirmform.customerid')
+        $customers = Customerneed::find()
+        ->select('customerneed.id,customerneed.customername')
+        ->innerjoin('confirmform', 'customerneed.id = confirmform.customerneedid')
         ->where(['confirmform.status'=>1])
         ->all();
         return $this->render('index',['customers'=>$customers]);
     }
 
     public function actionGetround() {
-        $customerId = Yii::$app->request->post('customer_id');
-        $confirm = Confirmform::find()->where(['customerid' => $customerId, 'status'=>1])->One();
-        $customer = Customers::find()->where(['id' => $customerId])->One();
+        $customerneedid = Yii::$app->request->post('customerneedid');
+        $confirm = Confirmform::find()->where(['customerneedid' => $customerneedid, 'status'=>1])->One();
+        $customerneed = Customerneed::find()->where(['id' => $customerneedid])->One();
        
         $str = "";
-        $str .= "<b>ลูกค้า " . $customer['company'] . "</b><br/>";
+        $str .= "<b>ลูกค้า " . $customerneed['customername'] . "</b><br/>";
         $str .= "<b>เลขที่แบบยืนยัน " . $confirm['confirmformnumber'] . "</b><br/>";
         $link = Yii::$app->urlManager->createUrl(['service/servicepertime/formsaveround', 'confirmform' => $confirm['id']]);
         $str .= "  <a href='" . $link . "' class='btn btn-success'><i class='fa fa-save'></i> บันทึกรายการ</a> " . "<br/>";
@@ -41,20 +43,24 @@ class ServicepertimeController extends \yii\web\Controller
 
     public function actionFormsaveround($confirmform) {
         $confirm = Confirmform::find()->where(['id' => $confirmform, 'status' => '1'])->One();
-        $customer = Customers::find()->where(['id' => $confirm['customerid']])->One();
+        $customer = Customerneed::find()->where(['id' => $confirm['customerneedid']])->One();
         $data['confirm'] = $confirm;
-        $data['customer'] = $customer;
+        $data['customerneed'] = $customer;
+        $data['carlist'] = Car::find()->all();
         return $this->render('formsaveround', $data);
     }
 
     public function actionSave() {
-        //$id = Yii::$app->request->post('id');
+      
         $garbageover = Yii::$app->request->post('garbageover');
         $confirmid = Yii::$app->request->post('confirmid');
         $amount = Yii::$app->request->post('amount');
         $datekeep = Yii::$app->request->post('datekeep');
         $count = Yii::$app->request->post('count');
-        $customerid = Yii::$app->request->post('customerid');
+        $customerneedid = Yii::$app->request->post('customerneedid');
+        $car = Yii::$app->request->post('car');
+        $timekeepin = Yii::$app->request->post('timekeepin');
+        $timekeepout = Yii::$app->request->post('timekeepout');
 
         $countInkey = RoundgarbagePertime::find()->where(['confirmid'=>$confirmid])->count();
         
@@ -68,7 +74,10 @@ class ServicepertimeController extends \yii\web\Controller
                 "datekeep" => $datekeep,
                 "confirmid" => $confirmid,
                 "d_update" => date("Y-m-d H:i:s"),
-                "customerid" => $customerid
+                "customerneedid" => $customerneedid,
+                "car" => $car,
+                "timekeepin" => $timekeepin,
+                "timekeepout" => $timekeepout
             );
     
             Yii::$app->db->createCommand()
@@ -135,40 +144,40 @@ class ServicepertimeController extends \yii\web\Controller
                 ->execute();
     }
 
-    public function actionCreatebill($customerId = "")
+    public function actionCreatebill($customerneedid = "")
     {
        
         $sql = "select 
-                    c.*,CONCAT(c.company,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
+                    c.*,CONCAT(c.customername,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
                     ,confirm.id as confirmid
-                from customers c
+                from customerneed c
 		        inner join changwat p on c.changwat = p.changwat_id
-		        inner join ampur a on c.ampur = a.ampur_id
+		        inner join ampur a on c.amphur = a.ampur_id
 		        inner join tambon t on c.tambon = t.tambon_id
-                inner join confirmform confirm on c.id = confirm.customerid
+                inner join confirmform confirm on c.id = confirm.customerneedid
                 
                 where confirm.`status` = '1' ";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customer'] = $result;
-        $data['roundpertime'] = $this->getkeeplist($customerId);
-        $data['customerId'] = $customerId;
+        $data['roundpertime'] = $this->getkeeplist($customerneedid);
+        $data['customerneedid'] = $customerneedid;
         return $this->render('createbill', $data);
     }
 
-    public function getkeeplist($customerid) {
+    public function getkeeplist($customerneedid) {
         $Config = new Config();
-        $confirm = Confirmform::find()->where(['customerid'=>$customerid,'status'=>1])->one();
-        $customer = Customers::find()->where(['id'=>$customerid])->one();
+        $confirm = Confirmform::find()->where(['customerneedid'=>$customerneedid])->one();
+        $customerneed = Customerneed::find()->where(['id'=>$customerneedid])->one();
         $sql = "SELECT r.*,p.username,f.`name`
                 FROM roundgarbage_pertime r 
                 INNER JOIN `user` p ON r.keepby = p.id
                 LEFT JOIN `profile` f ON p.id = f.user_id
-                WHERE r.customerid = '$customerid' AND r.flag = 0";
+                WHERE r.customerneedid = '$customerneedid' AND r.flag = 0";
     
         $RoundGarbage = Yii::$app->db->createCommand($sql)->queryAll();
         $i = 0;
         $str = "";
-        $str .= "<b>ลูกค้า ".$customer['company']."</b><br/>";
+        $str .= "<b>ลูกค้า ".$customerneed['customername']."</b><br/>";
         $str .= "<b>จำนวนครั้งที่ตกลงเข้าจัดเก็บ ".$confirm['amount']."</b><br/>";
         $str .= "<b>แบบยืนยันเลขที่  ".$confirm['confirmformnumber']."</b><br/>";
         $str .= "<b>จำนวนเงินทีออกบิลไปแล้ว </b><br/>";
@@ -212,14 +221,14 @@ class ServicepertimeController extends \yii\web\Controller
         $confirmid = Yii::$app->request->post('confirmid');
         
         $confirm = Confirmform::find()->where(['id' => $confirmid])->One();
-        $Customer = $this->actionGetcustomer($confirm['customerid']);
+        $customerneed = $this->actionGetcustomer($confirm['customerneedid']);
         
-        $sql = "select * from roundgarbage_pertime where confirmid = '$confirmid' and status='1'";
+        $sql = "select * from roundgarbage_pertime where confirmid = '{$confirmid}' and status='1'";
         $data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
-        $data['customer'] = $Customer;
+        $data['customerneed'] = $customerneed;
         $data['confirm'] = $confirm;
         $data['money'] = Yii::$app->request->post('money');
-        $data['type'] = $Customer['typeregister'];
+        $data['type'] = $customerneed['customrttype'];
         
         $sqlCheckInvoice = "select * from roundmoney_pertime where confirmid = '$confirmid' and receiptnumber != '' ORDER BY datekeep DESC LIMIT 1";
         $Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
@@ -239,21 +248,28 @@ class ServicepertimeController extends \yii\web\Controller
         return $this->renderPartial("_createbillpopup", $data);
     }
 
-    public function actionGetcustomer($customerid) {
-        $sql = "SELECT c.company,
-            ch.changwat_name,
-            a.ampur_name,
-            t.tambon_name,
-            c.zipcode,c.tel,
-            c.taxnumber,
-            c.typeregister,
-            c.id,
-            c.telephone,c.typeregister,c.grouptype,g.groupcustomer,c.flag
-				FROM customers c INNER JOIN changwat ch ON c.changwat = ch.changwat_id
-				INNER JOIN ampur a ON c.ampur = a.ampur_id
-				INNER JOIN tambon t ON c.tambon = t.tambon_id
-                INNER JOIN groupcustomer g ON c.grouptype = g.id
-				WHERE c.id = '$customerid'";
+    public function actionGetcustomer($customerneedid) {
+        $sql = "
+            SELECT
+                c.customername,
+                ch.changwat_name,
+                a.ampur_name,
+                t.tambon_name,
+                c.zipcode,
+                c.tel,
+                c.customrttype,
+                c.id,
+                typecustomer.typename
+            FROM
+                customerneed c
+            INNER JOIN changwat ch ON c.changwat = ch.changwat_id
+            INNER JOIN ampur a ON c.amphur = a.ampur_id
+            INNER JOIN tambon t ON c.tambon = t.tambon_id #INNER JOIN groupcustomer g ON c.customrttype = g.id
+            INNER JOIN typecustomer ON c.customrttype = typecustomer.id
+            WHERE
+                c.id = '{$customerneedid}'
+        ";
+               
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
 

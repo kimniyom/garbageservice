@@ -53,7 +53,6 @@ class ConfirmformController extends Controller
     {
         $model = new Confirmform();
         $data['datas'] = $model->geConfirmformById($id);
-        
         $data['payment'] = ConfirmformPayment::findOne(['id'=>$data['datas']['paymentschedule']]);
         $data['method'] = ConfirmformMethodpayment::findOne(['id'=>$data['datas']['methodpeyment']]);
         return $this->render('view', $data);
@@ -87,6 +86,7 @@ class ConfirmformController extends Controller
         $model = new Confirmform();
         $model->customerneedid = $customerneedid;
         $model->status = 1;
+        $need = Customerneed::findOne(['id'=>$customerneedid]);
        
         if ($model->load(Yii::$app->request->post())) 
         {
@@ -107,7 +107,11 @@ class ConfirmformController extends Controller
             }
         }
 
+      
+
         return $this->render('create', [
+           'a'=> "a",
+            'need' => $need,
             'model' => $model,
         ]);
     }

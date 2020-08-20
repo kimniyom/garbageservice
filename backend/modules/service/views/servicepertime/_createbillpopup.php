@@ -42,8 +42,8 @@ $Config = new Config();
         <thead>
             <tr>
                 <th colspan="3">
-                    ชื่อลูกค้า <?php echo $customer['company'] ?><br/>
-                    ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customer['tambon_name'] . ' อำเภอ ' . $customer['ampur_name'] . ' จังหวัด ' . $customer['changwat_name'] . ' ' . $customer['zipcode'] ?>
+                    ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
+                    ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?>
 
                 </th>
             </tr>
@@ -134,7 +134,7 @@ $Config = new Config();
         var total = "<?php echo $money ?>";
         var dateinvoice = $("#dateinvoice").val();
         var datebill = $("#datebill").val();
-        var customerid = "<?php echo $customer['id'] ?>";
+        var customerid = "<?php echo $customerneed['id'] ?>";
         var data = {
             invoiceNumber: invoiceNumber,
             confirmid: confirmid,

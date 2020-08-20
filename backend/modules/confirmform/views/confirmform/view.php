@@ -96,7 +96,7 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
                 <table class="table">
                     <tr>
                         <td style="text-align: right;">สถานบริการ / บริษัท</td>
-                        <td><?php echo $datas['company'] ?></td>
+                        <td><?php echo $datas['customername'] ?></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;">ประเภทสถานบริการ</td>
@@ -104,7 +104,7 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
                     </tr>
                     <tr>
                         <td style="text-align: right;">ชื่อผู้ติดต่อ</td>
-                        <td><?php echo $datas['manager'] ?></td>
+                        <td><?php echo $datas['contact'] ?></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;">โทรศัพท์</td>
@@ -122,7 +122,7 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
                     </tr>
                     <tr>
                         <td style="text-align: right;">วัน - เวลา ที่เปิดทำการ</td>
-                        <td><?php echo $datas['timework'] ?></td>
+                        <td><?php echo $datas['dayopen'] ?></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;">สถานที่ตั้ง</td>
@@ -155,9 +155,10 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
         <br> 
         <div class="row">
                 <div class="col-sm-12" style="font-size:14px;">
-                    ชื่อสถานที่เข้าจัดเก็บ <?php echo $datas['company'];?>  
-                    <br>ที่อยู่ <?php echo $datas['address'] ?>&nbsp; ต.<?php echo $datas['tambon_name'] ?>&nbsp;อ.<?php echo $datas['ampur_name'] ?>&nbsp;จ.<?php echo $datas['changwat_name'] ?>&nbsp; 
-                    <br>ชื่อผู้ประสานงาน <?php echo $datas['manager'];?> แผนก/หน่วยงาน <?php echo $datas['department']?> เบอร์โทรศัพท์ <?php echo $datas['tel'];?>
+                    ชื่อสถานที่เข้าจัดเก็บ <?php echo $datas['customername'];?> ใบเสนอราคาเลขที่  <?php echo $datas['NO']?>
+
+                    <br>ที่อยู่ <?php echo $datas['address'] ?>&nbsp; ต.<?php echo $datas['tambon_name'] ?>&nbsp;อ.<?php echo $datas['NO'] ?>&nbsp;จ.<?php echo $datas['changwat_name'] ?>&nbsp; 
+                    <br>ชื่อผู้ประสานงาน <?php echo $datas['contact'];?> แผนก/หน่วยงาน <?php echo $datas['department']?> เบอร์โทรศัพท์ <?php echo $datas['tel'];?>
                     <br>รอบวันเข้าจัดเก็บ 
                     <input type="checkbox" <?php echo $sunday;?> disabled>วันอาทิตย์&nbsp;
                     <input type="checkbox" <?php echo $monday;?> disabled>วันจันทร์&nbsp;
@@ -212,10 +213,10 @@ $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
         </div> 
         <br>
         <div class="row " style="font-size:14px;">
-            <div class="col-sm-12"><strong>ติดต่อกับแผนกการเงินระบุชื่อ  <?php echo $datas['manager']?> เบอร์โทรศัพท์ <?php echo $datas['tel']?> </strong></div>
+            <div class="col-sm-12"><strong>ติดต่อกับแผนกการเงินระบุชื่อ  <?php echo $datas['contact']?> เบอร์โทรศัพท์ <?php echo $datas['tel']?> </strong></div>
         </div>
         <div class="row " style="font-size:14px;">
-            <div class="col-sm-12"><strong>พิกัด GPS:  N <?php echo $datas['lat'];?> E <?php echo $datas['long'];?> </strong></div>
+            <div class="col-sm-12"><strong>พิกัด GPS:   <?php echo $datas['location'];?>  </strong></div>
         </div>
         <br>
         <div class="row " style="font-size:14px;">

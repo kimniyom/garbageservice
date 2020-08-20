@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
     <div class="row">
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
-                <div class="box-header">การเข้าจัดเก็บ</div>
+                <div class="box-header">การเข้าจัดเก็บ (ใบเสนอราคาเลขที่ <?php ?>)</div>
                 <div class="box-body"  id="box-right" style=" position: relative; overflow: auto;">
                     <div class="well">
                         <?php $form = ActiveForm::begin(['type' => ActiveForm::TYPE_VERTICAL]);?>   

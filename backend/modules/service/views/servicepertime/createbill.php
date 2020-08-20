@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $listCustomer = ArrayHelper::map($customer, 'id', 'address');
                 echo Select2::widget([
                     'name' => 'customer',
-                    'value' => $customerId,
+                    'value' => $customerneedid,
                     'data' => $listCustomer,
                     'options' => [
                         'multiple' => false,
@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <script type="text/javascript">
     function getTime(customer) {
         //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])   ?>" + "&type=1&customer=" + customer;
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>" + "&customerId=" + customer;
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbill']) ?>" + "&customerneedid=" + customer;
         window.location = url;
         /*
          var data = {customer_id: customer};
