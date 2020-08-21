@@ -95,6 +95,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<?php
+if($invoice){
+    $this->registerJs("popupFormbill({$confirmid})");
+}
+?>
 <script type="text/javascript">
     function getTime(customer) {
         //var url = "<?php //echo Yii::$app->urlManager->createUrl(['service/default/getroundpromise'])   ?>" + "&type=1&customer=" + customer;
@@ -111,7 +116,8 @@ $this->params['breadcrumbs'][] = $this->title;
     function popupFormbill(confirmid) {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbillpopup']) ?>";
         var money = $("#money").val();
-        if(money)
+        var invoice = "<?php echo $invoice['id'];?>";
+        if(money || invoice != "")
         {
             var data = {
                 confirmid:confirmid,

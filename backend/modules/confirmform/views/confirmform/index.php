@@ -36,10 +36,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                     <tr>
                         <td><?php echo $i ?></td>
-                        <td><?php echo $rs['company'] ?></td>
+                        <td><?php echo $rs['customername'] ?></td>
                         <td><?php echo $rs['typename'] ?></td>
                         <td><?php echo $rs['tel'] ?></td>
-                        <td><?php echo $rs['manager'] ?></td>
+                        <td><?php echo $rs['contact'] ?></td>
                         <td>
                             <a href="<?php echo Url::to(['view', 'id' => $rs['id']]) ?>">
                                 <button class="btn btn-success btn-sm btn-block text-success" type="button"><i class="fa fa-check"></i> แบบยืนยัน</button>
@@ -53,11 +53,5 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
-<script type="text/javascript">
-    function getQuotation() {
-        var status = $("#status").val();
-        var url = "<?php echo Url::to(['quotation']) ?>" + "&status=" + status;
-        window.location = url;
-    }
-</script>
+
 

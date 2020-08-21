@@ -108,23 +108,22 @@ class Confirmform extends \yii\db\ActiveRecord
     function geConfirmformAll() {
         $sql = "SELECT
                     co.id,
-                    c.company,
+                    c.customername,
                     c.tel,
-                    c.manager,
-                    c.timework,
+                    c.contact,
+                    c.dayopen,
                     p.changwat_name,
                     a.ampur_name,
                     t.tambon_name,
                     y.typename,
-                    CONCAT(l.lat, ', ', l.`long`)  as location
+                    c.location
                 FROM
                     confirmform co
-                INNER JOIN customers c ON co.customerneedid = c.id
+                INNER JOIN customerneed c ON co.customerneedid = c.id
                 INNER JOIN changwat p ON c.changwat = p.changwat_id
-                INNER JOIN ampur a ON c.ampur = a.ampur_id
+                INNER JOIN ampur a ON c.amphur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id
-                INNER JOIN typecustomer y ON c.type = y.id
-                LEFT JOIN location l ON c.company = l.name
+                INNER JOIN typecustomer y ON c.customrttype = y.id
                 ORDER BY
                     co.id ASC
             ";
