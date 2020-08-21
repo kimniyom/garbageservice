@@ -10,7 +10,7 @@ use yii\helpers\ArrayHelper;
 use kartik\date\DatePicker;
 use kartik\widgets\TimePicker;
 
-$this->title = "ยืนยันการชำระเงิน";
+$this->title = "ตรวจสอบการชำระเงิน";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">

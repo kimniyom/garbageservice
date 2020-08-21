@@ -267,20 +267,35 @@ class CustomersController extends Controller {
     }
 
     public function actionSaveconfirmorder() {
-        $id = Yii::$app->request->post('id');
-        $dateservice = Yii::$app->request->post('dateservice');
-        $timeservice = Yii::$app->request->post('timeservice');
-        $comment = Yii::$app->request->post('comment');
 
-        $columns = array(
-            "dateservice" => $dateservice,
-            "timeservice" => $timeservice,
-            "comment" => $comment,
-            "status" => 2
-        );
-        Yii::$app->db->createCommand()
-                ->update("invoice", $columns, "id = '$id'")
-                ->execute();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //$fileName = $_FILES['inputFile']['name'];
+            $fileExt = pathinfo($_FILES["inputFile"]["name"], PATHINFO_EXTENSION);
+            $fileName = date('dmYHis') . md5($_FILES["inputFile"]["name"]) . "." . $fileExt;
+            $filePath = "../uploads/slip/" . $fileName;
+            if (move_uploaded_file($_FILES["inputFile"]["tmp_name"], $filePath)) {
+                $id = $_POST['id'];
+                $dateservice = $_POST['dateservice'];
+                $timeservice = $_POST['timeservice'];
+                $comment = $_POST['comment'];
+
+                $columns = array(
+                    "dateservice" => $dateservice,
+                    "timeservice" => $timeservice,
+                    "comment" => $comment,
+                    "slip" => $fileName,
+                    "bank" => $_POST['bank'],
+                    "status" => 2,
+                    "typepayment" => 1
+                );
+                Yii::$app->db->createCommand()
+                        ->update("invoice", $columns, "id = '$id'")
+                        ->execute();
+                echo "success";
+            } else {
+                echo "Upload failed";
+            }
+        }
     }
 
 }

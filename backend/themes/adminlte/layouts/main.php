@@ -68,5 +68,6 @@ if (Yii::$app->controller->action->id === 'login') {
 <script type="text/javascript" src="<?php echo Url::to('@web/web/uploadifive/jquery.uploadifive.min.js') ?>"></script>
 <script type="text/javascript" src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 

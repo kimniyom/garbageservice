@@ -328,8 +328,6 @@ $urlMap = new Config();
                     innerSize: '50%',
                     data: [<?php echo $chartgroup ?>,
                         {
-                            name: 'Other',
-                            y: 7.61,
                             dataLabels: {
                                 enabled: true
                             }

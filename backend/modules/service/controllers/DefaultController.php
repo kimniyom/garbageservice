@@ -446,9 +446,9 @@ INNER JOIN changwat ch ON c.changwat = ch.changwat_id
 					FROM invoice i INNER JOIN promise p ON i.promise = p.id
 					INNER JOIN customers c ON p.customerid = c.id
 					LEFT JOIN roundmoney r ON i.round = r.id
-					WHERE i.`status` = '2'";
+					WHERE i.`status` = '2' AND i.typepayment = '1'";
         $data['order'] = Yii::$app->db->createCommand($sql)->queryAll();
-        return $this->render('order', $data);
+        return $this->render('checkorder', $data);
     }
 
     public function actionSaveconfirmorder() {

@@ -926,18 +926,34 @@ class PromiseController extends Controller {
         return $this->render('promisewaitapprove', $data);
     }
 
+    /*
+      public function actionPromisepay() {
+      $sql = "SELECT
+      promise.id ,
+      promise.promisenumber,
+      promise.promisedateend,
+      customers.company,
+      customers.manager,
+      customers.tel,
+      customers.telephone
+      FROM promise
+      INNER JOIN customers ON promise.customerid = customers.id
+      WHERE promise.checkmoney = '1'";
+      $rs = Yii::$app->db->createCommand($sql)->queryAll();
+      $data['promise'] = $rs;
+      return $this->render('promisepay', $data);
+      }
+     */
+
+    //News Modify By Kimniyom 2020-08-21
     public function actionPromisepay() {
-        $sql = "SELECT
-					promise.id ,
-					promise.promisenumber,
-					promise.promisedateend,
-					customers.company,
-					customers.manager,
-					customers.tel,
-					customers.telephone
-				FROM promise
-				INNER JOIN customers ON promise.customerid = customers.id
-				WHERE promise.checkmoney = '1'";
+        $sql = "SELECT i.*,CONCAT('(Invoice #',i.invoicenumber,') ',c.company,' (จำนวน ',i.total,' .-)') as orders,
+					p.promisenumber,c.company,r.round as roundmoney,
+                                        c.manager
+					FROM invoice i INNER JOIN promise p ON i.promise = p.id
+					INNER JOIN customers c ON p.customerid = c.id
+					LEFT JOIN roundmoney r ON i.round = r.id
+					WHERE i.`status` = '0' AND i.typepayment = '2'";
         $rs = Yii::$app->db->createCommand($sql)->queryAll();
         $data['promise'] = $rs;
         return $this->render('promisepay', $data);
@@ -1064,6 +1080,61 @@ class PromiseController extends Controller {
         Yii::$app->db->createCommand()
                 ->delete("promise", "id = '$id'")
                 ->execute();
+    }
+
+    public function actionConfirminvoice($id) {
+        $data['bank'] = $this->getBookbank();
+        $sql = "SELECT *
+                    FROM invoice i
+                    WHERE i.id = '$id'";
+        $data['id'] = $id;
+        $data['order'] = Yii::$app->db->createCommand($sql)->queryOne();
+        $data['bank'] = $this->getBookbank();
+        return $this->render('confirminvoice', $data);
+    }
+
+    public function getBookbank() {
+        $sql = "SELECT b.*,CONCAT(k.bankname,' เลขบัญชี ' ,b.bookbanknumber) AS bname,k.bankname,k.bank_img
+              FROM bookbank b INNER JOIN bank k On b.bank = k.id ";
+        return Yii::$app->db->createCommand($sql)->queryAll();
+    }
+
+    public function actionSaveconfirmorder() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $id = $_POST['id'];
+            $dateservice = $_POST['dateservice'];
+            $timeservice = $_POST['timeservice'];
+            $comment = $_POST['comment'];
+
+            if ($_FILES['inputFile']['name']) {
+                $fileExt = pathinfo($_FILES["inputFile"]["name"], PATHINFO_EXTENSION);
+                $fileName = date('dmYHis') . md5($_FILES["inputFile"]["name"]) . "." . $fileExt;
+                $filePath = "../uploads/slip/" . $fileName;
+                move_uploaded_file($_FILES["inputFile"]["tmp_name"], $filePath);
+                $columns = array(
+                    "slip" => $fileName,
+                );
+
+                Yii::$app->db->createCommand()
+                        ->update("invoice", $columns, "id = '$id'")
+                        ->execute();
+            } else {
+                $columns = array(
+                    "dateservice" => $dateservice,
+                    "timeservice" => $timeservice,
+                    "comment" => $comment,
+                    "bank" => $_POST['bank'],
+                    "status" => 1,
+                    "typepayment" => 2,
+                    "userid" => Yii::$app->user->id
+                );
+                Yii::$app->db->createCommand()
+                        ->update("invoice", $columns, "id = '$id'")
+                        ->execute();
+                echo "success";
+            }
+        }
     }
 
 }

@@ -12,9 +12,8 @@ use kartik\widgets\TimePicker;
 use kartik\datetime\DateTimePicker;
 use backend\model\Bookbank;
 
-$this->title = "แจ้งชำระเงิน";
-$this->params['breadcrumbs'][] = ['label' => 'จัดการข้อมูล', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'รายการที่ต้องชำระ', 'url' => ['invoice']];
+$this->title = "ยืนยันการชำระเงิน";
+$this->params['breadcrumbs'][] = ['label' => 'ยืนยันการชำระเงิน', 'url' => ['promisepay']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h4>
@@ -24,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <hr/>
 <form id="form">
     <input type="hidden" id="id" name="id" value="<?php echo $id ?>"/>
-    <label>ธนาคารที่ท่านชำระ</label>
+    <label>ธนาคารที่ชำระเข้ามา</label>
     <div class="row">
         <div class="col-md-8 col-lg-8">
             <?php
@@ -98,8 +97,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-md-6 col-lg-6">
-            <label>หลักฐานการโอน</label><br/>
-            <input type="file" id="inputFile" name="inputFile" required="required"/>
+            <label>หลักฐานการโอน(* ถ้ามี)</label><br/>
+            <input type="file" id="inputFile" name="inputFile"/>
         </div>
     </div>
     <hr/>
@@ -110,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </form>
 <?php
-$url = Yii::$app->urlManager->createUrl(['customer/customers/saveconfirmorder']);
+$url = Yii::$app->urlManager->createUrl(['promise/promise/saveconfirmorder']);
 $this->registerJs('$(document).ready(function () {
             $("#form").on("submit", function (event) {
                 event.preventDefault(); //prevent default submitting
@@ -146,47 +145,6 @@ $this->registerJs('$(document).ready(function () {
 ?>
 
 <script type="text/javascript">
-    function confirmOrders() {
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/saveconfirmorder']) ?>";
-        var id = <?php echo $id ?>;
-        var bank = $("#bank").val();
-        var dateservice = $("#dateservice").val();
-        var timeservice = $("#timeservice").val();
-        var comment = $("#comment").val();
-        if (dateservice == "" || timeservice == "" || bank == "") {
-            //alert("กรอกข้อมูลไม่ครบ...");
-            Swal.fire(
-                    'Alert?',
-                    'กรอกข้อมูลไม่ครบ?',
-                    'warning'
-                    );
-            return false;
-        }
-        var data = {
-            id: id,
-            dateservice: dateservice,
-            timeservice: timeservice,
-            comment: comment
-        };
-        console.log(data);
-
-        $.post(url, data, function (datas) {
-            //alert("ยืนยันรายการสำเร็จ...");
-            Swal.fire({
-                title: 'Success',
-                text: "ยืนยันรายการสำเร็จ",
-                icon: 'success',
-                showCancelButton: false,
-                confirmButtonColor: '#3085d6'
-            }).then((result) => {
-                if (result.value) {
-                    window.location = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/invoice']) ?>";
-                }
-            });
-
-        });
-    }
-
     function Success() {
         Swal.fire({
             title: 'Success',
@@ -196,7 +154,7 @@ $this->registerJs('$(document).ready(function () {
             confirmButtonColor: '#3085d6'
         }).then((result) => {
             if (result.value) {
-                window.location = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/invoice']) ?>";
+                window.location = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/promisepay']) ?>";
             }
         });
     }
