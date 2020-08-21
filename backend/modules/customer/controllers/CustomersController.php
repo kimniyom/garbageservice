@@ -248,11 +248,13 @@ class CustomersController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-        $img = CustomersImg::findOne(['customerid' => $id]);
-        unlink('../uploads/customers/gallerry/' . $img->filename);
-        $img->delete();
         Location::findOne(['customer_id' => $id])->delete();
+        $img = CustomersImg::findOne(['customerid' => $id]);
+        if($img){
+            unlink('../uploads/customers/gallerry/' . $img->filename);
+            $img->delete();
+        }
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 
