@@ -150,6 +150,7 @@ class ServicepertimeController extends \yii\web\Controller
         $sql = "select 
                     c.*,CONCAT(c.customername,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
                     ,confirm.id as confirmid
+                   
                 from customerneed c
 		        inner join changwat p on c.changwat = p.changwat_id
 		        inner join ampur a on c.amphur = a.ampur_id
@@ -161,12 +162,16 @@ class ServicepertimeController extends \yii\web\Controller
         $data['customer'] = $result;
         $data['roundpertime'] = $this->getkeeplist($customerneedid);
         $data['customerneedid'] = $customerneedid;
+        $data['confirmid'] = Confirmform::find()->where(['customerneedid'=>$customerneedid])->one()['id'];
+        $data['invoice'] = InvoicePertime::findOne(['confirmid'=>$data['confirmid']]);
+        
         return $this->render('createbill', $data);
     }
 
     public function getkeeplist($customerneedid) {
         $Config = new Config();
         $confirm = Confirmform::find()->where(['customerneedid'=>$customerneedid])->one();
+        $invoice = InvoicePertime::findOne(['confirmid'=>$confirm['id']]);
         $customerneed = Customerneed::find()->where(['id'=>$customerneedid])->one();
         $sql = "SELECT r.*,p.username,f.`name`
                 FROM roundgarbage_pertime r 
@@ -206,7 +211,7 @@ class ServicepertimeController extends \yii\web\Controller
         }
 
         $str .= "</tbody></table>";
-        if(count($RoundGarbage)>0)
+        if(count($RoundGarbage)>0 && !$invoice)
         {
             $confirmid = $confirm->id;
             $str .= '<div>จำนวนเงินที่จะออกบิล<input type="text" class="form-control" id="money"></div>';
@@ -239,6 +244,7 @@ class ServicepertimeController extends \yii\web\Controller
             $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         } else {
+            $data['money'] = $data['invoicedetail']['total'];
             $data['invnumber'] = $Invoice['receiptnumber'];
             $data['status'] = 1;
             $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";

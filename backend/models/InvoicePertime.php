@@ -25,6 +25,11 @@ use Yii;
  * @property int|null $typeinvoice 0 = ค่ากำจัดขยะติดเชื้อ 1 = ค่าบริการขยะส่วนเกิน
  * @property string|null $slip หลักฐาน
  * @property int|null $bank ธนาคารที่โอน
+ * @property float|null $discount ส่วนลด
+ * @property float|null $deposit มัดจำ
+ * @property int|null $credit เครดิตวันชำระเงิน
+ * @property int|null $checkdateinvoice 1 = invoice เอาวันที่
+ * @property int|null $checkdatebill 1 = bill เอาวันที่
  */
 class InvoicePertime extends \yii\db\ActiveRecord
 {
@@ -42,8 +47,8 @@ class InvoicePertime extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['confirmid', 'round', 'status', 'type', 'typeinvoice', 'bank'], 'integer'],
-            [['total'], 'number'],
+            [['confirmid', 'round', 'status', 'type', 'typeinvoice', 'bank', 'credit', 'checkdateinvoice', 'checkdatebill'], 'integer'],
+            [['total', 'discount', 'deposit'], 'number'],
             [['d_update', 'dateservice', 'dateinvoice', 'datebill'], 'safe'],
             [['invoicenumber', 'timeservice'], 'string', 'max' => 10],
             [['month'], 'string', 'max' => 2],
@@ -77,6 +82,11 @@ class InvoicePertime extends \yii\db\ActiveRecord
             'typeinvoice' => '0 = ค่ากำจัดขยะติดเชื้อ 1 = ค่าบริการขยะส่วนเกิน',
             'slip' => 'หลักฐาน',
             'bank' => 'ธนาคารที่โอน',
+            'discount' => 'ส่วนลด',
+            'deposit' => 'มัดจำ',
+            'credit' => 'เครดิตวันชำระเงิน',
+            'checkdateinvoice' => '1 = invoice เอาวันที่',
+            'checkdatebill' => '1 = bill เอาวันที่',
         ];
     }
 }
