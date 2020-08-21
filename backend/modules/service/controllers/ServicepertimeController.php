@@ -229,6 +229,7 @@ class ServicepertimeController extends \yii\web\Controller
         $data['confirm'] = $confirm;
         $data['money'] = Yii::$app->request->post('money');
         $data['type'] = $customerneed['customrttype'];
+        $data['vat'] = $customerneed['vat'];
         
         $sqlCheckInvoice = "select * from roundmoney_pertime where confirmid = '$confirmid' and receiptnumber != '' ORDER BY datekeep DESC LIMIT 1";
         $Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
@@ -238,13 +239,13 @@ class ServicepertimeController extends \yii\web\Controller
             $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         } else {
-            $data['invnumber'] = $this->getNextId();
+            $data['invnumber'] = $Invoice['receiptnumber'];
             $data['status'] = 1;
             $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         }
        
-
+        
         return $this->renderPartial("_createbillpopup", $data);
     }
 
@@ -259,7 +260,10 @@ class ServicepertimeController extends \yii\web\Controller
                 c.tel,
                 c.customrttype,
                 c.id,
-                typecustomer.typename
+                typecustomer.typename,
+                typecustomer.groupcustomer,
+                c.NO,
+                c.vat
             FROM
                 customerneed c
             INNER JOIN changwat ch ON c.changwat = ch.changwat_id
@@ -294,15 +298,31 @@ class ServicepertimeController extends \yii\web\Controller
         $invoiceNumber = Yii::$app->request->post('invoiceNumber');
         $confirmid = Yii::$app->request->post('confirmid');
         $total = Yii::$app->request->post('total');
+        $roundId = Yii::$app->request->post('roundId');
         $dateinvoice = Yii::$app->request->post('dateinvoice');
         $datebill = Yii::$app->request->post('datebill');
-        $customerid = Yii::$app->request->post('customerid');
-       
-      
+        $discount = Yii::$app->request->post('discount');
+        $deposit = Yii::$app->request->post('deposit');
+        $credit = Yii::$app->request->post('credit');
+        $vat = Yii::$app->request->post('vat');
+        $customerneedid = Yii::$app->request->post('customerneedid');
+
+        $sumdiscount = ($total - $discount);
+        $sumdeposit = ($sumdiscount - $deposit);
+        $vats = 0;
+        if ($vat == 1) {
+            $vats = (($sumdeposit * 7) / 100);
+        } 
+
+        $totalInvoiceFinal = ($sumdeposit + $vats);
+
         $columns = array(
             "invoicenumber" => $invoiceNumber,
             "confirmid" => $confirmid,
-            "total" => $total,
+            "total" => $totalInvoiceFinal,
+            "discount" => $discount,
+            "deposit" => $deposit,
+            "credit" => $credit,
             "status" => "0",
             "dateinvoice" => $dateinvoice,
             "datebill" => $datebill,
@@ -318,9 +338,10 @@ class ServicepertimeController extends \yii\web\Controller
             "confirmid" => $confirmid,
             "amount" => $total,
             "status" => "0",
-            "customerid" => $customerid,
+            "customerneedid" => $customerneedid,
             "datekeep" => date("Y-m-d"),
             "amount" => $total,
+            "round" => $roundId
         );
         Yii::$app->db->createCommand()
                 ->insert("roundmoney_pertime", $columnsInsert)
