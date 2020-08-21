@@ -488,7 +488,7 @@ $vatbath = 0;
                             ?>
                             <tr>
                                 <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep'])?> เวลา <?php echo $rs['timekeepin']?></td>                                                 ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep']);?> เวลา <?php echo $rs['timekeepin'];?>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($rs['amount'], 2) ?> </td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
                                 <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
@@ -497,7 +497,12 @@ $vatbath = 0;
 
                     </tbody>
                     <tfoot>
-                        <?php if ($vat == 1) { ?>
+                        <?php 
+                            if ($vat == 1) { 
+                                $sumDiscount = ($sum - $invoicedetail['discount']);
+                                $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                            
+                        ?>
                             <tr>
                                 <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
@@ -651,7 +656,7 @@ $vatbath = 0;
                         ?>
                         <tr>
                             <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
-                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep'])?> เวลา <?php echo $rs['timekeepin']?></td>                                                 ?></td>
+                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep'])?> เวลา <?php echo $rs['timekeepin']?>
                             <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($rs['amount'], 2) ?> </td>
                             <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
                             <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>

@@ -244,11 +244,12 @@ class ServicepertimeController extends \yii\web\Controller
             $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
         } else {
-            $data['money'] = $data['invoicedetail']['total'];
+            
             $data['invnumber'] = $Invoice['receiptnumber'];
             $data['status'] = 1;
             $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
+            $data['money'] = $data['invoicedetail']['total'];
         }
        
         
