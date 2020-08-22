@@ -21,7 +21,12 @@ use yii\helpers\Url;
         <div class="navbar-custom-menu" >
 
             <ul class="nav navbar-nav">
-
+                <li class="dropdown ">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Report <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href=""><i class="fa fa-chevron-right"></i> ประวัติการชำระเงิน</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="<?php echo Url::to('@web/web/images/Folders-OS-User-No-Frame-Metro-icon.png') ?>" class="user-image" alt="User Image"/>

@@ -13,6 +13,9 @@ use kartik\widgets\TimePicker;
 $this->title = "ตรวจสอบการชำระเงิน";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div style=" border-radius: 10px; width: 400px; height: auto; border: solid 2px #002a80; padding: 10px; margin-bottom: 10px; background: #ffffff;">
+    <i class="fa fa-info-circle"></i> ตรวจสอบการชำระเงินจากลูกค้าที่แจ้งผ่านระบบโดยการแนบหลังฐานการโอนเงิน
+</div>
 <div class="row">
     <div class="col-lg-6 col-md-6">
         <div class="row">

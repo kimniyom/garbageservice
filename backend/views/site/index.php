@@ -10,6 +10,7 @@ $urlMap = new Config();
 <script src="<?php echo $urlMap->Urlmap() ?>"></script>
 <div class="site-index" style=" margin-bottom: 0px;">
     <div class="body-content" style=" margin-bottom: 0px;">
+
         <!-- Info boxes -->
         <div class="row" style=" margin-bottom: 0px;">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -28,9 +29,9 @@ $urlMap = new Config();
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="fa fa-info"></i></span>
+                    <span class="info-box-icon bg-red"><i class="fa fa-check"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text" style="text-align:center">แจ้งชำระเงิน(ผ่านระบบ)</span><br/>
+                        <span class="info-box-text" style="text-align:center">ยืนยันการชำระเงิน(ผ่านการติดต่อ)</span><br/>
                         <div style="text-align:center">
                             <a href="<?php echo Yii::$app->urlManager->createUrl(['promise/promise/promisepay']) ?>">
                                 <button style="text-align:center;" class="btn btn-danger"><?php echo $promisepay; ?></button></a>
@@ -121,7 +122,7 @@ $urlMap = new Config();
                         <div class="progress-bar" style="width: 100%"></div>
                     </div>
                     <span class="progress-description">
-                        จำนวนลูกค้าที่ลงทะเบียนกับบริษัทอยู่ระหว่างสัญญา
+                        จำนวนลูกค้าที่ทำสัญญา/ข้อตกลง กับบริษัท
                     </span>
                 </div>
                 <!-- /.info-box-content -->
@@ -258,7 +259,7 @@ $urlMap = new Config();
 
      var marker, info;
 
-     $.getJSON("<?php //echo Yii::$app->urlManager->createUrl(['site/getlocation'])                                                                                                          ?>", function(jsonObj) {
+     $.getJSON("<?php //echo Yii::$app->urlManager->createUrl(['site/getlocation'])                                                                                                                           ?>", function(jsonObj) {
      $.each(JSON.parse(jsonObj), function(i, item) {
      marker = new google.maps.Marker({
      position: new google.maps.LatLng(item.lat, item.long),
@@ -293,7 +294,7 @@ $urlMap = new Config();
                 plotShadow: false
             },
             title: {
-                text: 'กลุ่มลูกค้า',
+                text: 'ลูกค้าทั้งหมด <br/>' + <?php echo $sumcoustomer ?>,
                 align: 'center',
                 verticalAlign: 'middle',
                 y: 60

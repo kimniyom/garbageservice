@@ -147,7 +147,7 @@ class Promise extends \yii\db\ActiveRecord {
             [['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
             [['garbageweight', 'deposit', 'vat'], 'number'],
             [['ratetext', 'payperyeartext'], 'string', 'max' => 64],
-            [['rate'],'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
+            [['rate'], 'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
             ['ratetext', 'string'],
             [['distcountbath', 'total'], 'safe'],
         ];
@@ -231,6 +231,24 @@ class Promise extends \yii\db\ActiveRecord {
         WHERE r.promiseid = '1' AND LEFT(r.datekeep,7) = '$daymonth' ";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         return $rs['total'];
+    }
+
+    function contInvoice() {
+        $sql = "SELECT count(*) AS total
+                    FROM invoice i INNER JOIN promise p ON i.promise = p.id
+                    INNER JOIN customers c ON p.customerid = c.id
+                    LEFT JOIN roundmoney r ON i.round = r.id
+                    WHERE i.`status` = '2' AND i.typepayment = '1'";
+        return Yii::$app->db->createCommand($sql)->queryOne()['total'];
+    }
+
+    function countCheckInvoice() {
+        $sql = "SELECT count(*) AS total
+                    FROM invoice i INNER JOIN promise p ON i.promise = p.id
+                    INNER JOIN customers c ON p.customerid = c.id
+                    LEFT JOIN roundmoney r ON i.round = r.id
+                    WHERE i.`status` = '0' AND i.typepayment = '2'";
+        return Yii::$app->db->createCommand($sql)->queryOne()['total'];
     }
 
 }

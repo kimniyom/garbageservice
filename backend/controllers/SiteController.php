@@ -32,7 +32,7 @@ class SiteController extends Controller {
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'setuser'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -63,6 +63,8 @@ class SiteController extends Controller {
      *
      * @return string
      */
+    //$countCheckInvoice = $promiseModel->countCheckInvoice();
+    //$customerbetweenpromise
     public function actionIndex() {
         $customerModel = new Customers();
         $promiseModel = new Promise();
@@ -72,12 +74,15 @@ class SiteController extends Controller {
         $data['customerbetweenpromise'] = $customerModel->Countbetweenpromise();
         $data['promiseall'] = $promiseModel->Countpromiseall();
         $data['promiseusing'] = $promiseModel->Countpromiseusing();
-        $data['promisepay'] = $promiseModel->Countpromisepay();
+        $data['promisepay'] = $promiseModel->countCheckInvoice();
         $result = $this->chartGroup();
         $Carry = array();
+        $sum = 0;
         foreach ($result as $rs):
             $Carry[] = "['" . $rs['groups'] . "'," . $rs['TOTAL'] . "]";
+            $sum = $sum + $rs['TOTAL'];
         endforeach;
+        $data['sumcoustomer'] = $sum;
         $data['chartgroup'] = implode(",", $Carry);
         return $this->render('index', $data);
     }
@@ -154,6 +159,28 @@ class SiteController extends Controller {
     public function actionLogout() {
         Yii::$app->user->logout();
         $this->redirect(Yii::$app->urlManagerFrontend->getBaseUrl());
+    }
+
+    public function actionSetuser() {
+        $result = \common\models\Customers::find()->all();
+        foreach ($result as $rs):
+            //echo $rs['customercode'] . " => " . Yii::$app->getSecurity()->generatePasswordHash($rs['customercode']) . "<br/>";
+            $columns = array(
+                "username" => $rs['customercode'],
+                "email" => $rs['customercode'] . "@gmail.com",
+                "password_hash" => Yii::$app->getSecurity()->generatePasswordHash($rs['customercode']),
+                "confirmed_at" => "1596438578",
+                "created_at" => "1596438578",
+                "updated_at" => "1596438578",
+                "status" => "U"
+            );
+
+            Yii::$app->db->createCommand()
+                    ->insert("user", $columns)
+                    ->execute();
+        endforeach;
+        return "sessecc";
+        //Yii::$app->getSecurity()->generatePasswordHash("C00004");
     }
 
 }

@@ -3,6 +3,9 @@ $this->title = 'ยืนยันการชำระเงิน(ผ่าน
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="promise-nearexpire">
+    <div style=" border-radius: 10px; width: 400px; height: auto; border: solid 2px #002a80; padding: 10px; margin-bottom: 10px; background: #ffffff;">
+        <i class="fa fa-info-circle"></i> ยืนยันการชำระเงินค่าบริการกำจัดขยะติดเชื้อ โดยลูกค้าแจ้งการโอนเงินผ่านช่องทางอื่น เช่น Line,FaceBook,โทร เป็นต้น
+    </div>
     <div class="box">
         <!-- /.box-header -->
         <div class="box-body">
@@ -16,7 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 0;
+                    <?php
+                    $i = 0;
                     foreach ($promise as $rs): $i++;
                         ?>
                         <tr>
@@ -28,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ยืนยันการชำระเงิน</a>
                             </td>
                         </tr>
-<?php endforeach; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

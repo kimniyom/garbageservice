@@ -17,6 +17,8 @@ $promiseModel = new Promise();
 $confirmFormModel = new Confirmform();
 $promiseall = $promiseModel->Countpromiseall();
 $confirmformAll = $confirmFormModel->countConfirmform();
+$contInvoice = $promiseModel->contInvoice();
+$countCheckInvoice = $promiseModel->countCheckInvoice();
 ?>
 <aside class="main-sidebar" style=" z-index: 5;">
 
@@ -113,7 +115,18 @@ $confirmformAll = $confirmFormModel->countConfirmform();
                         ],
                         ['label' => 'ใบวางบิล/ใบเสร็จ', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
                         ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
-                        ['label' => 'ตรวจสอบการชำระเงิน', 'icon' => 'check text-primary', 'url' => ['/service/default/confirmorder']],
+                        [
+                            'label' => 'ตรวจสอบการชำระเงิน',
+                            'icon' => 'check text-success',
+                            'url' => ['/service/default/confirmorder'],
+                            'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-orange">' . $contInvoice . '</small></span></a>'
+                        ],
+                        [
+                            'label' => 'ยืนยันการชำระเงิน',
+                            'icon' => 'check text-info',
+                            'url' => ['/promise/promise/promisepay'],
+                            'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-orange">' . $countCheckInvoice . '</small></span></a>'
+                        ],
                         ['label' => 'บันทึกรายงานการเก็บขยะเกิน', 'icon' => 'check text-warning', 'url' => ['/service/default/genformgarbageover']],
                         /*
                           ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],

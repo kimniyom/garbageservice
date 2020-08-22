@@ -20,6 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
     แจ้งชำระค่าบริการ Invoice #<?php echo $order['invoicenumber'] ?><br/>
     <?php echo ($order['typeinvoice'] == 0) ? "ค่าบริการกำจัดขยะติดเชื้อ" : "ค่าบริการขยะเกิน"; ?>
 </h4>
+<div style=" border-radius: 10px; width: 400px; height: auto; border: solid 2px #002a80; padding: 10px; margin-bottom: 10px; background: #ffffff;">
+    <i class="fa fa-info-circle"></i> ยืนยันการชำระเงินค่าบริการกำจัดขยะติดเชื้อ โดยลูกค้าแจ้งการโอนเงินผ่านช่องทางอื่น เช่น Line,FaceBook,โทร เป็นต้น
+</div>
 <hr/>
 <form id="form">
     <input type="hidden" id="id" name="id" value="<?php echo $id ?>"/>
@@ -113,7 +116,7 @@ $url = Yii::$app->urlManager->createUrl(['promise/promise/saveconfirmorder']);
 $this->registerJs('$(document).ready(function () {
             $("#form").on("submit", function (event) {
                 event.preventDefault(); //prevent default submitting
-     
+
                 var formData = new FormData($(this)[0]);
                 var bank = formData.get("bank");
                 var dateservice = formData.get("dateservice");
