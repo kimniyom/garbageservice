@@ -1156,4 +1156,13 @@ WHERE r.promiseid = '$promiseId'";
         return $this->renderPartial($page, $data);
     }
 
+    public function actionCheckinvoice() {
+        $id = \Yii::$app->request->post('id');
+        $data['invoice'] = Invoice::findOne(['id' => $id]);
+        //echo $data['invoice']['slip'];
+        $path = Yii::getAlias('@web') . "/../uploads/slip/" . $data['invoice']['slip'];
+        $data['slip'] = $path;
+        return $this->renderPartial("slip", $data);
+    }
+
 }

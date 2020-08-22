@@ -14,7 +14,7 @@ $this->title = "ตรวจสอบการชำระเงิน";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-6 col-md-6">
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
                 <label>เลือกรายการแจ้งชำระเงิน</label>
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'options' => [
                         'multiple' => false,
                         'placeholder' => 'Select Order ...',
-                    //'onchange' => 'getRound(this.value)',
+                        'onchange' => 'getSlip(this.value)',
                     ],
                 ]);
                 ?>
@@ -87,31 +87,43 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     </div>
-
-    <script type="text/javascript">
-        function confirmOrder() {
-            var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/saveconfirmorder']) ?>";
-            var id = $("#orders").val();
-            var dateservice = $("#dateservice").val();
-            var timeservice = $("#timeservice").val();
-            var comment = $("#comment").val();
-            if (id == "" || dateservice == "" || timeservice == "") {
-                alert("กรอกข้อมูลไม่ครบ...");
-                return false;
-            }
-            var data = {
-                id: id,
-                dateservice: dateservice,
-                timeservice: timeservice,
-                comment: comment
-            };
-            //console.log(data);
-
-            $.post(url, data, function (datas) {
-                alert("ยืนยันรายการสำเร็จ...");
-                window.location.reload();
-            });
+    <div class="col-lg-4 col-md-6">
+        <div id="slip"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    function confirmOrder() {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/saveconfirmorder']) ?>";
+        var id = $("#orders").val();
+        var dateservice = $("#dateservice").val();
+        var timeservice = $("#timeservice").val();
+        var comment = $("#comment").val();
+        if (id == "" || dateservice == "" || timeservice == "") {
+            alert("กรอกข้อมูลไม่ครบ...");
+            return false;
         }
+        var data = {
+            id: id,
+            dateservice: dateservice,
+            timeservice: timeservice,
+            comment: comment
+        };
+        //console.log(data);
+
+        $.post(url, data, function(datas) {
+            alert("ยืนยันรายการสำเร็จ...");
+            window.location.reload();
+        });
+    }
 
 
-    </script>
+    function getSlip(id) {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/default/checkinvoice']) ?>";
+        var data = {id: id};
+        $.post(url, data, function(res) {
+            $("#slip").html(res);
+        });
+    }
+
+
+</script>
