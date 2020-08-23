@@ -137,9 +137,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                         <?php //if (Yii::$app->user->isGuest) { ?>
                                         <!--
                                             <div class="user_icon">
-                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')  ?>" alt="">
+                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')     ?>" alt="">
                                             </div>
-                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])  ?>">Register</a></div>
+                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])     ?>">Register</a></div>
                                         -->
                                         <?php //} ?>
                                         <div>
@@ -148,7 +148,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                             <?php } else { ?>
 
                                                 <?php if (Yii::$app->user->identity->status == "U") { ?>
-                                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                                    <a href="<?php echo Yii::$app->urlManagerFrontend->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
                                                 <?php } else { ?>
                                                     <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
                                                 <?php } ?>
@@ -237,10 +237,12 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <?php } ?>
                                 <?php endforeach; ?>
                             </ul>
+                            <!--
                             <form class="form-inline my-2 my-lg-0">
                                 <input class="form-control mr-sm-2" type="search" placeholder="Search">
                                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                             </form>
+                            -->
                         </div>
                     </div>
                 </nav>
@@ -404,7 +406,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="col">
                                         <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
                                             <div class="newsletter_title_container">
-                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')  ?>" alt=""></div>
+                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')     ?>" alt=""></div>
                                                 <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
                                             </div>
                                             <div class="newsletter_content clearfix">

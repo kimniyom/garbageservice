@@ -462,6 +462,7 @@ INNER JOIN changwat ch ON c.changwat = ch.changwat_id
             "comment" => $comment,
             "status" => 1,
             "d_update" => date("Y-m-d H:i:s"),
+            "dateconfirm" => date("Y-m-d H:i:s")
         );
 
         Yii::$app->db->createCommand()

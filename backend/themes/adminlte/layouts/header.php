@@ -22,9 +22,10 @@ use yii\helpers\Url;
 
             <ul class="nav navbar-nav">
                 <li class="dropdown ">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Report <i class="fa fa-caret-down"></i></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">รายงาน <i class="fa fa-caret-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href=""><i class="fa fa-chevron-right"></i> ประวัติการชำระเงิน</a></li>
+                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['report/report/invoicehistory']) ?>"><i class="fa fa-chevron-right"></i> ประวัติการชำระเงิน</a></li>
+                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['report/report/reportworkingarbage']) ?>"><i class="fa fa-chevron-right"></i> รายงานการเข้าจัดเก็บขยะ</a></li>
                     </ul>
                 </li>
                 <li class="dropdown user user-menu">

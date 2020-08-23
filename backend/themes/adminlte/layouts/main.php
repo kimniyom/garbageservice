@@ -33,6 +33,7 @@ if (Yii::$app->controller->action->id === 'login') {
             <meta charset="<?= Yii::$app->charset ?>"/>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <?= Html::csrfMetaTags() ?>
+            <link rel="stylesheet" href="<?php echo Url::to('@web/web/datatable/dataTables.bootstrap.min.css') ?>">
             <title><?= Html::encode($this->title) ?></title>
             <?php $this->head() ?>
         </head>
@@ -60,6 +61,19 @@ if (Yii::$app->controller->action->id === 'login') {
 
             </div>
             <?php $this->endBody() ?>
+
+            <script type="text/javascript">
+                function checkActivie() {
+                    var status = "<?php echo Yii::$app->user->isGuest ?>";
+                    var url = "<?php echo Yii::$app->urlManager->createUrl(['site/logout']) ?>";
+                    if (status == 1) {
+                        window.location = url;
+                    }
+                }
+            </script>
+            <?php
+            $this->registerJs('checkActivie()');
+            ?>
         </body>
     </html>
     <?php $this->endPage() ?>
@@ -69,5 +83,8 @@ if (Yii::$app->controller->action->id === 'login') {
 <script type="text/javascript" src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.src.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!-- DataTables -->
+<script src="<?php echo Url::to('@web/web/datatable/jquery.dataTables.min.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/datatable/dataTables.bootstrap.min.js') ?>"></script>
 
 

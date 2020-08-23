@@ -1114,11 +1114,13 @@ class PromiseController extends Controller {
                 move_uploaded_file($_FILES["inputFile"]["tmp_name"], $filePath);
                 $columns = array(
                     "slip" => $fileName,
+                    "dateconfirm" => date("Y-m-d H:i:s")
                 );
 
                 Yii::$app->db->createCommand()
                         ->update("invoice", $columns, "id = '$id'")
                         ->execute();
+                echo "success";
             } else {
                 $columns = array(
                     "dateservice" => $dateservice,
@@ -1126,6 +1128,7 @@ class PromiseController extends Controller {
                     "comment" => $comment,
                     "bank" => $_POST['bank'],
                     "status" => 1,
+                    "dateconfirm" => date("Y-m-d H:i:s"),
                     "typepayment" => 2,
                     "userid" => Yii::$app->user->id
                 );

@@ -8,8 +8,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="box">
         <!-- /.box-header -->
-        <div class="box-body">
-            <table class="table">
+        <div class="box-body" id="boxreportmonth" style=" overflow-x: hidden;">
+            <table class="table" id="history">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -40,4 +40,26 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <!-- /.box -->
 </div>
+
+<?php
+$this->registerJs("
+        setBox();
+            $('#history').DataTable({
+                'paging'      : true,
+                'lengthChange': true,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : false,
+                'autoWidth'   : false
+              })
+    ");
+?>
+<script type="text/javascript">
+    function setBox() {
+        var h = window.innerHeight;
+        $("#boxreportmonth").css({"height": h - 220, "overflow-y": "auto"});
+    }
+
+
+</script>
 
