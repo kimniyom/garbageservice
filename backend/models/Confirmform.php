@@ -100,7 +100,8 @@ class Confirmform extends \yii\db\ActiveRecord
     }
 
     public function countConfirmform() {
-        $sql = "select count(*) as total from confirmform";
+        $sql = "select count(*) as total from confirmform 
+                INNER JOIN customerneed c ON confirmform.customerneedid = c.id AND c.status = 1";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         return $rs['total'];
     } 
@@ -119,7 +120,7 @@ class Confirmform extends \yii\db\ActiveRecord
                     c.location
                 FROM
                     confirmform co
-                INNER JOIN customerneed c ON co.customerneedid = c.id
+                INNER JOIN customerneed c ON co.customerneedid = c.id AND c.status = 1
                 INNER JOIN changwat p ON c.changwat = p.changwat_id
                 INNER JOIN ampur a ON c.amphur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id

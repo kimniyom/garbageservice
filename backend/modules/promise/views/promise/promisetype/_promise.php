@@ -18,13 +18,14 @@ $discountBath = number_format($model['distcountbath'], 2);
 $discountBathText = str_replace(",", "", $discountBath);
 //$discountBathText = str_replace(".","",$discountBath);
 
-$discount = $Config->getDiscount($model['payment']) == 1 ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด " . $discountBath . " บาท (" . $Config->Convert($discountBathText) . ")" : "";
+$discount = ($Config->getDiscount($model['payment']) == 1 && $discountBath > 0)  ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด " . $discountBath . " บาท (" . $Config->Convert($discountBathText) . ")" : "";
 
 $vatText = "";
 $total = $model['total'];
+
 if ($model['vat'] == 1 && $model['vattype'] == 2) {
     $vatText = " ราคานี้ ยังไม่รวมภาษีมูลค่าเพิ่ม 7% ";
-    $total = ($total * 100) / 107;
+    //$total = ($total * 100) / 107;
 } else if ($model['vat'] == 1 && $model['vattype'] == 1) {
     $vatText = " ราคานี้ รวมภาษีมูลค่าเพิ่ม 7% ";
     $total = $total + (($total * 7) / 100);
@@ -36,16 +37,19 @@ $totalText = str_replace(",", "", $total);
 
 $unitprice = $model['unitprice'];
 $unitpriceText = "";
+$paymentNumber = 0;
 
 $promiseType = "";
 $paymentType = "";
 if ($model['payment'] == 1 || $model['payment'] == 7) {
     $promiseType = " รายครั้ง ";
     $paymentType = " ครั้งละ ";
+    $paymentNumber = $model['unitprice'];
 } else if ($model['payment'] == 2) {
     $promiseType = " รายเดือน ";
     $paymentType = "";
     $vatText = "";
+    $paymentNumber = $model['rate'];
     // if ($model['vat'] == 1 && $model['vattype'] == 2) {
     //     $unitprice = ($unitprice * 100) / 107;
     // } else if ($model['vat'] == 1 && $model['vattype'] == 1) {
@@ -54,9 +58,11 @@ if ($model['payment'] == 1 || $model['payment'] == 7) {
 } else if ($model['payment'] == 5) {
     $promiseType = " รายครึ่งปี ";
     $paymentType = " ครั้งละ ";
+    $paymentNumber = $model['unitprice'];
 } else if ($model['payment'] == 6 || $model['payment'] == 3) {
     $promiseType = " รายเดือน ";
     $paymentType = " เดือนละ ";
+    $paymentNumber = $model['rate'];
 }
 
 $unitprice = number_format($unitprice, 2);
@@ -64,9 +70,9 @@ $unitpriceText = str_replace(",", "", $unitprice);
 //$unitpriceText = str_replace(".","",$unitpriceText);
 
 $recivetype = "";
-$text1 = " โดยกำหนดค่าจ้าง ตามน้ำหนักไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตรา{$paymentType} " . number_format($model['rate']) . " บาท (" . $Config->Convert($model['rate']) . ")  โดยเข้าจัดเก็บ " . $model['levy'] . " ครั้งต่อเดือน  " . $discount . " เป็นค่าจ้างรวมทั้งสิ้นต่อปี " . $total . " บาท (" . $Config->Convert($totalText) . ")" . $vatText;
+$text1 = " โดยกำหนดค่าจ้าง ตามน้ำหนักไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง  ปริมาณน้ำหนักขยะส่วนที่เกิน  " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะส่วนที่เกิน  เพิ่มกิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") ขยะที่“ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตรา{$paymentType} " . number_format($paymentNumber) . " บาท (" . $Config->Convert($paymentNumber) . ")  โดยเข้าจัดเก็บ " . $model['levy'] . " ครั้งต่อเดือน  " . $discount . " เป็นค่าจ้างรวมทั้งสิ้นต่อปี " . $total . " บาท (" . $Config->Convert($totalText) . ")" . $vatText;
 $text2 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ " . $unitprice . " บาท (" . $Config->Convert($unitpriceText) . ") " . $vatText . " \"ผู้รับจ้าง\" จะทำการเก็บขนย้าย ไปทำลาย ในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ {$levy} ";
-$text3 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง ในอัตรา{$paymentType} " . number_format($model['rate']) . " บาท (" . $Config->Convert($model['rate']) . ")  ส่วนปริมาณน้ำหนักขยะส่วนที่เกิน  " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะเพิ่ม กิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") “ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  โดยเข้าจัดเก็บเดือนละ " . $model['levy'] . " ครั้งต่อเดือน รวม " . ($model['levy'] * 12) . " ครั้งต่อปี " . $discount . " คิดเป็นค่าจ้างรวมทั้งปี " . $total . " บาท (" . $Config->Convert($totalText) . ")" . $vatText;
+$text3 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง ในอัตรา{$paymentType} " . number_format($paymentNumber) . " บาท (" . $Config->Convert($paymentNumber) . ")  ส่วนปริมาณน้ำหนักขยะส่วนที่เกิน  " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะเพิ่ม กิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") “ผู้รับจ้าง” จะทำการเก็บขนย้าย ไปทำลายในแต่ละเดือน  โดยเข้าจัดเก็บเดือนละ " . $model['levy'] . " ครั้งต่อเดือน รวม " . ($model['levy'] * 12) . " ครั้งต่อปี " . $discount . " คิดเป็นค่าจ้างรวมทั้งปี " . $total . " บาท (" . $Config->Convert($totalText) . ")" . $vatText;
 if ($model['recivetype'] == 1 || $model['recivetype'] == 3) {
     $recivetype = $model['payment'] == 5 ? $text3 : $text1;
 } else if ($model['recivetype'] == 2) {
