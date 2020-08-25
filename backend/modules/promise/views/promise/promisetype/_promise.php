@@ -5,8 +5,24 @@ use app\models\Config;
 use yii\helpers\Url;
 
 $Config = new Config();
+$promiseWith = "";
+$contracktor = "";
+$vatText = "";
+$total = $model['total'];
+$discount = "";
+$discountText = "";
 
-$promiseWith = $model['typeregister'] == 1 ? "บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด  โดย นายนิติพัฒน์   วงศ์ศิริธร ตำแหน่ง กรรมการ  ผู้มีอำนาจลงนาม  สำนักงานตั้งอยู่เลขที่  50/19  หมู่ที่ 6  ตำบลบางหลวง  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000 โทรศัพท์   02 - 1010325" : "ไอซี ควอลิตี้ ซิสเท็ม  โดย นายอาทิตย์   บุญเคน   ผู้รับมอบอำนาจ สำนักงานตั้งอยู่เลขที่  12/1  หมู่ที่ 8 ตำบลบางคูวัด  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000  โทรศัพท์  02-1010325";
+if($model['typeregister'] == 1)
+{
+    $promiseWith = "บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด  โดย นายนิติพัฒน์   วงศ์ศิริธร ตำแหน่ง กรรมการ  ผู้มีอำนาจลงนาม  สำนักงานตั้งอยู่เลขที่  50/19  หมู่ที่ 6  ตำบลบางหลวง  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000 โทรศัพท์   02 - 1010325" ;
+    $contracktor = "นายนิติพัฒน์   วงศ์ศิริธร";
+}
+else{
+    $promiseWith = "ไอซี ควอลิตี้ ซิสเท็ม  โดย นายอาทิตย์   บุญเคน   ผู้รับมอบอำนาจ สำนักงานตั้งอยู่เลขที่  12/1  หมู่ที่ 8 ตำบลบางคูวัด  อำเภอเมืองปทุมธานี  จังหวัดปทุมธานี 12000  โทรศัพท์  02-1010325";
+    $contracktor = "นายอาทิตย์   บุญเคน";
+}
+
+
 $address = $model['changwat_id'] != 1 ? " ตำบล  " . $model['tambon'] . " อำเภอ " . $model['ampur'] . " จังหวัด " . $model['changwat'] : "  " . $model['tambon'] . "  " . $model['ampur'] . " " . $model['changwat'];
 // $date1 = date_create($model['promisedatebegin']);
 // $date2 = date_create($model['promisedateend']);
@@ -14,14 +30,20 @@ $address = $model['changwat_id'] != 1 ? " ตำบล  " . $model['tambon'] . "
 // $month = number_format($diff->format('%a') / 30);
 $levy = ""; //"สัปดาห์ละ ". $model['levy']." ครั้ง (ทุกวันอังคาร)";
 
-$discountBath = number_format($model['distcountbath'], 2);
+$discountBath = number_format($model['distcountbath']);
 $discountBathText = str_replace(",", "", $discountBath);
 //$discountBathText = str_replace(".","",$discountBath);
 
-$discount = ($Config->getDiscount($model['payment']) == 1 && $discountBath > 0)  ? " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด " . $discountBath . " บาท (" . $Config->Convert($discountBathText) . ")" : "";
+if($Config->getDiscount($model['payment']) == 1 && $discountBath > 0)
+{
+    $discount = " แต่เนื่องด้วยผู้ว่าจ้างเลือกจ่ายชำระเงินเป็นเป็นรายปี จึงได้รับส่วนลด " . $discountBath . " บาท (" . $Config->Convert($discountBathText) . ")";
+    $total = $model['payperyear'];
+    $tatalAll = number_format($model['total']);
+    $tatalAllText = str_replace(",", "", $tatalAll);
+    $discountText = " คิดเป็นค่าจ้างรวมทั้งปี ".$tatalAll . " บาท (" . $Config->Convert($tatalAllText) . ")";
+}
 
-$vatText = "";
-$total = $model['total'];
+
 
 if ($model['vat'] == 1 && $model['vattype'] == 2) {
     $vatText = " ราคานี้ ยังไม่รวมภาษีมูลค่าเพิ่ม 7% ";
@@ -86,7 +108,7 @@ $unitpriceText = str_replace(",", "", $unitprice);
 $recivetype = "";
 $text1 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง  ปริมาณที่มีน้ําหนักขยะเกิน  " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัท จะคิดค่าขยะเพิ่มกิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") ขยะที่ “ผู้รับจ้าง” เก็บขนย้าย ไปทำลายในแต่ละเดือน  คิดค่าจ้างเหมา ในอัตรา{$paymentType} " . number_format($paymentNumber) . " บาท (" . $Config->Convert($paymentNumber) . ")  โดยเข้าจัดเก็บ " . $model['levy'] . " ครั้งต่อเดือน  ".$countlevy."" . $discount . " เป็นค่าจ้างรวมทั้งสิ้นต่อปี " . $total . " บาท (" . $Config->Convert($totalText) . ")" . $vatText;
 $text2 = " โดยกำหนดค่าจ้าง ตามปริมาณน้ำหนักขยะ ในอัตราค่าบริการกิโลกรัมละ " . $unitprice . " บาท (" . $Config->Convert($unitpriceText) . ") " . $vatText . " \"ผู้รับจ้าง\" จะทำการเก็บขนย้าย ไปทำลาย ในแต่ละเดือน โดยเข้าจัดเก็บทุกสัปดาห์ {$levy} ";
-$text3 = " โดยกําหนดค่าจ้าง ตามปริมาณน้ําหนักขยะไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง ในอัตรา{$paymentType} " . number_format($paymentNumber) . " บาท (" . $Config->Convert($paymentNumber).") ".$vatText." ส่วนปริมาณน้ําหนักขยะ ส่วนท่ีเกิน " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะเพิ่มกิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") “ผู้รับจ้าง” จะทําการเก็บ ขนย้ายไปทําลายในแต่ละเดือน โดยเข้า จัดเก็บเดือนละ " . $model['levy'] . " ครั้ง ".$countlevy." " . $discount . "  คิดเป็นค่าจ้างรวมทั้งปี " . $total . " บาท (" . $Config->Convert($totalText) . ") ".$vatText;
+$text3 = " โดยกําหนดค่าจ้าง ตามปริมาณน้ําหนักขยะไม่เกิน " . $model['garbageweight'] . " กิโลกรัมต่อครั้ง ในอัตรา{$paymentType} " . number_format($paymentNumber) . " บาท (" . $Config->Convert($paymentNumber).") ".$vatText." ส่วนปริมาณน้ําหนักขยะ ส่วนท่ีเกิน " . $model['garbageweight'] . " กิโลกรัมขึ้นไป ทางบริษัทฯ จะคิดค่าขยะเพิ่มกิโลกรัมละ " . number_format($model['fine']) . " บาท (" . $Config->Convert($model['fine']) . ") “ผู้รับจ้าง” จะทําการเก็บ ขนย้ายไปทําลายในแต่ละเดือน โดยเข้า จัดเก็บเดือนละ " . $model['levy'] . " ครั้ง ".$countlevy."  คิดเป็นค่าจ้างรวมทั้งปี " . $total . " บาท (" . $Config->Convert($totalText) . ")  " . $discount . " ".$discountText."".$vatText;
 if ($model['recivetype'] == 1 || $model['recivetype'] == 3) {
     if($model['payment'] == 1)
     {
@@ -137,8 +159,8 @@ if ($model['recivetype'] == 1 || $model['recivetype'] == 3) {
     </p>
 
 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;หมายเหตุ : <?php echo $model['remark']; ?>
-    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อผู้ประกอบการ <?php echo $model['company']; ?> เบอร์โทรศัพท์<?php echo $model['tel']; ?>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;หมายเหตุ : ทาง”ผู้รับจ้าง” จะเข้าดำเนินการจัดเก็บขยะมูลฝอยติดเชื้อให้กับ “ผู้ว่าจ้าง” หลังจากทำสัญญาแล้วประมาณ 1 เดือน
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อผู้ประกอบการ <?php echo $model['company']; ?> เบอร์โทรศัพท์ <?php echo $model['tel']; ?>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อผู้ประสานงาน (ผู้ติดต่อได้) <?php echo $model['manager']; ?>  เบอร์โทรศัพท์ <?php echo $model['telephone']; ?>
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สถานที่ตั้ง	N <?php echo $model['lat']; ?>        E <?php echo $model['long']; ?>.
     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;วันเวลาทำการ <?php echo $model['timework'] == "" ? "-" : $model['timework']; ?>
@@ -169,7 +191,7 @@ if ($model['witness1'] != "" && $model['witness2'] != "") {
     $witness = ".................................................";
 }
 ?>
-    <br><br> <br><br>
+     <br><br>
     <?php if($employer1 != "" && $employer2 != ""):?>
         <div>
             <div style="float: left;width:30%; text-align: center;">
@@ -217,7 +239,7 @@ if ($model['witness1'] != "" && $model['witness2'] != "") {
             <div style="float: left;width:50%; text-align: center;">
                 (ลงชื่อ).....................................ผู้รับจ้าง
                 <br>
-                (นายนิติพัฒน์      วงศ์ศิริธร)
+                (<?php echo $contracktor;?>)
             </div>
         </div>
     <?php }?>
