@@ -149,5 +149,6 @@ class ReportController extends \yii\web\Controller {
                     WHERE i.`status` = '1' AND LEFT(i.d_update,4) = '$year' ORDER BY i.dateservice DESC";
         return \Yii::$app->db->createCommand($sql)->queryAll();
     }
+    
 
 }

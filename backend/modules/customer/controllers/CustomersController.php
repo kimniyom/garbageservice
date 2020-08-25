@@ -5,6 +5,7 @@ namespace app\modules\customer\controllers;
 use app\modules\customer\models\Customers;
 use app\modules\customer\models\CustomersImg;
 use app\modules\customer\models\CustomersSearch;
+use app\modules\roundgarbage\models\Roundgarbage;
 use app\models\Customerneed;
 use app\models\Location;
 use kartik\mpdf\Pdf;
@@ -248,13 +249,14 @@ class CustomersController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        Location::findOne(['customer_id' => $id])->delete();
-        $img = CustomersImg::findOne(['customerid' => $id]);
-        if($img){
-            unlink('../uploads/customers/gallerry/' . $img->filename);
-            $img->delete();
-        }
-        $this->findModel($id)->delete();
+        //Location::findOne(['customer_id' => $id])->delete();
+        //$img = CustomersImg::findOne(['customerid' => $id]);
+        //if($img){
+        //unlink('../uploads/customers/gallerry/' . $img->filename);
+        //$img->delete();
+        //}
+        //$this->findModel($id)->delete();
+        Yii::$app->db->createCommand()->update("customers", ['flag' => 0],"id = '$id'")->execute();
         return $this->redirect(['index']);
     }
 
@@ -521,6 +523,43 @@ class CustomersController extends Controller {
 
         // return the pdf output as per the destination setting
         return $pdf->render();
+    }
+
+    //############################## History #################################//
+    public function actionGethistoryinvoice() {
+        $customerId = Yii::$app->request->post('customerid');
+        $data['history'] = $this->getInvoice($customerId);
+
+        return $this->renderPartial("historyinvoice", $data);
+    }
+
+    function getInvoice($customerId = "") {
+        $sql = "SELECT i.*,c.company
+                    FROM invoice i INNER JOIN promise p ON i.promise = p.id
+                    INNER JOIN customers c ON p.customerid = c.id
+                    WHERE i.`status` = '1' AND c.id ='$customerId' ORDER BY i.dateservice DESC";
+        return \Yii::$app->db->createCommand($sql)->queryAll();
+    }
+
+    public function actionGethistoryworking() {
+        $customerId = Yii::$app->request->post('customerid');
+        $sql = "SELECT r.*,p.customerid,p.promisenumber
+                FROM roundgarbage r INNER JOIN promise p ON r.promiseid = p.id
+                WHERE p.customerid = '$customerId' ";
+        $data['history'] = Yii::$app->db->createCommand($sql)->queryAll();
+
+        return $this->renderPartial("historyworking", $data);
+    }
+
+    public function actionGethistorypromise() {
+        $customerId = Yii::$app->request->post('customerid');
+        $sql = "SELECT *
+                FROM promise p 
+                WHERE p.customerid = '$customerId'
+                ORDER BY p.createat DESC ";
+        $data['history'] = Yii::$app->db->createCommand($sql)->queryAll();
+
+        return $this->renderPartial("historypromise", $data);
     }
 
 }

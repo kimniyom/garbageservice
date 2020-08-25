@@ -225,10 +225,10 @@ class Promise extends \yii\db\ActiveRecord {
         return $rs['total'];
     }
 
-    public function GetststusGarbage($daymonth) {
+    public function GetststusGarbage($daymonth,$promistid = '') {
         $sql = "SELECT COUNT(*) AS total
         FROM roundgarbage r
-        WHERE r.promiseid = '1' AND LEFT(r.datekeep,7) = '$daymonth' ";
+        WHERE r.promiseid = '$promistid' AND LEFT(r.datekeep,7) = '$daymonth' ";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         return $rs['total'];
     }

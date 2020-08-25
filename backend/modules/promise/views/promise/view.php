@@ -66,18 +66,22 @@ Modal::End();
                               echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> .Doc', ['getdoc', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Microsoft word']);
                              */
                             //pdf preview
-                            if($model['grouptype'] == 1 || $model['grouptype'] == 3 || $model['grouptype'] ==5 || $model['grouptype'] == 6)
-                            {
+                            if ($model['grouptype'] == 1 || $model['grouptype'] == 3 || $model['grouptype'] == 5 || $model['grouptype'] == 6) {
                                 echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> พิมพ์สัญญา', ['pdfpreview', 'id' => $model['id'], 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-black', 'title' => 'PDF', 'target' => '_blank']);
                             }
                             //upload pdf
                             echo Html::a('<span class="glyphicon glyphicon-upload" aria-hidden="true"></span> อัพโหลดไฟล์สัญญาที่มีลายเซ็นต์ทั้ง 2 ฝ่าย', ['uploadpromise', 'id' => $model['id'], 'customerid' => $model['customerid']], ['class' => 'btn btn-black', 'title' => 'Upload pdf']);
                         }
+
                         if ($model['status'] == '2') {
                             //save pdf
                             echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-success', 'title' => 'ดาวโหลดสัญญา']);
                         }
                         ?>
+                        <?php if ($model['status'] == 2) { ?>
+                            <?= Html::button('ยกเลิกสัญญา', ['value' => Url::to(Yii::$app->urlManager->createUrl(['promise/promise/cancelpromise', 'id' => $model['id'], 'status' => '4'])), 'class' => 'btn btn-warning', 'id' => 'modalButton']) ?>
+                            <button type="button" class="btn btn-info" onclick="approver('<?php echo $model['id'] ?>')">สิ้นสุดสัญญา</button>
+                        <?php } ?>
                     </p>
                     <?php
                     if ($model['vat'] == 1) {
@@ -86,6 +90,7 @@ Modal::End();
                         $vat = "";
                     }
                     ?>
+
                     <?=
                     DetailView::widget([
                         'model' => $model,
@@ -229,11 +234,10 @@ Modal::End();
             <div class="nav-tabs-custom">
                 <!-- Tabs within a box -->
                 <ul class="nav nav-tabs pull-right">
-                    <li class="active"><a href="#sales-chart" data-toggle="tab"> สัญญา</a></li>
+                    <li class="active"><a href="#sales-chart" data-toggle="tab"> รอบเดือนที่ต้องเข้าจัดเก็บ</a></li>
                     <li class="pull-left header"><i class="fa fa-inbox"></i> รอบเดือน</li>
                 </ul>
                 <div class="tab-content padding">
-
                     <div class="chart tab-pane active" id="sales-chart">
 
                         <?php if ($model['recivetype'] == 1 || $model['recivetype'] == 2 || $model['recivetype'] == 3) {
@@ -245,13 +249,22 @@ Modal::End();
                                 <?php
                                 foreach ($roundmoney as $rs) {
                                     $yearMonth = $Config->thaidatemonth($rs['datekeep']);
-                                    $countRoundgarbage = $promiseModel->GetststusGarbage($yearMonth);
+                                    $countRoundgarbage = $promiseModel->GetststusGarbage($yearMonth, $model['id']);
+
+                                    $day = substr($rs['datekeep'], 0, 7);
+                                    //echo $day;
+                                    $sql = "select COUNT(*) as total from roundgarbage where promiseid = '" . $model['id'] . "' and left(datekeep,7) = '$day'";
+                                    //echo $sql;
+                                    //exit();
+                                    $countRoundGatbage = Yii::$app->db->createCommand($sql)->queryOne()['total'];
                                     echo "<pre>";
                                     echo $yearMonth;
                                     if ($rs['status'] == 3) {
                                         echo "<p class='t-right'><i class='fa fa-remove text-danger'></i> ยกเลิกสัญญา</p>";
+                                    } else if ($rs['status'] == 4) {
+                                        echo "<p class='t-right'><i class='fa fa-info text-info'></i> สิ้นสุดสัญญา</p>";
                                     } else {
-                                        echo ($yearMonth > 0) ? "<p class='t-right'><i class='fa fa-check text-success'></i> มีการจัดเก็บ</p>" : "<p class='t-right'><i class='fa fa-info text-warning'></i> ยังไม่มีการจัดเก็บ</p>";
+                                        echo ($countRoundGatbage > 0) ? "<p class='t-right'><i class='fa fa-check text-success'></i> มีการจัดเก็บ</p>" : "<p class='t-right'><i class='fa fa-info text-warning'></i> ยังไม่มีการจัดเก็บ</p>";
                                     }
                                     echo "</pre>";
                                 }
@@ -280,11 +293,25 @@ $this->registerJs('
 ?>
 
 <script>
+
+    function approver(id) {
+        var r = confirm("กรุณาตรวจสอบข้อมูลก่อนยื่นยันรายการ เมื่อสิ้นสุดสัญญาบิลหรือรอบจัดเก็บในสัญญาจะถูกยกเลิกทั้งหมด");
+        if (r == true) {
+            var data = {id: id, status: status};
+            var url = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/approvepromise']) ?>";
+            $.post(url, data, function (result) {
+                //if (result) {
+                   window.location.reload();
+                //}
+            });
+        }
+    }
+
     function setstatus(id, status)
     {
         var data = {id: id, status: status};
         var url = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/setstatus']) ?>";
-        $.post(url, data, function(result) {
+        $.post(url, data, function (result) {
             if (result) {
                 alert("สถานะสัญญา : รอยืนยัน");
             } else {

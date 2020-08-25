@@ -163,13 +163,29 @@ class PromiseController extends Controller {
         if ($promiesYear == "") {
             $promiesYear = 1;
         }
-        //$month = ((int) $promiesYear * 12);
+        
+        $dStart = substr($dateStart, 0, 7) . "-01";
+        $dEtart = substr($dateEnd, 0, 7) . "-30";
+        /*
+$d1 = new \DateTime('2020-08-01');
+$d2 = new \DateTime('2021-09-30');
+
+$interval = $d2->diff($d1);
+echo $interval->format('%m');
+exit();
+        
         $dStart = substr($dateStart, 0, 7) . "-01";
         $dEtart = substr($dateEnd, 0, 7) . "-30";
         $datetime1 = date_create($dStart);
         $datetime2 = date_create($dEtart);
         $interval = date_diff($datetime1, $datetime2);
         $month = $interval->format('%m');
+        */
+        $sqlMonth = "SELECT (TIMESTAMPDIFF(MONTH,'$dStart','$dEtart')) AS mTotal";
+  
+        $month = Yii::$app->db->createCommand($sqlMonth)->queryOne()['mTotal'];
+        
+        //$month = 
 
         $total_month = ($month + 1); //เอามาบวก 1 เพื่อให้ต้วแปร i เริ่มต้นที่ 1 เพราะปกติตัวแปรอาเรย์จะเริ่มต้นที่ 0
         $pay = $priceMonth;
@@ -299,6 +315,18 @@ class PromiseController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
+        
+        $sql = "select p.*,g.id,g.groupcustomer
+                from promise p inner join customers c on p.customerid = c.id inner join groupcustomer g on c.grouptype = g.id ";
+        $rs = Yii::$app->db->createCommand($sql)->queryOne();
+        Yii::$app->db->createCommand()
+                ->delete("roundgarbage", "promiseid = '$id'")
+                ->execute();
+
+        Yii::$app->db->createCommand()
+                ->delete("roundmoney", "promiseid = '$id'")
+                ->execute();
+
         $this->findModel($id)->delete();
         Yii::$app->db->createCommand()
                 ->delete("promise", "upper = '$id'")
@@ -314,7 +342,7 @@ class PromiseController extends Controller {
             }
         }
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index','group' => $rs['id'],'groupname' => $rs['groupcustomer']]);
     }
 
     public function actionCancelpromise($id, $status) {
@@ -889,7 +917,7 @@ class PromiseController extends Controller {
     }
 
     public function actionPromisenearexpire() {
-        $sql = "SELECT
+        $sql = "SELECT 
 					promise.id,
 					promise.promisenumber,
 					promise.promisedateend,
@@ -901,7 +929,8 @@ class PromiseController extends Controller {
                     promise.createat
 				FROM promise
 				INNER JOIN customers ON promise.customerid = customers.id
-				WHERE DATEDIFF(promisedateend, NOW()) < 30";
+				WHERE DATEDIFF(promisedateend, NOW()) < 30
+				AND promise.`status` = 2";
         $rs = Yii::$app->db->createCommand($sql)->queryAll();
         $data['promise'] = $rs;
         return $this->render('promisenearexpire', $data);
@@ -1138,6 +1167,34 @@ class PromiseController extends Controller {
                 echo "success";
             }
         }
+    }
+
+    public function actionApprovepromise() {
+        $id = Yii::$app->request->post('id');
+
+        //Stop Service
+        $sql = "SELECT m.id,LEFT(m.datekeep,7) AS dm,IFNULL(Q.total,0) AS total
+                FROM roundmoney m LEFT JOIN 
+                (
+                        SELECT LEFT(r.datekeep,7) AS mn,COUNT(*) AS total
+                        FROM roundgarbage r 
+                        WHERE r.promiseid = '$id'
+                        GROUP BY LEFT(r.datekeep,7)
+                ) Q ON LEFT(m.datekeep,7) = Q.mn
+                WHERE m.promiseid = '$id' ";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        foreach ($result as $rs):
+            if ($rs['total'] <= 0) {
+                $ids = $rs['id'];
+                Yii::$app->db->createCommand()
+                        ->update("roundmoney", array("status" => 4), "id = '$ids'")
+                        ->execute();
+            }
+        endforeach;
+
+        Yii::$app->db->createCommand()
+                ->update("promise", array("status" => 0), "id = '$id'")
+                ->execute();
     }
 
 }

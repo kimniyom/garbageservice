@@ -45,7 +45,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <ul class="list-group">
         <?php if ($promise) { ?>
-            <?php foreach ($promise as $rs): ?>
+            <?php foreach ($promise as $rs): 
+                if($rs['status'] != 0){
+                ?>
                 <li class="list-group-item" style=" font-weight: bold;">
                     <?php
                     $Customer = new Customers();
@@ -64,8 +66,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if ($rs['status'] != '4') { ?>
                     <li class="list-group-item">
                         <div class="row bs-wizard" style="border-bottom:0;">
-                            <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] >= 1) ? "complete" : "disabled"; ?>">
-                                <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] >= 1) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
+                            <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] > 0) ? "complete" : "disabled"; ?>">
+                                <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] > 0) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
                                 <div class="progress"><div class="progress-bar"></div></div>
                                 <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
                                 <div class="bs-wizard-info text-center"></div>
@@ -91,6 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <i class="fa fa-remove"></i> ยกเลิกสัญญา<br/>
                         เหตุผลการยกเลิก <?php echo $rs['etc'] ?>
                     </li>
+                <?php } ?>
                 <?php } ?>
             <?php endforeach; ?>
         <?php } else { ?>
