@@ -659,25 +659,11 @@ exit();
     public function actionPdfpreview($id, $promisenumber) {
         $model = $this->getPromise($id);
         $content = $this->renderPartial('promisetype/_promise', ['model' => $model]);
-        $footer = $this->renderPartial('promisetype/_promisetype1_1', ['model' => $model]);
-
-        $header = array (
-           
-            'C' => array (
-              'content' => '~ {PAGENO} ~',
-              'font-size' => 10,
-              'font-style' => 'sarabun',
-              'font-family' => 'serif',
-              'color'=>'#000000'
-            ),
-         
-            'line' => 1,
-        );
+        $footer = $this->renderPartial('promisetype/_promisefootter', ['model' => $model]);
+        $header = $this->renderPartial('promisetype/_promiseheader', ['model' => $model]);
       
-       
-
         $pdf = new Pdf([
-// set to use core fonts only
+            // set to use core fonts only
             'mode' => 'th',
             // A4 paper format
             'format' => Pdf::FORMAT_A4,
@@ -688,7 +674,7 @@ exit();
             // your html content input
             'content' => $content,
             // format content from your own css file if needed or use the
-// enhanced bootstrap css built by Krajee for mPDF formatting
+            // enhanced bootstrap css built by Krajee for mPDF formatting
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/src/assets/kv-mpdf-bootstrap.min.css',
             // any css to be embedded if required
             'cssInline' => '.kv-heading-1{font-size:18px}',
@@ -696,15 +682,16 @@ exit();
             'options' => [
                 'title' => 'Krajee Report Title',
                 'defaultheaderline' => 0,
+                'defaultfooterline' => 0,
             ],
             //'filename' => $promisenumber,
             'filename' => $promisenumber . ".pdf",
             // call mPDF methods on the fly
             'methods' => [
-//'SetHeader'=>['Krajee Report Header'],
+            //'SetHeader'=>['Krajee Report Header'],
                 //'SetFooter' => ['[บริษัท ไอซี{PAGENO}'],
                 'SetFooter' => $footer,
-                'SetHeader' => ['{PAGENO}'],
+                'SetHeader' => $header,
             ],
         ]);
 
@@ -724,9 +711,7 @@ exit();
             ],
         ];
 
-       
-
-// return the pdf output as per the destination setting
+        // return the pdf output as per the destination setting
         return $pdf->render();
     }
 
