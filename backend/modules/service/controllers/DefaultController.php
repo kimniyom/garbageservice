@@ -479,7 +479,7 @@ INNER JOIN changwat ch ON c.changwat = ch.changwat_id
 				inner join ampur a on c.ampur = a.ampur_id
 				inner join tambon t on c.tambon = t.tambon_id
 				inner join packagepayment pm ON p.payment = pm.id
-				where pm.typepayment = 'Y'";
+				where pm.typepayment = 'Y' and p.status = '2'";
         $data['customer'] = Yii::$app->db->createCommand($sql)->queryAll();
         $data['round'] = $this->actionGetroundpromiseyear($customerId);
         $data['customerId'] = $customerId;
@@ -516,12 +516,14 @@ INNER JOIN changwat ch ON c.changwat = ch.changwat_id
         }
 
         $str = "";
-        $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
-        $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
-        $str .= "<b>" . $vateBill . " " . $vatText . "</b><br/>";
-        $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
-        //$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
-        $str .= "<button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$typevatBill)'>สร้างใบวางบิล</button>";
+        if ($Customer) {
+            $str .= "<b>ลูกค้า " . $Customer['company'] . "</b><br/>";
+            $linkPromise = Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $promiseId]);
+            $str .= "<b>" . $vateBill . " " . $vatText . "</b><br/>";
+            $str .= "<em><a href='" . $linkPromise . "' target='_back'>ข้อมูลสัญญา</a></em><br/><br/>";
+            //$str .= "<a href='javascript:popupFormbill($promiseId)' class='btn btn-default'><i class='fa fa-save'></i> สร้างใบวางบิล</a>" . "<br/>";
+            $str .= "<button type='button' class='btn btn-default' onclick='popupFormbill($promiseId,$vat,$typevatBill)'>สร้างใบวางบิล</button>";
+        }
         return $str;
     }
 

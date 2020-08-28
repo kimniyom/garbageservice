@@ -118,7 +118,6 @@ Modal::End();
                                 'label' => 'วันเริ่มสัญญา',
                                 'value' => $Config->thaidate($model['promisedatebegin']),
                             ],
-                           
                             [
                                 'label' => 'วันสิ้นสุดสัญญา',
                                 'value' => $Config->thaidate($model['promisedateend']),
@@ -138,15 +137,15 @@ Modal::End();
                             ],
                             [
                                 'label' => 'ราคาต่อหน่วย',
-                                'value' => ($model['unitprice']) ? $model['unitprice']." บาท" : "-",
+                                'value' => ($model['unitprice']) ? $model['unitprice'] . " บาท" : "-",
                             ],
                             [
                                 'label' => 'จำนวนครั้งที่จัดเก็บต่อเดือน',
-                                'value' =>   $model['levy'] . " ครั้ง",
+                                'value' => $model['levy'] . " ครั้ง",
                             ],
                             [
                                 'label' => 'จำนวนครั้งที่จัดเก็บต่อปี',
-                                'value' =>   $model['levy'] * 12 . " ครั้ง",
+                                'value' => $model['levy'] * 12 . " ครั้ง",
                                 'visible' => $model['payment'] == 7 || $model['payment'] == 8 ? true : false,
                             ],
                             // [
@@ -162,19 +161,18 @@ Modal::End();
                             [
                                 'label' => ($model['distcountpercent'] != "") ? "ส่วนลด " . $model['distcountpercent'] . " %" : "ส่วนลด",
                                 'value' => ($model['distcountbath'] != "") ? number_format($model['distcountbath'], 2) : "-",
-                                'visible' =>  $model['distcountbath'] > 0 ? true : false,
+                                'visible' => $model['distcountbath'] > 0 ? true : false,
                             ],
                             [
                                 'label' => $model['recivetype'] == 2 ? "-" : "ค่าจ้างต่อปี(หักส่วนลด)",
                                 'value' => ($model['recivetype'] == 2) ? "-" : (number_format($model['total'], 2)),
-                                'visible' =>  $model['distcountbath'] > 0 ? true : false,
+                                'visible' => $model['distcountbath'] > 0 ? true : false,
                             ],
                             [
                                 'label' => "ค่าปรับกิโลที่เกิน",
                                 'format' => 'html',
                                 'value' => ($model['fine'] != "") ? "กิโลกรัมละ " . $model['fine'] . " บาท" : "-",
                             ],
-                           
                             // /*
                             //   [
                             //   'label' => 'วันที่จัดเก็บ',
@@ -189,7 +187,7 @@ Modal::End();
                             [
                                 'label' => 'มัดจำล่วงหน้า (เดือน)',
                                 'value' => ($model['deposit'] != "") ? $model['deposit'] . " เดือน" : "-",
-                                'visible' =>  $model['deposit'] > 0 ? true : false,
+                                'visible' => $model['deposit'] > 0 ? true : false,
                             ],
                             [
                                 'label' => 'ชื่อผู้ติดต่อได้สะดวก',
@@ -226,16 +224,16 @@ Modal::End();
                             [
                                 'label' => 'ผู้ว่าจ้างคนที่ 2',
                                 'value' => $model['employer2'],
-                                'visible' =>  $model['employer2'] != "" ? true : false,
+                                'visible' => $model['employer2'] != "" ? true : false,
                             ],
                             [
                                 'label' => 'พยานคนที่ 1',
-                                'value' => $model['witness1']== "" ? "-" : $model['witness1'],
+                                'value' => $model['witness1'] == "" ? "-" : $model['witness1'],
                             ],
                             [
                                 'label' => 'พยานคนที่ 2',
                                 'value' => $model['witness2'],
-                                'visible' =>  $model['witness2'] != "" ? true : false,
+                                'visible' => $model['witness2'] != "" ? true : false,
                             ],
                             [
                                 'label' => 'สถานะการใช้งาน',
@@ -265,7 +263,9 @@ Modal::End();
 
                             <div class="box-unit">
                                 <?php
+                                $a = 0;
                                 foreach ($roundmoney as $rs) {
+                                    $a++;
                                     $yearMonth = $Config->thaidatemonth($rs['datekeep']);
                                     $countRoundgarbage = $promiseModel->GetststusGarbage($yearMonth, $model['id']);
 
@@ -307,6 +307,7 @@ Modal::End();
 $this->registerJs('
         var boxdetail = $("#box-detail").height();
         $(".box-unit").css({"height": boxdetail-60,"overflow": "auto"});
+        checkRound();
         ');
 ?>
 
@@ -317,9 +318,9 @@ $this->registerJs('
         if (r == true) {
             var data = {id: id, status: status};
             var url = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/approvepromise']) ?>";
-            $.post(url, data, function (result) {
+            $.post(url, data, function(result) {
                 //if (result) {
-                   window.location.reload();
+                window.location.reload();
                 //}
             });
         }
@@ -329,7 +330,7 @@ $this->registerJs('
     {
         var data = {id: id, status: status};
         var url = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/setstatus']) ?>";
-        $.post(url, data, function (result) {
+        $.post(url, data, function(result) {
             if (result) {
                 alert("สถานะสัญญา : รอยืนยัน");
             } else {
@@ -337,4 +338,28 @@ $this->registerJs('
             }
         });
     }
+
+    function checkRound() {
+        var count = "<?php echo $a ?>";
+        if (count != 12) {
+            Success();
+        }
+    }
+
+
+    function Success() {
+        Swal.fire({
+            title: 'ระยะสัญญาน้อยกว่าหรือมากกว่า 1 ปี กรุณาตรวจสอบวันที่เริ่มสัญญาและวันที่สิ้นสุดสัญญา',
+            //text: "ระยะสัญญาน้อยกว่าหรือมากกว่า 1 ปี กรุณาตรวจสอบวันที่เริ่มสัญญาและวันที่สิ้นสุดสัญญา",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6'
+        }).then((result) => {
+            if (result.value) {
+                window.location = "<?php echo Yii::$app->urlManager->createUrl(['promise/promise/update']) ?>" + "&id=" + "<?php echo $model['id'] ?>";
+            }
+        });
+    }
+
+
 </script>
