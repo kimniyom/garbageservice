@@ -298,4 +298,18 @@ class CustomersController extends Controller {
         }
     }
 
+    public function actionHistorypayment() {
+        $userid = \Yii::$app->user->identity->id;
+        $customer = \app\modules\customer\models\Customers::findOne(['user_id' => $userid]);
+        $customerId = $customer['id'];
+        $sql = "SELECT i.*,k.bankname
+                            FROM invoice i INNER JOIN promise p ON i.promise = p.id
+                            INNER JOIN bookbank b ON i.bank= b.id
+                            INNER JOIN bank k ON b.bank = k.id
+                            WHERE p.customerid = '$customerId' AND i.status != '0' ORDER BY id ASC";
+        $data['history'] = Yii::$app->db->createCommand($sql)->queryAll();
+        //$data['bank'] = $this->getBookbank();
+        return $this->render('historypayment', $data);
+    }
+
 }

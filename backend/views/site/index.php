@@ -17,7 +17,7 @@ $urlMap = new Config();
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-users"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text" style="text-align:center">ลูกค้าใหม่รอการยืนยัน</span><br/>
+                        <span class="info-box-text" style="text-align:center;">ลูกค้าใหม่รอการยืนยัน</span><br/>
                         <div style="text-align:center">
                             <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/customernonapprove']) ?>">
                                 <button style="text-align:center;" class="btn btn-danger"><?php echo $customernonapprove ?></button></a>
@@ -259,7 +259,7 @@ $urlMap = new Config();
 
      var marker, info;
 
-     $.getJSON("<?php //echo Yii::$app->urlManager->createUrl(['site/getlocation'])                                                                                                                           ?>", function(jsonObj) {
+     $.getJSON("<?php //echo Yii::$app->urlManager->createUrl(['site/getlocation'])                                                                                                                             ?>", function(jsonObj) {
      $.each(JSON.parse(jsonObj), function(i, item) {
      marker = new google.maps.Marker({
      position: new google.maps.LatLng(item.lat, item.long),

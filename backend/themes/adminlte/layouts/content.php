@@ -3,7 +3,10 @@
 use yii\widgets\Breadcrumbs;
 use dmstr\widgets\Alert;
 ?>
-<div class="content-wrapper">
+<div class="content-wrapper" style="background: #FFFFFF;  /* fallback for old browsers */
+     background: -webkit-linear-gradient(to right, #ECE9E6, #FFFFFF);  /* Chrome 10-25, Safari 5.1-6 */
+     background: linear-gradient(to right, #ECE9E6, #FFFFFF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+     ">
     <section class="content-header">
         <?php if (isset($this->blocks['content-header'])) { ?>
             <h1><?= $this->blocks['content-header'] ?></h1>

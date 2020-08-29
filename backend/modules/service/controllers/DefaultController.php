@@ -105,6 +105,7 @@ INNER JOIN changwat ch ON c.changwat = ch.changwat_id
         $timekeepin = Yii::$app->request->post('timekeepin');
         $timekeepout = Yii::$app->request->post('timekeepout');
         $car = Yii::$app->request->post('car');
+        $comment = Yii::$app->request->post('comment');
 
         //$Promise = Promise::find()->where(['id' => $promise,'status' => '2'])->One();
 
@@ -118,6 +119,7 @@ INNER JOIN changwat ch ON c.changwat = ch.changwat_id
             "timekeepin" => $timekeepin,
             "timekeepout" => $timekeepout,
             "car" => $car,
+            "comment" => $comment,
             "d_update" => date("Y-m-d H:i:s"),
         );
 

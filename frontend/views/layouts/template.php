@@ -74,6 +74,13 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
             .footer_list li a:hover {
                 color: #0e8ce4;
             }
+
+            .top_bar{
+                background: #0074ff;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #0074ff, #00d3ff);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #0074ff, #00d3ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
         </style>
         <?php
         $this->registerJs('
@@ -129,17 +136,17 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <a href="#"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" id="img-logo"/></a>
                                 </div>
                                 <div class="top_bar_contact_item" style="margin-right: 10px;">
-                                    <p class="text-info" style="margin-bottom: 0px; margin-top:10px;">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
-                                    <p class="text-info" style="margin-bottom: 0px;">IC QUALITY SYSTEM Co., Ltd.</p>
+                                    <p class="text-white" style="margin-bottom: 0px; margin-top:10px;">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
+                                    <p class="text-white" style="margin-bottom: 0px;">IC QUALITY SYSTEM Co., Ltd.</p>
                                 </div>
                                 <div class="top_bar_content ml-auto">
                                     <div class="top_bar_user">
                                         <?php //if (Yii::$app->user->isGuest) { ?>
                                         <!--
                                             <div class="user_icon">
-                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')      ?>" alt="">
+                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                  ?>" alt="">
                                             </div>
-                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])      ?>">Register</a></div>
+                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                  ?>">Register</a></div>
                                         -->
                                         <?php //} ?>
                                         <div>
@@ -148,9 +155,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                             <?php } else { ?>
 
                                                 <?php if (Yii::$app->user->identity->status == "U") { ?>
-                                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>) <img src="<?php echo Url::to('../images/settings.png') ?>" width="32"/></a>
                                                 <?php } else { ?>
-                                                    <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>)</a>
+                                                    <a href="<?php echo Yii::$app->urlManagerBackend->createUrl(['index.php?r=site']) ?>">จัดการข้อมูล(<?php echo Yii::$app->user->identity->username ?>) <img src="<?php echo Url::to('../images/settings.png') ?>" width="32"/></a>
                                                 <?php } ?>
                                             <?php } ?>
                                         </div>
@@ -202,7 +209,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                     </div>
                 </div>
 
-                <nav id="navbar" class="navbar navbar-expand-lg navbar-light" style="background: #FFFFFF; box-shadow: #eeeeee 0px 0px 20px 0px;">
+                <nav id="navbar" class="navbar navbar-expand-lg navbar-light" style="background: #FFFFFF; box-shadow: #666666 0px 0px 30px 0px;">
                     <div class="container">
                         <a class="navbar-brand text-info" href="#">Menu</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -252,7 +259,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
 
             <!-- Banner -->
-
+            <!--
+            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                  ?>)"
+            -->
             <div class="banner" style="display: none;">
                 <div class="banner_background" style="background-image:url(<?php echo Url::to('@web/web/theme/images/banner_background.jpg') ?>)"></div>
                 <div class="container fill_height">
@@ -406,7 +415,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="col">
                                         <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
                                             <div class="newsletter_title_container">
-                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')      ?>" alt=""></div>
+                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                  ?>" alt=""></div>
                                                 <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
                                             </div>
                                             <div class="newsletter_content clearfix">

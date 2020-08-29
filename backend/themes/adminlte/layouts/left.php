@@ -3,6 +3,14 @@
         color: rgb(116, 200, 255);
         font-weight: bold;;
     }
+
+    .sidebar-menu li ul li a{
+        font-size: 16px;
+    }
+
+    .sidebar ul .header{
+        font-size: 16px;
+    }
 </style>
 <?php
 
@@ -22,7 +30,7 @@ $countCheckInvoice = $promiseModel->countCheckInvoice();
 ?>
 <aside class="main-sidebar" style=" z-index: 5;">
 
-    <section class="sidebar" >
+    <section class="sidebar" style=" font-family: supermarket; font-size: 18px;">
 
         <!-- Sidebar user panel -->
         <div class="user-panel">
