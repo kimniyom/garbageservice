@@ -20,6 +20,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\modules\customer\models\Customers;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\customer\models\CustomersSearch */
@@ -27,17 +28,19 @@ use yii\helpers\Url;
 
 $this->title = 'Customers';
 $this->params['breadcrumbs'][] = $this->title;
+
+$CusModel = new Customers();
 ?>
 <div class="customers-index">
     <h3><?= Html::encode($this->title) ?></h3>
-    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);    ?>
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <div class="panel panel-default">
                 <div class="list-group">
                     <div class="list-group-item active"><img src="<?php echo Url::to('../images/appointment-reminders.png') ?>" width="32"/> แจ้งเตือน</div>
                     <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/invoice']) ?>" class="list-group-item">รายการข้อมูลค้างจ่าย <span class="badge badge-danger badge-pill" style="padding-top:5px;"><?php echo $countinvoice ?></span></a>
-                    <a href="" class="list-group-item">จำนวนสัญญาคงเหลือ <span class="badge badge-danger badge-pill" style="padding-top:5px;">0</span></a>
+                    <a href="" class="list-group-item">จำนวนสัญญาคงเหลือ <span class="badge badge-danger badge-pill" style="padding-top:5px;"><?php echo $CusModel->Getexpirepromise() ?></span></a>
                     <a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customers/historypayment']) ?>" class="list-group-item">รายการ / รายการชำระเงิน</a>
                     <div class="list-group-item">
                         <?php

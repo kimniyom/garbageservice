@@ -144,9 +144,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                         <?php //if (Yii::$app->user->isGuest) { ?>
                                         <!--
                                             <div class="user_icon">
-                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                  ?>" alt="">
+                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                           ?>" alt="">
                                             </div>
-                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                  ?>">Register</a></div>
+                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                           ?>">Register</a></div>
                                         -->
                                         <?php //} ?>
                                         <div>
@@ -260,7 +260,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
             <!-- Banner -->
             <!--
-            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                  ?>)"
+            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                           ?>)"
             -->
             <div class="banner" style="display: none;">
                 <div class="banner_background" style="background-image:url(<?php echo Url::to('@web/web/theme/images/banner_background.jpg') ?>)"></div>
@@ -289,7 +289,10 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                     <div class="row" style="margin-top: 35px; padding-bottom:30px;margin-bottom:0px;">
                         <!-- Char. Item -->
                         <div class="col-lg-4 col-md-6 char_col">
-                            <div class="char_item d-flex flex-row align-items-center justify-content-start">
+                            <div class="char_item d-flex flex-row align-items-center justify-content-start" style="background: #ffffff;  /* fallback for old browsers */
+                                 background: -webkit-linear-gradient(to right, #ffffff, #00c6ff);  /* Chrome 10-25, Safari 5.1-6 */
+                                 background: linear-gradient(to right, #ffffff, #00c6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                                 ">
                                 <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_1.png') ?>" alt=""></div>
                                 <div class="char_content">
                                     <a href="<?php echo Yii::$app->urlManager->createUrl(['site/transport']) ?>">
@@ -300,7 +303,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                         <!-- Char. Item -->
                         <div class="col-lg-4 col-md-6 char_col">
 
-                            <div class="char_item d-flex flex-row align-items-center justify-content-start">
+                            <div class="char_item d-flex flex-row align-items-center justify-content-start" style="background: #ffffff;  /* fallback for old browsers */
+                                 background: -webkit-linear-gradient(to right, #ffffff, #ADD100);  /* Chrome 10-25, Safari 5.1-6 */
+                                 background: linear-gradient(to right, #ffffff, #ADD100); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */">
                                 <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_2.png') ?>" alt=""></div>
                                 <div class="char_content">
                                     <a href="<?php echo Yii::$app->urlManager->createUrl(['site/service']) ?>">
@@ -310,10 +315,12 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                         </div>
                         <!-- Char. Item -->
                         <div class="col-lg-4 col-md-12 char_col">
-                            <div class="char_item d-flex flex-row align-items-center justify-content-start">
+                            <div class="char_item d-flex flex-row align-items-center justify-content-start" style="background: #ffffff;  /* fallback for old browsers */
+                                 background: -webkit-linear-gradient(to right, #ffffff, #9D50BB);  /* Chrome 10-25, Safari 5.1-6 */
+                                 background: linear-gradient(to right, #ffffff, #9D50BB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */">
                                 <div class="char_icon"><img src="<?php echo Url::to('@web/web/theme/images/char_3.png') ?>" alt=""></div>
                                 <div class="char_content">
-                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/service']) ?>">
+                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/step']) ?>">
                                         <div class="char_title">ขั้นตอนการกำจัดขยะมูลฝอยติดเชื้อ</div></a>
                                 </div>
                             </div>
@@ -415,7 +422,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="col">
                                         <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
                                             <div class="newsletter_title_container">
-                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                  ?>" alt=""></div>
+                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                           ?>" alt=""></div>
                                                 <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
                                             </div>
                                             <div class="newsletter_content clearfix">

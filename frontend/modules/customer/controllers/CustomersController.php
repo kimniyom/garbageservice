@@ -308,7 +308,7 @@ class CustomersController extends Controller {
                             INNER JOIN bank k ON b.bank = k.id
                             WHERE p.customerid = '$customerId' AND i.status != '0' ORDER BY id ASC";
         $data['history'] = Yii::$app->db->createCommand($sql)->queryAll();
-        //$data['bank'] = $this->getBookbank();
+        $data['bank'] = $this->getBookbank();
         return $this->render('historypayment', $data);
     }
 
