@@ -77,7 +77,8 @@ class ServicepertimeController extends \yii\web\Controller
                 "customerneedid" => $customerneedid,
                 "car" => $car,
                 "timekeepin" => $timekeepin,
-                "timekeepout" => $timekeepout
+                "timekeepout" => $timekeepout,
+                "bill"=>1
             );
     
             Yii::$app->db->createCommand()
@@ -150,7 +151,7 @@ class ServicepertimeController extends \yii\web\Controller
         $sql = "select 
                     c.*,CONCAT(c.customername,' ',c.address,' ต.',t.tambon_name,' อ.',a.ampur_name,' จ.',p.changwat_name) as address
                     ,confirm.id as confirmid
-                   
+                    
                 from customerneed c
 		        inner join changwat p on c.changwat = p.changwat_id
 		        inner join ampur a on c.amphur = a.ampur_id
@@ -193,30 +194,44 @@ class ServicepertimeController extends \yii\web\Controller
 						<th>#</th>
 						<th>วันที่</th>
 						<th style='text-align:right;'>ปริมาณ</th>
-						<th style='text-align:right;'>ขยะเกิน</th>
+                        <th style='text-align:right;'>ขยะเกิน</th>
+                        
 						
-						";
+                        ";
+        if($customerneed['priceperweight'] > 0)
+        {
+            $str .= "<th style='text-align:right;'>สถานะออกบิล</th>";
+        }
+        
         $str .= "</tr></thead>";
         $str .= "<tbody>";
         foreach ($RoundGarbage as $rs) {
             $i++;
+            $bill = $rs['bill'] == 1 ? "ยังไม่ได้ออกบิล" : "ออกบิลแล้ว";
             $str .= "<tr>";
             $str .= "<td>" . $i . "</td>";
             $str .= "<td>" . $Config->thaidate($rs['datekeep']) . "</td>";
             $str .= "<td style='text-align:right;'>" . $rs['amount'] . " กิโลกรัม</td>";
             $str .= "<td style='text-align:right;'>" . $rs['garbageover'] . " กิโลกรัม</td>";
-           
+            if($customerneed['priceperweight'] > 0)
+            {
+                $str .= "<td style='text-align:right;'>" . $bill . " </td>";
+            }
            
             $str .= "</tr>";
         }
 
         $str .= "</tbody></table>";
-        if(count($RoundGarbage)>0 && !$invoice)
+        $confirmid = $confirm['id'];
+        if(count($RoundGarbage)>0 && !$invoice && $customerneed['priceperweight'] == 0)
         {
-            $confirmid = $confirm->id;
             $str .= '<div>จำนวนเงินที่จะออกบิล<input type="text" class="form-control" id="money"></div>';
             $str .= "<br>";
             $str .= "<div class=\"text-right\"><button class=\"button buntton-info\" onclick=\"popupFormbill('{$confirmid}')\">ออกบิล</button></div>";
+        }
+        else if($RoundGarbage >0 && !$invoice && $customerneed['priceperweight'] > 0){
+            $priceperweight = $customerneed['priceperweight'];
+            $str .= "<div class=\"text-right\"><button class=\"button buntton-info\" onclick=\"popupFormbillNotextbox('{$confirmid}','{$priceperweight}')\">ออกบิล</button></div>";
         }
 
         return $str;
@@ -228,6 +243,7 @@ class ServicepertimeController extends \yii\web\Controller
         $confirm = Confirmform::find()->where(['id' => $confirmid])->One();
         $customerneed = $this->actionGetcustomer($confirm['customerneedid']);
         
+        
         $sql = "select * from roundgarbage_pertime where confirmid = '{$confirmid}' and status='1'";
         $data['billdetail'] = Yii::$app->db->createCommand($sql)->queryAll();
         $data['customerneed'] = $customerneed;
@@ -236,8 +252,11 @@ class ServicepertimeController extends \yii\web\Controller
         $data['type'] = $customerneed['customrttype'];
         $data['vat'] = $customerneed['vat'];
         
+        
         $sqlCheckInvoice = "select * from roundmoney_pertime where confirmid = '$confirmid' and receiptnumber != '' ORDER BY datekeep DESC LIMIT 1";
         $Invoice = Yii::$app->db->createCommand($sqlCheckInvoice)->queryOne();
+       
+
         if (!$Invoice['receiptnumber']) {
             $data['invnumber'] = $this->getNextId();
             $data['status'] = 0;
@@ -249,7 +268,7 @@ class ServicepertimeController extends \yii\web\Controller
             $data['status'] = 1;
             $sqlInvoice = "select * from invoice_pertime where invoicenumber = '" . $Invoice['receiptnumber'] . "'";
             $data['invoicedetail'] = Yii::$app->db->createCommand($sqlInvoice)->queryOne();
-            $data['money'] = $data['invoicedetail']['total'];
+            $data['money'] = $Invoice['amount'];
         }
        
         
@@ -270,7 +289,9 @@ class ServicepertimeController extends \yii\web\Controller
                 typecustomer.typename,
                 typecustomer.groupcustomer,
                 c.NO,
-                c.vat
+                c.vat,
+                c.priceperweight,
+                c.priceofonetime
             FROM
                 customerneed c
             INNER JOIN changwat ch ON c.changwat = ch.changwat_id
@@ -317,11 +338,18 @@ class ServicepertimeController extends \yii\web\Controller
         $sumdiscount = ($total - $discount);
         $sumdeposit = ($sumdiscount - $deposit);
         $vats = 0;
-        if ($vat == 1) {
+        if ($vat == 0) {
             $vats = (($sumdeposit * 7) / 100);
         } 
 
         $totalInvoiceFinal = ($sumdeposit + $vats);
+
+        $sqlupdategarbage = "UPDATE roundgarbage_pertime 
+                             SET bill=2 
+                             WHERE customerneedid = {$customerneedid} AND confirmid = {$confirmid} AND bill= 1
+            ";
+
+        Yii::$app->db->createCommand($sqlupdategarbage)->execute();
 
         $columns = array(
             "invoicenumber" => $invoiceNumber,
@@ -333,7 +361,7 @@ class ServicepertimeController extends \yii\web\Controller
             "status" => "0",
             "dateinvoice" => $dateinvoice,
             "datebill" => $datebill,
-            "d_update" => date("Y-m-d H:i:s"),
+            "d_update" => date("Y-m-d H:i:s")
         );
 
         Yii::$app->db->createCommand()

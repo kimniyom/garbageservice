@@ -15,7 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= Html::a('<i class="fa fa fa-plus"></i> สร้างแบบยืนยันลูกค้าเพื่อเข้าจัดเก็บขยะ', ['beforecreate'], ['class' => 'btn btn-primary']) ?>
 <div class="box" id="box-detail">
-    
+    <div class="box-header" style=" padding-bottom: 0px;">
+        <label>สถานะ</label>
+        <select id="status" class="form-control" onchange="getConfirmform()">
+            <option value="3" <?php echo($status == '3') ? "selected" : "" ?>>ยกเลิก</option>
+            <option value="2" <?php echo($status == '2') ? "selected" : "" ?>>เสร็จ</option>
+            <option value="1" <?php echo($status == '1') ? "selected" : "" ?>>กำลังดำเนินการ</option>
+        </select>
+    </div>
     <div class="box-body" style="padding-top:0px;">
         <table class="table">
             <thead>
@@ -52,6 +59,12 @@ $this->params['breadcrumbs'][] = $this->title;
         </table>
     </div>
 </div>
-
+<script type="text/javascript">
+    function getConfirmform() {
+        var status = $("#status").val();
+        var url = "<?php echo Url::to(['index']) ?>" + "&status=" + status;
+        window.location = url;
+    }
+</script>
 
 

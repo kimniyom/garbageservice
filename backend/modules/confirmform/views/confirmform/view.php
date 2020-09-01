@@ -46,12 +46,14 @@ use yii\widgets\DetailView;
 use kartik\grid\GridView;
 use yii\helpers\Url;
 use app\models\Config;
-
+use yii\bootstrap\Modal;
 /* @var $this yii\web\View */
 /* @var $datas app\datass\Confirmform */
 
 
-$this->params['breadcrumbs'][] = ['label' => 'Confirmforms', 'url' => ['index']];
+
+$this->title = "แบบยืนยันเข้าจัดเก็บขยะ";
+$this->params['breadcrumbs'][] = ['label' => 'แบบยืนยันเข้าจัดเก็บขยะ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 $Config = new Config();
@@ -72,20 +74,47 @@ $billdoc_originalreceipt = $datas['billdoc_originalreceipt'] != '' ? 'checked' :
 $billdoc_copyofreceipt = $datas['billdoc_copyofreceipt'] != '' ? 'checked' : '';
 $billdoc_copyofbank = $datas['billdoc_copyofbank'] != '' ? 'checked' : '';
 $billdoc_etc = $datas['billdoc_etc'] != '' ? 'checked' : '';
+
+
+?>
+<?php
+Modal::begin([
+    'header' => '<h4>ระบุเหตุผลยกเลิกสัญญา</h4>',
+    'id' => 'modal',
+    'size' => 'modal-lg',
+]);
+echo "<div id='modalContent'>
+    
+</div>";
+Modal::End();
 ?>
 
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $datas['id']], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $datas['id']], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?php if(!$roundgarbage):?>
+            <?= Html::a('Update', ['update', 'id' => $datas['id']], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Delete', ['delete', 'id' => $datas['id']], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+                
+        <?php endif;?>
+        <?php if($datas['status'] == 1 && $roundgarbage):?>
+            <?= Html::button('ยกเลิกแบบยืนยันเข้าจัดเก็บ', ['value' => Url::to(Yii::$app->urlManager->createUrl(['confirmform/confirmform/cancel', 'id' => $datas['id'], 'status' => '3'])), 'class' => 'btn btn-warning', 'id' => 'modalButton']) ?>
+        <?php endif;?>
+        <?php if($invoice):?>
+            <?= Html::a('สิ้นสุดกระบวนการ', ['success', 'id' => $datas['id']], [
+                    'class' => 'btn btn-info',
+                    'data' => [
+                        'confirm' => 'กรุณาตรวจสอบข้อมูลก่อนทำรายการ เมื่อสิ้นสุดการยืนยันเข้าจัดเก็บจะถูกยกเลิกหมด',
+                        'method' => 'post',
+                    ],
+            ]) ?>
+        <?php endif;?>
     </p>
 
     <div class="box" id="box-detail">

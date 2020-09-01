@@ -35,7 +35,9 @@ use Yii;
  * @property int $senddoc_customer ส่งเอกสารให้ลูกค้า
  * @property string|null $department แผนก/หน่วยงาน
  * @property int|null $amount จำนวนครั้งที่จัดเก็บ 
- * @property int $status สถานะการใช้งาน 1 คือ ยังไม่จบกระบวนการ 2 คือ จบกระบวนการแล้ว
+ * @property int $status สถานะการใช้งาน 1 คือ กำลังดำเนินการ 2 คือ จบกระบวนการแล้ว 3 คือ ยกเลิก
+ * @property string $comment เหตุผลที่ยกเลิก
+ * @property string $etc หมายเหตุที่ยกเลิกสัญญา
  */
 class Confirmform extends \yii\db\ActiveRecord
 {
@@ -59,6 +61,7 @@ class Confirmform extends \yii\db\ActiveRecord
             [['billdoc_etctext'], 'string'],
             [['confirmformnumber'], 'string', 'max' => 32],
             [['department'], 'string', 'max' => 128], 
+            [['comment', 'etc'], 'string', 'max' => 512],
         ];
     }
 
@@ -96,17 +99,22 @@ class Confirmform extends \yii\db\ActiveRecord
             'senddoc_customer' => 'ส่งเอกสารให้ลูกค้า',
             'department' => 'ติดต่อ แผนก/หน่วยงาน',
             'amount' => 'จำนวนครั้งที่จัดเก็บ',
+            'comment' => 'เหตุผลที่ยกเลิก', 
+           'etc' => 'หมายเหตุที่ยกแบบยืนยันเข้าจัดเก็บ', 
         ];
     }
 
     public function countConfirmform() {
-        $sql = "select count(*) as total from confirmform 
-                INNER JOIN customerneed c ON confirmform.customerneedid = c.id AND c.status = 1";
+        $sql = "select count(*) as total 
+                from confirmform 
+                INNER JOIN customerneed c ON confirmform.customerneedid = c.id AND c.status = 1
+                WHERE confirmform.status = 1
+                ";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
         return $rs['total'];
     } 
 
-    function geConfirmformAll() {
+    function geConfirmformAll($status) {
         $sql = "SELECT
                     co.id,
                     c.customername,
@@ -125,6 +133,7 @@ class Confirmform extends \yii\db\ActiveRecord
                 INNER JOIN ampur a ON c.amphur = a.ampur_id
                 INNER JOIN tambon t ON c.tambon = t.tambon_id
                 INNER JOIN typecustomer y ON c.customrttype = y.id
+                WHERE co.status = {$status}
                 ORDER BY
                     co.id ASC
             ";

@@ -12,6 +12,9 @@ use common\models\Customers;
 use app\models\ConfirmformPayment;
 use app\models\ConfirmformMethodpayment;
 use app\models\Customerneed;
+use app\models\RoundgarbagePertime;
+use app\models\RoundmoneyPertime;
+use app\models\InvoicePertime;
 /**
  * ConfirmformController implements the CRUD actions for Confirmform model.
  */
@@ -27,6 +30,8 @@ class ConfirmformController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'success' => ['POST'],
+                   
                 ],
             ],
         ];
@@ -36,10 +41,11 @@ class ConfirmformController extends Controller
      * Lists all Confirmform models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($status=1)
     {
         $model = new Confirmform();
-        $data['datas'] = $model->geConfirmformAll();
+        $data['datas'] = $model->geConfirmformAll($status);
+        $data['status'] = $status;
         return $this->render('index', $data);
     }
 
@@ -55,6 +61,8 @@ class ConfirmformController extends Controller
         $data['datas'] = $model->geConfirmformById($id);
         $data['payment'] = ConfirmformPayment::findOne(['id'=>$data['datas']['paymentschedule']]);
         $data['method'] = ConfirmformMethodpayment::findOne(['id'=>$data['datas']['methodpeyment']]);
+        $data['roundgarbage'] = RoundgarbagePertime::findOne(['confirmid'=>$id]);
+        $data['invoice'] = Yii::$app->db->createCommand("SELECT * FROM invoice_pertime WHERE confirmid = {$id} and (dateconfirm != '' OR dateconfirm is not null)")->queryAll();
         return $this->render('view', $data);
     }
 
@@ -262,5 +270,32 @@ class ConfirmformController extends Controller
                 echo "success";
             }
         }
+    }
+
+    public function actionSuccess($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = 2;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
+    public function actionCancel($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = 3;
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save(false)) 
+        {
+            if (($roundmoney = RoundmoneyPertime::findOne(['confirmid'=>$id])) !== null) {
+                $roundmoney->status = 3;
+                $roundmoney->save(false);
+            }
+            return $this->redirect(['index']);
+        }
+
+        return $this->renderAjax('_modalcancel', [
+                    'model' => $model,
+        ]);
     }
 }

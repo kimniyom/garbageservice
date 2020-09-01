@@ -51,470 +51,122 @@ $vatbath = 0;
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="border-left: none;  ">ใบแจ้งหนี้ / ใบเสร็จ</a></li>
-        <li role="presentation" ><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">แยก Vat</a></li>
+        
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content" id="boxtypebill">
         <div role="tabpanel" class="tab-pane active" id="home">
-            <?php if ($status > 0) { ?>
-                <div style=" width: 100%; background: #ffffff;">
-                    <button type="button" class="btn btn-default" onclick="printDiv('invoice')"><i class="fa fa-print"></i> พิมพ์ใบแจ้งหนี้</button>
-                </div>
-            <?php } ?>
-            <div style="background:#ffffff; padding:10px; position: relative;" id="invoice">
-                <div style="width:50%; left:20px;  position:absolute;">
-                    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
-                </div>
+            <?php if($customerneed['priceperweight'] == 0 || $customerneed['priceperweight'] == ""):?>
+                <?php if ($status > 0) { ?>
+                    <div style=" width: 100%; background: #ffffff;">
+                        <button type="button" class="btn btn-default" onclick="printDiv('invoice')"><i class="fa fa-print"></i> พิมพ์ใบแจ้งหนี้</button>
+                    </div>
+                <?php } ?>
+                <div style="background:#ffffff; padding:10px; position: relative;" id="invoice">
+                    <div style="width:50%; left:20px;  position:absolute;">
+                        <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
+                    </div>
 
-                <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
-                    อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
-                    <div class="divInvoice" style=" display: none;">
-                        <?php if ($status > 0) { ?>
-                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                    <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
+                        เลขที่ <?php echo $invnumber ?><br/>
+                        อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
+                        <div class="divInvoice" style=" display: none;">
+                            <?php if ($status > 0) { ?>
+                                วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
+                    <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
+                        <?php if ($customerneed['groupcustomer'] != 1) { ?>
+                            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+                            เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+                            50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
+                        <?php } else { ?>
+                            <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+                            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+                            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
                         <?php } ?>
                     </div>
-                </div>
 
-                <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
-                <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customerneed['groupcustomer'] != 1) { ?>
-                        <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
-                        เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
-                        50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
-                    <?php } else { ?>
-                        <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
-                        เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
-                        12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
-                    <?php } ?>
-                </div>
-
-                <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
-                    <thead>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
-                                ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
-                                ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
-                                เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
-                                โทร. <?php echo $customerneed['tel'] ?>
-
-                                <div style=" float: right; padding: 5px;">
-                                    เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
-                                </div>
-                            </th>
-                        </tr>
-                      
-                        <tr>
-                            <th style="text-align: center;font-family: THSarabun;font-size: 18px;">No</th>
-                            <th style="font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวนเงิน</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sum = 0;
-                        $sumDiscount = 0;
-                        $sumDeposit = 0;
-                        $i = 0;
-
-                        //ConfigBill
-                        //if ($status > 0) {
-                        $sumDiscount = ($money - $invoicedetail['discount']);
-                        $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
-                        //}
-
-                        foreach ($billdetail as $rs): $i++;
-                            $totalRow = $money;
-                            $sum = $sum + $totalRow;
-                            ?>
-                        <?php endforeach; ?>
-                        <tr>
-                            <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;">1</td>
-                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อตามแบบยืนเข้าจัดเก็บเลขที่ <?php echo $confirm['confirmformnumber'] ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 ครั้ง</td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                <?php
-                                echo number_format($money, 2);
-                                ?>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1.กรุณาโอเงินผ่านธนาคารไทยพาณิชย์ บัญชีออมทรัพย์</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักส่วนลด</font></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ชื่อบัญชี บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">เลขบัญชี 372-259936-7</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักเงินมัดจำ</font></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">2.ส่งหลักฐานการชำระเงินระบุชื่อบริษัทและเดือนที่ชำระค่าบริการให้ชัดเจนส่งมาที่</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
-                            </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                <?php
-                                if ($vat == 1) {
-                                    //คำนวน vat
-                                    $vatbath = (($sumDeposit * 7) / 100);
-                                    echo number_format($vatbath, 2);
-                                } else {
-                                    $vatbath = 0;
-                                    echo number_format($vatbath, 2);
-                                }
-                                ?>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                <?php
-//if ($vattype == 1) {//vat ลบ
-//$sumVat = ($sum - $vatbath);
-//} else if ($vattype == 2) {// vat เพิ่ม
-                                $sumVat = ($sumDeposit + $vatbath);
-//} else {
-//$sumVat = $sum;
-//}
-                                echo $Config->Convert($sumVat)
-                                ?>
-                            </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
-                        </tr>
-
-                        <tr>
-                            <th colspan="5" style=" padding: 5px;">
-                                <div style="width: 29%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
-                                    <br/>
-                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
-                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับวางบิล</div>
-                                </div>
-                                <div style="width: 29%; float: left;font-family: THSarabun;font-size: 18px;">
-                                    <br/>
-                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
-                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
-                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้วางบิล</div>
-                                </div>
-                                <div style="width: 29%; float: right;font-family: THSarabun;font-size: 18px;">
-                                    <br/>
-                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
-                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
-                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
-                                </div>
-
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-           
-
-            <!-- /////////////////////// Bill ///////////////////////////-->
-            <br/>
-            <?php if ($status > 0) { ?>
-                <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
-            <?php } ?>
-
-            <div style="background:#ffffff; padding:10px; position: relative;" id="bill">
-                <div style="width:50%; left:20px;  position:absolute;">
-                    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
-                </div>
-
-                <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
-                    อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
-                    <div class="divBill" style=" display: none;">
-                        <?php if ($status > 0) { ?>
-                            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                        <?php } ?>
-                    </div>
-                </div>
-
-                <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
-                <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customerneed['groupcustomer'] != 1) { ?>
-                        <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
-                        เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
-                        50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
-                    <?php } else { ?>
-                        <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
-                        เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
-                        12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
-                    <?php } ?>
-
-                </div>
-                <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
-                    <thead>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
-                                ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
-                                ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
-                                เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
-                                โทร. <?php echo $customerneed['tel'] ?>
-                                <div style=" float: right; padding: 5px;">
-                                    เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th style="text-align: center; font-family: THSarabun;font-size: 18px;">No</th>
-                            <th style="text-align: center; font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวนเงิน</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sum = 0;
-                        $i = 0;
-                        foreach ($billdetail as $rs): $i++;
-                           
-                            $totalRow = $rs['amount'];
-                            $sum = $sum + $totalRow;
-                            //เช็คการเก็บขยะ
-                            //if ($rs['status'] == 1) {
-                            ?>
-
-                            <?php //} ?>
-                        <?php endforeach; ?>
-                        <tr>
-                            <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1</td>
-                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อตามแบบยืนเข้าจัดเก็บเลขที่ <?php echo $confirm['confirmformnumber'] ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-
-                        <tr>
-                            <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                <?php
-                                echo number_format($money, 2);
-                                ?>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักส่วนลด</font></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักเงินมัดจำ</font></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="text-align:center;"></th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                <?php
-                                //คำนวน vat
-                                if ($vat == 1) {
-                                    $vatbath = (($sumDeposit * 7) / 100);
-                                    echo number_format($vatbath, 2);
-                                } else {
-                                    $vatbath = 0;
-                                    echo number_format($vatbath, 2);
-                                }
-                                ?>
-                            </th>
-                        </tr>
-
-                        <tr>
-                            <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                <?php
-//if ($vattype == 1) {//vat ลบ
-//$sumVat = ($sum - $vatbath);
-//} else if ($vattype == 2) {// vat เพิ่ม
-                                $sumVat = ($sumDeposit + $vatbath);
-//} else {
-//$sumVat = $sum;
-//}
-                                echo "(" . $Config->Convert($sumVat) . ")";
-                                ?>
-                            </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px; text-align: left;">
-                                <b>ชำระเงินโดย</b>
-                                <ul>
-                                    <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
-                                    <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
-                                </ul>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
-                                <br/>
-                                <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
-                                <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                                <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับเงิน</div>
-                            </th>
-                            <th colspan="2" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
-                                <br/>
-                                <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
-                                <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                                <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
-                            </th>
-                        </tr>
-
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-        <!--
-        ###################################
-        ################ แยกVat ##############
-        ###################################
-        -->
-        <div role="tabpanel" class="tab-pane" id="profile">
-            <?php if ($status > 0) { ?>
-                <div style=" width: 100%; background: #ffffff; position: relative;">
-                    <button type="button" class="btn btn-default" onclick="printDiv('invoicesetvat')"><i class="fa fa-print"></i> พิมพ์ใบแจ้งหนี้</button>
-                </div>
-            <?php } ?>
-            <div style="background:#ffffff; padding:10px; position: relative;" id="invoicesetvat">
-                <div style="width:50%; left:20px;  position:absolute;">
-                    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
-                </div>
-
-                <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
-                    เลขที่ <?php echo $invnumber ?><br/>
-                    อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
-                    <div class="divInvoice" style=" display: none;">
-                        <?php if ($status > 0) { ?>
-                            วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
-                        <?php } ?>
-                    </div>
-                </div>
-
-                <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
-                <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customerneed['groupcustomer'] != 1) { ?>
-                        <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
-                        เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
-                        50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
-                    <?php } else { ?>
-                        <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
-                        เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
-                        12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
-                    <?php } ?>
-
-                </div>
-
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
-                                ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
-                                ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
-                                เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
-                                โทร. <?php echo $customerneed['tel'] ?>
-                                <div class="pull-right">
-                                    เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
-                                </div>
-                            </th>
-                        </tr>
-                      
-                        <tr>
-                            <th style="text-align: center;font-family: THSarabun;font-size: 18px;">No</th>
-                            <th style="font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">ราคารวมภาษี</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sum = 0;
-                        $i = 0;
-                       
-                        foreach ($billdetail as $rs): $i++;
-                            $totalRow = $rs['amount']*$money;
-                            $sum = $sum + $totalRow;
-                            ?>
+                    <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
+                        <thead>
                             <tr>
-                                <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
-                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep']);?> เวลา <?php echo $rs['timekeepin'];?>
-                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($rs['amount'], 2) ?> </td>
-                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
-                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+                                <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
+                                    ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
+                                    ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
+                                    เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
+                                    โทร. <?php echo $customerneed['tel'] ?>
 
-                    </tbody>
-                    <tfoot>
-                        <?php 
-                            if ($vat == 1) { 
-                                $sumDiscount = ($sum - $invoicedetail['discount']);
-                                $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
-                            
-                        ?>
+                                    <div style=" float: right; padding: 5px;">
+                                        เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
+                                    </div>
+                                </th>
+                            </tr>
+                        
+                            <tr>
+                                <th style="text-align: center;font-family: THSarabun;font-size: 18px;">No</th>
+                                <th style="font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวนเงิน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sum = 0;
+                            $sumDiscount = 0;
+                            $sumDeposit = 0;
+                            $i = 0;
+                            $vatbath = 0;
+                            //ConfigBill
+                            //if ($status > 0) {
+                            if($vat == 1)
+                            {
+                                $productPrice = ($money * 100) / 107;
+                                $vatbath = $money - $productPrice;
+                            }
+
+
+                            $sumDiscount = ($money - $invoicedetail['discount']) - $vatbath;
+                            $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                            //}
+
+                           
+
+                            foreach ($billdetail as $rs): $i++;
+                                $totalRow = $money;
+                                $sum = $sum + $totalRow;
+                                ?>
+                            <?php endforeach; ?>
+                            <tr>
+                                <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;">1</td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อตามแบบยืนเข้าจัดเก็บเลขที่ <?php echo $confirm['confirmformnumber'] ?></td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 หน่วย</td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+
                             <tr>
                                 <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาค่าบริการ</th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                     <?php
-                                    echo $sum;
+                                    echo number_format($money - $vatbath, 2);
                                     ?>
                                 </th>
                             </tr>
                             <tr>
                                 <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1.กรุณาโอเงินผ่านธนาคารไทยพาณิชย์ บัญชีออมทรัพย์</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักส่วนลด</font></th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
                             </tr>
                             <tr>
@@ -524,7 +176,7 @@ $vatbath = 0;
                             </tr>
                             <tr>
                                 <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">เลขบัญชี 372-259936-7</th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักเงินมัดจำ</font></th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
                             </tr>
                             <tr>
@@ -539,144 +191,159 @@ $vatbath = 0;
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
                                     <?php
-                                    //คำนวน vat
-                                    $vatbath = (($sumDeposit * 7) / 100);
-                                    echo number_format($vatbath, 2);
+                                    if ($vat == 0) {
+                                        //คำนวน vat
+                                        $vatbath = (($sumDeposit * 7) / 100);
+                                        echo number_format($vatbath, 2);
+                                    } else {
+                                        $productPrice = ($money * 100) / 107;
+                                        $vatbath = $money - $productPrice;
+                                        echo number_format($vatbath, 2);
+                                    }
                                     ?>
                                 </th>
                             </tr>
-                        <?php } ?>
-                        <tr>
-                            <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
-                                <?php
-//if ($vattype == 1) {//vat ลบ
-//$sumVat = ($sum - $vatbath);
-//} else if ($vattype == 2) {// vat เพิ่ม
-                                $sumVat = ($sumDeposit + $vatbath);
-//} else {
-//$sumVat = $sum;
-//}
-                                echo "(" . $Config->Convert($sum) . ")";
-                                ?>
-                            </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
-                        </tr>
+                            <tr>
+                                <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                    <?php
+    //if ($vattype == 1) {//vat ลบ
+    //$sumVat = ($sum - $vatbath);
+    //} else if ($vattype == 2) {// vat เพิ่ม
+                                    $sumVat = ($sumDeposit + $vatbath);
+    //} else {
+    //$sumVat = $sum;
+    //}
+                                    echo $Config->Convert($sumVat)
+                                    ?>
+                                </th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
+                            </tr>
 
-                        <tr>
-                            <th colspan="5">
-                                <div style="width: 30%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
-                                    <br/>
-                                    ลงชื่อ
-                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับวางบิล</div>
-                                </div>
-                                <div style="width: 30%; float: left;font-family: THSarabun;font-size: 18px;">
-                                    <br/>
-                                    ลงชื่อ
-                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
-                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้วางบิล</div>
-                                </div>
-                                <div style="width: 30%; float: right;font-family: THSarabun;font-size: 18px;">
-                                    <br/>
-                                    ลงชื่อ
-                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
-                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
-                                </div>
+                            <tr>
+                                <th colspan="5" style=" padding: 5px;">
+                                    <div style="width: 29%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
+                                        <br/>
+                                        <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
+                                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                        <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับวางบิล</div>
+                                    </div>
+                                    <div style="width: 29%; float: left;font-family: THSarabun;font-size: 18px;">
+                                        <br/>
+                                        <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
+                                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
+                                        <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้วางบิล</div>
+                                    </div>
+                                    <div style="width: 29%; float: right;font-family: THSarabun;font-size: 18px;">
+                                        <br/>
+                                        <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
+                                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
+                                        <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
+                                    </div>
 
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <!-- /////////////////////// BillPromise ///////////////////////////-->
-            <br/>
-            <?php if ($status > 0) { ?>
-                <button type="button" onclick="printDiv('billsubpromise')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
-            <?php } ?>
-            <div style="background:#ffffff; padding:10px; position: relative;" id="billsubpromise">
-                <div style="width:50%; left:20px;  position:absolute;">
-                    <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
+            
 
-                <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
-                    เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
-                    อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
-                    <div class="divBill" style=" display: none;">
-                        <?php if ($status > 0) { ?>
-                            วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
-                        <?php } ?>
+                <!-- /////////////////////// Bill ///////////////////////////-->
+                <br/>
+                <?php if ($status > 0) { ?>
+                    <button type="button" onclick="printDiv('bill')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
+                <?php } ?>
+
+                <div style="background:#ffffff; padding:10px; position: relative;" id="bill">
+                    <div style="width:50%; left:20px;  position:absolute;">
+                        <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
                     </div>
-                </div>
 
-                <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
-                <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customerneed['groupcustomer'] != 1) { ?>
-                        <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
-                        เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
-                        50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
-                    <?php } else { ?>
-                        <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
-                        IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
-                        เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
-                        12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
-                        โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
-                    <?php } ?>
-                </div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
-                                ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
-                                ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
-                                เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
-                                โทร. <?php echo $customerneed['tel'] ?>
-                                <div class="pull-right">
-                                    เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th style="text-align: center; font-family: THSarabun;font-size: 18px;">No</th>
-                            <th style="text-align: center; font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;">ราคารวมภาษี</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sum = 0;
-                        $i = 0;
-                        foreach ($billdetail as $rs): $i++;
-                        $totalRow = $rs['amount']*$money;
-                        $sum = $sum + $totalRow;
-                        ?>
-                        <tr>
-                            <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
-                            <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep'])?> เวลา <?php echo $rs['timekeepin']?>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($rs['amount'], 2) ?> </td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
-                            <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
-                        </tr>
-                            <?php //}  ?>
-                        <?php endforeach; ?>
+                    <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
+                        เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
+                        อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
+                        <div class="divBill" style=" display: none;">
+                            <?php if ($status > 0) { ?>
+                                วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                            <?php } ?>
+                        </div>
+                    </div>
 
-                    </tbody>
-                    <tfoot>
-                        <?php if ($vat == 1) { ?>
+                    <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
+                    <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
+                        <?php if ($customerneed['groupcustomer'] != 1) { ?>
+                            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+                            เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+                            50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
+                        <?php } else { ?>
+                            <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+                            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+                            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
+                        <?php } ?>
+
+                    </div>
+                    <table class="table table-bordered" style=" width: 100%; border: solid 1px #000000;" border="1" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th colspan="5" style="font-family: THSarabun;font-size: 18px; text-align: left; padding: 5px;">
+                                    ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
+                                    ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
+                                    เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
+                                    โทร. <?php echo $customerneed['tel'] ?>
+                                    <div style=" float: right; padding: 5px;">
+                                        เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; font-family: THSarabun;font-size: 18px;">No</th>
+                                <th style="text-align: center; font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวนเงิน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sum = 0;
+                            $i = 0;
+                            
+                            foreach ($billdetail as $rs): $i++;
+                            
+                                $totalRow = $rs['amount'];
+                                $sum = $sum + $totalRow;
+                                //เช็คการเก็บขยะ
+                                //if ($rs['status'] == 1) {
+                                ?>
+
+                                <?php //} ?>
+                            <?php endforeach; ?>
+                            <tr>
+                                <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1</td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่ากำจัดขยะติดเชื้อตามแบบยืนเข้าจัดเก็บเลขที่ <?php echo $confirm['confirmformnumber'] ?></td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"> 1 เดือน</td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+
                             <tr>
                                 <th colspan="3" style="text-align:center;"></th>
-                                <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                                <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาค่าบริการ</th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                    <?php echo number_format($sum, 2); ?>
+                                    <?php
+                                    echo number_format($money- $vatbath, 2);
+                                    ?>
                                 </th>
                             </tr>
                             <tr>
                                 <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักส่วนลด</font></th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
                             </tr>
                             <tr>
@@ -686,7 +353,7 @@ $vatbath = 0;
                             </tr>
                             <tr>
                                 <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
-                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><font style=" text-decoration: underline;">หักเงินมัดจำ</font></th>
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
                             </tr>
                             <tr>
@@ -700,55 +367,390 @@ $vatbath = 0;
                                 <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
                                     <?php
                                     //คำนวน vat
-                                    $vatbath = (($sumDeposit * 7) / 100);
-                                    echo number_format($vatbath, 2);
+                                    if ($vat == 0) {
+                                        $vatbath = (($sumDeposit * 7) / 100);
+                                        echo number_format($vatbath, 2);
+                                    } else {
+                                        $productPrice = ($money * 100) / 107;
+                                        $vatbath = $money - $productPrice;
+                                        echo number_format($vatbath, 2);
+                                    }
                                     ?>
                                 </th>
                             </tr>
+
+                            <tr>
+                                <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                                    <?php
+    //if ($vattype == 1) {//vat ลบ
+    //$sumVat = ($sum - $vatbath);
+    //} else if ($vattype == 2) {// vat เพิ่ม
+                                    $sumVat = ($sumDeposit + $vatbath);
+    //} else {
+    //$sumVat = $sum;
+    //}
+                                    echo "(" . $Config->Convert($sumVat) . ")";
+                                    ?>
+                                </th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px; text-align: left;">
+                                    <b>ชำระเงินโดย</b>
+                                    <ul>
+                                        <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
+                                        <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
+                                    <br/>
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
+                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับเงิน</div>
+                                </th>
+                                <th colspan="2" style="font-family: THSarabun;font-size: 18px; padding: 5px;">
+                                    <br/>
+                                    <div style=" text-align: left; padding-left: 5px;">ลงชื่อ</div>
+                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
+                                </th>
+                            </tr>
+
+                        </tfoot>
+                    </table>
+                </div>
+            <?php endif;?>
+            <!-- ------------เป็นกิโลกรัมละ------------ -->
+            <!-- <?php if($customerneed['priceperweight']>0):?>
+
+                <?php if ($status > 0) { ?>
+                    <div style=" width: 100%; background: #ffffff; position: relative;">
+                        <button type="button" class="btn btn-default" onclick="printDiv('invoicesetvat')"><i class="fa fa-print"></i> พิมพ์ใบแจ้งหนี้</button>
+                    </div>
+                <?php } ?>
+                <div style="background:#ffffff; padding:10px; position: relative;" id="invoicesetvat">
+                    <div style="width:50%; left:20px;  position:absolute;">
+                        <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
+                    </div>
+
+                    <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun; font-size: 18px;">
+                        เลขที่ <?php echo $invnumber ?><br/>
+                        อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
+                        <div class="divInvoice" style=" display: none;">
+                            <?php if ($status > 0) { ?>
+                                วันที่ <?php echo $Config->thaidate($invoicedetail['dateinvoice']) ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
+                    <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
+                        <?php if ($customerneed['groupcustomer'] != 1) { ?>
+                            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+                            เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+                            50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
+                        <?php } else { ?>
+                            <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+                            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+                            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
                         <?php } ?>
-                        <tr>
-                            <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                <?php
-//if ($vattype == 1) {//vat ลบ
-//$sumVat = ($sum - $vatbath);
-//} else if ($vattype == 2) {// vat เพิ่ม
-                                $sumVat = ($sumDeposit + $vatbath);
-//} else {
-//$sumVat = $sum;
-//}
-                                echo "(" . $Config->Convert($sumVat) . ")";
+
+                    </div>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
+                                    ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
+                                    ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
+                                    เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
+                                    โทร. <?php echo $customerneed['tel'] ?>
+                                    <div class="pull-right">
+                                        เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
+                                    </div>
+                                </th>
+                            </tr>
+                        
+                            <tr>
+                                <th style="text-align: center;font-family: THSarabun;font-size: 18px;">No</th>
+                                <th style="font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">ราคารวมภาษี</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sum = 0;
+                            $i = 0;
+                        
+                            foreach ($billdetail as $rs): $i++;
+                                $totalRow = $rs['amount']*$money;
+                                $sum = $sum + $totalRow;
                                 ?>
-                            </th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
-                            <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
-                        </tr>
-                        <tr>
-                            <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
-                                <b>ชำระเงินโดย</b>
-                                <ul>
-                                    <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
-                                    <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
-                                </ul>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="3" style="font-family: THSarabun;font-size: 18px;">
-                                <br/>
-                                ลงชื่อ
-                                <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                                <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับเงิน</div>
-                            </th>
-                            <th colspan="2" style="font-family: THSarabun;font-size: 18px;">
-                                <br/>
-                                ลงชื่อ
-                                <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
-                                <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
-                            </th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div><!-- End แยก vat -->
+                                <tr>
+                                    <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
+                                    <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep']);?> เวลา <?php echo $rs['timekeepin'];?>
+                                    <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($rs['amount'], 2) ?> </td>
+                                    <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
+                                    <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                        <tfoot>
+                            <?php 
+                                $sumDiscount = ($sum - $invoicedetail['discount']);
+                                $sumDeposit = ($sumDiscount - $invoicedetail['deposit']);
+                                
+                            ?>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หมายเหตุ</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                        <?php
+                                        echo number_format($sum,2);
+                                        ?>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">1.กรุณาโอเงินผ่านธนาคารไทยพาณิชย์ บัญชีออมทรัพย์</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ชื่อบัญชี บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">เลขบัญชี 372-259936-7</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">2.ส่งหลักฐานการชำระเงินระบุชื่อบริษัทและเดือนที่ชำระค่าบริการให้ชัดเจนส่งมาที่</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                        LineID:@icqualitysystem หรือทาง E-Mail:icquality@icqs.net
+                                    </th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                        <?php
+                                        //คำนวน vat
+                                        $vatbath = (($sumDeposit * 7) / 100);
+                                        echo number_format($vatbath, 2);
+                                        ?>
+                                    </th>
+                                </tr>
+                           
+                            <tr>
+                                <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">
+                                    <?php
+                                        $sumVat = ($sumDeposit + $vatbath);
+                                        echo "(" . $Config->Convert($sum) . ")";
+                                    ?>
+                                </th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
+                            </tr>
+
+                            <tr>
+                                <th colspan="5">
+                                    <div style="width: 30%; float: left; margin-right: 40px;font-family: THSarabun;font-size: 18px;">
+                                        <br/>
+                                        ลงชื่อ
+                                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                        <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับวางบิล</div>
+                                    </div>
+                                    <div style="width: 30%; float: left;font-family: THSarabun;font-size: 18px;">
+                                        <br/>
+                                        ลงชื่อ
+                                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
+                                        <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้วางบิล</div>
+                                    </div>
+                                    <div style="width: 30%; float: right;font-family: THSarabun;font-size: 18px;">
+                                        <br/>
+                                        ลงชื่อ
+                                        <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;font-size: 18px;"></div><br/>
+                                        <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
+                                    </div>
+
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /////////////////////// BillPromise ///////////////////////////-->
+                <!-- <br/>
+                <?php if ($status > 0) { ?>
+                    <button type="button" onclick="printDiv('billsubpromise')"><i class="fa fa-print"></i> พิมพ์ใบเสร็จ</button>
+                <?php } ?>
+                <div style="background:#ffffff; padding:10px; position: relative;" id="billsubpromise">
+                    <div style="width:50%; left:20px;  position:absolute;">
+                        <img src="<?php echo Url::to('@web/web/images/logo-dark.png') ?>" style="width:100px;"/><br/><br/>
+                    </div>
+
+                    <div style="width:30%; right:20px; text-align: right;position:absolute;font-family: THSarabun;font-size: 18px;">
+                        เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
+                        อ้างอิงจากใบเสนอราคา <?php echo $customerneed['NO'] ?><br/>
+                        <div class="divBill" style=" display: none;">
+                            <?php if ($status > 0) { ?>
+                                วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
+                    <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
+                        <?php if ($customerneed['groupcustomer'] != 1) { ?>
+                            <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
+                            เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
+                            50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564<br/><br/>
+                        <?php } else { ?>
+                            <b></b>ไอซี ควอลิตี้ ซิสเท็ม<br/>
+                            IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
+                            เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
+                            12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
+                            โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564<br/><br/>
+                        <?php } ?>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="5" style="font-family: THSarabun;font-size: 18px;">
+                                    ชื่อลูกค้า <?php echo $customerneed['customername'] ?><br/>
+                                    ที่อยู่ <?php echo 'ตำบล / แขวง ' . $customerneed['tambon_name'] . ' อำเภอ ' . $customerneed['ampur_name'] . ' จังหวัด ' . $customerneed['changwat_name'] . ' ' . $customerneed['zipcode'] ?><br/>
+                                    เลขประจำตัวผู้เสียภาษี:<?php //echo $customerneed['taxnumber'] ?><br/>
+                                    โทร. <?php echo $customerneed['tel'] ?>
+                                    <div class="pull-right">
+                                        เครดิต  <?php echo ($invoicedetail['credit']) ? $invoicedetail['credit'] : "...... " ?> วัน
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center; font-family: THSarabun;font-size: 18px;">No</th>
+                                <th style="text-align: center; font-family: THSarabun;font-size: 18px;">รายละเอียด</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">จำนวน</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">หน่วยละ</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;">ราคารวมภาษี</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $sum = 0;
+                            $i = 0;
+                            foreach ($billdetail as $rs): $i++;
+                            $totalRow = $rs['amount']*$money;
+                            $sum = $sum + $totalRow;
+                            ?>
+                            <tr>
+                                <td style="text-align: center;font-family: THSarabun;font-size: 18px; padding:0px 5px;"><?php echo $i ?></td>
+                                <td style="font-family: THSarabun;font-size: 18px; padding: 0px 5px;">ค่าเก็บขยะวันที่ <?php echo $Config->thaidate($rs['datekeep'])?> เวลา <?php echo $rs['timekeepin']?>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($rs['amount'], 2) ?> </td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($money, 2) ?></td>
+                                <td style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($totalRow, 2) ?></td>
+                            </tr>
+                                <?php //}  ?>
+                            <?php endforeach; ?>
+
+                        </tbody>
+                        <tfoot>
+                            <?php if ($vat == 1) { ?>
+                                <tr>
+                                    <th colspan="3" style="text-align:center;"></th>
+                                    <th style="text-align:right; font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ราคาสุทธิค่าบริการ</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                                        <?php echo number_format($sum, 2); ?>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักส่วนลด</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['discount'], 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนหลังหักส่วนลด</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDiscount, 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">หักเงินมัดจำ</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($invoicedetail['deposit'], 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:left;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"></th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;">จำนวนเงินหลังหักมัดจำ</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px; padding: 0px 5px;"><?php echo number_format($sumDeposit, 2) ?></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3" style="text-align:center;"></th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">ภาษีมูลค่าเพิ่ม 7%</th>
+                                    <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                                        <?php
+                                        //คำนวน vat
+                                        $vatbath = (($sumDeposit * 7) / 100);
+                                        echo number_format($vatbath, 2);
+                                        ?>
+                                    </th>
+                                </tr>
+                            <?php } ?>
+                            <tr>
+                                <th colspan="3" style="text-align:center;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                                    <?php
+
+                                    $sumVat = ($sumDeposit + $vatbath);
+
+                                    echo "(" . $Config->Convert($sumVat) . ")";
+                                    ?>
+                                </th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;">จำนวนเงินทั้งสิ้น</th>
+                                <th style="text-align:right;font-family: THSarabun;font-size: 18px;padding: 0px 5px;"><?php echo number_format($sumVat, 2) ?></th>
+                            </tr>
+                            <tr>
+                                <th colspan="5" style="font-family: THSarabun;font-size: 18px;padding: 0px 5px;">
+                                    <b>ชำระเงินโดย</b>
+                                    <ul>
+                                        <li><input type="radio" name="payment" id="payment"/> ชำระเงินสด</li>
+                                        <li><input type="radio" name="payment" id="payment"/> โอนผ่านบัญชีธนาคาร</li>
+                                    </ul>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" style="font-family: THSarabun;font-size: 18px;">
+                                    <br/>
+                                    ลงชื่อ
+                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้รับเงิน</div>
+                                </th>
+                                <th colspan="2" style="font-family: THSarabun;font-size: 18px;">
+                                    <br/>
+                                    ลงชื่อ
+                                    <div style="margin-top:0px; border-bottom:#999999 dotted 1px; color:#999999;"></div><br/>
+                                    <div style="text-align:center;font-family: THSarabun;font-size: 18px;">ผู้มีอำนาจลงนาม</div>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            <?php endif;?> -->
+        </div>
+
+      
+        
     </div>
 </div>
 <?php
@@ -763,7 +765,7 @@ $vatbath = 0;
         $("#boxtypebill").css({"height": h - 313, "overflow-x": "hidden"});
 
         var status = "<?php echo $status ?>";
-        console.log("status-"+status);
+       
         if (status == 1) {
             $("#dateinvoice").attr("disabled", "disabled");
             $("#datebill").attr("disabled", "disabled");
@@ -771,7 +773,7 @@ $vatbath = 0;
             $("#deposit").attr("disabled", "disabled");
             $("#credit").attr("disabled", "disabled");
         } else {
-            $("#discount").attr("disabled", "disabled");
+            $("#discount").removeAttr("disabled");
             $("#dateinvoice").removeAttr("disabled");
             $("#datebill").removeAttr("disabled");
         }
@@ -806,7 +808,7 @@ $vatbath = 0;
             vat: "<?php echo $vat ?>",
             customerneedid: customerneedid
         };
-        //console.log(data);
+        console.log(data);
 
         $.post(url, data, function(datas) {
             //getInvoice();

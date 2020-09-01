@@ -132,4 +132,24 @@ if($invoice){
             $("#money").focus();
         } 
     }
+
+    function popupFormbillNotextbox(confirmid, priceperweight) {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['service/servicepertime/createbillpopup']) ?>";
+        var money = priceperweight;
+        var invoice = "<?php echo $invoice['id'];?>";
+        if(money || invoice != "")
+        {
+            var data = {
+                confirmid:confirmid,
+                money: money
+            };
+            $.post(url, data, function(datas) {
+                $("#createbill").html(datas);
+            });
+        }
+        else{
+            alert("กรุณากรอกจำนวนเงินก่อน");
+            $("#money").focus();
+        } 
+    }
 </script>
