@@ -90,7 +90,7 @@ class Customers extends \yii\db\ActiveRecord {
             //'longitude' => 'ลองจิจูด',
             'timework' => 'เวลาทำการ',
             'lineid' => 'Line id',
-            'grouptype' => 'ประเภทกลุ่มลูกค้า'
+            'grouptype' => 'กลุ่มลูกค้า'
         ];
     }
 

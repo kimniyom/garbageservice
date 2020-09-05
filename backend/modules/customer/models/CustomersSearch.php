@@ -10,69 +10,73 @@ use yii\data\ActiveDataProvider;
  * CustomersSearch represents the model behind the search form of `app\modules\customer\models\Customers`.
  */
 class CustomersSearch extends Customers {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function rules() {
-		return [
-			//[['id'], 'integer'],
-			[['company', 'taxnumber'], 'safe']
-		];
-	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function scenarios() {
-		// bypass scenarios() implementation in the parent class
-		return Model::scenarios();
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function rules() {
+        return [
+            //[['id'], 'integer'],
+            [['company', 'taxnumber', 'type', 'grouptype'], 'safe']
+        ];
+    }
 
-	/**
-	 * Creates data provider instance with search query applied
-	 *
-	 * @param array $params
-	 *
-	 * @return ActiveDataProvider
-	 */
-	public function search($params) {
-		$query = Customers::find();
+    /**
+     * {@inheritdoc}
+     */
+    public function scenarios() {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
 
-		// add conditions that should always apply here
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params) {
+        $query = Customers::find();
 
-		$dataProvider = new ActiveDataProvider([
-			'query' => $query,
-			'sort' => ['attributes' => ['company', 'taxnumber']]
-		]);
+        // add conditions that should always apply here
 
-		$this->load($params);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => ['attributes' => ['company', 'taxnumber', 'type', 'grouptype']]
+        ]);
 
-		if (!$this->validate()) {
-			// uncomment the following line if you do not want to return any records when validation fails
-			// $query->where('0=1');
-			return $dataProvider;
-		}
+        $this->load($params);
 
-		// grid filtering conditions
-		$query->andFilterWhere([
-			'id' => $this->id,
-			'create_date' => $this->create_date,
-			'update_date' => $this->update_date,
-		]);
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
 
-		$query->andFilterWhere(['like', 'company', $this->company])
-			->andFilterWhere(['like', 'taxnumber', $this->taxnumber])
-			->andFilterWhere(['like', 'address', $this->address])
-			->andFilterWhere(['like', 'changwat', $this->changwat])
-			->andFilterWhere(['like', 'ampur', $this->ampur])
-			->andFilterWhere(['like', 'tambon', $this->tambon])
-			->andFilterWhere(['like', 'zipcode', $this->zipcode])
-			->andFilterWhere(['like', 'manager', $this->manager])
-			->andFilterWhere(['like', 'tel', $this->tel])
-			->andFilterWhere(['like', 'telephone', $this->telephone])
-			->andFilterWhere(['like', 'flag', $this->flag])
-			->andFilterWhere(['like', 'approve', $this->approve]);
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'create_date' => $this->create_date,
+            'update_date' => $this->update_date,
+        ]);
 
-		return $dataProvider;
-	}
+        $query->andFilterWhere(['like', 'company', $this->company])
+                ->andFilterWhere(['like', 'taxnumber', $this->taxnumber])
+                ->andFilterWhere(['like', 'address', $this->address])
+                ->andFilterWhere(['like', 'changwat', $this->changwat])
+                ->andFilterWhere(['like', 'ampur', $this->ampur])
+                ->andFilterWhere(['like', 'tambon', $this->tambon])
+                ->andFilterWhere(['like', 'zipcode', $this->zipcode])
+                ->andFilterWhere(['like', 'manager', $this->manager])
+                ->andFilterWhere(['like', 'tel', $this->tel])
+                ->andFilterWhere(['like', 'telephone', $this->telephone])
+                ->andFilterWhere(['like', 'flag', $this->flag])
+                ->andFilterWhere(['like', 'type', $this->type])
+                ->andFilterWhere(['like', 'grouptype', $this->grouptype])
+                ->andFilterWhere(['like', 'approve', $this->approve]);
+
+        return $dataProvider;
+    }
+
 }

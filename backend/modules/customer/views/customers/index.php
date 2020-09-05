@@ -3,6 +3,9 @@
 //use yii\grid\GridView;
 use kartik\grid\GridView;
 use app\modules\customer\models\Customers;
+use app\models\Typecustomer;
+use app\models\Groupcustomer;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\Html;
 
@@ -42,6 +45,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function($model) {
                     return ($model->taxnumber) ? $model->taxnumber : '<p class="text-danger">ยังไม่ได้กำหนด</p>';
+                }
+            ],
+            [
+                'attribute' => 'grouptype',
+                'headerOptions' => ['style' => 'word-wrap: break-word;'],
+                'contentOptions' => [
+                    'style' => 'word-wrap: break-word;'
+                ],
+                //'format' => 'html',
+                'filter' => ArrayHelper::map(Groupcustomer::find()->all(), 'id', 'groupcustomer'), //กำหนด filter แบบ dropDownlist จากข้อมูล ใน field แบบ foreignKey
+                'value' => function($model) {
+                    return Groupcustomer::findOne(["id" => $model->grouptype])['groupcustomer'];
+                }
+            ],
+            [
+                'attribute' => 'type',
+                'headerOptions' => ['style' => 'word-wrap: break-word;'],
+                'contentOptions' => [
+                    'style' => 'word-wrap: break-word;'
+                ],
+                //'format' => 'html',
+                'filter' => ArrayHelper::map(Typecustomer::find()->all(), 'id', 'typename'), //กำหนด filter แบบ dropDownlist จากข้อมูล ใน field แบบ foreignKey
+                'value' => function($model) {
+                    return Typecustomer::findOne(["id" => $model->type])['typename'];
                 }
             ],
             //'address',
