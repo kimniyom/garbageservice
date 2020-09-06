@@ -525,6 +525,7 @@ exit();
                     promise.distcountbath,
                     promise.total,
                     promise.fine,
+                    promise.contracktor,
                     promise.payment,
                     promise.vattype,
                     customers.company,

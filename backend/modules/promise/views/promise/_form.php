@@ -219,17 +219,20 @@ for ($i = 1; $i <= 36; $i++) {
                                 ]);
                                 ?>
 
+                               
+                            </div>
+                            <div class="col-md-4 col-lg-4" >
                                 <?php
-                                /*
-                                  echo $form->field($model, 'payment')->dropDownList([
-                                  "" => "== กรุณาเลือก ==",
-                                  0 => 'แบ่งจ่ายรายเดือน / รายครั้ง',
-                                  1 => 'เหมาจ่าย',
-                                  ], [
-                                  'onchange' => 'setDistcount()',
-                                  ])
-                                 */
-                                ?>
+                                
+                                    echo $form->field($model, 'contracktor')->dropDownList([
+                                   
+                                    1 => 'นายนิติพัฒน์   วงศ์ศิริธร',
+                                    2 => 'นายอาทิตย์   บุญเคน',
+                                    ], [
+                                    
+                                    ])
+                               
+                              ?>
                             </div>
                         </div>
 

@@ -185,6 +185,19 @@ $deposit = array();
                                 ])
                                 ?>
                             </div>
+                            <div class="col-md-4 col-lg-4" >
+                                <?php
+                                
+                                    echo $form->field($model, 'contracktor')->dropDownList([
+                                    
+                                    1 => 'นายนิติพัฒน์   วงศ์ศิริธร',
+                                    2 => 'นายอาทิตย์   บุญเคน',
+                                    ], [
+                                    
+                                    ])
+                               
+                              ?>
+                            </div>
                         </div>
 
                         <div class="row">

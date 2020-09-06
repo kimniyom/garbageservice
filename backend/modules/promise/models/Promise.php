@@ -31,6 +31,7 @@ use Yii;
  * @property string $witness1 พยานคนที่ 1
  * @property string #witness2 พยานคนที่ 2
  * @property string #vattype
+ * @property int|null $contracktor 1=นายนิติพัฒน์ 2 = นายอาทิตย์
  * */
 class Promise extends \yii\db\ActiveRecord {
 
@@ -46,7 +47,7 @@ class Promise extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'payment', 'createat'], 'required'],
+            [['customerid', 'promisedatebegin', 'promisedateend', 'vat', 'payment', 'createat', 'contracktor'], 'required'],
             ['payperyear', 'required', 'when' => function ($model) {
                     return $model->recivetype == 3;
                 }, 'whenClient' => "function (attribute, value) {
@@ -142,7 +143,7 @@ class Promise extends \yii\db\ActiveRecord {
                 }],
             [['promisenumber', 'employer1', 'employer2', 'witness1', 'witness2'], 'string'],
             [['customerid', 'levy', 'payperyear', 'dayinweek',
-            'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment', 'vattype'], 'integer'],
+            'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment', 'vattype', 'contracktor'], 'integer'],
             [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
             [['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
             [['garbageweight', 'deposit', 'vat'], 'number'],
@@ -191,7 +192,8 @@ class Promise extends \yii\db\ActiveRecord {
             'employer2' => 'ผู้ว่าจ้างคนที่ 2',
             'witness1' => 'พยานคนที่ 1',
             'witness2' => 'พยานคนที่ 2',
-            'vattype' => 'ประเภท vat'
+            'vattype' => 'ประเภท vat',
+            'contracktor' => 'ผู้รับจ้าง',
         ];
     }
 
