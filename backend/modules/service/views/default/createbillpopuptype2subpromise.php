@@ -83,7 +83,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
                 <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customer['grouptype'] != 1) { ?>
+                    <?php if ($promise['contracktor'] == 1) { ?>
                         <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
                         IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
                         เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
@@ -294,7 +294,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
                 <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customer['grouptype'] != 1) { ?>
+                    <?php if ($promise['contracktor'] == 1) { ?>
                         <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
                         IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
                         เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
@@ -500,7 +500,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบวางบิล / ใบแจ้งหนี้</h4>
                 <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customer['grouptype'] != 1) { ?>
+                    <?php if ($promise['contracktor'] == 1) { ?>
                         <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
                         IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
                         เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
@@ -697,7 +697,7 @@ if (Yii::$app->user->identity->username == "kimniyom") {
 
                 <h4 style="text-align: center; font-family: THSarabun;font-size: 24px; font-weight: bold;">ใบเสร็จรับเงิน / ใบกำกับภาษี</h4>
                 <div style="text-align:center;font-family: THSarabun;font-size: 18px; font-weight: bold;">
-                    <?php if ($customer['grouptype'] != 1) { ?>
+                    <?php if ($promise['contracktor'] == 1) { ?>
                         <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
                         IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
                         เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>

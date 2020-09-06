@@ -27,7 +27,7 @@ $Config = new Config();
 
     <h4 style="text-align: center;">ใบวางบิล / ใบแจ้งหนี้</h4>
     <div style="text-align:center;">
-        <?php if ($type == 1) { ?>
+        <?php if ($promise['contracktor'] == 1) { ?>
             <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
             IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
             เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
@@ -85,7 +85,8 @@ $Config = new Config();
         <tfoot>
             <?php
             $vatbath = 0;
-            if ($vat == 1) { ?>
+            if ($vat == 1) {
+                ?>
                 <tr>
                     <th colspan="3" style="text-align:center;">
 
@@ -108,7 +109,7 @@ $Config = new Config();
                         ?>
                     </th>
                 </tr>
-            <?php } ?>
+<?php } ?>
             <tr>
                 <th colspan="3" style="text-align:center;">
                     <?php
@@ -150,7 +151,7 @@ $Config = new Config();
 
                 </th>
             </tr>
-            <?php if ($status <= 0) { ?>
+<?php if ($status <= 0) { ?>
                 <tr>
                     <th colspan="5">
                         <!--if($i == $promise['levy'])-->
@@ -158,10 +159,10 @@ $Config = new Config();
                             <button class="btn btn-success" type="button" onclick="saveInvoice()"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
                         <?php } else { ?>
                             <button class="btn btn-warning disabled" type="button"><i class="fa fa-info"></i> ยังไม่มีการจัดเก็บในรอบเดือน</button>
-                        <?php } ?>
+    <?php } ?>
                     </th>
                 </tr>
-            <?php } ?>
+<?php } ?>
 
         </tfoot>
     </table>
@@ -180,30 +181,30 @@ $Config = new Config();
     </div>
 
     <div style="width:30%; right:20px; text-align: right;position:absolute;">
-        เลขที่ <?php echo str_replace("INV","RE",$invnumber) ?><br/>
+        เลขที่ <?php echo str_replace("INV", "RE", $invnumber) ?><br/>
         อ้างจากสัญญา <?php echo $promise['promisenumber'] ?><br/>
         <?php if ($status > 0) { ?>
             วันที่ <?php echo $Config->thaidate($invoicedetail['datebill']) ?>
         <?php } else { ?>
             วันที่
-        <?php } ?>
+<?php } ?>
     </div>
 
     <h4 style="text-align: center;">ใบเสร็จรับเงิน</h4>
     <div style="text-align:center;">
-        <?php if ($type == 1) { ?>
+<?php if ($promise['contracktor'] == 1) { ?>
             <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด<br/>
             IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 0135557019633<br/>
             เลขที่ 50/9 หมู่ 6 ตำบล วังหลวง อำเภอ เมือง จังหวัด ปทุมธานี 12000 <br/>
             50/19 Moo 6 Bangluang , Muengpathumthani , Pathumthani 12000<br/>
             โทรศัพท์ (tel.) : 02-581-1950 , 092-641-7564 Email : icqualitysystem2019@gmail.com<br/><br/>
-        <?php } else { ?>
+<?php } else { ?>
             <b></b>บริษัทไอซี ควอลิตี้ ซิสเท็ม<br/>
             IC QUALITY SYSTEM เลขประจำตัวผู้เสียภาษีเลขที่: 1102000920966<br/>
             เลขที่ 12/1 หมู่ 8  ตำบล บางคูวัด อำเภอเมืองปทุมธานี จังหวัด ปทุมธานี 12000 <br/>
             12/1  Moo 8  Bangkuwat , Muengpathumthani , Pathumthani 12000<br/>
             โทรศัพท์ (Tel.) : 02-101-0325 , 092-641-7564 E-mail : iccqualitysystem2019@gmail.com<br/><br/>
-        <?php } ?>
+<?php } ?>
     </div>
     <table class="table table-bordered">
         <thead>
@@ -240,10 +241,10 @@ $Config = new Config();
                         <td style="text-align:right;"><?php echo number_format($totalRow, 2) ?></td>
                     </tr>
                 <?php } ?>
-            <?php endforeach; ?>
+<?php endforeach; ?>
         </tbody>
         <tfoot>
-            <?php if ($vat == 1) { ?>
+<?php if ($vat == 1) { ?>
                 <tr>
                     <th colspan="3" style="text-align:center;">
 
@@ -268,7 +269,7 @@ $Config = new Config();
                         ?>
                     </th>
                 </tr>
-            <?php } ?>
+<?php } ?>
             <tr>
                 <th colspan="3" style="text-align:center;">
                     <?php

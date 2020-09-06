@@ -91,7 +91,7 @@ for ($i = 1; $i <= 36; $i++) {
         </div>
         <div class="col-md-6 col-lg-8">
             <div class="box box-success">
-                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']           ?>)</div>
+                <div class="box-header">ข้อมูลสัญญา(<?php echo $customer['groupcus'] ?> <?php //echo $customer['grouptype']              ?>)</div>
                 <div class="box-body"  id="box-right" style=" position: relative; overflow: auto;">
                     <div class="well">
                         <?php
@@ -219,27 +219,23 @@ for ($i = 1; $i <= 36; $i++) {
                                 ]);
                                 ?>
 
-                               
+
                             </div>
                             <div class="col-md-4 col-lg-4" >
                                 <?php
-                                
-                                    echo $form->field($model, 'contracktor')->dropDownList([
-                                   
-                                    1 => 'นายนิติพัฒน์   วงศ์ศิริธร',
-                                    2 => 'นายอาทิตย์   บุญเคน',
-                                    ], [
-                                    
-                                    ])
-                               
-                              ?>
+                                echo $form->field($model, 'contracktor')->dropDownList([
+                                    1 => 'บริษัท ไอซี ควอลิตี้ซิสเท็ม จำกัด  โดย นายนิติพัฒน์   วงศ์ศิริธร',
+                                    2 => 'ไอซี ควอลิตี้ซิสเท็ม   โดย นายอาทิตย์  บุญเคน',
+                                        ], [
+                                ])
+                                ?>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-4 col-lg-5">
                                 <?= $form->field($model, 'yearunit')->hiddenInput(['value' => '1'])->label(false) ?>
-                                <?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false)  ?>
+                                <?php //$form->field($model, 'yearunit')->dropDownList($yearUnit)->label(false)   ?>
                             </div>
                         </div>
                         <div class="row">
@@ -346,14 +342,14 @@ for ($i = 1; $i <= 36; $i++) {
 
                                 <div class="col-md-6 col-lg-6">
                         <?php
-                        // echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
-                        //     'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
-                        //     'options' => ['placeholder' => 'Select a week ...'],
-                        //     'pluginOptions' => [
-                        //         'allowClear' => true,
-                        //         'multiple' => true,
-                        //     ],
-                        // ]);
+// echo $form->field($model, 'weekinmonth')->widget(Select2::classname(), [
+//     'data' => ['1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5'],
+//     'options' => ['placeholder' => 'Select a week ...'],
+//     'pluginOptions' => [
+//         'allowClear' => true,
+//         'multiple' => true,
+//     ],
+// ]);
                         ?>
                                 </div>
                             </div>
@@ -385,10 +381,10 @@ for ($i = 1; $i <= 36; $i++) {
 
                         <!-- <div class="row">
                             <div class="col-md-12 col-lg-6">
-                        <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])      ?>
+                        <?php //$form->field($model, 'status')->dropDownList(['0' => 'หมดสัญญา', '1' => 'รอยืนยัน', '2' => 'กำลังใช้งาน', '3' => 'กำลังต่อสัญญา'], ['prompt' => 'สถานะสัญญา'])       ?>
                             </div>
                             <div class="col-md-12 col-lg-6">
-                        <?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])      ?>
+                        <?php //$form->field($model, 'checkmoney')->dropDownList(['0' => 'ยังไม่ได้ชำระ', '1' => 'ชำระเงินแล้ว'], ['prompt' => 'สถานะการชำระเงิน'])       ?>
                             </div>
                         </div> -->
                         <?php if ($error) { ?>
