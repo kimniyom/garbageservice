@@ -2,41 +2,38 @@
 
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-/* @var $this yii\web\View */
-/* @var $searchModel app\modules\customerneed\models\customerneedsSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'เลือกลูกค้าก่อนทำแบบฟอร์ม';
+$this->title = 'เลือกสัญญาก่อนลงวันที่จัดเก็บ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="check-index">
     <div class="row">
         <div class="col-md-12 col-md-6">
             <?php
-echo Select2::widget([
-	'name' => 'state_10',
-	'data' => ArrayHelper::map($customerneed, "id", "customername"),
-	'options' => [
-		'placeholder' => 'เลือกลูกค้า',
-	],
-	'pluginEvents' => [
-		"select2:select" => "function(){setcustomerneedid(this.value)}",
-	],
-]);
-?>
+                echo Select2::widget([
+                    'name' => 'state_10',
+                    'data' => ArrayHelper::map($promise, "id", "promisenumber"),
+                    'options' => [
+                        'placeholder' => 'เลือกสัญญา',
+                    ],
+                    'pluginEvents' => [
+                        "select2:select" => "function(){setpromiseid(this.value)}",
+                    ],
+                ]);
+            ?>
         </div>
     </div>
-
+   
     <br/>
     <div class="row">
         <div class="col-md-4 col-md-4">
-            <button type="button" class="btn btn-primary" onclick="createconfirmform()">
+            <button type="button" class="btn btn-primary" onclick="createdatekeep()">
                 <i class="fa fa-arrow-right"></i> ถัดไป
             </button>
         </div>
     </div>
     <label id="loading"></label>
-    <input type="hidden" id="customerneedid"/>
+    <input type="hidden" id="promiseid"/>
     <div class="row" id="next" style="display: none;">
         <div class="col col-md-4 col-lg-4">
             <p style="font-size: 18px;"><i class="fa fa-check text-success"></i> ลูกค้าท่านนี้สามารถทำสัญญาได้</p>
@@ -49,24 +46,25 @@ echo Select2::widget([
             <p style="font-size: 18px; color:red;"><i class="fa fa-info text-danger"></i> ... ลูกค้าท่านนี้ยังไม่ได้รับการยืนยันจากบริษัท ไม่สามารถทำแบบยืนยันลูกค้าได้</p>
         </div>
     </div>
+        
 </div>
 
 <script type="text/javascript">
-    function setcustomerneedid(id){
-        $("#customerneedid").val(id);
+    function setpromiseid(id){
+        $("#promiseid").val(id);
         $("#next").hide();
         $("#nextfalse").hide();
     }
 
-    function createconfirmform(){
-        var customerneedid = parseInt($("#customerneedid").val());
-        console.log(customerneedid);
-        if(!customerneedid){
-            alert("ยังไม่ได้เลือกลูกค้า..!");
+    function createdatekeep(){
+        var promiseid = parseInt($("#promiseid").val());
+        console.log(promiseid);
+        if(!promiseid){
+            alert("ยังไม่ได้เลือกสัญญา..!");
             return false;
         }
-        var customerneedid = parseInt($("#customerneedid").val());
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['confirmform/confirmform/create']) ?>" + "&customerneedid=" + customerneedid ;
+        var promiseid = parseInt($("#promiseid").val());
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/index']) ?>" + "&promiseid=" + promiseid ;
         window.location=url;
         //alert(url);
     }

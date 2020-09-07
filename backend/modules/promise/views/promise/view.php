@@ -77,6 +77,7 @@ Modal::End();
                         if ($model['status'] == '2') {
                             //save pdf
                             echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-success', 'title' => 'ดาวโหลดสัญญา']);
+                            echo "&nbsp;".Html::a('เพิ่มวันเข้าจัดเก็บ', ['/datekeep/datekeep/index', 'promiseid' => $model['id']], ['class' => 'btn btn-primary']) ;
                         }
                         ?>
                         <?php if ($model['status'] == 2) { ?>
@@ -85,10 +86,10 @@ Modal::End();
                         <?php } ?>
                     </p>
                     <?php
-                    if ($model['vat'] == 1) {
+                    if ($model['vattype'] == 1) {
                         $vat = "(รวม vat 7%)";
                     } else {
-                        $vat = "";
+                        $vat = "(ไม่รวม vat 7%)";
                     }
                     ?>
 

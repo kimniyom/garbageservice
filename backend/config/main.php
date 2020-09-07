@@ -55,6 +55,9 @@ return [
         'car' => [
             'class' => 'app\modules\car\Module',
         ],
+        'datekeep' => [
+            'class' => 'app\modules\datekeep\Module',
+        ],
     ],
     'components' => [
         'view' => [

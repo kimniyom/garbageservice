@@ -45,14 +45,15 @@ if($Config->getDiscount($model['payment']) == 1 && $discountBath > 0)
 
 
 
-if ($model['vat'] == 1) {
-    $vatText = " ราคาไม่รวมภาษีมูลค่าเพิ่ม ";
+if ($model['vat'] == 1 && $model['vattype'] == 2) {
+    $vatText = " ราคานี้ ยังไม่รวม ภาษีมูลค่าเพิ่ม 7 % ";
     //$total = ($total * 100) / 107;
 } 
-// else if ($model['vat'] == 1 && $model['vattype'] == 1) {
-//     $vatText = " ราคานี้ รวมภาษีมูลค่าเพิ่ม 7% ";
+ else if ($model['vat'] == 1 && $model['vattype'] == 1) 
+ {
+     $vatText = " ราคานี้ เป็นราคา รวมภาษีมูลค่าเพิ่ม 7 % แล้ว ";
 //     $total = $total + (($total * 7) / 100);
-// }
+ }
 
 $total = number_format($total);
 $totalText = str_replace(",", "", $total);
