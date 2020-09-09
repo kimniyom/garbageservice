@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Config;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DatekeepSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,33 +20,11 @@ $Config = new Config();
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $data['dataProvider'],
-        //'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            
-            //'promiseid',
-            //'datekeep',
-            //'status',
-            [
-                'attribute' => 'datekeep',
-                'headerOptions' => ['style' => 'word-wrap: break-word;'],
-                'contentOptions' => [
-                    'style' => 'word-wrap: break-word;'
-                ],
-                'format' => 'raw',
-                'value' => function($model) {
-                    return Config::thaidate($model['datekeep']);
-                }
-            ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'header'=>'Action',
-                'template'=>'{update}{delete}'
-            ],
-        ],
-    ]); ?>
+    
 
 
+    <?= yii2fullcalendar\yii2fullcalendar::widget(array(
+        'ajaxEvents' => Url::to(['/datekeep/datekeep/jsoncalendar', 'promiseid'=>$data['promiseid']])
+        ));
+    ?>
 </div>

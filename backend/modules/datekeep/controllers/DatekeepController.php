@@ -47,10 +47,9 @@ class DatekeepController extends Controller
     public function actionIndex($promiseid)
     {
         $promise = $this->getPromise($promiseid);
-        $searchModel = new DatekeepSearch();
-        $data['searchModel'] = $searchModel;
-        $data['dataProvider'] = $searchModel->search(Yii::$app->request->queryParams);
+        $data['model'] =  Datekeep::findAll(['promiseid'=>$promiseid]);
         $data['promiseid'] = $promiseid;
+
         return $this->render('_promisedetail', [
             'promise'=> $promise,
             'data' => $data,
@@ -241,4 +240,25 @@ class DatekeepController extends Controller
 
         return Yii::$app->db->createCommand($sql)->queryOne();
     }
+
+    public function actionJsoncalendar($promiseid){
+        $times = Datekeep::findAll(['promiseid'=>$promiseid]);
+    
+        $events = array();
+        $id = 1;
+        foreach ($times AS $time){
+          //Testing
+          $Event = new \yii2fullcalendar\models\Event();
+          $Event->id = $id++;
+          $Event->title = $time->title;
+          $Event->start = date('Y-m-d\Th:m:s\Z',strtotime($time->datekeep.' '.$time->datekeep));
+          $Event->end = date('Y-m-d\Th:m:s\Z',strtotime($time->datekeep.' '.$time->datekeep));
+          $events[] = $Event;
+        }
+    
+        header('Content-type: application/json');
+        echo Json::encode($events);
+        
+        Yii::$app->end();
+      }
 }

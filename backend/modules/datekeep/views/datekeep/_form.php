@@ -11,6 +11,7 @@ use kartik\date\DatePicker;
 <div class="datekeep-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <div class="row">
         <div class="col-md-6 col-lg-5">
             <?=
@@ -22,6 +23,13 @@ use kartik\date\DatePicker;
                     'options' => ['class' => 'form-control', 'autocomplete' => 'off']]);
             ?>
         </div>
+
+        
+
+        
+
+            
+
     </div>
 
     

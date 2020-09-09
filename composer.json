@@ -35,7 +35,9 @@
         "paragonie/random_compat": "~1.1",
         "kartik-v/yii2-widget-timepicker": "dev-master",
         "kartik-v/yii2-dialog": "dev-master",
-        "developit/yii2-captcha": "*"
+        "developit/yii2-captcha": "*",
+        "philippfrenzel/yii2fullcalendar": "*"
+        
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -53,6 +55,7 @@
         "kartik-v/yii2-widgets": "*",
         "2amigos/yii2-ckeditor-widget" : "~2.1",
         "yiisoft/yii2-imagine": "*"
+        
     },
     "config": {
         "process-timeout": 1800,
