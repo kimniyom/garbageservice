@@ -28,11 +28,12 @@ use app\models\Config;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 use app\modules\customer\models\Customers;
+use app\models\Packagepayment;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\promise\models\PromiseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$Config = new Config();
 $this->title = 'สัญญา(' . $groupname . ")";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -43,64 +44,161 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('ทำสัญญา', ['beforecreate', 'group' => $group], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <ul class="list-group">
-        <?php if ($promise) { ?>
-            <?php foreach ($promise as $rs): 
-                if($rs['status'] != 0){
-                ?>
-                <li class="list-group-item" style=" font-weight: bold;">
-                    <?php
-                    $Customer = new Customers();
-                    echo "(" . $rs['promisenumber'] . ")";
-                    echo $Customer->findOne(['id' => $rs['customerid']])['company'];
+    <div class="nav-tabs-custom" style=" margin-bottom: 0px;">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#detail" data-toggle="tab">แบบขั้นตอน</a></li>
+            <li><a href="#table"  data-toggle="tab">แบบตาราง</a></li>
 
-                    $sql = "select * from promisefile where promiseid = '" . $rs['id'] . "'";
-                    $checkfile = Yii::$app->db->createCommand($sql)->queryScalar();
-                    if ($rs['flag'] == "1") {
-                        $link = \yii\helpers\Url::to(['promise/viewsubpromise', 'id' => $rs['id']]);
-                    } else {
-                        $link = \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]);
-                    }
-                    ?>
-                </li>
-                <?php if ($rs['status'] != '4') { ?>
-                    <li class="list-group-item">
-                        <div class="row bs-wizard" style="border-bottom:0;">
-                            <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] > 0) ? "complete" : "disabled"; ?>">
-                                <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] > 0) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
-                                <div class="progress"><div class="progress-bar"></div></div>
-                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
-                                <div class="bs-wizard-info text-center"></div>
-                            </div>
+        </ul>
+        <div class="tab-content padding" id="box-content">
+            <div class="chart tab-pane active" id="detail">
+                <ul class="list-group">
+                    <?php if ($promise) { ?>
+                        <?php
+                        foreach ($promise as $rs):
+                            if ($rs['status'] != 0) {
+                                ?>
+                                <li class="list-group-item" style=" font-weight: bold;">
+                                    <?php
+                                    $Customer = new Customers();
+                                    echo "(" . $rs['promisenumber'] . ")";
+                                    echo $Customer->findOne(['id' => $rs['customerid']])['company'];
 
-                            <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "complete" : "disabled"; ?>"><!-- complete -->
-                                <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ตรวจสอบบ / อัพโหลดสัญญา</div>
-                                <div class="progress"><div class="progress-bar"></div></div>
-                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
-                                <div class="bs-wizard-info text-center"></div>
-                            </div>
+                                    $sql = "select * from promisefile where promiseid = '" . $rs['id'] . "'";
+                                    $checkfile = Yii::$app->db->createCommand($sql)->queryScalar();
+                                    if ($rs['flag'] == "1") {
+                                        $link = \yii\helpers\Url::to(['promise/viewsubpromise', 'id' => $rs['id']]);
+                                    } else {
+                                        $link = \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]);
+                                    }
+                                    ?>
+                                </li>
+                                <?php if ($rs['status'] != '4') { ?>
+                                    <li class="list-group-item">
+                                        <div class="row bs-wizard" style="border-bottom:0;">
+                                            <div class="col-xs-4 bs-wizard-step <?php echo ($rs['status'] > 0) ? "complete" : "disabled"; ?>">
+                                                <div class="text-center bs-wizard-stepnum <?php echo ($rs['status'] > 0) ? "text-success" : "text-danger"; ?>">สร้าง / แก้ไข</div>
+                                                <div class="progress"><div class="progress-bar"></div></div>
+                                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
+                                                <div class="bs-wizard-info text-center"></div>
+                                            </div>
 
-                            <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "active" : "disabled"; ?>"><!-- complete -->
-                                <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ทำสัญญาสำเร็จ</div>
-                                <div class="progress"><div class="progress-bar"></div></div>
-                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
-                                <div class="bs-wizard-info text-center"></div>
-                            </div>
-                        </div>
-                    </li>
-                <?php } else { ?>
-                    <li class="list-group-item text-danger">
-                        <i class="fa fa-remove"></i> ยกเลิกสัญญา<br/>
-                        เหตุผลการยกเลิก <?php echo $rs['etc'] ?>
-                    </li>
-                <?php } ?>
-                <?php } ?>
-            <?php endforeach; ?>
-        <?php } else { ?>
-            <li class="list-group-item" style=" text-align: center;">ยังไม่มีรายการ</li>
-            <?php } ?>
-    </ul>
-    <?php // echo $this->render('_search', ['model' => $searchModel]);   ?>
+                                            <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "complete" : "disabled"; ?>"><!-- complete -->
+                                                <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ตรวจสอบบ / อัพโหลดสัญญา</div>
+                                                <div class="progress"><div class="progress-bar"></div></div>
+                                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
+                                                <div class="bs-wizard-info text-center"></div>
+                                            </div>
+
+                                            <div class="col-xs-4 bs-wizard-step <?php echo ($checkfile >= 1) ? "active" : "disabled"; ?>"><!-- complete -->
+                                                <div class="text-center bs-wizard-stepnum <?php echo ($checkfile >= 1) ? "text-success" : "text-danger"; ?>">ทำสัญญาสำเร็จ</div>
+                                                <div class="progress"><div class="progress-bar"></div></div>
+                                                <a href="<?php echo $link ?>" class="bs-wizard-dot"></a>
+                                                <div class="bs-wizard-info text-center"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <?php } else { ?>
+                                    <li class="list-group-item text-danger">
+                                        <i class="fa fa-remove"></i> ยกเลิกสัญญา<br/>
+                                        เหตุผลการยกเลิก <?php echo $rs['etc'] ?>
+                                    </li>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php endforeach; ?>
+                    <?php } else { ?>
+                        <li class="list-group-item" style=" text-align: center;">ยังไม่มีรายการ</li>
+                    <?php } ?>
+                </ul>
+            </div>
+            <div class="chart tab-pane" id="table">
+                <table class="table table-bordered table-striped" id="promise">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>เลขสัญญา</th>
+                            <th>ลูกค้า</th>
+                            <th>วันที่ทำสัญญา</th>
+                            <th>วันที่เริ่มสัญญา</th>
+                            <th>วันที่สิ้นสุดสัญญา</th>
+                            <th>การชำระเงิน</th>
+                            <th style=" text-align: center">จำนวนครั้ง / เดือน</th>
+                            <th>ติดต่อ</th>
+                            <th>เบอร์โทรศัพท์</th>
+                            <th>จังหวัด</th>
+                            <th>สถานะ</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($promise) { ?>
+                            <?php
+                            $i = 0;
+                            foreach ($promise as $rs):
+                                if ($rs['status'] != 0) {
+                                    $i++;
+                                    $Customer = new Customers();
+                                    //$customerData = $Customer->findOne(['id' => $rs['customerid']]);
+                                    $customerSql = "SELECT *
+                                                            FROM customers c INNER JOIN changwat p ON c.changwat = p.changwat_id
+                                                            WHERE c.id = '" . $rs['customerid'] . "' ";
+                                    $customerData = Yii::$app->db->createCommand($customerSql)->queryOne();
+                                    $sql = "select * from promisefile where promiseid = '" . $rs['id'] . "'";
+                                    $checkfile = Yii::$app->db->createCommand($sql)->queryScalar();
+                                    if ($rs['flag'] == "1") {
+                                        $link = \yii\helpers\Url::to(['promise/viewsubpromise', 'id' => $rs['id']]);
+                                    } else {
+                                        $link = \yii\helpers\Url::to(['promise/view', 'id' => $rs['id']]);
+                                    }
+
+                                    $status = "";
+                                    if ($rs['status'] == 1) {
+                                        $class = "text-warning";
+                                        $status = "รอยืนยัน";
+                                    } else if ($rs['status'] == 2) {
+                                        $class = "text-success";
+                                        $status = "กำลังใช้งาน";
+                                    } else if ($rs['status'] == 3) {
+                                        $class = "text-info";
+                                        $status = "กำลังต่อสัญญา";
+                                    } else if ($rs['status'] == 4) {
+                                        $class = "text-danger";
+                                        $status = "ยกเลิกสัญญา";
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i ?></td>
+                                        <td><?php echo $rs['promisenumber'] ?></td>
+                                        <td><?php echo $customerData['company'] ?></td>
+                                        <td><?php echo $Config->thaidate($rs['createat']) ?></td>
+                                        <td><?php echo $Config->thaidate($rs['promisedatebegin']) ?></td>
+                                        <td><?php echo $Config->thaidate($rs['promisedateend']) ?></td>
+                                        <td><?php echo Packagepayment::findOne(['id' => $rs['payment']])['payment'] ?></td>
+                                        <td><?php echo $rs['levy'] ?></td>
+                                        <td><?php echo $customerData['manager'] ?></td>
+                                        <td>
+                                            <?php echo ($customerData['tel']) ? $customerData['tel'] : ""; ?>
+                                            <?php echo ($customerData['telephone']) ? "," . $customerData['telephone'] : ""; ?>
+                                        </td>
+                                        <td><?php echo $customerData['changwat_name'] ?></td>
+                                        <td class="<?php echo $class ?>"><?php echo $status ?></label></td>
+                                        <td><a href="<?php echo $link ?>">รายละเอียด</a></td>
+                                    </tr>
+                                <?php } ?>
+                            <?php endforeach; ?>
+                        <?php } else { ?>
+                            <tr>
+                                <td colspan="12">ยังไม่มีรายการ</td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]);       ?>
 
     <?php
     /*
@@ -207,3 +305,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+<?php
+$this->registerJs("
+        setBox();
+         $('#promise').DataTable({
+                'paging'      : true,
+                'lengthChange': true,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : false,
+                'autoWidth'   : false
+              })
+        ");
+?>
+<script type="text/javascript">
+    function setBox() {
+        var h = window.innerHeight;
+        $("#box-content").css({"height": h - 210});
+        //$("#paper").css({"height": h - 260});
+        //$("#createbill").css({"height": h - 200, "overflow-x": "hidden"});
+    }
+</script>
