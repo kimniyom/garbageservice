@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <li><a href="#table"  data-toggle="tab">แบบตาราง</a></li>
 
         </ul>
-        <div class="tab-content padding" id="box-content">
+        <div class="tab-content padding" id="box-content" >
             <div class="chart tab-pane active" id="detail">
                 <ul class="list-group">
                     <?php if ($promise) { ?>
@@ -321,7 +321,7 @@ $this->registerJs("
 <script type="text/javascript">
     function setBox() {
         var h = window.innerHeight;
-        $("#box-content").css({"height": h - 210});
+        $("#box-content").css({"height": h - 210, "overflow-x": "hidden"});
         //$("#paper").css({"height": h - 260});
         //$("#createbill").css({"height": h - 200, "overflow-x": "hidden"});
     }
