@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use app\models\Config;
+$Config = new Config();
 /* @var $this yii\web\View */
 /* @var $model app\models\Datekeep */
 
@@ -16,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     
 
     <p>
-        <?= Html::a('Update', ['update', 'promiseid' => $data['model']->promiseid, 'datekeep' => $data['model']->datekeep], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'promiseid' => $data['model']->promiseid, 'datekeep' => $data['model']->datekeep], [
+        <?//= Html::a('Update', ['update', 'promiseid' => $data['model']->promiseid, 'datekeep' => $data['model']->datekeep], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'promiseid' => $data['model']->promiseid, 'id' => $data['model']->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'ต้องการลบวันที่เข้าจัดเก็บ ?',
@@ -29,10 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $data['model'],
          'attributes' => [
-             //'promiseid',
-             'datekeep',
-             'dateend',
-             //'status',
+             
+             
+            [
+                'label' => 'วันเข้าจัดเก็บ',
+                'value' => $Config->thaidate($data['model']['datekeep']),
+            ],
          ],
      ]) ?>
 

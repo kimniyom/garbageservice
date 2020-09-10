@@ -66,10 +66,10 @@ class DatekeepController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($promiseid, $datekeep)
+    public function actionView($promiseid, $id)
     {
         $promise = $this->getPromise($promiseid);
-        $data['model'] = $this->findModel($promiseid, $datekeep);
+        $data['model'] = $this->findModel($id);
         return $this->render('_promisedetail', [
             'promise'=>$promise,
             'data' => $data,
@@ -132,22 +132,23 @@ class DatekeepController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($promiseid, $datekeep)
+    public function actionDelete($promiseid, $id)
     {
-        $this->findModel($promiseid, $datekeep)->delete();
-
+        $model = $this->findModel($id);
+        if($model->delete())
+        {
+            $promise = $this->getPromise($promiseid);
+            $data['model'] =  Datekeep::findAll(['promiseid'=>$promiseid]);
+            $data['promiseid'] = $promiseid;
         
-        $promise = $this->getPromise($promiseid);
-        $searchModel = new DatekeepSearch();
-        $data['searchModel'] = $searchModel;
-        $data['dataProvider'] = $searchModel->search(Yii::$app->request->queryParams);
-        $data['promiseid'] = $promiseid;
-        return $this->render('_promisedetail', [
-            'promise'=> $promise,
-            'data' => $data,
-            'render'=>'index',
+            return $this->render('_promisedetail', [
+                'promise'=> $promise,
+                'data' => $data,
+                'render'=>'index',
+                
+            ]);
+        }
             
-        ]);
     }
 
     /**
@@ -158,9 +159,9 @@ class DatekeepController extends Controller
      * @return Datekeep the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($promiseid, $datekeep)
+    protected function findModel($id)
     {
-        if (($model = Datekeep::findOne(['promiseid' => $promiseid, 'datekeep' => $datekeep])) !== null) {
+        if (($model = Datekeep::findOne([ 'id' => $id])) !== null) {
             return $model;
         }
 
@@ -246,14 +247,14 @@ class DatekeepController extends Controller
         $times = Datekeep::findAll(['promiseid'=>$promiseid]);
     
         $events = array();
-        $id = 1;
+        
         foreach ($times AS $time){
           //Testing
           $Event = new \yii2fullcalendar\models\Event();
-          $Event->id = $id++;
-          $Event->title = $time->title;
+          $Event->id = $time->id;
+          $Event->title = "เข้าจัดเก็บ";
           $Event->start = $time->datekeep;
-          //$Event->end = $time->dateend;
+          $Event->end = $time->datekeep;
           $events[] = $Event;
         }
     
@@ -263,16 +264,24 @@ class DatekeepController extends Controller
         Yii::$app->end();
       }
 
-    public function actionGetdatekeep()
+    public function actionSetdatekeep()
     {
         $promiseid = Yii::$app->request->post('promiseid');
         $datekeep = Yii::$app->request->post('datekeep');
 
-        $datekeep = Datekeep::findOne(['promiseid'=>$promiseid, 'datekeep'=>$datekeep]);
-        if($datekeep)
+        $model = new Datekeep();
+        $model->promiseid = $promiseid;
+        $model->datekeep = $datekeep;
+        $model->status = 0 ;
+
+        if($model->save())
         {
-            return Json::encode($datekeep);
+            return 1;
         }
-        return 0;
+        else{
+            return 0;
+        }
+      
+       
     }
 }
