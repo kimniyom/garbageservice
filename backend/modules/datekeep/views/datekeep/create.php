@@ -10,11 +10,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Datekeeps', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="datekeep-create">
-
-    
-
-    <?= $this->render('_form', [
+    <?=
+    $this->render('_form', [
         'model' => $data['model'],
-    ]) ?>
+    ])
+    ?>
 
 </div>

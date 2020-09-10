@@ -27,6 +27,7 @@ $promiseall = $promiseModel->Countpromiseall();
 $confirmformAll = $confirmFormModel->countConfirmform();
 $contInvoice = $promiseModel->contInvoice();
 $countCheckInvoice = $promiseModel->countCheckInvoice();
+$countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
 ?>
 <aside class="main-sidebar" style=" z-index: 5;">
 
@@ -122,7 +123,12 @@ $countCheckInvoice = $promiseModel->countCheckInvoice();
                             ],
                         ],
                         ['label' => 'ใบวางบิล/ใบเสร็จ', 'icon' => 'file text-warning', 'url' => ['/service/default/mainbill']],
-                        ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
+                        [
+                            'label' => 'ลูกค้าค้างชำระเงิน',
+                            'icon' => 'info text-danger',
+                            'url' => ['/service/default/outstandingpaymenall'],
+                            'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-red">' . $countInvoiceNonActive . '</small></span></a>'
+                        ],
                         [
                             'label' => 'ตรวจสอบการชำระเงิน',
                             'icon' => 'check text-success',
@@ -136,6 +142,7 @@ $countCheckInvoice = $promiseModel->countCheckInvoice();
                             'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-orange">' . $countCheckInvoice . '</small></span></a>'
                         ],
                         ['label' => 'บันทึกรายงานการเก็บขยะเกิน', 'icon' => 'check text-warning', 'url' => ['/service/default/genformgarbageover']],
+                        ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
                         /*
                           ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
                           'items' => [
