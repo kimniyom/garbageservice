@@ -36,7 +36,8 @@
         "kartik-v/yii2-widget-timepicker": "dev-master",
         "kartik-v/yii2-dialog": "dev-master",
         "developit/yii2-captcha": "*",
-        "philippfrenzel/yii2fullcalendar": "*"
+        "philippfrenzel/yii2fullcalendar": "3.7.0"
+      
         
     },
     "require-dev": {

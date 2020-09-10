@@ -24,7 +24,7 @@ use kartik\date\DatePicker;
             ?>
         </div>
 
-        
+       
 
         
 
@@ -34,7 +34,7 @@ use kartik\date\DatePicker;
 
     
 
-    <?//= $form->field($model, 'status')->textInput() ?>
+    
 
     <div class="form-group">
         <?= Html::submitButton('บันทึก', ['class' => 'btn btn-success']) ?>

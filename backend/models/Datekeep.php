@@ -44,7 +44,7 @@ class Datekeep extends \yii\db\ActiveRecord
     {
         return [
             'promiseid' => 'ไอดีสัญญา',
-            'title' => 'ข้อความแสดง',
+            'title' => 'ข้อความที่แสดง',
             'datekeep' => 'วันที่เข้าจัดเก็บ',
             'dateend' => 'วันสิ้นสุดการจัดเก็บ',
             'status' => '0=ยังไม่เข้าจัดเก็บ,1=เข้าจัดเก็บแล้ว',

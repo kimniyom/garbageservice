@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Datekeep */
 
 
-$this->params['breadcrumbs'][] = ['label' => 'Datekeeps', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Datekeeps', 'url' => ['index','promiseid'=> $data['model']->promiseid]];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -26,14 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?//= DetailView::widget([
-      //  'model' => $data['model'],
-    //     'attributes' => [
-    //         //'promiseid',
-    //         'datekeep',
-    //         //'status',
-    //     ],
-    // ]) ?>
+    <?= DetailView::widget([
+        'model' => $data['model'],
+         'attributes' => [
+             //'promiseid',
+             'datekeep',
+             'dateend',
+             //'status',
+         ],
+     ]) ?>
 
    
 </div>

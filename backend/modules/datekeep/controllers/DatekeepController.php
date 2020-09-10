@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\modules\promise\models\Promise;
+use yii\helpers\Json;
 
 /**
  * DatekeepController implements the CRUD actions for Datekeep model.
@@ -251,8 +252,8 @@ class DatekeepController extends Controller
           $Event = new \yii2fullcalendar\models\Event();
           $Event->id = $id++;
           $Event->title = $time->title;
-          $Event->start = date('Y-m-d\Th:m:s\Z',strtotime($time->datekeep.' '.$time->datekeep));
-          $Event->end = date('Y-m-d\Th:m:s\Z',strtotime($time->datekeep.' '.$time->datekeep));
+          $Event->start = $time->datekeep;
+          //$Event->end = $time->dateend;
           $events[] = $Event;
         }
     
@@ -261,4 +262,17 @@ class DatekeepController extends Controller
         
         Yii::$app->end();
       }
+
+    public function actionGetdatekeep()
+    {
+        $promiseid = Yii::$app->request->post('promiseid');
+        $datekeep = Yii::$app->request->post('datekeep');
+
+        $datekeep = Datekeep::findOne(['promiseid'=>$promiseid, 'datekeep'=>$datekeep]);
+        if($datekeep)
+        {
+            return Json::encode($datekeep);
+        }
+        return 0;
+    }
 }
