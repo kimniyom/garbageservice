@@ -60,7 +60,7 @@ class PromiseController extends Controller {
     function getCustomertInGroup($group) {
         $sql = "SELECT p.*
                     FROM promise p INNER JOIN customers c ON p.customerid = c.id
-                    WHERE c.grouptype = '$group' AND (p.upper = '' OR p.upper is null) ";
+                    WHERE c.grouptype = '$group' AND (p.upper = '' OR p.upper is null) ORDER BY p.status,p.createat ASC ";
         return \Yii::$app->db->createCommand($sql)->queryAll();
     }
 
@@ -163,29 +163,29 @@ class PromiseController extends Controller {
         if ($promiesYear == "") {
             $promiesYear = 1;
         }
-        
+
         $dStart = substr($dateStart, 0, 7) . "-01";
         $dEtart = substr($dateEnd, 0, 7) . "-30";
         /*
-$d1 = new \DateTime('2020-08-01');
-$d2 = new \DateTime('2021-09-30');
+          $d1 = new \DateTime('2020-08-01');
+          $d2 = new \DateTime('2021-09-30');
 
-$interval = $d2->diff($d1);
-echo $interval->format('%m');
-exit();
-        
-        $dStart = substr($dateStart, 0, 7) . "-01";
-        $dEtart = substr($dateEnd, 0, 7) . "-30";
-        $datetime1 = date_create($dStart);
-        $datetime2 = date_create($dEtart);
-        $interval = date_diff($datetime1, $datetime2);
-        $month = $interval->format('%m');
-        */
+          $interval = $d2->diff($d1);
+          echo $interval->format('%m');
+          exit();
+
+          $dStart = substr($dateStart, 0, 7) . "-01";
+          $dEtart = substr($dateEnd, 0, 7) . "-30";
+          $datetime1 = date_create($dStart);
+          $datetime2 = date_create($dEtart);
+          $interval = date_diff($datetime1, $datetime2);
+          $month = $interval->format('%m');
+         */
         $sqlMonth = "SELECT (TIMESTAMPDIFF(MONTH,'$dStart','$dEtart')) AS mTotal";
-  
+
         $month = Yii::$app->db->createCommand($sqlMonth)->queryOne()['mTotal'];
-        
-        //$month = 
+
+        //$month =
 
         $total_month = ($month + 1); //เอามาบวก 1 เพื่อให้ต้วแปร i เริ่มต้นที่ 1 เพราะปกติตัวแปรอาเรย์จะเริ่มต้นที่ 0
         $pay = $priceMonth;
@@ -315,7 +315,7 @@ exit();
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        
+
         $sql = "select p.*,g.id,g.groupcustomer
                 from promise p inner join customers c on p.customerid = c.id inner join groupcustomer g on c.grouptype = g.id ";
         $rs = Yii::$app->db->createCommand($sql)->queryOne();
@@ -342,7 +342,7 @@ exit();
             }
         }
 
-        return $this->redirect(['index','group' => $rs['id'],'groupname' => $rs['groupcustomer']]);
+        return $this->redirect(['index', 'group' => $rs['id'], 'groupname' => $rs['groupcustomer']]);
     }
 
     public function actionCancelpromise($id, $status) {
@@ -662,7 +662,7 @@ exit();
         $content = $this->renderPartial('promisetype/_promise', ['model' => $model]);
         $footer = $this->renderPartial('promisetype/_promisefootter', ['model' => $model]);
         $header = $this->renderPartial('promisetype/_promiseheader', ['model' => $model]);
-      
+
         $pdf = new Pdf([
             // set to use core fonts only
             'mode' => 'th',
@@ -689,7 +689,7 @@ exit();
             'filename' => $promisenumber . ".pdf",
             // call mPDF methods on the fly
             'methods' => [
-            //'SetHeader'=>['Krajee Report Header'],
+                //'SetHeader'=>['Krajee Report Header'],
                 //'SetFooter' => ['[บริษัท ไอซี{PAGENO}'],
                 'SetFooter' => $footer,
                 'SetHeader' => $header,
@@ -874,7 +874,7 @@ exit();
     }
 
     public function actionPromisenearexpire() {
-        $sql = "SELECT 
+        $sql = "SELECT
 					promise.id,
 					promise.promisenumber,
 					promise.promisedateend,
@@ -1131,10 +1131,10 @@ exit();
 
         //Stop Service
         $sql = "SELECT m.id,LEFT(m.datekeep,7) AS dm,IFNULL(Q.total,0) AS total
-                FROM roundmoney m LEFT JOIN 
+                FROM roundmoney m LEFT JOIN
                 (
                         SELECT LEFT(r.datekeep,7) AS mn,COUNT(*) AS total
-                        FROM roundgarbage r 
+                        FROM roundgarbage r
                         WHERE r.promiseid = '$id'
                         GROUP BY LEFT(r.datekeep,7)
                 ) Q ON LEFT(m.datekeep,7) = Q.mn

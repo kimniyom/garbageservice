@@ -227,7 +227,7 @@ class Promise extends \yii\db\ActiveRecord {
         return $rs['total'];
     }
 
-    public function GetststusGarbage($daymonth,$promistid = '') {
+    public function GetststusGarbage($daymonth, $promistid = '') {
         $sql = "SELECT COUNT(*) AS total
         FROM roundgarbage r
         WHERE r.promiseid = '$promistid' AND LEFT(r.datekeep,7) = '$daymonth' ";
@@ -250,6 +250,13 @@ class Promise extends \yii\db\ActiveRecord {
                     INNER JOIN customers c ON p.customerid = c.id
                     LEFT JOIN roundmoney r ON i.round = r.id
                     WHERE i.`status` = '0' AND i.typepayment = '2'";
+        return Yii::$app->db->createCommand($sql)->queryOne()['total'];
+    }
+
+    function contInvoiceNonActive() {
+        $sql = "SELECT count(*) AS total
+                    FROM invoice i
+                    WHERE i.`status` = '0'";
         return Yii::$app->db->createCommand($sql)->queryOne()['total'];
     }
 

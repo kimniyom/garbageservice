@@ -19,16 +19,17 @@ $this->title = "บันทึกการจัดเก็บ";
     
    
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
-    <?= yii2fullcalendar\yii2fullcalendar::widget([
-             'id' => 'calendar',
-                'clientOptions' => [
-                    'language' => 'fa',
-                    'eventLimit' => TRUE,
+    <?=
+    yii2fullcalendar\yii2fullcalendar::widget([
+        'id' => 'calendar',
+        'clientOptions' => [
+            'language' => 'th',
+            'eventLimit' => TRUE,
 //                'theme'=>true,
-                    'fixedWeekCount' => false,
-                'dayClick'=>new \yii\web\JsExpression('
+            'fixedWeekCount' => false,
+            'dayClick' => new \yii\web\JsExpression('
                     function(date, jsEvent, view) {
                         var count = '.Datekeep::find()->where(['promiseid'=>$data['promiseid']])->count().';
                         if(count && parseInt(count)>10)
@@ -51,9 +52,9 @@ $this->title = "บันทึกการจัดเก็บ";
                         location.href = url+"&id="+calEvent.id;
                     }
                 ')
-                ],
-            'ajaxEvents' => Url::to(['/datekeep/datekeep/jsoncalendar', 'promiseid'=>$data['promiseid']])
-        ]);
+        ],
+        'ajaxEvents' => Url::to(['/datekeep/datekeep/jsoncalendar', 'promiseid' => $data['promiseid']])
+    ]);
     ?>
 
 </div>

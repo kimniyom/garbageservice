@@ -1170,4 +1170,58 @@ WHERE r.promiseid = '$promiseId'";
         return $this->renderPartial("slip", $data);
     }
 
+    public function actionOutstandingpaymen($year = "", $month = "") {
+        if ($year != "") {
+            $years = $year;
+        } else {
+            $years = date("Y");
+        }
+
+        if (!$month) {
+            $monthNow = date("m");
+            if (strlen($monthNow) < 2) {
+                $m = "0" . $monthNow;
+            } else {
+                $m = $monthNow;
+            }
+        } else {
+            $m = $month;
+        }
+
+        $data['invoice'] = $this->InvoiceNonActive($years, $m);
+        $data['year'] = $years;
+        $data['m'] = $m;
+
+        //echo $data['year'];
+        //echo $data['m'];
+        return $this->render("outstandingpayment", $data);
+    }
+
+    function InvoiceNonActive($year, $month) {
+        $sql = "SELECT i.*,SUBSTR(i.dateinvoice,6,2),c.company
+                FROM invoice i INNER JOIN promise p ON i.promise = p.id
+                INNER JOIN customers c ON p.customerid = c.id
+                WHERE i.`status` = '0' AND LEFT(i.dateinvoice,4) = '$year' AND SUBSTR(i.dateinvoice,6,2) = '$month' ORDER BY i.dateinvoice ASC ";
+        return \Yii::$app->db->createCommand($sql)->queryAll();
+    }
+
+    public function actionOutstandingpaymenall() {
+
+        $data['invoice'] = $this->InvoiceNonActiveAll();
+        $data['year'] = "";
+        $data['m'] = "";
+
+        //echo $data['year'];
+        //echo $data['m'];
+        return $this->render("outstandingpayment", $data);
+    }
+
+    function InvoiceNonActiveAll() {
+        $sql = "SELECT i.*,SUBSTR(i.dateinvoice,6,2),c.company
+                FROM invoice i INNER JOIN promise p ON i.promise = p.id
+                INNER JOIN customers c ON p.customerid = c.id
+                WHERE i.`status` = '0' ORDER BY i.dateinvoice ASC ";
+        return \Yii::$app->db->createCommand($sql)->queryAll();
+    }
+
 }
