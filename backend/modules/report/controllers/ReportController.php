@@ -150,5 +150,24 @@ class ReportController extends \yii\web\Controller {
         return \Yii::$app->db->createCommand($sql)->queryAll();
     }
     
+    public function actionRoundhistory($year = ""){
+        if ($year != "") {
+            $years = $year;
+        } else {
+            $years = date("Y");
+        }
+        $data['history'] = $this->getRoundHistory($years);
+        $data['years'] = $years;
+        return $this->render("roundhistory", $data);
+    }
+    
+    function getRoundHistory($year = "") {
+        $sql = "SELECT i.*,c.company,p.promisenumber
+                    FROM roundgarbage i INNER JOIN promise p ON i.promiseid = p.id
+                    INNER JOIN customers c ON p.customerid = c.id
+                    WHERE LEFT(i.datekeep,4) = '$year' ORDER BY i.datekeep DESC";
+        return \Yii::$app->db->createCommand($sql)->queryAll();
+    }
+    
 
 }

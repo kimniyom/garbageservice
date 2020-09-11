@@ -25,6 +25,7 @@ use yii\helpers\Url;
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">รายงาน <i class="fa fa-caret-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="<?php echo Yii::$app->urlManager->createUrl(['report/report/invoicehistory']) ?>"><i class="fa fa-chevron-right"></i> ประวัติการชำระเงิน</a></li>
+                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['report/report/roundhistory']) ?>"><i class="fa fa-chevron-right"></i> ประวัติการจัดเก็บขยะ</a></li>
                         <li><a href="<?php echo Yii::$app->urlManager->createUrl(['report/report/reportworkingarbage']) ?>"><i class="fa fa-chevron-right"></i> รายงานการเข้าจัดเก็บขยะ</a></li>
                     </ul>
                 </li>
