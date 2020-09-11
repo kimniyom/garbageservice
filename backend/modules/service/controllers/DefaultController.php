@@ -79,11 +79,11 @@ INNER JOIN changwat ch ON c.changwat = ch.changwat_id
         $data['promise'] = $Promise;
         $data['customer'] = $Customer;
         $data['promiseid'] = $promise;
-        
+
         //ดึงข้อมูลวันจัดเก็บจากตัวสัญญามาให้เลือก
         $sql = "SELECT d.datekeep,IFNULL(r.datekeep,0) AS dateinservice
                 FROM datekeep d LEFT JOIN roundgarbage r ON d.datekeep = r.datekeep
-                WHERE d.promiseid = '$promise' AND (r.datekeep = '' OR r.datekeep IS NULL)";
+                WHERE d.promiseid = '$promise' AND (r.datekeep = '' OR r.datekeep IS NULL) ORDER BY d.datekeep ASC";
         $data['dateround'] = \Yii::$app->db->createCommand($sql)->queryAll();
         $data['carlist'] = Car::find()->all();
         return $this->render('formsaveround', $data);

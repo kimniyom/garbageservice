@@ -58,6 +58,9 @@ return [
         'datekeep' => [
             'class' => 'app\modules\datekeep\Module',
         ],
+        'useremp' => [
+            'class' => 'app\modules\useremp\Module',
+        ],
     ],
     'components' => [
         'view' => [
