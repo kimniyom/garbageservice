@@ -117,6 +117,21 @@ class Config {
 
         return $dayInweek[$day];
     }
+    
+    function dayInweekKeyFull($day) {
+        $dayInweek = array(
+            'Monday' => 'จันทร์',
+            'Tuesday' => 'อังคาร',
+            'Wednesday' => 'พุธ',
+            'Thursday' => 'พฤหัสบดี',
+            'Friday' => 'วันศุกร์',
+            'Saturday' => 'วันเสาร์',
+            'Sunday' => 'วันอาทิตย์',
+        );
+
+        return $dayInweek[$day];
+    }
+
 
     function Convert($amount_number = "") {
         $amount_number = number_format($amount_number, 2, ".", "");

@@ -60,14 +60,19 @@ class DatekeepController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($promiseid, $id)
+    public function actionView()
     {
+        $promiseid = \Yii::$app->request->post('promiseId');
+        $id = \Yii::$app->request->post('id');
         $promise = $this->getPromise($promiseid);
         $data['model'] = $this->findModel($id);
-        return $this->render('_promisedetail', [
+        $day = $data['model']['datekeep'];
+        $dayname = Yii::$app->db->createCommand("SELECT DAYNAME('".$day."') AS dayname")->queryOne()['dayname'];
+        return $this->renderPartial('view', [
                     'promise' => $promise,
                     'data' => $data,
-                    'render' => 'view',
+                    'dayname' => $dayname,
+                    //'render' => 'view',
         ]);
     }
 
@@ -124,8 +129,13 @@ class DatekeepController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($promiseid, $id)
+    public function actionDelete()
     {
+        $id = \Yii::$app->request->post('id');
+        Yii::$app->db->createCommand()
+                ->delete("datekeep","id = '$id'")
+                ->execute();
+        /*
         $model = $this->findModel($id);
         if($model->delete())
         {
@@ -140,6 +150,8 @@ class DatekeepController extends Controller {
                 
             ]);
         }
+         * 
+         */
             
     }
 
@@ -251,9 +263,9 @@ class DatekeepController extends Controller {
         }
 
         header('Content-type: application/json');
-        echo Json::encode($events);
+        return Json::encode($events);
 
-        Yii::$app->end();
+        //Yii::$app->end();
     }
 
     public function actionSetdatekeep()

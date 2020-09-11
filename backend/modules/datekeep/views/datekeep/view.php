@@ -14,27 +14,27 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="datekeep-view">
 
-    
+    <input type="hidden" id="dateId" value="<?php echo $data['model']['id'] ?> "/>
 
     <p>
-        <?//= Html::a('Update', ['update', 'promiseid' => $data['model']->promiseid, 'datekeep' => $data['model']->datekeep], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'promiseid' => $data['model']->promiseid, 'id' => $data['model']->id], [
+        <?php //Html::a('Update', ['update', 'promiseid' => $data['model']->promiseid, 'datekeep' => $data['model']->datekeep], ['class' => 'btn btn-primary']) ?>
+        <?php /*Html::a('ลบ', ['delete', 'promiseid' => $data['model']->promiseid, 'id' => $data['model']->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'ต้องการลบวันที่เข้าจัดเก็บ ?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) 
+         */ ?>
+         
     </p>
 
     <?= DetailView::widget([
         'model' => $data['model'],
          'attributes' => [
-             
-             
             [
                 'label' => 'วันเข้าจัดเก็บ',
-                'value' => $Config->thaidate($data['model']['datekeep']),
+                'value' => $Config->dayInweekKeyFull($dayname)." ที่ ". $Config->thaidate($data['model']['datekeep']),
             ],
          ],
      ]) ?>

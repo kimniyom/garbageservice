@@ -16,8 +16,8 @@ $this->title = "บันทึกการจัดเก็บ";
 ?>
 <div class="datekeep-index">
 
-    
-   
+
+
 
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
@@ -26,30 +26,24 @@ $this->title = "บันทึกการจัดเก็บ";
         'id' => 'calendar',
         'clientOptions' => [
             'language' => 'th',
-            'eventLimit' => TRUE,
+            'eventLimit' => false,
 //                'theme'=>true,
             'fixedWeekCount' => false,
             'dayClick' => new \yii\web\JsExpression('
-                    function(date, jsEvent, view) {
-                        var count = '.Datekeep::find()->where(['promiseid'=>$data['promiseid']])->count().';
-                        if(count && parseInt(count)>10)
-                        {
-                            alert("เพิ่มได้ไม่เกิน 11 วัน");
-                        }
-                        else{
-                            if(confirm("บันทึกวันที่เข้าจัดเก็บ "+date.format("DD-MM-YYYY")))
-                            {
-                                setDatekeep(date.format());
-                            }
-                        }
-                        
+                function(date, jsEvent, view) {
+                    checkData(date.format());
+                    /*
+                    if(confirm("บันทึกวันที่เข้าจัดเก็บ "+date.format("DD-MM-YYYY"))){
+                        setDatekeep(date.format());
                     }
+                    */
+                }
                 '),
-                'eventClick' => new \yii\web\JsExpression('
+            'eventClick' => new \yii\web\JsExpression('
                     function(calEvent, jsEvent, view) 
                     {
-                        var url = "'.Yii::$app->urlManager->createUrl(['datekeep/datekeep/view','promiseid'=>$data['promiseid']]).'";
-                        location.href = url+"&id="+calEvent.id;
+                        //location.href = url+"&id="+calEvent.id;
+                        getDetail(calEvent.id);
                     }
                 ')
         ],
@@ -59,23 +53,65 @@ $this->title = "บันทึกการจัดเก็บ";
 
 </div>
 
+<div class="modal fade bs-example-modal-sm" id="detail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">วันที่เข้าจัดเก็บ</h4>
+            </div>
+            <div class="modal-body">
+                <div id="viewdata"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+                <button type="button" class="btn btn-danger" onclick="deleteEvent()">นำออก</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
-function setDatekeep(datekeep)
-{
-    var promiseid = '<?php echo $data['promiseid']?>';
-    var data = {promiseid: promiseid, datekeep:datekeep};
-    var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/setdatekeep']) ?>";
-    
-    $.post(url, data, function(result) {
-        console.log(result);
-        if (result == 1) {
-            
-            location.href = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/index', 'promiseid'=>$data['promiseid']]) ?>";
-        } 
-    }, 'json');
-    
-}
+    function checkData(datekeep){
+        
+    }
+    function setDatekeep(datekeep)
+    {
+        var promiseid = '<?php echo $data['promiseid'] ?>';
+        var data = {promiseid: promiseid, datekeep: datekeep};
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/setdatekeep']) ?>";
 
+        $.post(url, data, function (result) {
+            console.log(result);
+            if (result == 1) {
+
+                location.href = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/index', 'promiseid' => $data['promiseid']]) ?>";
+            }
+        }, 'json');
+
+    }
+
+    function getDetail(id) {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/view']) ?>";
+        var promiseId = "<?php echo $data['promiseid'] ?>";
+        var data = {id: id, promiseId: promiseId};
+        $.post(url, data, function (res) {
+            $("#detail").modal();
+            $("#viewdata").html(res);
+        });
+    }
+
+    function deleteEvent() {
+        var r = confirm("Are you sure...?");
+        if (r == true) {
+            var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/delete']) ?>";
+            var id = $("#dateId").val();
+            var data = {id: id};
+            $.post(url, data, function (res) {
+                window.location.reload();
+            });
+        }
+    }
 
 </script>

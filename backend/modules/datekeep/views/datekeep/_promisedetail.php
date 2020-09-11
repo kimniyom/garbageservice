@@ -90,6 +90,6 @@ $this->registerJs("setScreen();");
 function setScreen() {
         var h = window.innerHeight;
         $("#box-left").css({"height": h - 141});
-        $("#box-right").css({"height": h - 255});
+        $("#box-right").css({"height": h - 185});
     }
 </script>
