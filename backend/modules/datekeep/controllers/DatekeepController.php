@@ -286,7 +286,13 @@ class DatekeepController extends Controller {
             return 0;
         }
       
-       
+    }
+    
+    public function actionCheckdata(){
+        $promiseid = Yii::$app->request->post('promiseid');
+        $datekeep = Yii::$app->request->post('datekeep');
+        $sql = "select IFNULL(COUNT(*),0) AS total from datekeep where promiseid = '$promiseid' and datekeep = '$datekeep'";
+        echo \Yii::$app->db->createCommand($sql)->queryOne()['total'];
     }
 
 }

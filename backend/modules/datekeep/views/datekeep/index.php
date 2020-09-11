@@ -73,9 +73,21 @@ $this->title = "บันทึกการจัดเก็บ";
 
 
 <script>
-    function checkData(datekeep){
-        
+    function checkData(datekeep) {
+        var promiseid = '<?php echo $data['promiseid'] ?>';
+        var data = {promiseid: promiseid, datekeep: datekeep};
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/checkdata']) ?>";
+
+        $.post(url, data, function (result) {
+            if (result > 0) {
+                alert("ไม่สามารถลงวันที่เข้าจัดเก็บซ้ำได้...!");
+                return false;
+            } else {
+                setDatekeep(datekeep);
+            }
+        });
     }
+
     function setDatekeep(datekeep)
     {
         var promiseid = '<?php echo $data['promiseid'] ?>';
@@ -83,9 +95,9 @@ $this->title = "บันทึกการจัดเก็บ";
         var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/setdatekeep']) ?>";
 
         $.post(url, data, function (result) {
-            console.log(result);
+            //console.log(result);
             if (result == 1) {
-
+                alert("เพิ่มวันที่เข้าจัดเก็บสำเร็จ");
                 location.href = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/index', 'promiseid' => $data['promiseid']]) ?>";
             }
         }, 'json');
