@@ -4,7 +4,9 @@ use kartik\date\DatePicker;
 use kartik\widgets\TimePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use app\models\Config;
 
+$Config = new Config();
 $this->title = $customer['company'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -63,7 +65,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="col-md-12 col-lg-12">
                         <label><i class="fa fa-calendar-check-o text-warning"></i> วันที่ *</label>
+                        <select id="datekeep" class="form-control">
+                            <option value="">== วันที่เข้าจัดเก็บ ==</option>
+                            <?php foreach($dateround as $r): ?>
+                            <option value="<?php echo $r['datekeep'] ?>"><?php echo $Config->thaidate($r['datekeep']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
                         <?php
+                        /*
                         echo DatePicker::widget([
                             'name' => 'datekeep',
                             'value' => date('Y-m-d'),
@@ -78,6 +87,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'autoclose' => true
                             ]
                         ]);
+                         * 
+                         */
                         ?>
                     </div>
 

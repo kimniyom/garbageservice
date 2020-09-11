@@ -60,20 +60,30 @@ class DatekeepController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView()
-    {
+    public function actionView() {
         $promiseid = \Yii::$app->request->post('promiseId');
         $id = \Yii::$app->request->post('id');
         $promise = $this->getPromise($promiseid);
         $data['model'] = $this->findModel($id);
         $day = $data['model']['datekeep'];
-        $dayname = Yii::$app->db->createCommand("SELECT DAYNAME('".$day."') AS dayname")->queryOne()['dayname'];
+        $dayname = Yii::$app->db->createCommand("SELECT DAYNAME('" . $day . "') AS dayname")->queryOne()['dayname'];
+        $walkIn = $this->checkWalkIn($promiseid, $data['model']['datekeep']);
         return $this->renderPartial('view', [
                     'promise' => $promise,
                     'data' => $data,
                     'dayname' => $dayname,
-                    //'render' => 'view',
+                    'walkIn' => $walkIn,
+                        //'render' => 'view',
         ]);
+    }
+
+    function checkWalkIn($promiseId, $datekeep) {
+        $sql = "SELECT r.*
+                FROM roundgarbage r
+                WHERE r.promiseid = '$promiseId' AND r.datekeep = '$datekeep'";
+        $times = \Yii::$app->db->createCommand($sql)->queryOne();
+
+        return $times;
     }
 
     /**
@@ -129,30 +139,28 @@ class DatekeepController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete()
-    {
+    public function actionDelete() {
         $id = \Yii::$app->request->post('id');
         Yii::$app->db->createCommand()
-                ->delete("datekeep","id = '$id'")
+                ->delete("datekeep", "id = '$id'")
                 ->execute();
         /*
-        $model = $this->findModel($id);
-        if($model->delete())
-        {
-            $promise = $this->getPromise($promiseid);
-            $data['model'] =  Datekeep::findAll(['promiseid'=>$promiseid]);
-            $data['promiseid'] = $promiseid;
-        
-            return $this->render('_promisedetail', [
-                'promise'=> $promise,
-                'data' => $data,
-                'render'=>'index',
-                
-            ]);
-        }
+          $model = $this->findModel($id);
+          if($model->delete())
+          {
+          $promise = $this->getPromise($promiseid);
+          $data['model'] =  Datekeep::findAll(['promiseid'=>$promiseid]);
+          $data['promiseid'] = $promiseid;
+
+          return $this->render('_promisedetail', [
+          'promise'=> $promise,
+          'data' => $data,
+          'render'=>'index',
+
+          ]);
+          }
          * 
          */
-            
     }
 
     /**
@@ -163,9 +171,8 @@ class DatekeepController extends Controller {
      * @return Datekeep the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
-        if (($model = Datekeep::findOne([ 'id' => $id])) !== null) {
+    protected function findModel($id) {
+        if (($model = Datekeep::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
@@ -248,18 +255,29 @@ class DatekeepController extends Controller {
     }
 
     public function actionJsoncalendar($promiseid) {
-        $times = Datekeep::findAll(['promiseid' => $promiseid]);
-
+        //$times = Datekeep::findAll(['promiseid' => $promiseid]);
+        $sql = "SELECT d.*,IFNULL(r.datekeep,0) AS flag
+                FROM datekeep d LEFT JOIN roundgarbage r ON d.datekeep = r.datekeep
+                WHERE d.promiseid = '$promiseid' ";
+        $times = \Yii::$app->db->createCommand($sql)->queryAll();
         $events = array();
-        
-        foreach ($times AS $time){
-          //Testing
-          $Event = new \yii2fullcalendar\models\Event();
-          $Event->id = $time->id;
-          $Event->title = "เข้าจัดเก็บ";
-          $Event->start = $time->datekeep;
-          $Event->end = $time->datekeep;
-          $events[] = $Event;
+
+        foreach ($times AS $time) {
+            if ($time['flag'] == 0) {
+                $color = "red";
+                $text = "ยังไม่เข้าจัดเก็บ";
+            } else {
+                $color = "green";
+                $text = "จัดเก็บแล้ว";
+            }
+            //Testing
+            $Event = new \yii2fullcalendar\models\Event();
+            $Event->id = $time['id'];
+            $Event->title = $text;
+            $Event->start = $time['datekeep'];
+            $Event->end = $time['datekeep'];
+            $Event->color = $color;
+            $events[] = $Event;
         }
 
         header('Content-type: application/json');
@@ -268,27 +286,23 @@ class DatekeepController extends Controller {
         //Yii::$app->end();
     }
 
-    public function actionSetdatekeep()
-    {
+    public function actionSetdatekeep() {
         $promiseid = Yii::$app->request->post('promiseid');
         $datekeep = Yii::$app->request->post('datekeep');
 
         $model = new Datekeep();
         $model->promiseid = $promiseid;
         $model->datekeep = $datekeep;
-        $model->status = 0 ;
+        $model->status = 0;
 
-        if($model->save())
-        {
+        if ($model->save()) {
             return 1;
-        }
-        else{
+        } else {
             return 0;
         }
-      
     }
-    
-    public function actionCheckdata(){
+
+    public function actionCheckdata() {
         $promiseid = Yii::$app->request->post('promiseid');
         $datekeep = Yii::$app->request->post('datekeep');
         $sql = "select IFNULL(COUNT(*),0) AS total from datekeep where promiseid = '$promiseid' and datekeep = '$datekeep'";

@@ -127,7 +127,7 @@ class ReportController extends \yii\web\Controller {
                         FROM roundgarbage r
                         WHERE LEFT(datekeep,4) = '$year'
                         GROUP BY SUBSTR(datekeep,6,2)
-                    ) Q ON m.id = Q.months";
+                    ) Q ON m.id = Q.months ORDER BY m.id ASC";
         return \Yii::$app->db->createCommand($sql)->queryAll();
     }
 

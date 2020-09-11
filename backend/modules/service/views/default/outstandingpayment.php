@@ -102,7 +102,8 @@ $yearNow = date("Y");
                                             <?php
                                             if ($rs['credit']) {
                                                 $credit = $rs['credit'];
-                                                $sql = "SELECT DATE_ADD('2020-10-09', INTERVAL $credit DAY) AS datecreate";
+                                                $dateInvoice = $rs['dateinvoice'];
+                                                $sql = "SELECT DATE_ADD('".$dateInvoice."', INTERVAL $credit DAY) AS datecreate";
                                                 $createDate = Yii::$app->db->createCommand($sql)->queryOne()['datecreate'];
                                                 echo $Config->thaidate($createDate);
                                             } else {

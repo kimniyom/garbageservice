@@ -12,22 +12,28 @@ use app\models\Datekeep;
 
 
 $Config = new Config();
-$this->title = "บันทึกการจัดเก็บ";
+$this->title = "";
 ?>
+
 <div class="datekeep-index">
-
-
-
 
     <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <?=
     yii2fullcalendar\yii2fullcalendar::widget([
         'id' => 'calendar',
+        'header' => [
+            'left' => 'prev,next,today',
+            'center' => 'title',
+            'right' => 'month', //agendaWeek,agendaDay
+        ],
         'clientOptions' => [
             'language' => 'th',
             'eventLimit' => false,
-//                'theme'=>true,
+//             'theme'=>true,
+            'weekNumbers' => false,
+            'selectable' => true,
+            //'defaultView' => '',
             'fixedWeekCount' => false,
             'dayClick' => new \yii\web\JsExpression('
                 function(date, jsEvent, view) {
@@ -65,7 +71,7 @@ $this->title = "บันทึกการจัดเก็บ";
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                <button type="button" class="btn btn-danger" onclick="deleteEvent()">นำออก</button>
+                <button type="button" class="btn btn-danger" onclick="deleteEvent()" id="delDate">นำออก</button>
             </div>
         </div>
     </div>
@@ -90,17 +96,20 @@ $this->title = "บันทึกการจัดเก็บ";
 
     function setDatekeep(datekeep)
     {
-        var promiseid = '<?php echo $data['promiseid'] ?>';
-        var data = {promiseid: promiseid, datekeep: datekeep};
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/setdatekeep']) ?>";
+        var r = confirm("คุณต้องการเพิ่มวันที่เข้าจัดเก็บ " + datekeep + " ใช่หรือไม่..?");
+        if (r == true) {
+            var promiseid = '<?php echo $data['promiseid'] ?>';
+            var data = {promiseid: promiseid, datekeep: datekeep};
+            var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/setdatekeep']) ?>";
 
-        $.post(url, data, function (result) {
-            //console.log(result);
-            if (result == 1) {
-                alert("เพิ่มวันที่เข้าจัดเก็บสำเร็จ");
-                location.href = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/index', 'promiseid' => $data['promiseid']]) ?>";
-            }
-        }, 'json');
+            $.post(url, data, function (result) {
+                //console.log(result);
+                if (result == 1) {
+                    //alert("เพิ่มวันที่เข้าจัดเก็บสำเร็จ");
+                    location.href = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/index', 'promiseid' => $data['promiseid']]) ?>";
+                }
+            }, 'json');
+        }
 
     }
 
@@ -111,6 +120,12 @@ $this->title = "บันทึกการจัดเก็บ";
         $.post(url, data, function (res) {
             $("#detail").modal();
             $("#viewdata").html(res);
+            var walkIn = $("#walkIn").val();
+            if(walkIn){
+                $("#delDate").hide();
+            } else {
+                $("#delDate").show();
+            }
         });
     }
 
