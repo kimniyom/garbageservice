@@ -210,7 +210,7 @@ Modal::End();
                                 'format' => "raw",
                                 'value' => function ($model) {
                                     $Config = new Config();
-                                    return "<font style='color:red;'>" . $Config->getStatusPromise($model['status']) . "</font>";
+                                    return $Config->getStatusPromise($model['status']);
                                 },
                             ],
                             [

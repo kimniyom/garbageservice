@@ -215,15 +215,15 @@ class Config {
     function getStatusPromise($status) {
         //สถานะสัญญา 0=หมดสัญญา, 1=รอยืนยัน, 2=กำลังใช้งาน, 3=กำลังต่อสัญญา ,4=ยกเลิกสัญา
         if ($status == "0") {
-            $Textstatus = "<i class='fa fa-check text-success'></i> หมดสัญญา / สิ้นสุดสัญญา";
+            $Textstatus = "<font class='text-success'><i class='fa fa-check'></i> หมดสัญญา / สิ้นสุดสัญญา</font>";
         } else if ($status == "1") {
-            $Textstatus = "<i class='fa fa-info text-waring'></i> รอยืนยัน";
+            $Textstatus = "<font style='color:orange;'><i class='fa fa-info'></i> รอยืนยัน</font>";
         } else if ($status == "2") {
-            $Textstatus = "<i class='fa fa-check-square-o text-success'></i> กำลังใช้งาน";
+            $Textstatus = "<font style='color:green;'><i class='fa fa-check-square-o'></i> กำลังใช้งาน</font>";
         } else if ($status == "3") {
-            $Textstatus = "<i class='fa fa-pencil text-info'></i> กำลังต่อสัญญา";
+            $Textstatus = "<font class='text-info'><i class='fa fa-pencil'></i> กำลังต่อสัญญา</font>";
         } else if ($status == "4") {
-            $Textstatus = "<i class='fa fa-remove text-danger'></i> ยกเลิกสัญา";
+            $Textstatus = "<font class='text-danger'><i class='fa fa-remove'></i> ยกเลิกสัญา</font>";
         } else {
             $Textstatus = "-";
         }
