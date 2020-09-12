@@ -1226,7 +1226,7 @@ WHERE r.promiseid = '$promiseId'";
         $sql = "SELECT i.*,SUBSTR(i.dateinvoice,6,2),c.company
                 FROM invoice i INNER JOIN promise p ON i.promise = p.id
                 INNER JOIN customers c ON p.customerid = c.id
-                WHERE i.`status` = '0' ORDER BY i.dateinvoice ASC ";
+                WHERE i.`status` = '0' AND p.status = '2' ORDER BY i.dateinvoice ASC ";
         return \Yii::$app->db->createCommand($sql)->queryAll();
     }
 

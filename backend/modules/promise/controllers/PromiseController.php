@@ -1098,11 +1098,22 @@ class PromiseController extends Controller {
                 $fileName = date('dmYHis') . md5($_FILES["inputFile"]["name"]) . "." . $fileExt;
                 $filePath = "../uploads/slip/" . $fileName;
                 move_uploaded_file($_FILES["inputFile"]["tmp_name"], $filePath);
+                /*
+                  $columns = array(
+                  "slip" => $fileName,
+                  "dateconfirm" => date("Y-m-d H:i:s")
+                  );
+                 */
                 $columns = array(
-                    "slip" => $fileName,
-                    "dateconfirm" => date("Y-m-d H:i:s")
+                    "dateservice" => $dateservice,
+                    "timeservice" => $timeservice,
+                    "comment" => $comment,
+                    "bank" => $_POST['bank'],
+                    "status" => 1,
+                    "dateconfirm" => date("Y-m-d H:i:s"),
+                    "typepayment" => 2,
+                    "userid" => Yii::$app->user->id
                 );
-
                 Yii::$app->db->createCommand()
                         ->update("invoice", $columns, "id = '$id'")
                         ->execute();

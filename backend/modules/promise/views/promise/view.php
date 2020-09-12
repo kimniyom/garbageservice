@@ -41,7 +41,7 @@ Modal::End();
     <div class="row">
         <div class="col-md-8 col-lg-8">
             <div class="box" id="box-detail">
-                <div class="box-header" style=" padding-bottom: 0px;">รายละเอียดสัญญา</div>
+                <div class="box-header" style=" padding-bottom: 0px; font-weight: bold;">รายละเอียดสัญญา <?php echo($model['status'] == "4") ? "<font style='color:red;'>(ยกเลิกสัญญา)</font>" : ""; ?></div>
                 <div class="box-body">
                     <p>
                         <?php if ($model['status'] == "1") {
@@ -77,7 +77,7 @@ Modal::End();
                         if ($model['status'] == '2') {
                             //save pdf
                             echo Html::a('<span class="glyphicon glyphicon-save" aria-hidden="true"></span> ดาวห์โหลดสัญญา', ['getpromisepdf', 'promisenumber' => $model['promisenumber']], ['class' => 'btn btn-success', 'title' => 'ดาวโหลดสัญญา']);
-                            echo "&nbsp;".Html::a('เพิ่มวันเข้าจัดเก็บ', ['/datekeep/datekeep/index', 'promiseid' => $model['id']], ['class' => 'btn btn-primary']) ;
+                            echo "&nbsp;" . Html::a('เพิ่มวันเข้าจัดเก็บ', ['/datekeep/datekeep/index', 'promiseid' => $model['id']], ['class' => 'btn btn-primary']);
                         }
                         ?>
                         <?php if ($model['status'] == 2) { ?>
@@ -198,24 +198,19 @@ Modal::End();
                                 'label' => 'เบอร์โทร',
                                 'value' => ($model['tel']) ? $model['tel'] : "" . "  " . ($model['telephone']) ? $model['telephone'] : "",
                             ],
-                            [
-                                'label' => 'สถานะการชำระเงิน',
-                                'value' => $model['checkmoney'] == 0 ? "ยังไม่ได้ชำระ" : "ชำระแล้ว",
-                            ],
+                            /*
+                              [
+                              'label' => 'สถานะการชำระเงิน',
+                              'value' => $model['checkmoney'] == 0 ? "ยังไม่ได้ชำระ" : "ชำระแล้ว",
+                              ],
+                             *
+                             */
                             [
                                 'label' => 'สถานะสัญญา',
+                                'format' => "raw",
                                 'value' => function ($model) {
-                                    if ($model['status'] == 0) {
-                                        return "หมดสัญญา";
-                                    } else if ($model['status'] == 1) {
-                                        return "รอยืนยัน";
-                                    } else if ($model['status'] == 2) {
-                                        return "กำลังใช้งาน";
-                                    } else if ($model['status'] == 3) {
-                                        return "กำลังต่อสัญญา";
-                                    } else {
-                                        return "ยกเลิกสัญญา";
-                                    }
+                                    $Config = new Config();
+                                    return "<font style='color:red;'>" . $Config->getStatusPromise($model['status']) . "</font>";
                                 },
                             ],
                             [

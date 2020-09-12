@@ -117,7 +117,7 @@ class Config {
 
         return $dayInweek[$day];
     }
-    
+
     function dayInweekKeyFull($day) {
         $dayInweek = array(
             'Monday' => 'จันทร์',
@@ -131,7 +131,6 @@ class Config {
 
         return $dayInweek[$day];
     }
-
 
     function Convert($amount_number = "") {
         $amount_number = number_format($amount_number, 2, ".", "");
@@ -211,6 +210,25 @@ class Config {
             return $rs['typepayment'];
         }
         return "";
+    }
+
+    function getStatusPromise($status) {
+        //สถานะสัญญา 0=หมดสัญญา, 1=รอยืนยัน, 2=กำลังใช้งาน, 3=กำลังต่อสัญญา ,4=ยกเลิกสัญา
+        if ($status == "0") {
+            $Textstatus = "<i class='fa fa-check text-success'></i> หมดสัญญา / สิ้นสุดสัญญา";
+        } else if ($status == "1") {
+            $Textstatus = "<i class='fa fa-info text-waring'></i> รอยืนยัน";
+        } else if ($status == "2") {
+            $Textstatus = "<i class='fa fa-check-square-o text-success'></i> กำลังใช้งาน";
+        } else if ($status == "3") {
+            $Textstatus = "<i class='fa fa-pencil text-info'></i> กำลังต่อสัญญา";
+        } else if ($status == "4") {
+            $Textstatus = "<i class='fa fa-remove text-danger'></i> ยกเลิกสัญา";
+        } else {
+            $Textstatus = "-";
+        }
+
+        return $Textstatus;
     }
 
 }

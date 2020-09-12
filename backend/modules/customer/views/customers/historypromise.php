@@ -42,8 +42,10 @@ $Config = new Config();
                                         <td><?php echo $Config->thaidate($rs['createat']) ?></td>
                                         <td style=" text-align: center;"><?php echo $rs['promisedatebegin'] ?></td>
                                         <td style=" text-align: center;" ><?php echo $rs['promisedateend'] ?></td>
-                                        <td style=" text-align: center;" ><?php echo ($rs['active'] == 1) ? "<font class='text-success'>กำลังใช้งาน</font>" : "-"; ?></td>
-                                        <td><a href="<?php echo Yii::$app->urlManager->createUrl(['promise/promise/view','id' => $rs['id']])?>" target="_blank">ดูรายละเอียดสัญญา</a></td>
+                                        <td style=" text-align: center;" >
+                                            <?php echo $Config->getStatusPromise($rs['status']) ?>
+                                        </td>
+                                        <td><a href="<?php echo Yii::$app->urlManager->createUrl(['promise/promise/view', 'id' => $rs['id']]) ?>" target="_blank">ดูรายละเอียดสัญญา</a></td>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>
@@ -60,7 +62,7 @@ $Config = new Config();
 </div>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#historypromises').DataTable({
             'paging': false,
             'lengthChange': true,

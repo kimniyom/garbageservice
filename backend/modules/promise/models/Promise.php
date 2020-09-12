@@ -255,8 +255,8 @@ class Promise extends \yii\db\ActiveRecord {
 
     function contInvoiceNonActive() {
         $sql = "SELECT count(*) AS total
-                    FROM invoice i
-                    WHERE i.`status` = '0'";
+                    FROM invoice i INNER JOIN promise p ON i.promise = p.id
+                    WHERE i.`status` = '0' AND p.status = '2'";
         return Yii::$app->db->createCommand($sql)->queryOne()['total'];
     }
 
