@@ -154,7 +154,8 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                          *
                          */
                         ['label' => 'ตั้งค่าระบบ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
-                        ['label' => 'ผู้ใช้งาน', 'icon' => 'users', 'url' => ['/user/admin']],
+                        ['label' => 'ผู้ใช้งาน(ลูกค้า)', 'icon' => 'users', 'url' => ['/user/admin']],
+                        ['label' => 'ผู้ใช้งาน(เจ้าหน้าที่)', 'icon' => 'address-card', 'url' => ['/useremp/user/index']],
                         ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],
                         ['label' => 'รถจัดเก็บขยะ', 'icon' => 'car', 'url' => ['/car/car']],
                         ['label' => 'จัดการหน้าเว็บ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],

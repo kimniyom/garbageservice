@@ -153,4 +153,47 @@ class UserController extends Controller {
         }
     }
 
+    public function actionSaveupdate() {
+        $id = Yii::$app->request->post('id');
+        $name = Yii::$app->request->post('name');
+        $tel = Yii::$app->request->post('tel');
+        $department = Yii::$app->request->post('department');
+        $email = Yii::$app->request->post('email');
+
+        $columns = array(
+            "email" => $email
+        );
+        Yii::$app->db->createCommand()
+                ->update("user", $columns, "id = '$id'")
+                ->execute();
+
+        $columnsProfile = array(
+            "name" => $name,
+            "tel" => $tel,
+            "department" => $department,
+        );
+        $result = Yii::$app->db->createCommand()
+                ->update("profile", $columnsProfile, "user_id = '$id'")
+                ->execute();
+        if ($result) {
+            echo 0;
+        }
+    }
+
+    public function actionSetblock() {
+        $type = Yii::$app->request->post('type');
+        $id = Yii::$app->request->post('id');
+        if ($type == "0") {
+            $columns = array("blocked_at" => null);
+            Yii::$app->db->createCommand()
+                    ->update("user", $columns, "id = '$id'")
+                    ->execute();
+        } else {
+            $columns = array("blocked_at" => "1599943718");
+            Yii::$app->db->createCommand()
+                    ->update("user", $columns, "id = '$id'")
+                    ->execute();
+        }
+    }
+
 }

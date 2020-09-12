@@ -78,6 +78,12 @@ $this->params['breadcrumbs'][] = $this->title;
             return false;
         }
 
+        var checkEmail = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*\@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([a-zA-Z]){2,4})$/
+        if (!email.match(checkEmail)) {
+            alert("ท่านใส่อีเมล์ไม่ถูกต้อง");
+            return false;
+        }
+
         var data = {
             username: username,
             password: password,

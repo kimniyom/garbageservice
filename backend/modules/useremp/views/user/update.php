@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script type="text/javascript">
     function save() {
+        var id = "<?php echo $model['id'] ?>";
         var name = $("#name").val();
         var tel = $("#tel").val();
         var email = $("#email").val();
@@ -64,7 +65,14 @@ $this->params['breadcrumbs'][] = $this->title;
             return false;
         }
 
+        var checkEmail = /^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*\@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([a-zA-Z]){2,4})$/
+        if (!email.match(checkEmail)) {
+            alert("ท่านใส่อีเมล์ไม่ถูกต้อง");
+            return false;
+        }
+
         var data = {
+            id: id,
             name: name,
             tel: tel,
             email: email,
@@ -75,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
         var urlRedir = "<?php echo Yii::$app->urlManager->createUrl(['useremp/user/index']) ?>";
         $.post(url, data, function(res) {
             if (res > 0) {
-                alert("มีคนใช้ชื่อ Username นี้แล้ว...!");
+                alert("เกิดข้อผิดลาด...!");
                 return false;
             } else {
                 window.location = urlRedir;
