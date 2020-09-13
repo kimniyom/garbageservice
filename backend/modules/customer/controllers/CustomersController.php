@@ -6,6 +6,7 @@ use app\modules\customer\models\Customers;
 use app\modules\customer\models\CustomersImg;
 use app\modules\customer\models\CustomersSearch;
 use app\modules\roundgarbage\models\Roundgarbage;
+use app\models\User;
 use app\models\Customerneed;
 use app\models\Location;
 use kartik\mpdf\Pdf;
@@ -94,32 +95,45 @@ class CustomersController extends Controller {
         $model = new Customers();
         $location = new Location();
         $img = new CustomersImg();
-        if ($model->load(Yii::$app->request->post()) && $location->load(Yii::$app->request->post())) {
+        $user = new User();
 
-            //$model->user_id = \Yii::$app->user->identity->id;
-            $model->user_id = $user;
-            $model->customercode = $this->getNextId();
-            $model->create_date = date("Y-m-d H:i:s");
-            $model->update_date = date("Y-m-d H:i:s");
-            $model->save();
+        if ($user->load(Yii::$app->request->post()) && $model->load(Yii::$app->request->post()) && $location->load(Yii::$app->request->post()) ) {
 
-            $location->customer_id = $model->id;
-            $location->name = $model->company;
-            $location->zoom = 13;
-            $location->save();
+            //user
+            $user->status = "U";
+            $user->password_hash = password_hash($user->password_hash, PASSWORD_DEFAULT);
+            $user->created_at = strtotime(date('Y-m-d H:i:s'));
+            $user->updated_at = strtotime(date('Y-m-d H:i:s'));
+            $user->confirmed_at = strtotime(date('Y-m-d H:i:s'));
 
-            $img->filename = UploadedFile::getInstance($img, 'filename');
-            if ($img->filename) {
-                $img->customerid = $model->id;
-                $img->filename->name = $model->id . "." . $img->filename->extension;
-                $img->dateupload = date("Y-m-d H:i:s");
-                $img->uploadby = Yii::$app->user->id;
-                $img->save();
-                $path = '../uploads/customers/gallerry/' . $img->filename->name;
-                $img->filename->saveAs($path);
+            if($user->save())
+            {
+                $model->user_id = $user->getPrimaryKey();
+                $model->customercode = $this->getNextId();
+                $model->create_date = date("Y-m-d H:i:s");
+                $model->update_date = date("Y-m-d H:i:s");
+                $model->save();
+
+                $location->customer_id = $model->id;
+                $location->name = $model->company;
+                $location->zoom = 13;
+                $location->save();
+                
+                $img->filename = UploadedFile::getInstance($img, 'filename');
+                if ($img->filename) {
+                    $img->customerid = $model->id;
+                    $img->filename->name = $model->id . "." . $img->filename->extension;
+                    $img->dateupload = date("Y-m-d H:i:s");
+                    $img->uploadby = Yii::$app->user->id;
+                    $img->save();
+                    $path = '../uploads/customers/gallerry/' . $img->filename->name;
+                    $img->filename->saveAs($path);
+                }
+
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-
-            return $this->redirect(['view', 'id' => $model->id]);
+               
+            
         }
 
         return $this->render('create', [
@@ -127,6 +141,7 @@ class CustomersController extends Controller {
                     'taxnumber' => $taxnumber,
                     'location' => $location,
                     'img' => $img,
+                    'user'=> $user,
         ]);
     }
 

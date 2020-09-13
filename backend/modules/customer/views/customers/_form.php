@@ -233,7 +233,29 @@ use kartik\widgets\TimePicker;
             <?= $form->field($model, 'approve')->radioList(['Y' => 'ยืนยัน', 'N' => 'ไม่ยืนยัน']) ?>
         </div>
     </div>
-    <hr/>
+    <div class="row">
+        <div class="col-md-3 col-lg-12"><h3>เพิ่มผู้ใช้งาน(ลูกค้า)</h3></div>
+    </div>
+    <hr style="margin-top: 0px;"/>
+    <div class="row">
+        <div class="col-md-3 col-lg-4">
+           
+            <?= $form->field($user, 'email')->textInput() ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-lg-4">
+           
+            <?= $form->field($user, 'username')->textInput() ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-lg-4">
+           
+            <?= $form->field($user, 'password_hash')->passwordInput() ?>
+        </div>
+    </div>
+    <br>
     <div class="row">
         <div class="col-md-3 col-lg-3">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

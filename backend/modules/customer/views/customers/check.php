@@ -33,21 +33,21 @@ $this->params['breadcrumbs'][] = $this->title;
             <p style="font-size: 18px;"><i class="fa fa-check text-success"></i> ยังไม่มีการลงทะเบียนด้วยเลขนี้</p>
             <?php
             // Multiple select without model
-            echo Select2::widget([
-                'name' => 'user',
-                'value' => '',
-                'data' => ArrayHelper::map($user, "id", "username"),
-                'options' => [
-                    'id' => 'user',
-                    'placeholder' => 'เลือก user จัดการข้อมูล บริษัท / สถานประกอบการ ...',
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                ],
-            ]);
+            // echo Select2::widget([
+            //     'name' => 'user',
+            //     'value' => '',
+            //     'data' => ArrayHelper::map($user, "id", "username"),
+            //     'options' => [
+            //         'id' => 'user',
+            //         'placeholder' => 'เลือก user จัดการข้อมูล บริษัท / สถานประกอบการ ...',
+            //     ],
+            //     'pluginOptions' => [
+            //         'allowClear' => true,
+            //     ],
+            // ]);
             ?>
-            <p>กรณีที่ยังไม่เพิ่มผู้ใช้งาน บริษัท / สถานประกอบการ ให้เพิ่มผู้เข้าใช้งานก่อน</p>
-            <a href="<?php echo Yii::$app->urlManager->createUrl(['user/admin/create']) ?>"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> เพิ่มผู้เข้าใช้งาน</a>
+            <!-- <p>กรณีที่ยังไม่เพิ่มผู้ใช้งาน บริษัท / สถานประกอบการ ให้เพิ่มผู้เข้าใช้งานก่อน</p>
+            <a href="<?php echo Yii::$app->urlManager->createUrl(['user/admin/create']) ?>"><i class="fa fa-plus"></i> <i class="fa fa-user"></i> เพิ่มผู้เข้าใช้งาน</a> -->
             <hr/>
             <button type="button" class="btn btn-success" style="font-size: 20px;" onclick="regiscustomer()">ขั้นตอนต่อไป <i class="fa fa-arrow-right"></i></button>
         </div>
@@ -98,13 +98,13 @@ $this->params['breadcrumbs'][] = $this->title;
         var type = $("#type").val();
         var taxnumber = $("#taxnumber").val();
         var user = $("#user").val();
-        if (user != "") {
+        //if (user != "") {
             var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/create']) ?>" + "&taxnumber=" + taxnumber + "&user=" + user;
             window.location = url;
-        } else {
-            alert("ยังไม่ได้เลือก user เพื่อจัดการข้อมูล บริษัท / สถานประกอบการ...");
-            return false;
-        }
+        //} else {
+        //    alert("ยังไม่ได้เลือก user เพื่อจัดการข้อมูล บริษัท / สถานประกอบการ...");
+        //    return false;
+        //}
         //alert(url);
     }
 

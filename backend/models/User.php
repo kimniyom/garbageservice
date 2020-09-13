@@ -42,7 +42,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'email', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'required'],
+            [['username', 'email', 'password_hash', 'created_at', 'updated_at'], 'required'],
             [['confirmed_at', 'blocked_at', 'created_at', 'updated_at', 'flags', 'last_login_at'], 'integer'],
             [['status'], 'string'],
             [['username', 'email', 'unconfirmed_email'], 'string', 'max' => 255],
@@ -51,6 +51,7 @@ class User extends \yii\db\ActiveRecord
             [['registration_ip'], 'string', 'max' => 45],
             [['username'], 'unique'],
             [['email'], 'unique'],
+            [['email'], 'email'],
         ];
     }
 
@@ -63,7 +64,7 @@ class User extends \yii\db\ActiveRecord
             'id' => 'ID',
             'username' => 'Username',
             'email' => 'Email',
-            'password_hash' => 'Password Hash',
+            'password_hash' => 'Password',
             'auth_key' => 'Auth Key',
             'confirmed_at' => 'Confirmed At',
             'unconfirmed_email' => 'Unconfirmed Email',
