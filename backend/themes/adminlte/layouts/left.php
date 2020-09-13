@@ -85,7 +85,8 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                             'url' => ['/confirmform/confirmform'],
                             'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-green">' . $confirmformAll . '</small></span></a>'
                         ],
-                        ['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage']],
+                        //['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage']],
+                        ['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage/calendar']],
                         ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save text-success', 'url' => ['/'],
                             'items' => [
                                 ['label' => 'ตามสัญญา', 'icon' => 'trash', 'url' => ['/service/default/index']],
