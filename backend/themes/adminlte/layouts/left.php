@@ -36,7 +36,7 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="<?php echo Url::to('@web/web/images/System-settings-icon.png') ?>" class="img-circle" alt="User Image"/>
+                <img src="<?php echo Url::to('../images/logo-sm.png') ?>" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
                 <p><?php
@@ -49,19 +49,6 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
             </div>
         </div>
 
-        <!-- search form -->
-        <!--
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                <span class="input-group-btn">
-                    <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
-        </form>
-        -->
-        <!-- /.search form -->
 
         <?=
         dmstr\widgets\Menu::widget(
@@ -74,9 +61,6 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                             'items' => [
                                 ['label' => 'ทั้งหมด', 'icon' => 'users', 'url' => ['/customer/customers/index']],
                                 ['label' => 'เพิ่ม', 'icon' => 'plus', 'url' => ['/customer/customers/check']],
-                            //['label' => 'ประเภทธุรกิจลูกค้า', 'icon' => 'plus', 'url' => ['/typecustomer/typecustomer/']],
-                            //['label' => 'รายเดือน', 'icon' => '', 'url' => '#'],
-                            //['label' => 'รายปี', 'icon' => '', 'url' => '#'],
                             ],
                         ],
                         [
@@ -85,15 +69,6 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                             'url' => ['/customer/customers/quotation', 'status' => 0],
                             'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-red">' . $customerModel->countQuotation() . '</small></span></a>'
                         ],
-                        /*
-                          [
-                          'label' => 'สัญญา',
-                          'icon' => 'fa fa-address-card-o',
-                          'url' => ['/promise/promise'],
-                          'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-yellow">' . $promiseall . '</small></span></a>'
-                          ],
-                         *
-                         */
                         ['label' => 'สัญญา', 'icon' => 'address-card-o text-info', 'url' => ['/'],
                             'items' => [
                                 ['label' => 'กลุ่มคลินิก', 'icon' => 'h-square', 'url' => ['/promise/promise', 'group' => 1, 'groupname' => 'กลุ่มคลินิก']],
@@ -110,12 +85,7 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                             'url' => ['/confirmform/confirmform'],
                             'template' => '<a href="{url}">{icon} {label}<span class="pull-right-container"><small class="label pull-right bg-green">' . $confirmformAll . '</small></span></a>'
                         ],
-                        //['label' => 'รอบเก็บ', 'icon' => 'download', 'url' => ['/gii'],
-                        //'items' => [
-                        // ['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage']],
-                        //['label' => 'รอบการเก็บเงิน', 'icon' => '', 'url' => ['/roundmoney/roundmoney']],
-                        //],
-                        //],
+                        ['label' => 'รอบการเก็บขยะ', 'icon' => '', 'url' => ['/roundgarbage/roundgarbage']],
                         ['label' => 'บันทึกรายการจัดเก็บ', 'icon' => 'save text-success', 'url' => ['/'],
                             'items' => [
                                 ['label' => 'ตามสัญญา', 'icon' => 'trash', 'url' => ['/service/default/index']],
@@ -143,18 +113,8 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                         ],
                         ['label' => 'บันทึกรายงานการเก็บขยะเกิน', 'icon' => 'check text-warning', 'url' => ['/service/default/genformgarbageover']],
                         ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
-                        /*
-                          ['label' => 'รายงาน', 'icon' => 'wpforms text-default', 'url' => ['/gii'],
-                          'items' => [
-                          ['label' => 'ค่าบริการประจำเดือน ', 'icon' => '', 'url' => ['/report/report/monthservicefee']],
-                          ['label' => 'ค้างจ่ายค่าบริการประจำเดือน', 'icon' => '', 'url' => ['/report/report/accruedservicefee']],
-                          ['label' => 'ค่าบริการรายลูกค้า', 'icon' => '', 'url' => ['/report/report/customerservicefee']],
-                          ],
-                          ],
-                         *
-                         */
                         ['label' => 'ตั้งค่าระบบ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
-                        ['label' => 'ผู้ใช้งาน(ลูกค้า)', 'icon' => 'users', 'url' => ['/user/admin']],
+                        //['label' => 'ผู้ใช้งาน(ลูกค้า)', 'icon' => 'users', 'url' => ['/user/admin']],
                         ['label' => 'ผู้ใช้งาน(เจ้าหน้าที่)', 'icon' => 'address-card', 'url' => ['/useremp/user/index']],
                         ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],
                         ['label' => 'รถจัดเก็บขยะ', 'icon' => 'car', 'url' => ['/car/car']],
@@ -162,35 +122,6 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                         ['label' => 'แนะนำสินค้าอื่นๆ', 'icon' => 'trash', 'url' => ['/garbagecontainer/garbagecontainer/index']],
                         ['label' => 'ข่าวสารและโปรโมชั่น', 'icon' => 'newspaper-o', 'url' => ['/news/news/index']],
                         ['label' => 'เมนูเว็บไซต์', 'icon' => 'bars', 'url' => ['/navbar/navbar/index']],
-                    /*
-                      ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-                      ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                      [
-                      'label' => 'Some tools',
-                      'icon' => 'share',
-                      'url' => '#',
-                      'items' => [
-                      ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                      ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                      [
-                      'label' => 'Level One',
-                      'icon' => 'circle-o',
-                      'url' => '#',
-                      'items' => [
-                      ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                      [
-                      'label' => 'Level Two',
-                      'icon' => 'circle-o',
-                      'url' => '#',
-                      'items' => [
-                      ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                      ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                      ],
-                      ],
-                      ],
-                      ],
-                      ],
-                     */
                     ],
                 ]
         )

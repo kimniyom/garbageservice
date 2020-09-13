@@ -36,7 +36,11 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?php $this->registerCsrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
+        <link rel="shortcut icon" type="image/png" href="<?php echo Url::to('../images/logo-sm.png') ?>" />
+        <!--
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        -->
+        <script src="<?php echo Url::to('@web/web/js/sweetalert2@9.js') ?>"></script>
         <?php $this->head() ?>
         <style type="text/css">
             .breadcrumb {
@@ -144,9 +148,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                         <?php //if (Yii::$app->user->isGuest) { ?>
                                         <!--
                                             <div class="user_icon">
-                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                           ?>" alt="">
+                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                                         ?>" alt="">
                                             </div>
-                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                           ?>">Register</a></div>
+                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                                         ?>">Register</a></div>
                                         -->
                                         <?php //} ?>
                                         <div>
@@ -260,7 +264,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
             <!-- Banner -->
             <!--
-            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                           ?>)"
+            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                                         ?>)"
             -->
             <div class="banner" style="display: none;">
                 <div class="banner_background" style="background-image:url(<?php echo Url::to('@web/web/theme/images/banner_background.jpg') ?>)"></div>
@@ -422,7 +426,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="col">
                                         <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
                                             <div class="newsletter_title_container">
-                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                           ?>" alt=""></div>
+                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                                         ?>" alt=""></div>
                                                 <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
                                             </div>
                                             <div class="newsletter_content clearfix">

@@ -33,6 +33,7 @@ if (Yii::$app->controller->action->id === 'login') {
             <meta charset="<?= Yii::$app->charset ?>"/>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <?= Html::csrfMetaTags() ?>
+            <link rel="shortcut icon" type="image/png" href="<?php echo Url::to('../images/logo-sm.png') ?>" />
             <link rel="stylesheet" href="<?php echo Url::to('@web/web/datatable/dataTables.bootstrap.min.css') ?>">
             <title><?= Html::encode($this->title) ?></title>
             <?php $this->head() ?>
@@ -80,9 +81,15 @@ if (Yii::$app->controller->action->id === 'login') {
 <?php } ?>
 
 <script type="text/javascript" src="<?php echo Url::to('@web/web/uploadifive/jquery.uploadifive.min.js') ?>"></script>
+<!--
 <script type="text/javascript" src="https://adminlte.io/themes/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.src.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+-->
+
+<script src="<?php echo Url::to('@web/web/js/jquery.slimscroll.min.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/js/highcharts.src.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/js/sweetalert2@9.js') ?>"></script>
 <!-- DataTables -->
 <script src="<?php echo Url::to('@web/web/datatable/jquery.dataTables.min.js') ?>"></script>
 <script src="<?php echo Url::to('@web/web/datatable/dataTables.bootstrap.min.js') ?>"></script>

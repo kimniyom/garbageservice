@@ -3,6 +3,7 @@
 use app\models\Config;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use dektrium\user\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\customer\models\Customer */
@@ -23,22 +24,22 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
     //function initMap() {
     /*
      var mapOptions = {
-     center: {lat: <?php //echo ($location['lat']) ? $location['lat'] : "0"                            ?>, lng: <?php //echo ($location['long']) ? $location['long'] : "0"                            ?>},
-     zoom: <?php //echo ($location['zoom']) ? $location['zoom'] : "13"                            ?>,
+     center: {lat: <?php //echo ($location['lat']) ? $location['lat'] : "0"                               ?>, lng: <?php //echo ($location['long']) ? $location['long'] : "0"                               ?>},
+     zoom: <?php //echo ($location['zoom']) ? $location['zoom'] : "13"                               ?>,
      }
-     
+
      var maps = new google.maps.Map(document.getElementById("map"), mapOptions);
-     
+
      var marker = new google.maps.Marker({
-     position: new google.maps.LatLng(<?php //echo ($location['lat']) ? $location['lat'] : "0"                            ?>, <?php //echo ($location['long']) ? $location['long'] : "0"                        ?>),
+     position: new google.maps.LatLng(<?php //echo ($location['lat']) ? $location['lat'] : "0"                               ?>, <?php //echo ($location['long']) ? $location['long'] : "0"                           ?>),
      map: maps,
-     title: "<?php //echo $model['company']                            ?>"
+     title: "<?php //echo $model['company']                               ?>"
      });
-     
+
      var info = new google.maps.InfoWindow({
-     content: "<div style='font-size: 18px;color: red'>" + "<?php //echo $model['company']                            ?><br/><?php //echo $model['address']                            ?> จ.<?php //echo $changwat                            ?> อ.<?php //echo $ampur                            ?> ต.<?php //echo $tambon                            ?> <?php //echo $model['zipcode']                            ?>" + "</div>"
+     content: "<div style='font-size: 18px;color: red'>" + "<?php //echo $model['company']                               ?><br/><?php //echo $model['address']                               ?> จ.<?php //echo $changwat                               ?> อ.<?php //echo $ampur                               ?> ต.<?php //echo $tambon                               ?> <?php //echo $model['zipcode']                               ?>" + "</div>"
      });
-     
+
      google.maps.event.addListener(marker, 'click', function() {
      info.open(maps, marker);
      });
@@ -82,18 +83,18 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
                         <div class="box" id="box-detail">
                             <div class="box-header" style=" padding-bottom: 0px;">
                                 <?php if ($model->flag == 1) { ?>
-                                <?php if ($model->approve == 'N') { ?>
-                                    <label class="alert alert-warning" style="width: 100%;">
-                                        <i class="fa fa-info"></i> รอยืนยันข้อมูลแล้ว
-                                    </label>
-                                <?php } else { ?>
-                                    <label class="alert alert-success" style="width: 100%;"><i class="fa fa-check"></i> ยืนยันข้อมูลแล้ว</label>
-                                <?php } ?>
+                                    <?php if ($model->approve == 'N') { ?>
+                                        <label class="alert alert-warning" style="width: 100%;">
+                                            <i class="fa fa-info"></i> รอยืนยันข้อมูลแล้ว
+                                        </label>
+                                    <?php } else { ?>
+                                        <label class="alert alert-success" style="width: 100%;"><i class="fa fa-check"></i> ยืนยันข้อมูลแล้ว</label>
+                                    <?php } ?>
                                 <?php } ?>
                                 <?php if ($model->flag == 0) { ?>
                                     <label class="alert alert-danger" style="width: 100%;">
                                         <i class="fa fa-info"></i> ลูกค้าถูกปิดการทำงานไว้
-                                    </label> 
+                                    </label>
                                 <?php } ?>
                             </div>
                             <!-- /.box-header -->
@@ -141,6 +142,10 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
                                         [
                                             'label' => 'แก้ไขข้อมูลล่าสุด',
                                             'value' => $urlMap->thaidate($model->update_date),
+                                        ],
+                                        [
+                                            'label' => 'Username',
+                                            'value' => User::findOne(['id' => $model->user_id])['username'],
                                         ],
                                     ],
                                 ])
@@ -201,7 +206,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
             var id = "<?php echo $model->id ?>";
             var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customer/confirmcustomer']) ?>";
             var data = {id: id};
-            $.post(url, data, function (datas) {
+            $.post(url, data, function(datas) {
                 window.location.reload();
             })
         }
@@ -219,7 +224,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
         var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/gethistoryinvoice']) ?>";
         var id = "<?php echo $model->id ?>";
         var data = {customerid: id};
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             $("#historyinvoice").html(res);
         });
     }
@@ -228,7 +233,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
         var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/gethistoryworking']) ?>";
         var id = "<?php echo $model->id ?>";
         var data = {customerid: id};
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             $("#historyworking").html(res);
         });
     }
@@ -237,7 +242,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
         var url = "<?php echo Yii::$app->urlManager->createUrl(['customer/customers/gethistorypromise']) ?>";
         var id = "<?php echo $model->id ?>";
         var data = {customerid: id};
-        $.post(url, data, function (res) {
+        $.post(url, data, function(res) {
             $("#historypromise").html(res);
         });
     }

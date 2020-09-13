@@ -8,6 +8,8 @@ use app\models\Groupcustomer;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use dektrium\user\models\Profile;
+use dektrium\user\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\customer\models\CustomerSearch */
@@ -53,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'style' => 'word-wrap: break-word;'
                 ],
-                //'format' => 'html',
+                'format' => 'html',
                 'filter' => ArrayHelper::map(Groupcustomer::find()->all(), 'id', 'groupcustomer'), //กำหนด filter แบบ dropDownlist จากข้อมูล ใน field แบบ foreignKey
                 'value' => function($model) {
                     return Groupcustomer::findOne(["id" => $model->grouptype])['groupcustomer'];
@@ -71,7 +73,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Typecustomer::findOne(["id" => $model->type])['typename'];
                 }
             ],
-            //'address',
+            [
+                'label' => 'Username',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return User::findOne(['id' => $model->user_id])['username'];
+                }
+            ],
             [
                 'attribute' => 'address',
                 'format' => 'text',
