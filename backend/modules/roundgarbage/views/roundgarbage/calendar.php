@@ -1,3 +1,18 @@
+<style type="text/css">
+    #calendar{
+        background: #FFFFFF;
+    }
+    #ca{
+        padding: 10px; background: #FFFFFF;
+    }
+
+    h2{
+        font-size: 18px;
+        text-align: center;
+        padding-top: 15px;
+    }
+    
+</style>
 <?php
 
 use yii\helpers\Html;
@@ -25,6 +40,7 @@ $this->title = "";
             'right' => 'month', //agendaWeek,agendaDay
         ],
         'clientOptions' => [
+            'style'=>'width:100%;background-color:#ffffff;',
             'language' => 'th',
             'eventLimit' => false,
             //'theme' => true,
@@ -79,7 +95,7 @@ $this->title = "";
     function getDetail(id) {
         var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/view']) ?>";
         var data = {id: id};
-        $.post(url, data, function(res) {
+        $.post(url, data, function (res) {
             $("#detail").modal();
             $("#viewdata").html(res);
             var walkIn = $("#walkIn").val();
@@ -97,7 +113,7 @@ $this->title = "";
             var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/delete']) ?>";
             var id = $("#dateId").val();
             var data = {id: id};
-            $.post(url, data, function(res) {
+            $.post(url, data, function (res) {
                 window.location.reload();
             });
         }
