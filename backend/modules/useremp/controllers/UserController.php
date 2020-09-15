@@ -196,4 +196,19 @@ class UserController extends Controller {
         }
     }
 
+    public function actionChangpassword($id)
+    {
+        $model = User::findOne(['id'=>$id]);
+        $model->setScenario('changePwd');
+
+        if($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            
+        }
+
+        return $this->render('changepassword',[
+            'model'=>$model
+        ]);
+    }
+
 }

@@ -28,6 +28,9 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    public $password_old;
+    public $password_new;
+    public $password_repeat;
     /**
      * {@inheritdoc}
      */
@@ -51,6 +54,10 @@ class User extends \yii\db\ActiveRecord
             [['registration_ip'], 'string', 'max' => 45],
             [['username'], 'unique'],
             [['email'], 'unique'],
+            //change password 
+            [['password_old', 'password_new', 'password_repeat'],'required', 'on' => 'changePwd'],
+            [['password_old'], 'findPasswords', 'on' => 'changePwd'],
+            [['password_repeat'], 'compare', 'compareAttribute'=>'password_new', 'on'=>'changePwd'],
         ];
     }
 
@@ -74,6 +81,9 @@ class User extends \yii\db\ActiveRecord
             'flags' => 'Flags',
             'last_login_at' => 'Last Login At',
             'status' => 'Status',
+            'password_old' => 'รหัสผ่านเดิม',
+            'password_new' => 'รหัสผ่านใหม่',
+            'password_repeat' => 'ยืนยันรหัสผ่าน',
         ];
     }
 
@@ -106,4 +116,19 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Token::className(), ['user_id' => 'id']);
     }
+
+    public function findPasswords($attribute, $params)
+	{
+       
+        $user = User::findOne(['id'=>1648]);
+        echo $user->password_hash;
+        echo "<br>";
+       // echo password_hash($this->password_old, PASSWORD_DEFAULT);
+        echo "<br>";
+
+        
+        die;
+		if ($user->password_hash != password_hash($this->password_old, PASSWORD_DEFAULT))
+			$this->addError($attribute, 'Old password is incorrect.');
+	}
 }
