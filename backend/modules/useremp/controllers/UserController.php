@@ -8,7 +8,7 @@ use app\modules\useremp\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use dektrium\user\helpers\Password;
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -196,14 +196,30 @@ class UserController extends Controller {
         }
     }
 
-    public function actionChangpassword($id)
+    public function actionChangepassword($id)
     {
         $model = User::findOne(['id'=>$id]);
-        $model->setScenario('changePwd');
+        $model->scenario = 'changepassword';
+        
 
         if($model->load(Yii::$app->request->post()) && $model->validate())
         {
+            $result = Password::validate($model->password_old, $model->password_hash);
+      
+            if (!$result)
+            {
+                $model->addError("password_old", 'Old password is incorrect. ');
+            }
+            else
+            {
+                $model->password_hash = password_hash($model->password_new, PASSWORD_DEFAULT);
+                if($model->save())
+                {
+                    return $this->redirect(['index']);
+                }
+            }
             
+                
         }
 
         return $this->render('changepassword',[
@@ -211,4 +227,5 @@ class UserController extends Controller {
         ]);
     }
 
+   
 }

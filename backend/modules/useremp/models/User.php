@@ -45,7 +45,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'email', 'password_hash', 'auth_key', 'created_at', 'updated_at'], 'required'],
+            [['username', 'email', 'password_hash', 'created_at', 'updated_at'], 'required'],
             [['confirmed_at', 'blocked_at', 'created_at', 'updated_at', 'flags', 'last_login_at'], 'integer'],
             [['status'], 'string'],
             [['username', 'email', 'unconfirmed_email'], 'string', 'max' => 255],
@@ -55,9 +55,9 @@ class User extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             [['email'], 'unique'],
             //change password 
-            [['password_old', 'password_new', 'password_repeat'],'required', 'on' => 'changePwd'],
-            [['password_old'], 'findPasswords', 'on' => 'changePwd'],
-            [['password_repeat'], 'compare', 'compareAttribute'=>'password_new', 'on'=>'changePwd'],
+            [['password_old', 'password_new', 'password_repeat'],'required', 'on' => 'changepassword'],
+            //[['password_old'], 'findPasswords', 'on' => 'changepassword'],
+            [['password_repeat'], 'compare', 'compareAttribute'=>'password_new', 'on'=>'changepassword'],
         ];
     }
 
@@ -117,18 +117,5 @@ class User extends \yii\db\ActiveRecord
         return $this->hasMany(Token::className(), ['user_id' => 'id']);
     }
 
-    public function findPasswords($attribute, $params)
-	{
-       
-        $user = User::findOne(['id'=>1648]);
-        echo $user->password_hash;
-        echo "<br>";
-       // echo password_hash($this->password_old, PASSWORD_DEFAULT);
-        echo "<br>";
-
-        
-        die;
-		if ($user->password_hash != password_hash($this->password_old, PASSWORD_DEFAULT))
-			$this->addError($attribute, 'Old password is incorrect.');
-	}
+    
 }

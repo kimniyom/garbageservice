@@ -577,4 +577,24 @@ class CustomersController extends Controller {
         return $this->renderPartial("historypromise", $data);
     }
 
+    public function actionResetpassword($userid, $customerid, $company)
+    {
+        $model = User::findOne(['id'=>$userid]);
+        $model->password_hash = "";
+
+        if($model->load(Yii::$app->request->post()) && $model->validate())
+        {
+            $model->password_hash = password_hash($model->password_hash, PASSWORD_DEFAULT);
+           
+            if($model->save())
+            {
+                return $this->redirect(['view', 'id' => $customerid]);
+            }
+        }
+        return $this->render('resetpassword', [
+            'model' => $model,
+            'company' => $company
+        ]);
+    }
+
 }

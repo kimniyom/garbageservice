@@ -126,7 +126,7 @@ class Promise extends \yii\db\ActiveRecord {
                     return $('#promise-recivetype').val() == 1;
                 }",
             ],
-            ['payperyear', 'integer', 'when' => function ($model) {
+            ['payperyear', 'number', 'when' => function ($model) {
                     return $model->recivetype == 1 || $model->recivetype == 3;
                 }, 'whenClient' => "function (attribute, value) {
                     return $('#promise-recivetype').val() == 1;
@@ -142,11 +142,11 @@ class Promise extends \yii\db\ActiveRecord {
                     return $model->status == '4';
                 }],
             [['promisenumber', 'employer1', 'employer2', 'witness1', 'witness2'], 'string'],
-            [['customerid', 'levy', 'payperyear', 'dayinweek',
-            'monthunit', 'yearunit', 'unitprice', 'distcountpercent', 'fine', 'payment', 'vattype', 'contracktor'], 'integer'],
+            [['customerid', 'levy', 'dayinweek',
+            'monthunit', 'distcountpercent', 'payment', 'vattype', 'contracktor', 'yearunit'], 'integer'],
             [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
             [['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
-            [['garbageweight', 'deposit', 'vat'], 'number'],
+            [['garbageweight', 'deposit', 'vat' , 'unitprice', 'fine' , 'payperyear'], 'number'],
             [['ratetext', 'payperyeartext'], 'string', 'max' => 64],
             [['rate'], 'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
             ['ratetext', 'string'],

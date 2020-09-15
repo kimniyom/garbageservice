@@ -102,6 +102,7 @@ $tambon = \app\models\Tambon::find()->where(['tambon_id' => $model->tambon])->on
                                 <?php if ($model->flag == 1) { ?>
                                     <p>
                                         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                                        <?= Html::a('Reset password', ['resetpassword', 'userid' => $model->user_id, 'customerid'=>$model->id, 'company'=>$model->company], ['class' => 'btn btn-warning']) ?>
                                         <?=
                                         Html::a('Delete', ['delete', 'id' => $model->id], [
                                             'class' => 'btn btn-danger',
