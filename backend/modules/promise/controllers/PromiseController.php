@@ -614,7 +614,8 @@ class PromiseController extends Controller {
             $promisefile->dateupload = date('Y-m-d H:i');
             $promisefile->status = 1;
 
-            if ($promisefile->filename && $promisefile->validate() && ($promise->promisenumber === str_replace(".pdf", "", $promisefile->filename))) {
+            if ($promisefile->filename && $promisefile->validate() && ($promise->promisenumber === str_replace(".pdf", "", $promisefile->filename))) 
+            {
                 $path = '../uploads/promise/pdf/' . $promise->promisenumber . '.' . $promisefile->filename->extension;
                 $promisefile->promiseid = $id;
                 $promisefile->filename->name = $promise->promisenumber . '.' . $promisefile->filename->extension;
@@ -636,10 +637,7 @@ class PromiseController extends Controller {
                     }
                 }
             } else {
-                Yii::$app->getSession()->setFlash('alert', [
-                    'body' => 'กรุณาตรวจสอบชื่อไฟล์ให้ถูกต้อง',
-                    'options' => ['class' => 'alert-warning']
-                ]);
+                $promisefile->addError("filename", 'ชื่อไฟล์ไม่ใช่ชื่อเดียวกับเลขที่สัญญา');
             }
         }
 

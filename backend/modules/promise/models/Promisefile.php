@@ -49,7 +49,7 @@ class Promisefile extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'promiseid' => 'เลขที่สัญญา',
-            'filename' => 'ชื่อไฟล์สัญญญาที่อัพโหลด จะเป็นชื่อเดียวกับเลขสัญญา',
+            'filename' => '',
             'dateupload' => 'วันที่อัพโหลดไฟล์',
             'uploadby' => 'user ที่อัพโหลดไฟล์',
             'status' => 'สถานะการใช้งาน 1 คือ ใช้งาน 2 คือ จบการทำงานแล้ว',
