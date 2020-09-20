@@ -143,13 +143,14 @@ class Promise extends \yii\db\ActiveRecord {
                 }],
             [['promisenumber', 'employer1', 'employer2', 'witness1', 'witness2'], 'string'],
             [['customerid', 'levy', 'dayinweek',
-            'monthunit', 'distcountpercent', 'payment', 'vattype', 'contracktor', 'yearunit'], 'integer'],
+            'monthunit', 'distcountpercent', 'payment', 'vattype', 'contracktor', 'yearunit', 'garbageweight'], 'integer'],
             [['promisedatebegin', 'promisedateend', 'createat'], 'safe'],
             [['recivetype', 'active', 'status', 'checkmoney', 'etc'], 'string'],
-            [['garbageweight', 'deposit', 'vat' , 'unitprice', 'fine' , 'payperyear'], 'number'],
+            [['deposit', 'vat' , 'unitprice', 'fine' , 'payperyear'], 'number'],
             [['ratetext', 'payperyeartext'], 'string', 'max' => 64],
             [['rate'], 'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
             ['ratetext', 'string'],
+            [['unitprice', 'fine', 'rate', 'distcountbath'], 'number', 'numberPattern' => '/^\d+(.\d{1,2})?$/', 'message' => 'ใส่จุดทศนิยมได้ 2 ตำแหน่ง'],
             [['distcountbath', 'total'], 'safe'],
         ];
     }

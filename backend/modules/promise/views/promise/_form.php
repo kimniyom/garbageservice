@@ -479,7 +479,7 @@ if ($model->id == "") {
                 $(".distcount").show();
             } else {
                 var price = $("#promise-payperyear").val();
-                $("#promise-total").val(price);
+                $("#promise-total").val(price.toFiexed(2));
                 $(".distcount").hide();
             }
         });
@@ -590,7 +590,7 @@ if ($model->id == "") {
         var totalSum = "";
         var vat = $("#promise-vat").val();
         var types = parseInt($("#RECIVETYPE").val());
-        var unit = parseInt($("#promise-unitprice").val());
+        var unit = parseFloat($("#promise-unitprice").val()).toFixed(2);
         var garbageweight = parseInt($("#promise-garbageweight").val());
         var levy = parseInt($("#promise-levy").val());
         //var payment = parseInt($("#promise-payment").val());
@@ -609,9 +609,9 @@ if ($model->id == "") {
              totalSum = totalyear;
              }
              */
-            $("#promise-rate").val(total);
-            $("#promise-payperyear").val(parseInt(totalyear));
-            $("#promise-total").val(totalyear);
+            $("#promise-rate").val(total.toFixed(2));
+            $("#promise-payperyear").val(parseFloat(totalyear).toFixed(2));
+            $("#promise-total").val(totalyear.toFixed(2));
             $("#promise-distcountpercent").val(0);
             $("#promise-distcountbath").val(0);
         } else if (types == 3) {
@@ -635,7 +635,7 @@ if ($model->id == "") {
 
     function calculationtype3() {
         var type = parseInt($("#promise-recivetype").val());
-        var rate = parseInt($("#promise-rate").val());
+        var rate = parseFloat($("#promise-rate").val()).toFixed(2);
         var totalyear;
         var totalSum;
         //enable vattype
@@ -645,29 +645,29 @@ if ($model->id == "") {
         {
             totalyear = (rate * 12);
             totalSum = totalyear;
-            $("#promise-payperyear").val(parseInt(totalSum));
-            $("#promise-total").val(totalSum);
+            $("#promise-payperyear").val(parseFloat(totalSum).toFixed(2));
+            $("#promise-total").val(parseFloat(totalSum).toFixed(2));
             $("#promise-distcountpercent").val(0);
             $("#promise-distcountbath").val(0);
         }
     }
 
     function calculationPercent() {
-        var totalYear = parseInt($("#promise-payperyear").val());
-        var percent = parseInt($("#promise-distcountpercent").val());
+        var totalYear = parseFloat($("#promise-payperyear").val()).toFixed(2);
+        var percent = parseFloat($("#promise-distcountpercent").val()).toFixed(2);
         var distCount = ((totalYear * percent) / 100);
         var totalAll = (totalYear - distCount);
-        $("#promise-distcountbath").val(distCount);
-        $("#promise-total").val(totalAll);
+        $("#promise-distcountbath").val(distCount.toFixed(2));
+        $("#promise-total").val(totalAll.toFixed(2));
     }
 
     function calculationBath() {
-        var totalYear = parseInt($("#promise-payperyear").val());
+        var totalYear = parseFloat($("#promise-payperyear").val()).toFixed(2);
         $("#promise-distcountpercent").val(0);
         var distCount = $("#promise-distcountbath").val();
         var totalAll = (totalYear - distCount);
         //$("#promise-distcountbath").val(distCount);
-        $("#promise-total").val(parseInt(totalAll));
+        $("#promise-total").val(parseFloat(totalAll).toFixed(2));
     }
 
     function setScreen() {
@@ -677,15 +677,15 @@ if ($model->id == "") {
     }
 
     function setTypePromise() {
-        var total = parseInt($("#totalYear").val());
+        var total = parseFloat($("#totalYear").val()).toFixed(2);
         if (total == "") {
             alert("กรุณากรอกจำนวน...");
             $("#totalYear").focus();
             return false;
         }
         var totamonth = (total / 12);
-        $("#promise-payperyear").val(total);
-        $("#promise-total").val(total);
+        $("#promise-payperyear").val(total.toFixed(2));
+        $("#promise-total").val(total.toFixed(2));
         $("#promise-rate").val(totamonth.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
         $("#popupsetYear").modal("hide");
     }
