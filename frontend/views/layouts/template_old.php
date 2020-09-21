@@ -40,7 +40,6 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
         <!--
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         -->
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <script src="<?php echo Url::to('@web/web/js/sweetalert2@9.js') ?>"></script>
         <?php $this->head() ?>
         <style type="text/css">
@@ -93,50 +92,6 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
             #link_hover:hover{
                 color: #777777;
             }
-
-
-            #setheighthomebox1 .row [class*='col-'] {
-                text-align: center;
-                background-clip: content-box;
-                min-height: 130px;
-                margin-bottom: 15px;
-            }
-
-            #setheighthomebox2 .row [class*='col-'] {
-                text-align: center;
-                background-clip: content-box;
-                min-height: 130px;
-                margin-bottom: 15px;
-            }
-
-            #setheighthomebox3 .row [class*='col-'] {
-                text-align: center;
-                background-clip: content-box;
-                min-height: 130px;
-                margin-bottom: 15px;
-            }
-
-            .settextcenter{
-                margin: 0;top: 50%;left: 50%;transform: translate(-50%, -50%); text-align: left; padding-left: 20px; clear: both;
-            }
-
-            .hideme{
-                opacity:0;
-            }
-            /*
-            .box-center{
-                width: 100%;margin-left: auto;margin-right: auto;position: relative;top: 50%;transform: translateY(-50%);
-                text-align: center;
-                padding: 20px;
-
-            }
-            */
-
-
-
-
-
-
         </style>
         <?php
         $this->registerJs('
@@ -195,6 +150,14 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                 js.src = 'https://connect.facebook.net/th_TH/sdk/xfbml.customerchat.js';
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
+
+            function setHomePage() {
+                var w = window.innerWidth;
+                if (w > 500) {
+                    var box = $("#contact-home").height();
+                    $("#contact-home-right").css({"height": box});
+                }
+            }
         </script>
         <script>(function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -226,17 +189,17 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <a href="#"><img src="<?php echo Url::to('@web/web/images/logo-dark.png'); ?>" id="img-logo"/></a>
                                 </div>
                                 <div class="top_bar_contact_item" style="margin-right: 10px;">
-                                    <p class="text-danger" style="margin-bottom: 0px; margin-top:10px;">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
-                                    <p class="text-danger" style="margin-bottom: 0px;">IC QUALITY SYSTEM Co., Ltd.</p>
+                                    <p class="text-white" style="margin-bottom: 0px; margin-top:10px;">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</p>
+                                    <p class="text-white" style="margin-bottom: 0px;">IC QUALITY SYSTEM Co., Ltd.</p>
                                 </div>
                                 <div class="top_bar_content ml-auto">
                                     <div class="top_bar_user">
                                         <?php //if (Yii::$app->user->isGuest) { ?>
                                         <!--
                                             <div class="user_icon">
-                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                                                                                                                                                                                                                                                       ?>" alt="">
+                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                                                      ?>" alt="">
                                             </div>
-                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                                                                                                                                                                                                                                                       ?>">Register</a></div>
+                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                                                      ?>">Register</a></div>
                                         -->
                                         <?php //} ?>
                                         <div>
@@ -347,27 +310,26 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
             </header>
 
+
             <!-- Banner -->
             <!--
-            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                                                                                                                                                                                                                                                       ?>)"
+            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                                                      ?>)"
             -->
-            <div class="banner" style="display: none; ">
+            <div class="banner" style="display: none; height: 700px;">
                 <div class="banner_background" style="background-image:url(<?php echo Url::to('@web/web/theme/images/banner_background.jpg') ?>)"></div>
                 <div class="container fill_height">
                     <div class="row fill_height">
                         <div class="banner_product_image"><img src="<?php echo Url::to('@web/web/theme/images/banner_product_ic.png') ?>" alt=""></div>
                         <div class="col-lg-5 offset-lg-12 fill_height">
                             <div class="banner_content">
-                                <div data-aos="fade-down" data-aos-duration="2000">
-                                    <h2 class="banner_text">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</h2>
-                                    <h2 class="banner_text">IC QUALITY SYSTEM Co., Ltd.</h2>
-                                    <div class="banner_product_name" style="margin-top: 30px;">
-                                        &nbsp; &nbsp; &nbsp; &nbsp;เราเป็นผู้ให้บริการขนส่งและกำจัดขยะมูลฝอยติดเชื้อ
-                                        โดยยึดหลักธรรมาภิบาลเพื่อความปลอดภัยของประชาชน
-                                        และเป็นมิตรกับสิ่งแวดล้อม ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน
-                                    </div>
-                                    <div class="button banner_button"><a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customerneed/create']) ?>">ขอใบเสนอราคา</a></div>
+                                <h2 class="banner_text">บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</h2>
+                                <h2 class="banner_text">IC QUALITY SYSTEM Co., Ltd.</h2>
+                                <div class="banner_product_name" style="margin-top: 30px;">
+                                    &nbsp; &nbsp; &nbsp; &nbsp;เราเป็นผู้ให้บริการขนส่งและกำจัดขยะมูลฝอยติดเชื้อ
+                                    โดยยึดหลักธรรมาภิบาลเพื่อความปลอดภัยของประชาชน
+                                    และเป็นมิตรกับสิ่งแวดล้อม ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน
                                 </div>
+                                <div class="button banner_button"><a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customerneed/create']) ?>">ขอใบเสนอราคา</a></div>
                             </div>
                         </div>
                     </div>
@@ -376,8 +338,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
 
             <div id="mainbody" style=" display: none;">
-                <div class="container" style=" display: none;">
+                <div class="container">
                     <div class="row" style="margin-top: 35px; padding-bottom:30px;margin-bottom:0px;">
+                        <!-- Char. Item -->
                         <div class="col-lg-4 col-md-6 char_col">
                             <div class="char_item d-flex flex-row align-items-center justify-content-start" style="background: #ffffff;  /* fallback for old browsers */
                                  background: -webkit-linear-gradient(to right, #ffffff, #00c6ff);  /* Chrome 10-25, Safari 5.1-6 */
@@ -390,7 +353,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                 </div>
                             </div>
                         </div>
+                        <!-- Char. Item -->
                         <div class="col-lg-4 col-md-6 char_col">
+
                             <div class="char_item d-flex flex-row align-items-center justify-content-start" style="background: #ffffff;  /* fallback for old browsers */
                                  background: -webkit-linear-gradient(to right, #ffffff, #ADD100);  /* Chrome 10-25, Safari 5.1-6 */
                                  background: linear-gradient(to right, #ffffff, #ADD100); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */">
@@ -401,6 +366,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                 </div>
                             </div>
                         </div>
+                        <!-- Char. Item -->
                         <div class="col-lg-4 col-md-12 char_col">
                             <div class="char_item d-flex flex-row align-items-center justify-content-start" style="background: #ffffff;  /* fallback for old browsers */
                                  background: -webkit-linear-gradient(to right, #ffffff, #9D50BB);  /* Chrome 10-25, Safari 5.1-6 */
@@ -413,83 +379,6 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="container">
-                    <div id="setheighthomebox1" style=" margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 col col-sm-12 col-xs-12">
-
-                                <div data-aos="fade-right" data-aos-duration="2000">
-                                    <img src="<?php echo Url::to('../images/bg-home-1.png') ?>" alt="" class="img-fluid">
-                                </div>
-
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                <div id="box-home-right1" style="margin: 0;top: 50%;left: 50%;transform: translate(-50%, -50%); text-align: left; padding-left: 20px;">
-                                    <h1 style=" font-family: Th; font-size: 50px; color: #ff3300">ระบบจัดเก็บและขนส่ง</h1>
-                                    <hr/>
-                                    <ul>
-                                        <li style=" font-family: Th; font-size: 24px;">- ชุดปฏิบัติงานที่ปลอดภัยได้มาตรฐาน</li>
-                                        <li style=" font-family: Th; font-size: 24px;">- การจัดเก็บจะเน้นความปลอดภัยต่อผู้ปฏิบัติงาน บุคคลทั่วไปและสิ่งแวดล้อม</Li>
-                                        <li style=" font-family: Th; font-size: 24px;">- รถขนส่งมีการควบคุมอุณภูมิอยู่ที่ 7 องศาเซลเซียส หรือต่ำกว่า</li>
-                                        <li style=" font-family: Th; font-size: 24px;">- ขยะมูลฝอยติดเชื้อ ไม่มีการพักค้าง โดยจะขนส่งไปที่เตาเผาทันที</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="setheighthomebox2" style=" margin-top: 20px;">
-                        <div id="setboxhomerow2" class="row">
-                            <div class="col-md-6 col-lg-6 col col-sm-12 col-xs-12">
-                                <div class="settextcenter" id="settextcenter">
-                                    <h1 style=" font-family: Th; font-size: 50px; color: #00cc99">ทำไมถึงเลือกใช้บริการของเรา?</h1>
-                                    <hr/>
-                                    <ul>
-                                        <li style=" font-family: Th; font-size: 24px; text-align:  center;">
-                                            บริษัท ไอซี ควอลิตี้ ซิสเท็ม จำกัด เราเป็นผู้ให้บริการขนส่งและกำจัดขยะมูลฝอยติดเชื้อ ตามมาตรฐานสากล โดยยึดหลักธรรมาภิบาลเพื่อความปลอดภัยของประชาชน และเป็นมิตรกับสิ่งแวดล้อม สโลแแกน " ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน "
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                <div  id="box-home-left1" style=" padding: auto;">
-                                    <div data-aos="fade-up" data-aos-duration="2000">
-                                        <img src="<?php echo Url::to('../images/bg-home-2.png') ?>" alt="" class="img-fluid">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="setheighthomebox3" style=" margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 col col-sm-12 col-xs-12">
-                                <div  id="box-home-left1" style=" padding: auto;">
-                                    <div data-aos="fade-right" data-aos-duration="2000">
-                                        <img src="<?php echo Url::to('../images/bg-home-3.png') ?>" alt="" class="img-fluid">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                                <div id="box-home-right1" style="margin: 0;top: 50%;left: 50%;transform: translate(-50%, -50%); text-align: left; padding-left: 20px;">
-                                    <h1 style=" font-family: Th; font-size: 50px; color: #0e8ce4;">ขั้นตอนการกำจัดขยะมูลฝอยติดเชื้อ</h1>
-                                    <hr/>
-                                    <ul>
-                                        <li style=" font-family: Th; font-size: 24px;">- รถเก็บขนขยะมูลฝอยติดเชื้อ เดินทางออกจากบริษัท</li>
-                                        <li style=" font-family: Th; font-size: 24px;">- ถึงสถานบริการ จะตรวจสอบความเรียบร้อยของถุงขยะมูลฝอยติดเชื้อ</li>
-                                        <li style=" font-family: Th; font-size: 24px;">- ชั่งน้ำหนักและลงบันทึก การรับ-ส่งขยะมูลฝอยติดเชื้อ</li>
-                                        <li style=" font-family: Th; font-size: 24px;">- รถเก็บขยะเดินทางออกจากสถานบริการ มุ่งหน้าสู่เตาเผา</li>
-                                        <li style=" font-family: Th; font-size: 24px;">- ขนขยะมูลฝอยติดเชื้อลงเตาเผาเพื่อเผาทำลาย</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
 
                 <!-- Adverts -->
@@ -615,7 +504,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="col">
                                         <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
                                             <div class="newsletter_title_container">
-                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                                                                                                                                                                                                                                                       ?>" alt=""></div>
+                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                                                      ?>" alt=""></div>
                                                 <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
                                             </div>
                                             <div class="newsletter_content clearfix">
@@ -650,13 +539,13 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-12">
+                        <div class="col-lg-4">
                             <div class="row">
-                                <div class="col-lg-6 col-sm-6">
+                                <div class="col-lg-6">
                                     <div class="footer_column">
-                                        <div class="footer_title text-warning" style=" font-size: 18px;">ข่าวสาร</div>
+                                        <div class="footer_title text-warning">ข่าวสาร</div>
                                         <ul class="footer_list">
-                                            <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>" style=" font-size: 16px;">ข่าวสารและกิจกรรม</a></li>
+                                            <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสารและกิจกรรม</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -665,21 +554,21 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     if ($menus['submenu'] == "1") {
                                         $Smenu = $Config->getSubMenu($menus['id']);
                                         ?>
-                                        <div class="col-lg-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             <div class="footer_column">
-                                                <div class="footer_title text-warning" style=" font-size: 18px;"><?php echo $menus['navbar'] ?></div>
+                                                <div class="footer_title text-warning"><?php echo $menus['navbar'] ?></div>
                                                 <ul class="footer_list">
                                                     <?php foreach ($Smenu as $Smenus) { ?>
-                                                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>" style=" font-size: 16px;"><?php echo $Smenus['subnavbar'] ?></a></li>
+                                                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
                                                     <?php } ?>
                                                 </ul>
                                             </div>
                                         </div>
                                     <?php } else { ?>
-                                        <div class="col-lg-6 col-sm-6">
+                                        <div class="col-lg-6">
                                             <div class="footer_column">
                                                 <div class="footer_title">
-                                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>" style=" font-size: 16px;"><?php echo $menus['navbar'] ?></a>
+                                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -687,9 +576,11 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                 <?php endforeach; ?>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-12 col-xs-12">
+                        <div class="col-lg-4">
                             <div class="widget-footer widget-newsletter-footer col-last col-small">
+
                                 <div class="fb-page" data-href="https://www.facebook.com/icqualitysystem/" data-tabs="timeline" data-height="250" data-small-header="true" data-show-facepile="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/icqualitysystem/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/icqualitysystem/">Icquality</a></blockquote></div>
+
                             </div>
                         </div>
 
@@ -722,50 +613,8 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
     <div id="fb-root"></div>
 
     <?php
-    $this->registerJs("
-
-            setHomePage();
-                $(document).ready(function() {
-  AOS.init();
-        $(window).scroll(function() {
-
-            /* Check the location of each desired element */
-            $('.hideme').each(function(i) {
-
-                var bottom_of_object = $(this).offset().top + $(this).outerHeight();
-                var bottom_of_window = $(window).scrollTop() + $(window).height();
-
-                /* If the object is completely visible in the window, fade it it */
-
-                if (bottom_of_window > bottom_of_object) {
-
-                    $(this).animate({'opacity': '1'}, 1000);
-
-                }
-
-            });
-
-        });
-    });
-            ");
+    $this->registerJs('setHomePage();');
     ?>
-    <script type="text/javascript">
-
-        function setHomePage() {
-            var w = window.innerWidth;
-            if (w > 768) {
-                var box = $("#contact-home").height();
-                //var boxhome1 = $("#box-home-left1").height();
-                $("#contact-home-right").css({"height": box});
-            } else {
-                $("#setboxhomerow2").removeClass("row");
-                $("#setboxhomerow2").addClass("row flex-column-reverse");
-                $("#settextcenter").removeClass("settextcenter");
-                $("#settextcenter h1").hide();
-            }
-        }
-    </script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <?php $this->endBody() ?>
 </body>
 </html>

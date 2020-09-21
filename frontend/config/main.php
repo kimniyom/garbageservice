@@ -72,13 +72,13 @@ return [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'baseUrl' => 'https://www.icquality.co.th/frontend',
+            'baseUrl' => 'http://localhost/garbageservice/frontend',
         ],
         'urlManagerBackend' => [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'baseUrl' => 'https://www.icquality.co.th/backend',
+            'baseUrl' => 'http://localhost/garbageservice/backend',
         ],
         'assetManager' => [
             'bundles' => [
