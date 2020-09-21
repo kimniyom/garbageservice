@@ -84,7 +84,12 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                 background: -webkit-linear-gradient(to right, #0074ff, #00d3ff);  /* Chrome 10-25, Safari 5.1-6 */
                 background: linear-gradient(to right, #0074ff, #00d3ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
             }
-
+            #link_hover{
+                color: #ffffff;
+            }
+            #link_hover:hover{
+                color: #777777;
+            }
         </style>
         <?php
         $this->registerJs('
@@ -126,8 +131,50 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
         ?>
     </head>
     <body>
-        <?php $this->beginBody() ?>
+            <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v8.0'
+            });
+        };
 
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id))
+                return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/th_TH/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function setHomePage() {
+            var w = window.innerWidth;
+            if(w > 500){
+                var box = $("#contact-home").height();
+                $("#contact-home-right").css({"height": box});
+            }
+        }
+    </script>
+        <script>(function (d, s, id) {
+                                        var js, fjs = d.getElementsByTagName(s)[0];
+                                        if (d.getElementById(id))
+                                            return;
+                                        js = d.createElement(s);
+                                        js.id = id;
+                                        js.src = 'https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v3.2&appId=122593398136929&autoLogAppEvents=1';
+                                        fjs.parentNode.insertBefore(js, fjs);
+                                    }(document, 'script', 'facebook-jssdk'));</script>
+        <?php $this->beginBody() ?>
+    <!-- Your Chat Plugin code -->
+    <div class="fb-customerchat"
+         attribution=setup_tool
+         page_id="484286495115824"
+         theme_color="#20cef5"
+         logged_in_greeting="สวัสดีค่ะ ขอขอบคุณที่สนใจบริการของเรา สอบถามเพิ่มเติมได้นะคะ"
+         logged_out_greeting="สวัสดีค่ะ ขอขอบคุณที่สนใจบริการของเรา สอบถามเพิ่มเติมได้นะคะ">
+    </div>
         <div class="super_container">
             <!-- Header -->
             <header class="header">
@@ -148,9 +195,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                         <?php //if (Yii::$app->user->isGuest) { ?>
                                         <!--
                                             <div class="user_icon">
-                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                                         ?>" alt="">
+                                                <img src="<?php //echo Url::to('@web/web/theme/images/user.svg')                                                                 ?>" alt="">
                                             </div>
-                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                                         ?>">Register</a></div>
+                                            <div><a href="<?php //echo Yii::$app->urlManager->createUrl(['user/registration/register'])                                                                 ?>">Register</a></div>
                                         -->
                                         <?php //} ?>
                                         <div>
@@ -264,7 +311,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
             <!-- Banner -->
             <!--
-            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                                         ?>)"
+            style="background-image:url(<?php //echo Url::to('@web/web/theme/images/banner_background.jpg')                                                 ?>)"
             -->
             <div class="banner" style="display: none;">
                 <div class="banner_background" style="background-image:url(<?php echo Url::to('@web/web/theme/images/banner_background.jpg') ?>)"></div>
@@ -418,6 +465,35 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                     <?= $content ?>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12" style=" padding: 0px; background: #333537;">
+                    <div style=" text-align: center;  padding: auto; padding: 100px; color: #FFFFFF;" id="contact-home-right">
+                        <h2>บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด</h2>
+                        <br/>
+                        <h4 style=" color: #cccccc;">
+                            ต้องการกำจัดขยะมูลฝอยติดเชื้อไว้ใจบริษัทเรา<br/>"ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน"
+                        </h4>
+                    </div>
+
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12" style=" padding: 0px;background: #252626;">
+                    <div style=" text-align: center;  padding: auto; padding: 100px;color: #FFFFFF;" id="contact-home">
+                        <h2>ติดต่อสอบถามข้อมูลเพิ่มเติม</h2>
+                        <br/>
+                        <h4 style="margin-bottom: 30px;color: #cccccc;">
+                            TEL : (02) 101-0325<br/>
+                            LINE ID : @icqualitysystem
+
+                        </h4>
+                        <div style=" width: 100%; padding: auto; text-align: center;">
+                            <a href="<?php echo Yii::$app->urlManager->createUrl(['site/contact'])?>" id="link_hover">
+                                <i class="fa fa-chevron-circle-right"></i> 
+                                <font style=" padding-top: 5px;">ต้องการให้เจ้าหน้าที่ติดต่อกลับ</font>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Newsletter -->
             <!--
                         <div class="newsletter bg-secondary" style="padding-bottom:0px; padding-top:25px;">
@@ -426,7 +502,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="col">
                                         <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
                                             <div class="newsletter_title_container">
-                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                                         ?>" alt=""></div>
+                                                <div class="newsletter_icon"><img src="<?php //echo Url::to('@web/web/theme/images/send.png')                                                                 ?>" alt=""></div>
                                                 <div class="newsletter_title text-white">ลงทะเบียนรับข่าวสาร</div>
                                             </div>
                                             <div class="newsletter_content clearfix">
@@ -441,6 +517,7 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                             </div>
             -->
             <!-- Footer -->
+
             <footer class="footer bg-dark">
                 <div class="container">
                     <div class="row">
@@ -460,44 +537,50 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
 
                             </div>
                         </div>
-
-
-                        <div class="col-lg-2">
-                            <div class="footer_column">
-                                <div class="footer_title text-warning">ข่าวสาร</div>
-                                <ul class="footer_list">
-                                    <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสารและกิจกรรม</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-
-                        <?php
-                        foreach ($menu as $menus):
-                            if ($menus['submenu'] == "1") {
-                                $Smenu = $Config->getSubMenu($menus['id']);
-                                ?>
-                                <div class="col-lg-2">
+                        <div class="col-lg-4">
+                            <div class="row">
+                                <div class="col-lg-6">
                                     <div class="footer_column">
-                                        <div class="footer_title text-warning"><?php echo $menus['navbar'] ?></div>
+                                        <div class="footer_title text-warning">ข่าวสาร</div>
                                         <ul class="footer_list">
-                                            <?php foreach ($Smenu as $Smenus) { ?>
-                                                <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
-                                            <?php } ?>
+                                            <li><a href="<?php echo Yii::$app->urlManager->createUrl(['news/news/all']) ?>">ข่าวสารและกิจกรรม</a></li>
                                         </ul>
                                     </div>
                                 </div>
-                            <?php } else { ?>
-                                <div class="col-lg-2">
-                                    <div class="footer_column">
-                                        <div class="footer_title">
-                                            <a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a>
+                                <?php
+                                foreach ($menu as $menus):
+                                    if ($menus['submenu'] == "1") {
+                                        $Smenu = $Config->getSubMenu($menus['id']);
+                                        ?>
+                                        <div class="col-lg-6">
+                                            <div class="footer_column">
+                                                <div class="footer_title text-warning"><?php echo $menus['navbar'] ?></div>
+                                                <ul class="footer_list">
+                                                    <?php foreach ($Smenu as $Smenus) { ?>
+                                                        <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/submenu', 'id' => $Smenus['id']]) ?>"><?php echo $Smenus['subnavbar'] ?></a></li>
+                                                    <?php } ?>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        <?php endforeach; ?>
+                                    <?php } else { ?>
+                                        <div class="col-lg-6">
+                                            <div class="footer_column">
+                                                <div class="footer_title">
+                                                    <a href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="widget-footer widget-newsletter-footer col-last col-small">
+                                
+                                <div class="fb-page" data-href="https://www.facebook.com/icqualitysystem/" data-tabs="timeline" data-height="250" data-small-header="true" data-show-facepile="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/icqualitysystem/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/icqualitysystem/">Icquality</a></blockquote></div>
 
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -524,6 +607,12 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
         </div>
     </div>
 
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+
+    <?php
+    $this->registerJs('setHomePage();');
+    ?>
     <?php $this->endBody() ?>
 </body>
 </html>
