@@ -11,7 +11,7 @@
         text-align: center;
         padding-top: 15px;
     }
-    
+
 </style>
 <?php
 
@@ -40,7 +40,7 @@ $this->title = "";
             'right' => 'month', //agendaWeek,agendaDay
         ],
         'clientOptions' => [
-            'style'=>'width:100%;background-color:#ffffff;',
+            'style' => 'width:100%;background-color:#ffffff;',
             'language' => 'th',
             'eventLimit' => false,
             //'theme' => true,
@@ -50,13 +50,13 @@ $this->title = "";
             'fixedWeekCount' => false,
             'dayClick' => new \yii\web\JsExpression('
               function(date, jsEvent, view) {
-                  setDatekeep(date.format());
+                  //setDatekeep(date.format());
               }
               '),
             'eventClick' => new \yii\web\JsExpression('
                     function(calEvent, jsEvent, view)
                     {
-                        getDetail(calEvent.id);
+                        getDetail(calEvent.id,calEvent.start.format());
                     }
                 ')
         ],
@@ -66,8 +66,8 @@ $this->title = "";
 
 </div>
 
-<div class="modal fade bs-example-modal-sm" id="detail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
+<div class="modal fade bs-example-modal-sm" id="detail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -78,7 +78,6 @@ $this->title = "";
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-                <button type="button" class="btn btn-danger" onclick="deleteEvent()" id="delDate">นำออก</button>
             </div>
         </div>
     </div>
@@ -92,31 +91,13 @@ $this->title = "";
         alert(datekeep);
     }
 
-    function getDetail(id) {
-        var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/view']) ?>";
-        var data = {id: id};
-        $.post(url, data, function (res) {
+    function getDetail(id, datekeep) {
+        var url = "<?php echo Yii::$app->urlManager->createUrl(['roundgarbage/roundgarbage/getevent']) ?>";
+        var data = {datekeep: datekeep};
+        $.post(url, data, function(res) {
             $("#detail").modal();
             $("#viewdata").html(res);
-            var walkIn = $("#walkIn").val();
-            if (walkIn) {
-                $("#delDate").hide();
-            } else {
-                $("#delDate").show();
-            }
         });
-    }
-
-    function deleteEvent() {
-        var r = confirm("Are you sure...?");
-        if (r == true) {
-            var url = "<?php echo Yii::$app->urlManager->createUrl(['datekeep/datekeep/delete']) ?>";
-            var id = $("#dateId").val();
-            var data = {id: id};
-            $.post(url, data, function (res) {
-                window.location.reload();
-            });
-        }
     }
 
 </script>

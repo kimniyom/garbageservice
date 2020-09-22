@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <input type="hidden" id="dateId" value="<?php echo $data['model']['id'] ?> "/>
     <input type="hidden" id="walkIn" value="<?php echo $walkIn['datekeep'] ?>"/>
 
-
     <?=
     DetailView::widget([
         'model' => $data['model'],
@@ -31,12 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
     ])
     ?>
 
-<?php if($walkIn['datekeep']) {
-        echo "จำนวนขยะ: ".$walkIn['amount']." กิโลกรัม<br/>";
-        echo "เวลาเข้า - ออก: ".$walkIn['timekeepin']." - ".$walkIn['timekeepout']."<br/>";
-        echo "ทะเบียนรถ: ".$walkIn['car'];
+    <?php
+    if ($walkIn['datekeep']) {
+        echo "จำนวนขยะ: " . $walkIn['amount'] . " กิโลกรัม<br/>";
+        echo "เวลาเข้า - ออก: " . $walkIn['timekeepin'] . " - " . $walkIn['timekeepout'] . "<br/>";
+        echo "ทะเบียนรถ: " . $walkIn['car'];
     }
-?>
+    ?>
 </div>
 
 

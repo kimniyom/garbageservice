@@ -35,6 +35,8 @@ if (Yii::$app->controller->action->id === 'login') {
             <?= Html::csrfMetaTags() ?>
             <link rel="shortcut icon" type="image/png" href="<?php echo Url::to('../images/logo-sm.png') ?>" />
             <link rel="stylesheet" href="<?php echo Url::to('@web/web/datatable/dataTables.bootstrap.min.css') ?>">
+            <link rel="stylesheet" href="<?php echo Url::to('@web/web/datatable/buttons.dataTables.min.css') ?>">
+
             <title><?= Html::encode($this->title) ?></title>
             <?php $this->head() ?>
         </head>
@@ -92,6 +94,11 @@ if (Yii::$app->controller->action->id === 'login') {
 <script src="<?php echo Url::to('@web/web/js/sweetalert2@9.js') ?>"></script>
 <!-- DataTables -->
 <script src="<?php echo Url::to('@web/web/datatable/jquery.dataTables.min.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/datatable/dataTables.buttons.min.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/datatable/jszip.min.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/datatable/pdfmake.min.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/datatable/vfs_fonts.js') ?>"></script>
+<script src="<?php echo Url::to('@web/web/datatable/buttons.html5.min.js') ?>"></script>
 <script src="<?php echo Url::to('@web/web/datatable/dataTables.bootstrap.min.js') ?>"></script>
 
 

@@ -9,6 +9,7 @@ use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Json;
+use app\models\Config;
 
 /**
  * RoundgarbageController implements the CRUD actions for Roundgarbage model.
@@ -212,6 +213,27 @@ class RoundgarbageController extends Controller {
         return Json::encode($events);
 
         //Yii::$app->end();
+    }
+
+    public function actionGetevent() {
+        $datekeep = Yii::$app->request->post('datekeep');
+        $Config = new Config();
+        $day = Yii::$app->db->createCommand("SELECT DAYNAME('" . $datekeep . "') AS dayname")->queryOne()['dayname'];
+        $data['dayname'] = "<center>วัน " . $Config->dayInweekKeyFull($day) . " ที่ " . $Config->thaidate($datekeep) . "<c/enter>";
+        $data['filename'] = "รายชื่อลูกค้าที่เข้าจัดเก็บ(วัน_" . $Config->dayInweekKeyFull($day) . "_ที่_" . $Config->thaidate($datekeep) . ")";
+        $data['customer'] = $this->EventAll($datekeep);
+        return $this->renderPartial("viewevent", $data);
+    }
+
+    function EventAll($datekeep) {
+        $sql = "SELECT c.company,c.address,t.tambon_name,a.ampur_name,cw.changwat_name,c.tel,c.telephone
+                    FROM datekeep d INNER JOIN promise p ON d.promiseid = p.id
+                    INNER JOIN customers c ON p.customerid = c.id
+                    INNER JOIN changwat cw ON c.changwat = cw.changwat_id
+                    INNER JOIN ampur a ON c.ampur = a.ampur_id
+                    INNER JOIN tambon t ON c.tambon = t.tambon_id
+                    WHERE d.datekeep = '$datekeep'";
+        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
 }
