@@ -15,6 +15,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -123,17 +124,27 @@ class SiteController extends Controller {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+                //Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+                //$this->redirect(['/site/contactsuccess']);
+                //exit(0);
+                 Yii::$app->response->redirect(Url::to(['site/contactsuccess']), 301);
+                    Yii::$app->end();
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+                return $this->refresh();
+                //echo "False";
             }
 
-            return $this->refresh();
+            //$this->redirect(['/site/contactsuccess']);
         } else {
             return $this->render('contact', [
                         'model' => $model,
             ]);
         }
+    }
+    
+    public function actionContactsuccess(){
+        return $this->render('contactsuccess');
     }
 
     /**

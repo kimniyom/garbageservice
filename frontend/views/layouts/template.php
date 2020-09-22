@@ -196,6 +196,29 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
+        <script type="text/javascript">
+            (function () {
+                var options = {
+                    facebook: "484286495115824", // Facebook page ID
+                    line: "http://line.me/R/ti/p/%40icqualitysystem", // Line QR code URL
+                    call_to_action: "ติดต่อ บริษัทไอซี ควอลิตี้ ซิสเท็ม จำกัด", // Call to action
+                    button_color: "#FF318E", // Color of button
+                    position: "left", // Position may be 'right' or 'left'
+                    order: "line,facebook", // Order of buttons
+                };
+                var proto = document.location.protocol, host = "whatshelp.io", url = proto + "//static." + host;
+                var s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.async = true;
+                s.src = url + '/widget-send-button/js/init.js';
+                s.onload = function () {
+                    WhWidgetSendButton.init(host, proto, options);
+                };
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+            })();
+        </script>
+
         <script>(function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id))
@@ -333,6 +356,9 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                         <li><a class="nav-link" href="<?php echo Yii::$app->urlManager->createUrl(['site/navbar']) ?>"><?php echo $menus['navbar'] ?></a></li>
                                     <?php } ?>
                                 <?php endforeach; ?>
+                                        <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo Yii::$app->urlManager->createUrl(['site/contact']) ?>">ติดต่อเรา</a>
+                                </li>
                             </ul>
                             <!--
                             <form class="form-inline my-2 my-lg-0">
@@ -364,7 +390,8 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                     <div class="banner_product_name" style="margin-top: 30px;">
                                         &nbsp; &nbsp; &nbsp; &nbsp;เราเป็นผู้ให้บริการขนส่งและกำจัดขยะมูลฝอยติดเชื้อ
                                         โดยยึดหลักธรรมาภิบาลเพื่อความปลอดภัยของประชาชน
-                                        และเป็นมิตรกับสิ่งแวดล้อม ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน
+                                        และเป็นมิตรกับสิ่งแวดล้อม ขนส่ง ปลอดภัย ฉับไว ได้มาตรฐาน<br/>
+                                        <b class="text-danger">สอบถามข้อมูล Tel : (02) 101-0325</b>
                                     </div>
                                     <div class="button banner_button"><a href="<?php echo Yii::$app->urlManager->createUrl(['customer/customerneed/create']) ?>">ขอใบเสนอราคา</a></div>
                                 </div>
@@ -685,6 +712,15 @@ $news = Yii::$app->db->createCommand($sqlNews)->queryAll();
                                         </div>
                                     <?php } ?>
                                 <?php endforeach; ?>
+                                <div class="col-lg-6 col-sm-6">
+                                    <div class="footer_column">
+                                        <div class="footer_title text-warning" style=" font-size: 18px;">ติดต่อเรา</div>
+                                        <ul class="footer_list">
+                                            <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/contact']) ?>" style=" font-size: 16px;">โทรศัพท์</a></li>
+                                            <li><a href="<?php echo Yii::$app->urlManager->createUrl(['site/contact']) ?>" style=" font-size: 16px;">กรอกแบบฟอร์ม</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-12 col-xs-12">

@@ -28,6 +28,9 @@ $confirmformAll = $confirmFormModel->countConfirmform();
 $contInvoice = $promiseModel->contInvoice();
 $countCheckInvoice = $promiseModel->countCheckInvoice();
 $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
+
+$sql = "select * from profile where user_id = '" . Yii::$app->user->identity->id . "'";
+$department = Yii::$app->db->createCommand($sql)->queryOne()['department'];
 ?>
 <aside class="main-sidebar" style=" z-index: 5;">
 
@@ -49,7 +52,21 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
             </div>
         </div>
 
-
+        <?php
+        if ($department == "7") {
+            $MenuDev = array(
+                'label' => 'ผู้ใช้งาน(เจ้าหน้าที่)',
+                'icon' => 'address-card',
+                'url' => ['/useremp/user/index']
+            );
+        } else {
+            $MenuDev = array(
+                'label' => 'ผู้ใช้งาน(เจ้าหน้าที่)',
+                'icon' => 'address-card',
+                'url' => ['/site/permission']
+            );
+        }
+        ?>
         <?=
         dmstr\widgets\Menu::widget(
                 [
@@ -116,7 +133,7 @@ $countInvoiceNonActive = $promiseModel->contInvoiceNonActive();
                         ['label' => 'ออกใบส่งมอบงาน', 'icon' => 'file text-success', 'url' => ['/service/default/confirmorderonmonth']],
                         ['label' => 'ตั้งค่าระบบ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],
                         //['label' => 'ผู้ใช้งาน(ลูกค้า)', 'icon' => 'users', 'url' => ['/user/admin']],
-                        ['label' => 'ผู้ใช้งาน(เจ้าหน้าที่)', 'icon' => 'address-card', 'url' => ['/useremp/user/index']],
+                        $MenuDev,
                         ['label' => 'บัญชีธนาคาร', 'icon' => 'book', 'url' => ['/bookbank/index']],
                         ['label' => 'รถจัดเก็บขยะ', 'icon' => 'car', 'url' => ['/car/car']],
                         ['label' => 'จัดการหน้าเว็บ', 'options' => ['class' => 'header', 'id' => 'text-header-side']],

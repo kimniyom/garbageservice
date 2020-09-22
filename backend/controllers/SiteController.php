@@ -32,7 +32,7 @@ class SiteController extends Controller {
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'setuser'],
+                        'actions' => ['logout', 'index', 'setuser','permission'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -181,6 +181,11 @@ class SiteController extends Controller {
         endforeach;
         return "sessecc";
         //Yii::$app->getSecurity()->generatePasswordHash("C00004");
+    }
+    
+    public function actionPermission(){
+        $data['name'] = "permission Fail";
+        return $this->render("permission",$data);
     }
 
 }
