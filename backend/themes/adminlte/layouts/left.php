@@ -53,7 +53,7 @@ $department = Yii::$app->db->createCommand($sql)->queryOne()['department'];
         </div>
 
         <?php
-        if ($department == "7") {
+        if ($department == "7") {//Supper 
             $MenuDev = array(
                 'label' => 'ผู้ใช้งาน(เจ้าหน้าที่)',
                 'icon' => 'address-card',
@@ -66,6 +66,8 @@ $department = Yii::$app->db->createCommand($sql)->queryOne()['department'];
                 'url' => ['/site/permission']
             );
         }
+        
+        //
         ?>
         <?=
         dmstr\widgets\Menu::widget(
