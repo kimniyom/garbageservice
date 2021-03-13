@@ -266,7 +266,7 @@ if ($model['witness1'] != "" && $model['witness2'] != "") {
         <div class="div" style="page-break-after:always;"></div>
         <div class="row"  style="padding-left:20px;font-family:sarabun;font-size:20px;line-height: 1">
             <div class="text-center "><strong>เอกสารแนบท้ายสัญญา</strong></div>
-            &nbsp;&nbsp;&nbsp;&nbsp;เงื่อนไขการจัดการมูลฝอยติดเชื้อสำหรับสถานบริการสาธารณสุข / บริษัทเอกชน ที่รับการบริการ
+            &nbsp;&nbsp;&nbsp;&nbsp;เงื่อนไขการจัดการมูลฝอยติดเชื้อสำหรับสถานบริการสาธารณสุขที่รับการบริการ
             <div style="">
                 <br>1.&nbsp;&nbsp;ถุงพลาสติกที่ใช้บรรจุมูลฝอยติดเชื้อต้องทนทาน  ไม่ฉีกขาดง่าย  มีสีแดงสด  ทึบแสง บรรจุมูลฝอยติดเชื้อไม่เกิน 2 ใน 3 ส่วน<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ของถุงพลาสติกแดง และไม่ใส่ปะปนกับมูลฝอยทั่วไป แล้วมัดปากถุงด้วยเชือกหรือวัสดุอื่นๆให้แน่น
                 <br>2.&nbsp;&nbsp;ภาชนะมูลฝอยติดเชื้อประเภทของมีคม ต้องบรรจุอยู่ในภาชนะที่ทนทานต่อการทิ่มแทงทะลุ  มีฝาปิดกล่อง  มีสีแดงสด  ทึบแสง <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;โดยจะต้องบรรจุไม่เกิน 3 ใน 4 ส่วนของความจุภาชนะนั้นๆ
@@ -290,31 +290,31 @@ if ($model['witness1'] != "" && $model['witness2'] != "") {
                     <img src="<?php echo Url::to('@web/../images/scbfull.jpg') ?>"/>
                 </div>
                 <div style="float:left;width:60%;padding-left:20px;">
-                    <strong>ธนาคาร  : ไทยพาณิชย์  สาขา : ตลาดพูนทรัพย์ (ปทุมธานี)</strong>
-                    <strong><br>ชื่อบัญชี : บริษัท ไอซี  ควอลิตี้  ซิสเท็ม  จำกัด</strong>
-                    <strong><br>เลขที่บัญชี : 372 – 259936 –7 </strong>
+                    ธนาคาร  : ไทยพาณิชย์  สาขา : ตลาดพูนทรัพย์ (ปทุมธานี)
+                   <br>ชื่อบัญชี : บริษัท ไอซี  ควอลิตี้  ซิสเท็ม  จำกัด
+                    <br>เลขที่บัญชี : 372 – 259936 –7 
                 </div>
             </div>
             <div style="padding-left:15px;">
                 หมายเหตุ  :   หากท่านชำระเงินแล้ว กรุณาส่งหลักฐานการโอนเงินหรือสลิป พร้อมทั้งระบุชื่อสถานบริการสาธารณสุข<br>และเดือนที่ท่านชำระค่าบริการให้ชัดเจน   โดยส่งได้ที่ ID Line OA : @icqualitysystem  หรือนำส่งทาง e–mail : icquality@icqs.net  โทรศัพท์  02–101–0325 / 096-878-1596  (กรุณาชำระเงินภายใน 30 วัน หลังจากส่งมอบงาน)
             </div>
             <div class="row" style="margin-top:10px;">
-                <div style="float:left;width:10%;padding-left:30px;">
+                <div style="float:left;width:9%;padding-left:30px;">
                     <img src="<?php echo Url::to('@web/../images/qrcodeline.PNG') ?>" width="70px"/>
                 </div>
                 <div style="float:left;width:80%;padding-left:20px;">
-                    <strong>สามารถสแกน QR Code เพื่อเพิ่มเพื่อนใน Line Official Account บริษัทฯ ได้เลยค่ะ </strong>
-                    <strong><br>ID  Line OA :  @icqualitysystem </strong>
+                    สามารถสแกน QR Code หรือ ID Line OA : @icqualitysystem เพื่อเพิ่มเพื่อนใน Line Official Account 
+                    
                 </div>
             </div>
         </div>
 <?php endif; ?>
 
 <?php if ($model['typeregister'] == 3): ?>
-        <div class="div" style="page-break-after:always;"></div>
+    <div class="div" style="page-break-after:always;"></div>
         <div class="row"  style="padding-left:20px;font-family:sarabun;font-size:20px;line-height: 1">
             <div class="text-center "><strong>เอกสารแนบท้ายสัญญา</strong></div>
-            &nbsp;&nbsp;&nbsp;&nbsp;เงื่อนไขการจัดการมูลฝอยติดเชื้อสำหรับสถานบริการสาธารณสุข / บริษัทเอกชน ที่รับการบริการ
+            &nbsp;&nbsp;&nbsp;&nbsp;เงื่อนไขการจัดการมูลฝอยติดเชื้อสำหรับสถานบริการสาธารณสุข/บริษัท ที่รับการบริการ
             <div style="">
                 <br>1.&nbsp;&nbsp;ถุงพลาสติกที่ใช้บรรจุมูลฝอยติดเชื้อต้องทนทาน  ไม่ฉีกขาดง่าย  มีสีแดงสด  ทึบแสง บรรจุมูลฝอยติดเชื้อไม่เกิน 2 ใน 3 ส่วน<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ของถุงพลาสติกแดง และไม่ใส่ปะปนกับมูลฝอยทั่วไป แล้วมัดปากถุงด้วยเชือกหรือวัสดุอื่นๆให้แน่น
                 <br>2.&nbsp;&nbsp;ภาชนะมูลฝอยติดเชื้อประเภทของมีคม ต้องบรรจุอยู่ในภาชนะที่ทนทานต่อการทิ่มแทงทะลุ  มีฝาปิดกล่อง  มีสีแดงสด  ทึบแสง <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;โดยจะต้องบรรจุไม่เกิน 3 ใน 4 ส่วนของความจุภาชนะนั้นๆ
@@ -334,25 +334,27 @@ if ($model['witness1'] != "" && $model['witness2'] != "") {
             <br>4.ขยะติดเชื้ออื่นๆ ตามเงื่อนไขของผู้รับกำจัด
             <div class="text-center" style="border:1px solid;">ช่องทางและเงื่อนไขการชำระค่าบริการ</div>
             <div class="row" style="margin-top:10px;">
-                <div style="float:left;width:30%;padding-left:20px;">
-                    <img src="<?php echo Url::to('@web/../images/scbfull.jpg') ?>"/>
+                <div style="float:left;width:120px;padding-left:20px;">
+                    <img src="<?php echo Url::to('@web/../images/aomsins.PNG') ?>"/>
                 </div>
                 <div style="float:left;width:60%;padding-left:20px;">
-                    <strong>ธนาคาร  : ไทยพาณิชย์  สาขา : ตลาดพูนทรัพย์ (ปทุมธานี)</strong>
-                    <strong><br>ชื่อบัญชี : นายอาทิตย์ บุญเคน</strong>
-                    <strong><br>เลขที่บัญชี : 372 – 269136 –3 </strong>
+                   ธนาคาร  : ออมสิน  สาขา : ตลาดพูนทรัพย์ (ปทุมธานี)
+                   <br>ชื่อบัญชี : นายอาทิตย์ บุญเคน
+                    <br>เลขที่บัญชี : 020349207660 
                 </div>
             </div>
             <div style="padding-left:15px;">
-                หมายเหตุ  :   หากท่านชำระเงินแล้ว กรุณาส่งหลักฐานการโอนเงินหรือสลิป พร้อมทั้งระบุชื่อสถานบริการสาธารณสุข<br>และเดือนที่ท่านชำระค่าบริการให้ชัดเจน   โดยส่งได้ที่ ID Line OA : @icqualitysystem  หรือนำส่งทาง e–mail : icquality@icqs.net  โทรศัพท์  02–101–0325 / 096-878-1596  (กรุณาชำระเงินภายใน 30 วัน หลังจากส่งมอบงาน)
+                 หมายเหตุ : หากท่านชำระเงินแล้ว กรุณาส่งหลักฐานการโอนเงินหรือสลิป พร้อมทั้งระบุชื่อสถานบริการสาธารณสุข และเดือนที่ท่านชำระค่าบริการให้ชัดเจน โดยส่ง
+                    ได้ที่ ID Line : @icqualitysystem หรือนำส่งทาง e–mail : icquality@icqs.net 
             </div>
             <div class="row" style="margin-top:10px;">
                 <div style="float:left;width:10%;padding-left:30px;">
                     <img src="<?php echo Url::to('@web/../images/qrcodeline.PNG') ?>" width="70px"/>
                 </div>
                 <div style="float:left;width:80%;padding-left:20px;">
-                    <strong>สามารถสแกน QR Code เพื่อเพิ่มเพื่อนใน Line Official Account บริษัทฯ ได้เลยค่ะ </strong>
-                    <strong><br>ID  Line OA :  @icqualitysystem </strong>
+                    โทร. 02–101–0325 / 096-878-1596 (กรุณาชำระเงินภายใน 30 วัน หลังจากส่งมอบงาน)<br> สามารถสแกน QR Code หรือ ID Line :
+                    @icqualitysystem เพื่อเพิ่มเพื่อนใน Line Official Account 
+                    
                 </div>
             </div>
         </div>
